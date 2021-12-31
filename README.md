@@ -45,14 +45,6 @@ Index.html
 
     The Runtime will search the wwwroot folder and auto replace the mustache definition with the actual html component recursively. Reorganizing the Html Components has no impact to composition.
 
-2. Abstraction for Url Context defined into AppSites and AppViews Folders
-
-    Pages Components can be grouped into a AppSites Directory under Root Directory and Views/ViewsDefer Directory under AppSites Directory.
-
-    Url to access a page is https://Domain/AppSite/AppView
-
-    Standalone Components can be grouped under a Common/Component folder under Respective AppSite Directory.
-
 3. Abstraction for Composing where the Parent Component is composed from Child Components based on Context
 
     When Context is https://Gluuie.com/Index/Main vs https://Gluuie.com/Index/About
@@ -114,3 +106,15 @@ List.json
     }
 </pre>
 
+
+## Component Organization 
+
+<br/>
+
+Components should be grouped into AppSites and AppViews Folders for providing URL Context
+
+    Pages Components can be grouped into a AppSites Directory under Root Directory and Views/ViewsDefer Directory under AppSites Directory.
+
+    Url to access a page is https://Domain/AppSite/AppView
+
+    Standalone Components can be grouped under a Common/Component folder under Respective AppSite Directory.

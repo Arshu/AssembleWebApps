@@ -45,7 +45,7 @@ Index.html
 
     The Runtime will search the wwwroot folder and auto replace the mustache definition with the actual html component recursively. Reorganizing the Html Components has no impact to composition.
 
-3. Abstraction for Composing where the Parent Component is composed from Child Components based on Context
+2. Abstraction for Composing where the Parent Component is composed from Child Components based on Context
 
     When Context is https://Gluuie.com/Index/Main vs https://Gluuie.com/Index/About
 
@@ -62,7 +62,7 @@ Index.html
     {{MainFooter}}      =>      {{MainFooter}}
 </pre>
 
-4. Abstractions for Assembling Components is by adding a {{HtmlPlaceHolder}} where other Components can be added
+3. Abstractions for Assembling Components is by adding a {{HtmlPlaceHolder}} where other Components can be added
 
 <pre>
 Center.html
@@ -88,7 +88,7 @@ Title.json
     }
 </pre>
 
-1. Abstraction for Composing from Html + Json Array Fragemnts
+2. Abstraction for Composing from Html + Json Array Fragemnts
 
 <pre>
 List.html

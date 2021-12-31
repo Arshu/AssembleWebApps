@@ -30,7 +30,7 @@
 
     b) 30% completed for Assembly for Dynamic UI
 
-## Abstraction for Static UI Assembly from Html Components
+# Abstraction for Static UI Assembly from Html Components
 
 <br/>
 
@@ -72,7 +72,7 @@ Center.html
 
 </pre>
 
-## Abstraction for Static Data UI Assembly from Html + Json Components
+# Abstraction for Static Data UI Assembly from Html + Json Components
 
 <br/>
 
@@ -107,7 +107,7 @@ List.json
 </pre>
 
 
-## Component Organization 
+# Component Organization 
 
 <br/>
 

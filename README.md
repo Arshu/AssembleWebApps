@@ -1,6 +1,6 @@
 # AppWeb Assembler (Work In Progress)
 
-## Can we **Assemble AppWebs** from Reusable Html + Json(Data) + Json(Action) Components
+## Can we **Assemble AppWebs** from Reusable Html + Json(Data) + Json(Action) Components Declaratively
 
 <br/>
 
@@ -55,10 +55,10 @@ Index.html
 
 3. Abstraction for Composing where the Parent Component is composed from Child Components based on Context
 
-    When Context is https://Gluuie.com/Index/Index vs https://Gluuie.com/Index/About
+    When Context is https://Gluuie.com/Index/Main vs https://Gluuie.com/Index/About
 
     MetaData of the Pages are    
-    https://Gluuie.com/Index/Index/Meta    
+    https://Gluuie.com/Index/Main/Meta    
     https://Gluuie.com/Index/About/Meta
 
     The Main Prefix of a Mustache is replaced with the AppView Context (About) to render a different page retaining the same index.html page.

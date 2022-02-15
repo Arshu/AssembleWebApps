@@ -1,0 +1,59 @@
+{
+  "WebRootName": "wwwroot",
+  "ConfigType": "Base",
+  "ConfigLogLevel": "Critical,Error,Warn",
+  "ApiConfigWrite": false,
+  "CreateWebConfig": false,
+  "AllowReload": true,
+  "AllowConfigReload": true,
+  "AllowConfigUpdate": true,
+
+  "RealtimeAppSites": "Test",
+  "StaticAppSites": "Index, Config, Account, Template, Test",
+  "SearchAppSites": "Config, Account, Index",
+  "SearchAppFolders": "SampleJson",
+
+  "LoadAppFiles": true,
+  "LoadAppFolders": true,
+  "LoadFileChanges": true,
+  "UnPackAppSites": true,
+
+  "AppAssets": [
+
+    {
+      "AssetTypeName": "Arshu.Core.AssetRegister",
+      "AssetDll": "Arshu.Core.dll",
+      "IsEnabled": true
+    }
+  ],
+
+  "AppServices": [
+
+    {
+      "RegisterTypeName": "Arshu.Core.App.Register.WebRegister",
+      "RegisterDll": "Arshu.Core.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.Core.App.Register.VueRegister",
+      "RegisterDll": "Arshu.Core.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.Core.App.Register.SyncRegister",
+      "RegisterDll": "Arshu.Core.dll",
+      "IsEnabled": true
+    }
+  ],
+
+  "AppProviders": [
+
+    {
+      "RegisterTypeName": "Arshu.Data.Register.DataRegister",
+      "RegisterDll": "Arshu.Data.dll",
+      "IsEnabled": false,
+      "ProviderTypeName": "Microsoft.Data.Sqlite.SqliteFactory",
+      "ProviderDll": "Microsoft.Data.Sqlite.dll"
+    }
+  ]
+}

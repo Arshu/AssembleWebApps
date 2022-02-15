@@ -1,18 +1,16 @@
-# AppWeb Assembler (Work In Progress)
+# Declarative Abstraction for Assembling Static Web Apps (WIP)
 
-## Can we **Assemble AppWebs** from Reusable Html + Json(Data) + Json(Action) Components Declaratively
+## Can we Declaratively **Assemble AppWebs** from Reusable Html + Json(Data) + Json(Action) Components 
 
 <br/>
 
 # Goals
 
-**Build/Assemble** Reusable Html + Json Components
+**Assemble** Reusable Html + Json Components
 
-    1. Declaratively Build Static UI, Static Data UI, Dynamic UI and Realtime UI from Reusable Html + Json Components
+    1. Declaratively Build Static UI, Static Data UI, Dynamic UI* and Realtime UI* from Reusable Html + Json Components
 
-    2. Platform/Framework Independent Abstraction defined in Html/Json Files and Folder Organization.
-
-    3. Assemble Html + Json (Data) + Json (Action) 
+    2. Platform/Framework Independent Abstraction defined in Html/Json Files and Folder Organization using multi-platform/multi-language runtimes.
 
 # Progress
 
@@ -20,15 +18,40 @@
 
     a) 90% completed the Declarative Abstractions for Assembly of Static (Html) and Static Data (Html + Json) UI.
 
-    b) 90% completed the Declarative Abstraction for Assembly of Realtime UI.
+    b) 60% completed the Declarative Abstractions with Imperative Coding for Creating Dynnamic UI.
 
-    c) 60% completed the Declarative Abstractions with Imperative Coding for Creating Dynnamic UI.
+# Open Source (MIT)
 
-### **Assembly** of Html + Json Components
+Currently the tool consists of runtime which implements the abstraction, application built using that abstraction and also a tool for facilitating hot reloading.
 
-    a) 90% completed for Assembly for Static/Static Data and Realtime UI
+The runtime will be extracted from the tool and  the source will be published as MIT License.
 
-    b) 30% completed for Assembly for Dynamic UI
+The tool and the application using the runtime/abstraction will be proprietory.
+
+# Online Demo
+
+Some intersting links to showcase the framework
+
+Main Page explaining the abstraction
+#### Main : https://gluuie.com
+
+Just add Meta to the end of the page to view the Metadata Json
+#### Meta : https://gluuie.com/meta
+
+Test Page to show case the different abstractions
+#### Test : https://gluuie.com/Test/Main
+
+Test Page to show the Realtime capability of the Tool based on component abstraction.
+#### Realtime : https://gluuie.com/Test/TestHotReload
+
+Test Page to show dynamic declarative UI
+#### Dynamic : https://gluuie.com/Test/TestDeclarativeChange
+
+# Getting Started
+
+Clone the repo and run the appropriate **appweb.web** asp.net core application for the respective platform
+
+On first run the application will extract the Index, Template and Test AppSite's and run the asp.net core kestrel server under port 7000
 
 # Abstraction for Assembling Static UI from Html Components
 

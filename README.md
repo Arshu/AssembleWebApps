@@ -8,17 +8,17 @@
 
 **Assemble** Reusable Html + Json Components
 
-    1. Declaratively Build Static UI, Static Data UI, Dynamic UI* and Realtime UI* from Reusable Html + Json Components
+#### 1. Declaratively Build Static UI, Static Data UI, Dynamic UI* and Realtime UI* from Reusable Html + Json Components
 
-    2. Platform/Framework Independent Abstraction defined in Html/Json Files and Folder Organization using multi-platform/multi-language runtimes.
+#### 2. Platform/Framework Independent Abstraction defined in Html/Json Files and Folder Organization using multi-platform/multi-language runtimes.
 
 # Progress
 
 ### **Declarative Abstraction** (Platform/Framework Idependent)
 
-    a) 90% completed the Declarative Abstractions for Assembly of Static (Html) and Static Data (Html + Json) UI.
+#### a) 90% completed the Declarative Abstractions for Assembly of Static (Html) and Static Data (Html + Json) UI.
 
-    b) 60% completed the Declarative Abstractions with Imperative Coding for Creating Dynnamic UI.
+#### b) 60% completed the Declarative Abstractions with Imperative Coding for Creating Dynnamic UI.
 
 # Open Source (MIT)
 

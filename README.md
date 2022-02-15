@@ -18,7 +18,7 @@
 
 #### a) 90% completed the Declarative Abstractions for Assembly of Static (Html) and Static Data (Html + Json) UI.
 
-#### b) 60% completed the Declarative Abstractions with Imperative Coding for Creating Dynnamic UI.
+#### b) 60% completed the Declarative Abstractions with Imperative Coding for Creating Dynamic UI.
 
 # Open Source (MIT)
 

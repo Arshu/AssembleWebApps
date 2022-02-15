@@ -30,7 +30,7 @@ The tool and the application using the runtime/abstraction will be proprietory.
 
 # Online Demo
 
-Some intersting links to showcase the framework
+Some intersting links to showcase the abstraction
 
 Main Page explaining the abstraction
 #### Main : https://gluuie.com
@@ -66,7 +66,7 @@ Index.html
     {{MainFooter}}
 </pre>
 
-    The Runtime will search the wwwroot folder and auto replace the mustache definition with the actual html component recursively. Reorganizing the Html Components has no impact to composition.
+    The Runtime will search the wwwroot folder arranged in correct folder structure and auto replace the mustache definition with the actual html component recursively. Reorganizing the Html Components in the appropirate folders has no impact to composition.
 
 2. Abstraction for Composing where the Parent Component is composed from Child Components based on Context
 

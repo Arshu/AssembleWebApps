@@ -1,0 +1,13 @@
+{
+    "AllowedRoles" : "Guest",    
+    "ChatListSchema" : 
+    {
+        "ChatFromUser" : "User",        
+        "ChatFromAppSite" : "FromAppSite",        
+        "ChatFromAppView" : "FromAppView",        
+        "ChatToAppSite" : "ToAppSite",        
+        "ChatToAppView" : "ToAppView",        
+        "ChatToAppDomain" : "ToAppDomain",        
+        "ChatMessage" : "Message"
+    }
+}

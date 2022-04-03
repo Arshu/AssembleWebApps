@@ -1,0 +1,13 @@
+<div class="flex-input-wrap" id="{{$ViewID}}Add" style="margin: 5px 10px; text-align: center;">
+    <div style="width:100%;">TaskName</div>
+    <input type="text" class="flex-item-stretch border-left" data-key="ListTableWithFilter.List~0.TaskName" onkeypress="var key = event.which || event.keyCode; if (key === 13) { getElm('listAddItem').click(); }" />
+    <button class="border-right" style="background-color:lightblue;width:60px;" id="listAddItem" onclick="addViewComponentJsonArray('{{$ViewID}}Progress', '{{$ViewID}}Response', '{{$AppSite}}', '{{$AppView}}', '{{$ViewID}}', getElm('listTableAllowEmpty').checked,  getElm('listTableAllowDuplicate').checked,
+            function () {
+                var jsonData = getViewComponentFlatJson('{{$ViewID}}ListFilterViewDiv');
+                return jsonData;
+            },
+            '{{$ViewID}}',
+            { 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}', 'FilterValue' : getElm('listCategorySelect{{$ViewID}}').value }, '', false, listCategoryAddListeners)">Add
+    </button>
+</div>
+

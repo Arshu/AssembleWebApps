@@ -1,0 +1,71 @@
+{
+    "AllowedRoles" : "Guest",    
+    "ListFilterName" : "Category Filter",    
+    "SelectType" : "Contains",    
+    "SelectKey" : "ItemText",    
+    "SelectValue" : "1",    
+    "SelectedKey" : "ItemSelected",    
+    "List" : [
+        
+        {
+            "Category" : "Category 1",            
+            "TaskName" : "Task A",            
+            "TaskInfo" : "Info A"
+        },
+        {
+            "Category" : "Category 1",            
+            "TaskName" : "Task B",            
+            "TaskInfo" : "Info B"
+        },
+        {
+            "Category" : "Category 2",            
+            "TaskName" : "Task C",            
+            "TaskInfo" : "Info C"
+        },
+        {
+            "Category" : "Category 2",            
+            "TaskName" : "Task XX",            
+            "TaskInfo" : "Info XX"
+        },
+        {
+            "Category" : "Category 2",            
+            "TaskName" : "Task N1",            
+            "TaskInfo" : "Info N1"
+        },
+        {
+            "Category" : "Category 1",            
+            "TaskName" : "Task C",            
+            "TaskInfo" : "Info C"
+        }
+    ],    
+    "ListSchema" : 
+    {
+        "Category" : "Category 1",        
+        "TaskName" : "Task A",        
+        "TaskInfo" : "Info A"
+    },    
+    "FilterList" : [
+        
+        {
+            "ItemValue" : "1",            
+            "ItemText" : "Category 1",            
+            "ItemSelected" : true
+        },
+        {
+            "ItemValue" : "2",            
+            "ItemText" : "Category 2",            
+            "ItemSelected" : false
+        },
+        {
+            "ItemText" : "Category 3",            
+            "ItemValue" : 3,            
+            "ItemSelected" : false
+        }
+    ],    
+    "FilterListSchema" : 
+    {
+        "ItemValue" : "{{$RowNo}}",        
+        "ItemText" : "Item 0",        
+        "ItemSelected" : true
+    }
+}

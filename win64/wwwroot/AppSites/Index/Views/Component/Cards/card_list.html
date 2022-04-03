@@ -1,0 +1,29 @@
+
+<div>
+    <div class="container" style="border: 0px solid green; padding: 30px 5px;">
+
+        <h2 style="text-align:center">{{$CardMainTitle}}</h2>
+        <p class="card-text" style="text-align:center">{{$CardSubTitle}}</p>
+
+        <div class="flex-content-wrap" style="text-align:center;margin-top:25px;">
+
+            {{@CardList}}
+            <div class="flex-item-card card_border" style="text-align:center;margin:5px;">
+                <div class="card_title">{{$CardTitle}}</div>
+                <div><a href="{{$CardLink}}">More...</a></div>
+                {{$CardIcon}}
+                <p class="card_text">
+                    {{$CardInfo}}
+                </p>
+            </div>
+            {{/CardList}}
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+

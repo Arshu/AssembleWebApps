@@ -1,0 +1,22 @@
+{
+    "AllowedRoles" : "Guest",    
+    "ToDoList" : [
+        
+        {
+            "TaskName" : "Task A"
+        },
+        {
+            "TaskName" : "Task B"
+        },
+        {
+            "TaskName" : "Task C"
+        },
+        {
+            "TaskName" : "Task X"
+        }
+    ],    
+    "ToDoListSchema" : 
+    {
+        "ColumnNames" : "TaskName"
+    }
+}

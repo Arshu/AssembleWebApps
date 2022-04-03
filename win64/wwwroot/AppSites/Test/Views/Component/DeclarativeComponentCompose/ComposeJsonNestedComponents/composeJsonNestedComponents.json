@@ -1,0 +1,5 @@
+{
+  "ComponentCategory": "Declarative",
+  "ComponentTitle": "Nested Components Defined in Json !{{$Json}}",
+  "RootDataComponent": "{JsonRootDataComponent}"
+}

@@ -1,0 +1,106 @@
+<script>
+    ready(() => {
+        addListeners();
+    });
+
+    function addListeners() {
+        var newSelectTextElm = getElm('newSelectText{{$ViewID}}');
+        var newSelectValueElm = getElm('newSelectValue{{$ViewID}}');
+        var newSelectAddBtnElm = getElm('newSelectAddBtn{{$ViewID}}');
+
+        newSelectTextElm.addEventListener('keypress', function (event) {
+            var key = event.which || event.keyCode;
+            if (key === 13) { // 13 is enter
+                newSelectValueElm.focus();
+            }
+        });
+
+        newSelectValueElm.addEventListener('keypress', function (event) {
+            var key = event.which || event.keyCode;
+            if (key === 13) { // 13 is enter
+                newSelectAddBtnElm.click();
+            }
+        });
+    }
+
+    function selectGetAddJson() {
+        var jsonData = getViewComponentFlatJson('newSelectSection{{$ViewID}}');
+        return jsonData;
+    }
+
+    function selectGetEditJson() {
+        var jsonData = new Object();
+        var selectElm = getElm('{{$ParentViewID}}Select');
+        var selectedOptionElm = selectElm.options[selectElm.selectedIndex];
+        var dataRow = selectedOptionElm.getAttribute('data-row');
+        if (dataRow != '0') {
+            var jsonKey = 'Select.SelectList~' + dataRow + '.ItemSelected';
+            jsonData[jsonKey] = true;
+        }
+        return jsonData;
+    }
+
+    function selectGetDeleteKeyPath() {
+        var jsonData = '';
+        var selectElm = getElm('{{$ParentViewID}}Select');
+        var selectedOptionElm = selectElm.options[selectElm.selectedIndex];
+        var dataRow = selectedOptionElm.getAttribute('data-row');
+        if (dataRow != '0') {
+            jsonData = 'Select.SelectList~' + dataRow + '.ItemText';
+        }
+        return jsonData;
+    }
+
+</script>
+<div class="border" style="margin:5px 10px;">
+    <div class="flex-input-wrap" style="margin: 5px 10px; text-align: center; position: relative">
+        {{ViewPlaceHolder}}
+        <button style="position:absolute; right:-12px;margin-top:-8px;width:25px;height:25px;background-color: transparent;text-align:center;vertical-align:middle;" onclick="showComponentSourceViewer('selectShowProgress', '{{$ViewID}}', true)">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            </svg><div id="selectShowProgress"></div>
+        </button>
+        <label for="{{$ParentViewID}}Select" style="width:100%;">{{$SelectName}}</label>
+        <button class="border-left" style="width:40px;height:40px;"
+                onclick="{{%SelectRefreshView}}">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        </button>
+        <div class="flex-item-stretch border-top-bottom" style="height:40px;">
+            <select style="width:100%;border:none;" id="{{$ParentViewID}}Select"
+                    onchange="{{%SelectEditViewData}}">
+                {{@SelectList}}
+                <option data-row="{{$RowNo}}" value="{{$ItemValue}}" {{@ItemSelected}} selected {{/ItemSelected}}>
+                    {{$ItemText}}
+                </option>
+                {{/SelectList}}
+            </select>
+        </div>
+        <button class="border-right" style="width:40px;height:40px;" onclick="toggleElm('newSelectSection{{$ViewID}}');">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+        </button>
+    </div>
+    <div class="flex-item-stretch" style="width: 100%;">
+        <span style="font-size:xx-small">ViewID:[{{$ViewID}}] ParentViewID:[{{$ParentViewID}}] NextParentViewID:[{{$NextParentViewID}}]</span>
+    </div>
+    <div class="flex-content-wrap" style="margin: 5px 10px;display:none;text-align:center;" id="newSelectSection{{$ViewID}}">
+        <label style="width:100%;">{{$NewSelectName}}</label>
+        <button class="border-left" style="width: 40px; height: 40px;"
+                onclick="{{%SelectDeleteViewData}}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+        </button>
+        <div class="flex-item-stretch border-top-bottom" style="height:40px;">
+            {{@ShowSelectValue}}
+            <input data-key="Select.SelectList~0.ItemValue" style="height:38px;width:100%;" id="newSelectValue{{$ViewID}}" type="text" placeholder="{{$NewSelectValuePlaceholder}}" />
+            {{/ShowSelectValue}}
+            <input data-key="Select.SelectList~0.ItemText" style="height: 38px; width: 100%;" id="newSelectText{{$ViewID}}" type="text" placeholder="{{$NewSelectTextPlaceholder}}" />
+        </div>
+        <button class="border-right" style="width:40px;height:40px;" id="newSelectAddBtn{{$ViewID}}"
+                onclick="{{%SelectAddViewData}}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    </div>
+</div>

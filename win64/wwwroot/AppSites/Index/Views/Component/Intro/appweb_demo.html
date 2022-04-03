@@ -1,0 +1,18 @@
+{{@HaveDomainApiService}}
+
+{{@IsSubDomain}}{{/IsSubDomain}}
+{{^IsSubDomain}}
+<section class="{{$DemoClass}}" style="margin:5px;padding:10px 10px;text-align:center;">
+    <div class="container">
+        <div style="text-align:center;">
+            <div id="showAppDomainProgress"></div>
+            <button class="border" style="padding:5px 15px; margin:0 auto; color:blue;font-size:x-large; background-color:brown;color:white;"
+                    onclick="showAppDomainViewer('showAppDomainProgress')">
+                {{$DemoTitle}}
+            </button>
+        </div>
+    </div>
+</section>
+{{/IsSubDomain}}
+
+{{/HaveDomainApiService}}

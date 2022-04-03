@@ -1,0 +1,25 @@
+{
+  "SelectRefreshView": {
+    "JsFunctionName": "RefreshView",
+    "PageName": "{{$ViewID}}",
+    "SuccessCallback": "addListeners"
+  },
+  "SelectAddViewData": {
+    "JsFunctionName": "AddViewData",
+    "PageName": "{{$ViewID}}",
+    "AddJson": "selectGetAddJson",
+    "SuccessCallback": "addListeners"
+  },
+  "SelectEditViewData": {
+    "JsFunctionName": "EditViewData",
+    "PageName": "{{$ViewID}}",
+    "EditJson": "selectGetEditJson",
+    "SuccessCallback": "addListeners"
+  },
+  "SelectDeleteViewData": {
+    "JsFunctionName": "DeleteViewData",
+    "PageName": "{{$ViewID}}",
+    "DeleteKeyPath": "selectGetDeleteKeyPath",
+    "SuccessCallback": "addListeners"
+  }
+}

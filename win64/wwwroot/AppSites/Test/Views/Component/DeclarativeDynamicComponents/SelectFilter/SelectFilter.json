@@ -1,0 +1,42 @@
+{
+    "AllowedRoles" : "Guest",    
+    "ListFilterName$" : "List Filter",    
+    "NewFilterName$" : "New Filter Item",    
+    "NewFilterTextPlaceholder$" : "New Filter Text",    
+    "NewFilterValuePlaceholder$" : "New Filter Value",    
+    "ShowFilterValue$" : false,    
+    "FilterList" : [
+        
+        {
+            "ItemText" : "Category 1",            
+            "ItemValue" : 1,            
+            "ItemSelected" : false
+        },
+        {
+            "ItemText" : "Category 2",            
+            "ItemValue" : 2,            
+            "ItemSelected" : false
+        },
+        {
+            "ItemText" : "Category 3",            
+            "ItemValue" : 3,            
+            "ItemSelected" : false
+        },
+        {
+            "ItemText" : "Category 4",            
+            "ItemValue" : 4,            
+            "ItemSelected" : false
+        },
+        {
+            "ItemText" : "Category 5",            
+            "ItemValue" : 5,            
+            "ItemSelected" : true
+        }
+    ],    
+    "FilterListSchema" : 
+    {
+        "ItemValue" : "{{$RowNo}}",        
+        "ItemText" : "Item 0",        
+        "ItemSelected" : true
+    }
+}

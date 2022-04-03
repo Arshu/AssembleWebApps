@@ -1,0 +1,12 @@
+{
+  "ComponentCategory": "Declarative",
+  "ComponentTitle": "Merge !{{@Html}}..!{{/Html}} and {Json} Object Array Inner Repeated",
+  "DataArray1": [
+    {
+      "JsonArrayData": "Array 1 Data 1"
+    },
+    {
+      "JsonArrayData": "Array 1 Data 2"
+    }    
+  ]
+}

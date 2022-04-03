@@ -1,0 +1,15 @@
+<div>   
+    {{@HaveNextPage}}
+    <button class="border" style="width:40px;height:40px;" onclick="return refreshViewComponentPageHtml('next{{$ViewID}}Progress', '{{$ViewID}}Response', '{{$AppSite}}', '{{$AppView}}', '{{$ViewID}}', { 'PageNo': '{{$NextPage}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }, '', false)">
+        <strong style="font-weight:bolder;">></strong><span id="next{{$ViewID}}Progress"></span>
+    </button>
+    {{/HaveNextPage}}
+    {{^HaveNextPage}}
+    <button class="border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">></strong>
+    </button>
+    {{/HaveNextPage}}
+    <button class="border" style="width:40px;height:40px;" id="{{$ViewID}}ListRefreshBtn" onclick="return refreshViewComponentPageHtml('refresh{{$ViewID}}Progress', '{{$ViewID}}Response', '{{$AppSite}}', '{{$AppView}}', '{{$ViewID}}', { 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}', 'FilterValue' : getElm('listCategorySelect{{$ViewID}}').value }, '', false)">
+        &#x2714;<span id="refresh{{$ViewID}}Progress"></span>
+    </button>
+</div>

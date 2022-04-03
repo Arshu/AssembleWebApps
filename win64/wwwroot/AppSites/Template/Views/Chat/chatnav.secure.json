@@ -1,0 +1,35 @@
+{
+  "NAVList": [
+    {
+      "NavTitle": "Help",
+      "NavUrl": "/Config/Help",
+      "NavActive": "",
+      "HaveSubMenu": false,
+      "SubNAVList": []
+    }
+  ],
+  "NAVAccountList": [
+    {
+      "NavTitle": "LogOff ({{$LOGINALIAS}})",
+      "NavUrl": "#",
+      "NavActive": "logoff"
+    }
+  ],
+  "NAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "/Index/Main",
+    "NavActive": "",
+    "HaveSubMenu": false,
+    "SubNAVList": []
+  },
+  "SubNAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "/Index/Main",
+    "NavActive": ""
+  },
+  "NAVAccountListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "/Index/Main",
+    "NavActive": ""
+  }
+}

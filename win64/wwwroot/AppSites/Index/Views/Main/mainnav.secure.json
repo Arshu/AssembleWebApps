@@ -1,0 +1,50 @@
+{
+  "NAVList": [
+    {
+      "NavTitle": "Help",
+      "NavUrl": "#/Account/Help",
+      "NavActive": "",
+      "NavAppSite": "Account",
+      "NavAppView": "Help",
+      "NavAppViewIDs": "mainNav, mainContent, mainFooter",
+      "HaveSubMenu": false,
+      "SubNAVList": []
+    }
+  ],
+  "NAVAccountList": [
+    {
+      "NavTitle": "LogOff ({{$LOGINALIAS}})",
+      "NavUrl": "#",
+      "NavAppSite": "Account",
+      "NavAppView": "Login",
+      "NavAppViewIDs": "mainNav, mainContent, mainFooter",
+      "NavActive": "logoff"
+    }
+  ],
+  "NAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "#/Index/Main",
+    "NavAppSite": "Index",
+    "NavAppView": "Main",
+    "NavAppViewIDs": "mainContent, mainNav, mainFooter",
+    "NavActive": "",
+    "HaveSubMenu": false,
+    "SubNAVList": []
+  },
+  "SubNAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "#/Index/Main",
+    "NavAppSite": "Index",
+    "NavAppView": "Main",
+    "NavAppViewIDs": "mainContent, mainNav, mainFooter",
+    "NavActive": ""
+  },
+  "NAVAccountListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "#/Index/Main",
+    "NavAppSite": "Index",
+    "NavAppView": "Main",
+    "NavAppViewIDs": "mainContent, mainNav, mainFooter",
+    "NavActive": ""
+  }
+}

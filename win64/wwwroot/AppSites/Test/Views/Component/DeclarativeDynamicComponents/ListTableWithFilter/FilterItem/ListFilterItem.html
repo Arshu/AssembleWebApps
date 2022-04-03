@@ -1,0 +1,75 @@
+<script type="text/javascript">
+
+    ready(() => {
+        listCategoryAddListeners();
+    });
+
+    function listCategoryAddListeners() {
+
+        if (haveElm('newListCategorySection{{$ViewID}}')) {
+            var newCategoryTextElm = getElm('newListCategoryText{{$ViewID}}');
+            var newCategoryAddBtnElm = getElm('newListCategoryAddBtn{{$ViewID}}');
+
+            newCategoryTextElm.addEventListener('keypress', function (event) {
+                var key = event.which || event.keyCode;
+                if (key === 13) { // 13 is enter
+                    newCategoryAddBtnElm.click();
+                }
+            });
+        }
+
+        if (haveElm('{{$ViewID}}ListRefreshBtn')) {
+            triggerEvent('{{$ViewID}}ListRefreshBtn', 'click');
+        }
+    }
+
+    function listCategoryGetAddJson() {
+        var jsonData = getViewComponentFlatJson('newListCategorySection{{$ViewID}}');
+        return jsonData;
+    }
+
+    function listCategoryGetEditJson() {
+        var jsonData = new Object();
+        var selectElm = getElm('listCategorySelect{{$ViewID}}');
+        var selectedOptionElm = selectElm.options[selectElm.selectedIndex];
+        var dataRow = selectedOptionElm.getAttribute('data-row');
+        if (dataRow != '0') {
+            var jsonKey = 'ListTableWithFilter.FilterList~' + dataRow + '.ItemSelected';
+            jsonData[jsonKey] = true;
+        }
+        return jsonData;
+    }
+
+    function listCategoryGetDeleteKeyPath() {
+        var jsonData = '';
+        var selectElm = getElm('listCategorySelect{{$ViewID}}');
+        var selectedOptionElm = selectElm.options[selectElm.selectedIndex];
+        var dataRow = selectedOptionElm.getAttribute('data-row');
+        if (dataRow != '0') {
+            jsonData = 'ListTableWithFilter.FilterList~' + dataRow + '.ItemText';
+        }
+        return jsonData;
+    }
+
+</script>
+
+<div class="flex-input-wrap" style="margin: 5px 10px; text-align: center; ">
+    <div style="width:100%;">Category</div>
+    <button class="border-left" style="width:40px;height:40px;"
+            onclick="{{%ListCategoryRefreshView}}">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+    </button>
+    <div class="flex-item-stretch border-top-bottom" style="height:40px;">
+        <select style="width:100%;border:none;" data-key="ListTableWithFilter.List~0.Category" id="listCategorySelect{{$ViewID}}"
+                onchange="{{%ListCategoryEditViewData}}">
+            {{@FilterList}}
+            <option data-row="{{$RowNo}}" {{@ItemSelected}} selected {{/ItemSelected}}>
+                {{$ItemText}}
+            </option>
+            {{/FilterList}}
+        </select>
+    </div>
+    <button class="border-right" style="width:40px;height:40px;" onclick="toggleElm('newListCategorySection{{$ViewID}}');">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+    </button>
+</div>

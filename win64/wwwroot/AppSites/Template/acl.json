@@ -1,0 +1,11 @@
+{
+    "AllowedRoles" : [
+        "Guest"
+    ],    
+    "Main" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    }
+}

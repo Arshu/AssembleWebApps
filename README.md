@@ -1,6 +1,6 @@
-# Declarative Abstraction for Assembling Static Web Apps (WIP)
+# Declarative Abstraction for Assembling Static Web Apps 
 
-## Can we Declaratively **Assemble AppWebs** from Reusable Html + Json(Data) + Json(Action) Components 
+## Can we Declaratively **Assemble AppWebs** from Reusable Html + Json(Data) Components 
 
 <br/>
 
@@ -8,17 +8,9 @@
 
 **Assemble** Reusable Html + Json Components
 
-#### 1. Declaratively Build Static UI, Static Data UI, Dynamic UI* and Realtime UI* from Reusable Html + Json Components
+#### 1. Declaratively Build Static UI, Static Data UI from Reusable Html + Json Components
 
 #### 2. Platform/Framework Independent Abstraction defined in Html/Json Files and Folder Organization using multi-platform/multi-language runtimes.
-
-# Progress
-
-### **Declarative Abstraction** (Platform/Framework Idependent)
-
-#### a) 90% completed the Declarative Abstractions for Assembly of Static (Html) and Static Data (Html + Json) UI.
-
-#### b) 60% completed the Declarative Abstractions with Imperative Coding for Creating Dynamic UI.
 
 # Open Source (MIT)
 
@@ -85,16 +77,6 @@ Index.html
     {{MainFooter}}      =>      {{MainFooter}}
 </pre>
 
-3. Abstractions for Assembling Components is by adding a {{HtmlPlaceHolder}} where other Components can be added
-
-<pre>
-Center.html
-    {{#Center}}      
-        {{HtmlPlaceHolder}}
-    {{/Center}}      
-
-</pre>
-
 # Abstraction for Assembling Static Data UI from Html + Json Components
 
 <br/>
@@ -157,8 +139,12 @@ Center.html
 
 Components should be grouped into AppSites and AppViews Folders for providing URL Context
 
-    Pages Components can be grouped into a AppSites Directory under Root Directory and Views/ViewsDefer Directory under AppSites Directory.
+    AppSite's are grouped under AppSites Directory under the Root Folder 
+
+    AppView's can be grouped under Views/ViewsDefer Directory under Respective AppSite Directory.
+
+    Components can be added to Component Directory under Respective AppSite Directory 
+
+    Page Components can be added to AppView Directory under Views/ViewsDefer Directory
 
     Url to access a page is https://Domain/AppSite/AppView
-
-    Standalone Components can be grouped under a Common/Component folder under Respective AppSite Directory.

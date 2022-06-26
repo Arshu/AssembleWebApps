@@ -25,25 +25,23 @@ The tool and the application using the runtime/abstraction will be proprietory.
 Some intersting links to showcase the abstraction. View the Inspect hidden Toolbar to know other features
 
 Main Page explaining the abstraction
-#### Main : https://gluuie.com
+#### Main : https://appgui.fly.dev
 
 Just add Meta to the end of the page to view the Metadata Json
-#### Meta : https://gluuie.com/meta
+#### Meta : https://appgui.fly.dev/meta
 
 Test Page to show case the different abstractions
-#### Test : https://gluuie.com/Test/Main
-
-Test Page to show the Realtime capability of the Tool based on component abstraction.
-#### Realtime : https://gluuie.com/Test/TestHotReload
-
-Test Page to show dynamic declarative UI
-#### Dynamic : https://gluuie.com/Test/TestDeclarativeChange
+#### Test : https://appgui.fly.dev/Test/Main
 
 # Getting Started
 
 Clone the repo and run the appropriate **appweb.web** asp.net core application for the respective platform
 
 On first run the application will extract the Index, Template and Test AppSite's and run the asp.net core kestrel server under port 7000
+
+Run the Docker Image **arshucs/appweb** as below
+#### docker run --publish 8080:8080 arshucs/appweb:latest
+
 
 # Abstraction for Assembling Static UI from Html Components
 

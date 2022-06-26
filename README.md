@@ -14,7 +14,7 @@
 
 Ultimately To Separate Web Apps into ReadOnly and WriteOnly Cluster during deployment
 
-![Declaratively Build Web Apps in ReadOnly and WriteOnly Cluster](appweb.png) "Architecuture for Splitting WebApps into ReadOnly and WriteOnly Cluster").
+![Declaratively Build Web Apps in ReadOnly and WriteOnly Cluster](documents/appweb.png) "Architecuture for Splitting WebApps into ReadOnly and WriteOnly Cluster").
 
 # Open Source (MIT)
 

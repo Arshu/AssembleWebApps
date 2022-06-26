@@ -12,6 +12,10 @@
 
 #### 2. Platform/Framework Independent Abstraction defined in Html/Json Files and Folder Organization using multi-platform/multi-language runtimes.
 
+Ultimately To Separate Web Apps into ReadOnly and WriteOnly Cluster during deployment
+
+![Declaratively Build Web Apps in ReadOnly and WriteOnly Cluster](appweb.png) "Architecuture for Splitting WebApps into ReadOnly and WriteOnly Cluster").
+
 # Open Source (MIT)
 
 Currently the tool consists of runtime which implements the abstraction, application built using that abstraction and also a tool for facilitating hot reloading.
@@ -22,7 +26,7 @@ The tool and the application using the runtime/abstraction will be proprietory.
 
 # Online Demo
 
-Some intersting links to showcase the abstraction. View the Inspect hidden Toolbar to know other features
+Some intersting links to showcase the abstraction. View the hidden Inspect Toolbar at the top to know other features
 
 Main Page explaining the abstraction
 #### Main : https://appgui.fly.dev

@@ -18,7 +18,7 @@
   "LoadFileChanges": true,
   "EnableRealtime": true,
   "EnableArshuFramework": true,
-  "UnPackAppSites": false,
+  "UnPackAppSites": true,
 
   "AppAssets": [
 
@@ -30,7 +30,7 @@
     {
       "AssetTypeName": "AppWeb.Web.AssetRegister",
       "AssetDll": "AppWeb.Web.dll",
-      "IsEnabled": true
+      "IsEnabled": false
     }
   ],
 

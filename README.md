@@ -29,13 +29,13 @@ The tool and the application using the runtime/abstraction will be proprietory.
 Some intersting links to showcase the abstraction. View the hidden Inspect Toolbar at the top to know other features
 
 Main Page explaining the abstraction
-#### Main : https://appgui.fly.dev
+#### Main : https://guiapp.fly.dev
 
 Just add Meta to the end of the page to view the Metadata Json
-#### Meta : https://appgui.fly.dev/meta
+#### Meta : https://guiapp.fly.dev/meta
 
 Test Page to show case the different abstractions
-#### Test : https://appgui.fly.dev/Test/Main
+#### Test : https://guiapp.fly.dev/Test/Main
 
 # Getting Started
 

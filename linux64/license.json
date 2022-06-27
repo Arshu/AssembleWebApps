@@ -1,5 +1,5 @@
 {
-    "AllowedHosts" : "localhost, appweb.local",    
-    "BuildExpiry" : "17/Jan/2024",    
-    "Signature" : "B0o7QRUNbFg/Ux5HMUKgv3bBBROvQDnFdRRvtZLE2WCbt2sIzAWExCdcE9urfBsSmli671KszW/0ddSegjfuPT6Lbrfq2fvDZWJW4I//dCa9iDd/fP6+jZEKy5w34fb9/oM26owiOOxs9rI+nogU8Fv4bLL94l9r1LXzYWxo+gAzVpxBEERnvOP7gEgTehlzqcdPhz3I3/3C3TBTXMIJSU2I0WXwMLuaxHj9uwJn/cp/kmSD459nRogi+3uWu9w4D0HbV28tt2g515nG8Tp3UTXNSPFNbTBhvIhFo5ZZflhwP6KbHpJmXtqlGJZdKeGnWHFocmEmr5Wnu/TSfrWUjTqorkY05YWxKkGir7r0dod+0dr8tPOk/vZYWjXY7CQCHpebkhT5tZiHOLKGsHmgRWWVHcQfYYz75M4QvRscEUgAEP+3WjC/g0z/n3tAVRKnzhjYeCwI4J7AQUb++njdlbGk0mvh56ZepibCT5urQKOCkDun2cP6sfmx0N62pLOXRasgdnIFFS2M6BokEdtMBy7WhUGtXIk6vY/aI+87hYRS0R/AOhUfskFcak4Tt7B3E5z2r2QITdMvn7Keo+qQbUGuHYJvUlCYqBJ25AV9gNAIxrTjeMzmW2yOsMOxSO6ouzh3GhhTIy4FbZqZllKssLGw7/YgtldIPkT/QUk4S4E="
+    "BuildExpiry" : "01/Oct/2023",    
+    "AllowedHosts" : "localhost, appbase.local, appweb.local, fly.dev, koyeb.app",    
+    "Signature" : "HIQa5DD40AJHxePwgrEk7GDZ9D9gkNdMnJfekuYfwNkQvb4h6Gb+xR9qTI3OL6aAXH8v8nMTcht6PdqgUpzdWwSXccc8ZWOm4nAsJvlGuXMrWt4xm2GuKpsVih6dnARoCu9PhidIZvxkNuDXe9vz0wK8DAstRzzNcT6iKA4EDtpcxBC04+5WHY+8JbL2IfcWAVl1bIU6Svsggr1u39+RFhwxOhr4EHauqi/ARPcz7FuKddUYwCUgmDXwQrAvh6SVSbNFBOrFpJzW0Ql6S0NMtTMOwR0wyjYdv5rvMVIvM9TRqo/hrRjjlpoGP4bpFmX7aiXAJDb9k6quzqgEdqKUK24fZXmRUMj4KH8sAmpNtyszB7NqYPLwMe6XIHHYrAE9QQ2Sy56aERvDtk2nRe83HBwb/++rlxhrBPoIJmtdWzPFEMg9zO/Vkr9f48RNeW9RXVRBpiEkNfmFnn7aD8hsuppV39D8UMYYUwS897OqDAISjX64ocnyhmxxDpdE0+GLNtWH2ra+xKG+fPT8/qWiesxs0MGUlf2wSNQL4ehBEipTkgQUkVbIQR223S0bwjsbMdHOxTQ7kIPM9H1HYg9tTINcyJv1KBW5WbCwW2C9AfEZDVO2fcOPNPlcY7s78f+64lI+fHk3gQUEaZ35uOv3gGrJx9gNVNtobXAPVORYIQc="
 }

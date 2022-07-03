@@ -18,7 +18,7 @@
   "LoadFileChanges": true,
   "EnableRealtime": true,
   "EnableArshuFramework": true,
-  "UnPackAppSites": true,
+  "UnPackAppSites": false,
 
   "AppAssets": [
 
@@ -26,11 +26,6 @@
       "AssetTypeName": "Arshu.Core.AssetRegister",
       "AssetDll": "Arshu.Core.dll",
       "IsEnabled": true
-    },
-    {
-      "AssetTypeName": "AppWeb.Web.AssetRegister",
-      "AssetDll": "AppWeb.Web.dll",
-      "IsEnabled": false
     }
   ],
 

@@ -1,9 +1,0 @@
-{
-  "JsonFolder": "SampleJson/Test",
-  "JsonSource": "TestDebug5Data",
-  "JsonKey": "",
-  "DefaultItemsPerPage": 10,
-  "DefaultItemsPerPageArray": 1,
-  "DefaultItemsPerPageArrayItem": 1,
-  "ViewMode": "Updatable"
-}

@@ -1,9 +1,0 @@
-{
-  "Progress Title": "Work In Progress",
-  "Title Heading": "Tool/Runtime to Assemble declaratively from Language/Framework/Platform neutral abstractions defined in files",
-  "Title": "Can we Assemble <strike>App</strike>Web's?",
-  "SubTitle": "App<strike>Web</strike> Offline Viewer for Html Data Component",
-  "Description": "App<strike>Web</strike> Viewer is a Tool for Assembling/Viewing of Html Data Components",
-  "Info1 Title": "Copy/Replace the component folder of the wwwroot folder with your own Html Data Component files",
-  "Info1 SubTitle": "Ensure index.html exists in appsites folder of the Index AppSite"
-}

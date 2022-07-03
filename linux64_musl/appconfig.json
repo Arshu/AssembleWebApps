@@ -18,7 +18,7 @@
   "LoadFileChanges": true,
   "EnableRealtime": true,
   "EnableArshuFramework": true,
-  "UnPackAppSites": false,
+  "UnPackAppSites": true,
 
   "AppAssets": [
 

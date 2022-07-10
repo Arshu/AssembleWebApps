@@ -1,0 +1,47 @@
+{
+    "ResourceRegen" : true,    
+    "ResourceVersion" : 0,    
+    "ResourceOptimizeMergeRetain" : true,    
+    "ResourceOptimizeMergeJs" : true,    
+    "ResourceOptimizeMergeJsPattern" : "jquery-, arshu, signalr, main, web-vitals, highlight, quill; *",    
+    "ResourceOptimizeMergeJsSkipPattern" : "",    
+    "ResourceOptimizeMergeCss" : true,    
+    "ResourceOptimizeMergeCssPattern" : "arshu, normalize, pylon, layout, animate, animation, main, highlight, quill, bulma, all; *",    
+    "ResourceOptimizeMergeCssSkipPattern" : "",    
+    "ResourceOptimizeMergeDeferSuffix" : "@",    
+    "ResourceOptimizeMergeDeferCss" : false,    
+    "ResourceOptimizeMergeDeferJs" : false,    
+    "ResourceExpires" : true,    
+    "ResourceMaxAgeInDay" : 3,    
+    "ResourceCacheControl" : "public,max-age={0}",    
+    "ResourceModifiedInDay" : -3,    
+    "PagesNotInCacheControl" : "",    
+    "PagesCacheControlMaxAgeInDay" : 1,    
+    "PagesCacheControlPublic" : "public,max-age={0}",    
+    "PagesCacheControlBeforeLogin" : "private, no-cache, no-store, must-revalidate",    
+    "PagesCacheControlAfterLogin" : "private, no-cache, no-store, must-revalidate",    
+    "ResourceCrossDomainOrigin" : "*",    
+    "ResourceCrossDomainMethod" : "GET",    
+    "ResourceCache" : true,    
+    "ResourceOptimizeCssBackgroundUrl" : true,    
+    "ResourceOptimizeCssImportStrip" : true,    
+    "ResourceOptimizeEmbed" : false,    
+    "ResourceOptimizeEmbedImage" : true,    
+    "ResourceOptimizeEmbedImagePatterns" : ".png,.jpeg,.jpg,.bmp,.gif,.svg",    
+    "ResourceOptimizeEmbedFont" : true,    
+    "ResourceOptimizeEmbedFontPatterns" : ".woff, .woff2",    
+    "ResourceOptimizeNearCDN" : true,    
+    "ResourceOptimizeNearCDNVersion" : "1",    
+    "ResourceOptimizeNearCDNExtension" : "1,.js|2,.js,.css|3,.js,.css,.png,.svg",    
+    "ResourceOptimizeSplitDomain" : false,    
+    "ResourceOptimizeSplitDomainExtension" : ".js,.css",    
+    "ResourceOptimizeHtmlCompress" : false,    
+    "ResourceCompress" : true,    
+    "ResourceNearCDNMap" : 
+    {
+        "*:*" : 
+        {
+            
+        }
+    }
+}

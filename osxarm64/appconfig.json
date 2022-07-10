@@ -7,18 +7,22 @@
   "AllowReload": true,
   "AllowConfigReload": true,
   "AllowConfigUpdate": true,
+  "ContextJson": {
+    "PageTitle": "Arshu AppWeb Offline Viewer",
+    "ReadOnly": false
+  },
 
   "RealtimeAppSites": "",
   "StaticAppSites": "Index, Config, Account, Test",
   "SearchAppSites": "Config, Account, Index",
-  "SearchAppFolders": "",
+  "SearchAppFolders": "SampleJson",
 
   "LoadAppFiles": true,
   "LoadAppFolders": true,
   "LoadFileChanges": true,
   "EnableRealtime": true,
   "EnableArshuFramework": true,
-  "UnPackAppSites": true,
+  "UnPackAppSites": false,
 
   "AppAssets": [
 

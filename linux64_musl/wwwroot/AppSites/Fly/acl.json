@@ -1,0 +1,29 @@
+{
+    "AllowedRoles" : [
+        "User"
+    ],    
+    "NameLabel" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "ProductLabel" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "Menu" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "Main" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    }
+}

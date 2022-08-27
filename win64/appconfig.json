@@ -7,21 +7,22 @@
   "AllowReload": true,
   "AllowConfigReload": true,
   "AllowConfigUpdate": true,
+  "InitialTimeInSec": 30,
+  "IdleTimeInSec": 30,
   "ContextJson": {
-    "PageTitle": "Arshu AppWeb Offline Viewer",
-    "ReadOnly": false
+    "PageTitle": "Declarative Static AppWebs",
+    "ShowIntroTip": true,
+    "EnableArshuFramework": true
   },
 
   "RealtimeAppSites": "",
-  "StaticAppSites": "Index, Config, Account, Test",
+  "StaticAppSites": "Index, Config, Account, Fly, Test",
   "SearchAppSites": "Config, Account, Index",
   "SearchAppFolders": "SampleJson",
 
   "LoadAppFiles": true,
   "LoadAppFolders": true,
   "LoadFileChanges": true,
-  "EnableRealtime": true,
-  "EnableArshuFramework": true,
   "UnPackAppSites": false,
 
   "AppAssets": [
@@ -29,6 +30,11 @@
     {
       "AssetTypeName": "Arshu.Core.AssetRegister",
       "AssetDll": "Arshu.Core.dll",
+      "IsEnabled": true
+    },
+    {
+      "AssetTypeName": "AppWeb.Web.AssetRegister",
+      "AssetDll": "AppWeb.Web.dll",
       "IsEnabled": true
     }
   ],
@@ -54,7 +60,7 @@
       "RegisterTypeName": "Arshu.Git.App.Register.GitRegister",
       "RegisterDll": "Arshu.Git.dll",
       "IsEnabled": true
-    }
+    }    
   ],
 
   "AppProviders": [
@@ -87,7 +93,7 @@
   "PackData": true,
   "PackAppFolder": false,
   "PackTemplate": false,
-  "PackAppSites": "Index, Account, Config, Test",
+  "PackAppSites": "Index, Account, Config, Fly, Test",
   "PackAppDatas": "Roles, Members",
 
   "PackName": "AppWeb.Web.1.0.pap",

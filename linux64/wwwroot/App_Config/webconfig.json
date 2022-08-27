@@ -22,8 +22,6 @@
         
     "LoadAppFiles" : true,    
     "LoadAppFolders" : true,    
-    "EnableArshuFramework" : true,    
-    "EnableRealtime" : true,    
         
     "AppAssets" : [
         

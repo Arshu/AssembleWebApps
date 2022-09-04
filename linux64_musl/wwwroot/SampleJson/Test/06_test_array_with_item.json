@@ -1,0 +1,11 @@
+{
+  "AllowedRoles": "Guest",
+  "Debug Data": "Debug Data False",
+  "NAVList": [
+    {
+      "NavTitle 1": "Index 1",
+      "NavUrl 1": "#11"      
+    }
+  ],
+  "Debug Data Inner": "Debug Data Inner True"
+}

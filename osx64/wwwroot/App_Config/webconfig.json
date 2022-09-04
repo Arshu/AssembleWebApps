@@ -1,6 +1,5 @@
 {
     "AutoUpdate" : false,    
-    "ProductionMode" : true,    
     "ResourceOptimize" : true,    
     "DisableAuthentication" : false,    
     "TicketAuthExpiresMin" : 1440,    
@@ -22,8 +21,6 @@
         
     "LoadAppFiles" : true,    
     "LoadAppFolders" : true,    
-    "EnableArshuFramework" : true,    
-    "EnableRealtime" : true,    
         
     "AppAssets" : [
         

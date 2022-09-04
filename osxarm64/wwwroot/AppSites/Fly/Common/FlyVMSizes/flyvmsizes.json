@@ -1,0 +1,11 @@
+{
+  "DefaultFlyVMSize": "shared-cpu-1x",
+  "FlyVMSizes": [
+    {
+      "VMCPU": "1",
+      "VMRAM": "256",
+      "VMName": "shared-cpu-1x",
+      "IsDefault": true
+    }
+  ]
+}

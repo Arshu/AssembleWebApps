@@ -1,0 +1,10 @@
+{
+  "DefaultFlyRegion": "sin",
+  "FlyRegions": [
+    {
+      "RegionCode": "sin",
+      "RegionName": "Singapore",
+      "IsDefault": true
+    }
+  ]
+}

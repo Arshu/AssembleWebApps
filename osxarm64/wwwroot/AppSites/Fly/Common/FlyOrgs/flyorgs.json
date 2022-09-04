@@ -1,0 +1,15 @@
+{
+  "FlyOrgs": [
+
+    {
+      "FlyOrgName": "Personal",
+      "FlyOrgSlug": "personal",
+      "IsDefault": true
+    }    
+  ],
+  "FlyOrgsSchema": {
+    "FlyOrgName": "OrgName",
+    "FlyOrgSlug": "orgslug",
+    "IsDefault": false
+  }
+}

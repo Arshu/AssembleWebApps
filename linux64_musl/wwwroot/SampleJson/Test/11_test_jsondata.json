@@ -1,0 +1,12 @@
+{
+    "AllowedRoles" : "Guest",    
+    "Debug" : false,    
+    "Language" : "English",    
+    "Month" : "2",    
+    "ItemsPerPage" : 99,    
+    "SiteTitle" : "AppWeb",    
+    "SiteDescription" : "Arshu AppWeb 1",    
+    "IsMobile" : "Mobile",    
+    "Use" : "Enable",    
+    "MonthPrefix" : "1"
+}

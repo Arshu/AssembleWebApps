@@ -1,0 +1,29 @@
+{
+    "AllowedRoles" : "Guest",    
+    "NAVList" : [
+        
+        {
+            "SubNAVList" : [
+                
+                {
+                    "NavTitle" : "Change Password",                    
+                    "NavUrl" : "/Account/ChangePassword"
+                },
+                {
+                    "NavTitle" : "Login",                    
+                    "NavUrl" : "/Account/Login"
+                }
+            ],            
+            "NavTitle" : "Account"
+        },
+        {
+            "NavTitle" : "Test",            
+            "NavUrl" : "/Index/Test"
+        },
+        {
+            "NavTitle" : "Help",            
+            "NavUrl" : "/Index/Help"
+        }
+    ],    
+    "Language" : "English,Mandarin"
+}

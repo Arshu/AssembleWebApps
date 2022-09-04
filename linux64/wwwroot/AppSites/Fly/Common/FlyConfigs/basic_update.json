@@ -1,0 +1,8 @@
+{
+  "config": {
+    "guest": {
+      "memory_mb": {{$AppMemory}},
+      "cpus": {{$AppCpu}}
+    }
+  }
+}

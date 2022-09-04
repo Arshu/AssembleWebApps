@@ -1,0 +1,9 @@
+{
+    "FlyWireguards" : [               
+    ],    
+    "FlyWireguardssSchema" : 
+    {
+        "FlyWireguardName" : "WireguardName",        
+        "IsDefault" : false
+    }
+}

@@ -1,6 +1,5 @@
 {
     "AutoUpdate" : false,    
-    "ProductionMode" : true,    
     "ResourceOptimize" : true,    
     "DisableAuthentication" : false,    
     "TicketAuthExpiresMin" : 1440,    

@@ -2,18 +2,33 @@
   "WebRootName": "wwwroot",
   "ConfigType": "Base",
   "ConfigLogLevel": "Critical,Error,Warn",
+  "PublishDebugInfo": true,
   "ApiConfigWrite": true,
   "CreateWebConfig": true,
   "AllowReload": true,
   "AllowConfigReload": true,
   "AllowConfigUpdate": true,
-  "InitialTimeInSec": 30,
-  "IdleTimeInSec": 30,
+
+
+  "InitialTimeInSec": 0,
+  "IdleTimeInSec": 0,
   "ContextJson": {
     "PageTitle": "Declarative Static AppWebs",
     "ShowIntroTip": true,
-    "EnableArshuFramework": true
+    "ShowAppSiteTest": true,
+    "EnableArshuFramework": true,
+    "EnableLoginCheck": false
   },
+  "WSClientHeartBeatTimeInMs": 60000,
+  "WSServerHeartBeatTimeInMs": 5000,
+  "ServerList": [
+    {
+      "ServerUrl": "https://gluuie.com",
+      "ClusterName": "Gluuie",
+      "MethodPrefixes": "Save, Add, Delete, Edit, Clone, Get",
+      "Enabled": false
+    }
+  ],
 
   "RealtimeAppSites": "",
   "StaticAppSites": "Index, Config, Account, Fly, Test",
@@ -60,7 +75,7 @@
       "RegisterTypeName": "Arshu.Git.App.Register.GitRegister",
       "RegisterDll": "Arshu.Git.dll",
       "IsEnabled": true
-    }    
+    }
   ],
 
   "AppProviders": [

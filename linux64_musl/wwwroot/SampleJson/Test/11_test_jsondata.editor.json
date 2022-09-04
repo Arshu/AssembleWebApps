@@ -1,0 +1,11 @@
+{
+  "Debug": "Radio, True|False",
+  "Language": "Checkbox, English|Mandarin",
+  "Month": "FullMonth, ",
+  "ItemsPerPage": "Number, 3",
+  "SiteTitle": "Text, 20",
+  "SiteDescription": "TextArea, 250",
+  "IsMobile": "Radio, Mobile|Desktop",
+  "Use": "Radio, Enable|Disable",
+  "MonthPrefix": "ShortMonth"
+}

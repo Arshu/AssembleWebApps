@@ -3,10 +3,10 @@
     "ResourceVersion" : 0,    
     "ResourceOptimizeMergeRetain" : true,    
     "ResourceOptimizeMergeJs" : true,    
-    "ResourceOptimizeMergeJsPattern" : "jquery-, arshu, signalr, main, web-vitals, highlight, quill; *",    
+    "ResourceOptimizeMergeJsPattern" : "jquery-, arshu, signalr, main, web-vitals, highlight, quill; bootstrap; *",    
     "ResourceOptimizeMergeJsSkipPattern" : "",    
     "ResourceOptimizeMergeCss" : true,    
-    "ResourceOptimizeMergeCssPattern" : "arshu, normalize, pylon, layout, animate, animation, main, highlight, quill, bulma, all; *",    
+    "ResourceOptimizeMergeCssPattern" : "arshu, normalize, layout, animate, animation, pylon, main, highlight, quill, bulma, bootstrap, style, all; *",    
     "ResourceOptimizeMergeCssSkipPattern" : "",    
     "ResourceOptimizeMergeDeferSuffix" : "@",    
     "ResourceOptimizeMergeDeferCss" : false,    
@@ -37,6 +37,71 @@
     "ResourceOptimizeSplitDomainExtension" : ".js,.css",    
     "ResourceOptimizeHtmlCompress" : false,    
     "ResourceCompress" : true,    
+    "JsResourceList" : 
+    {
+        "main.js" : "Resource\\app\\js\\main.js",        
+        "main.min.js" : "Resource\\app\\js\\main.min.js",        
+        "arshubase.js" : "Resource\\Arshu\\app\\js\\arshubase.js",        
+        "arshubase.min.js" : "Resource\\Arshu\\app\\js\\arshubase.min.js",        
+        "arshujsoneditor.js" : "Resource\\Arshu\\app\\js\\arshujsoneditor.js",        
+        "arshujsoneditor.min.js" : "Resource\\Arshu\\app\\js\\arshujsoneditor.min.js",        
+        "arshurpc.js" : "Resource\\Arshu\\app\\js\\arshurpc.js",        
+        "highlight.pack.js" : "Resource\\Arshu\\highlight\\highlight.pack.js",        
+        "signalr.min.js" : "Resource\\Arshu\\signalr\\signalr.min.js"
+    },    
+    "CssResourceList" : 
+    {
+        "main.css" : "Resource\\app\\css\\main.css",        
+        "main.min.css" : "Resource\\app\\css\\main.min.css",        
+        "animate.min.css" : "Resource\\Arshu\\animation\\animate.min.css",        
+        "arshubase.css" : "Resource\\Arshu\\app\\css\\arshubase.css",        
+        "arshubase.min.css" : "Resource\\Arshu\\app\\css\\arshubase.min.css",        
+        "arshulayout.css" : "Resource\\Arshu\\app\\css\\arshulayout.css",        
+        "arshulayout.min.css" : "Resource\\Arshu\\app\\css\\arshulayout.min.css",        
+        "normalize.css" : "Resource\\Arshu\\app\\css\\normalize.css",        
+        "normalize.min.css" : "Resource\\Arshu\\app\\css\\normalize.min.css",        
+        "highlight.css" : "Resource\\Arshu\\highlight\\highlight.css",        
+        "highlight.min.css" : "Resource\\Arshu\\highlight\\highlight.min.css"
+    },    
+    "MediaResourceList" : 
+    {
+        "favicon.png" : "Resource\\Arshu\\logos\\favicon.png",        
+        "Icon.ico" : "Resource\\Arshu\\logos\\Icon.ico",        
+        "logo_android.png" : "Resource\\Arshu\\logos\\logo_android.png",        
+        "logo_ios.png" : "Resource\\Arshu\\logos\\logo_ios.png",        
+        "logo.png" : "Resource\\Arshu\\logos\\logo.png",        
+        "badge_app_store.svg" : "Resource\\badge\\badge_app_store.svg",        
+        "badge_google_play.svg" : "Resource\\badge\\badge_google_play.svg",        
+        "badge_linux.png" : "Resource\\badge\\badge_linux.png",        
+        "badge_linux.svg" : "Resource\\badge\\badge_linux.svg",        
+        "badge_linux1.svg" : "Resource\\badge\\badge_linux1.svg",        
+        "badge_mac.svg" : "Resource\\badge\\badge_mac.svg",        
+        "badge_win.svg" : "Resource\\badge\\badge_win.svg",        
+        "git_256.png" : "Resource\\badge\\git_256.png",        
+        "symbol.svg" : "Resource\\badge\\symbol.svg",        
+        "bg_pattern.png" : "Resource\\bg\\bg_pattern.png"
+    },    
+    "ResourceMergeMap" : 
+    {
+        "J1" : 
+        {
+            "arshubase.min.js" : "Resource\\Arshu\\app\\js\\arshubase.min.js",            
+            "arshujsoneditor.min.js" : "Resource\\Arshu\\app\\js\\arshujsoneditor.min.js",            
+            "arshurpc.js" : "Resource\\Arshu\\app\\js\\arshurpc.js",            
+            "signalr.min.js" : "Resource\\Arshu\\signalr\\signalr.min.js",            
+            "main.min.js" : "Resource\\app\\js\\main.min.js",            
+            "highlight.pack.js" : "Resource\\Arshu\\highlight\\highlight.pack.js"
+        },        
+        "C1" : 
+        {
+            "arshubase.min.css" : "Resource\\Arshu\\app\\css\\arshubase.min.css",            
+            "arshulayout.min.css" : "Resource\\Arshu\\app\\css\\arshulayout.min.css",            
+            "normalize.min.css" : "Resource\\Arshu\\app\\css\\normalize.min.css",            
+            "animate.min.css" : "Resource\\Arshu\\animation\\animate.min.css",            
+            "main.min.css" : "Resource\\app\\css\\main.min.css",            
+            "highlight.min.css" : "Resource\\Arshu\\highlight\\highlight.min.css"
+        }
+    },    
     "ResourceNearCDNMap" : 
     {
         "*:*" : 

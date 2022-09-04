@@ -1,6 +1,6 @@
-# Declarative Abstraction for Assembling Static Web Apps 
+# Declarative Abstraction for Assembling Prototype Static Web Apps 
 
-## Can we Declaratively **Assemble AppWebs** from Reusable Html + Json(Data) Components 
+## Can we Declaratively **Assemble Prototype AppWebs** from Reusable Html + Json(Data) Components 
 
 <br/>
 
@@ -12,17 +12,17 @@
 
 #### 2. Platform/Framework Independent Abstraction defined in Html/Json Files and Folder Organization using multi-platform/multi-language runtimes.
 
-Ultimately To Separate Web Apps into ReadOnly and WriteOnly Cluster during deployment
+Ultimately To Separate Prototype Web Apps into ReadOnly and WriteOnly Cluster during deployment
 
-![Declaratively Build Web Apps in ReadOnly and WriteOnly Cluster](documents/appweb.png) "Architecuture for Splitting WebApps into ReadOnly and WriteOnly Cluster").
+![Declaratively Build Prototype Web Apps in ReadOnly and WriteOnly Cluster](documents/appweb.png) "Architecuture for Splitting WebApps into ReadOnly and WriteOnly Cluster".
 
 # Open Source (MIT)
 
 Currently the tool consists of runtime which implements the abstraction, application built using that abstraction and also a tool for facilitating hot reloading.
 
-The runtime will be extracted from the tool and  the source will be published as MIT License.
+The Html/Json assembler will be extracted from the tool and  the source will be published with MIT License.
 
-The tool and the application using the runtime/abstraction will be proprietory.
+The tool and the application using the MIT Licensed assembler/abstraction will be proprietory.
 
 # Online Demo
 

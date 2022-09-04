@@ -1,12 +1,12 @@
 {
-    "ResourceRegen" : false,    
+    "ResourceRegen" : true,    
     "ResourceVersion" : 0,    
     "ResourceOptimizeMergeRetain" : true,    
     "ResourceOptimizeMergeJs" : true,    
-    "ResourceOptimizeMergeJsPattern" : "jquery-, arshu, signalr, main, web-vitals, highlight, quill; *",    
+    "ResourceOptimizeMergeJsPattern" : "jquery-, arshu, signalr, main, web-vitals, highlight, quill; bootstrap; *",    
     "ResourceOptimizeMergeJsSkipPattern" : "",    
     "ResourceOptimizeMergeCss" : true,    
-    "ResourceOptimizeMergeCssPattern" : "arshu, normalize, pylon, layout, animate, animation, main, highlight, quill, bulma, all; *",    
+    "ResourceOptimizeMergeCssPattern" : "arshu, normalize, layout, animate, animation, pylon, main, highlight, quill, bulma, bootstrap, style, all; *",    
     "ResourceOptimizeMergeCssSkipPattern" : "",    
     "ResourceOptimizeMergeDeferSuffix" : "@",    
     "ResourceOptimizeMergeDeferCss" : false,    
@@ -46,7 +46,6 @@
         "arshujsoneditor.js" : "Resource\\Arshu\\app\\js\\arshujsoneditor.js",        
         "arshujsoneditor.min.js" : "Resource\\Arshu\\app\\js\\arshujsoneditor.min.js",        
         "arshurpc.js" : "Resource\\Arshu\\app\\js\\arshurpc.js",        
-        "arshurpc.min.js" : "Resource\\Arshu\\app\\js\\arshurpc.min.js",        
         "highlight.pack.js" : "Resource\\Arshu\\highlight\\highlight.pack.js",        
         "signalr.min.js" : "Resource\\Arshu\\signalr\\signalr.min.js"
     },    
@@ -59,14 +58,10 @@
         "arshubase.min.css" : "Resource\\Arshu\\app\\css\\arshubase.min.css",        
         "arshulayout.css" : "Resource\\Arshu\\app\\css\\arshulayout.css",        
         "arshulayout.min.css" : "Resource\\Arshu\\app\\css\\arshulayout.min.css",        
-        "flex-layout-attribute.css" : "Resource\\Arshu\\app\\css\\flex-layout-attribute.css",        
-        "flex-layout-attribute.min.css" : "Resource\\Arshu\\app\\css\\flex-layout-attribute.min.css",        
         "normalize.css" : "Resource\\Arshu\\app\\css\\normalize.css",        
         "normalize.min.css" : "Resource\\Arshu\\app\\css\\normalize.min.css",        
         "highlight.css" : "Resource\\Arshu\\highlight\\highlight.css",        
-        "highlight.min.css" : "Resource\\Arshu\\highlight\\highlight.min.css",        
-        "pylon.css" : "Resource\\pylon\\pylon.css",        
-        "pylon.min.css" : "Resource\\pylon\\pylon.min.css"
+        "highlight.min.css" : "Resource\\Arshu\\highlight\\highlight.min.css"
     },    
     "MediaResourceList" : 
     {
@@ -92,7 +87,7 @@
         {
             "arshubase.min.js" : "Resource\\Arshu\\app\\js\\arshubase.min.js",            
             "arshujsoneditor.min.js" : "Resource\\Arshu\\app\\js\\arshujsoneditor.min.js",            
-            "arshurpc.min.js" : "Resource\\Arshu\\app\\js\\arshurpc.min.js",            
+            "arshurpc.js" : "Resource\\Arshu\\app\\js\\arshurpc.js",            
             "signalr.min.js" : "Resource\\Arshu\\signalr\\signalr.min.js",            
             "main.min.js" : "Resource\\app\\js\\main.min.js",            
             "highlight.pack.js" : "Resource\\Arshu\\highlight\\highlight.pack.js"
@@ -102,8 +97,6 @@
             "arshubase.min.css" : "Resource\\Arshu\\app\\css\\arshubase.min.css",            
             "arshulayout.min.css" : "Resource\\Arshu\\app\\css\\arshulayout.min.css",            
             "normalize.min.css" : "Resource\\Arshu\\app\\css\\normalize.min.css",            
-            "pylon.min.css" : "Resource\\pylon\\pylon.min.css",            
-            "flex-layout-attribute.min.css" : "Resource\\Arshu\\app\\css\\flex-layout-attribute.min.css",            
             "animate.min.css" : "Resource\\Arshu\\animation\\animate.min.css",            
             "main.min.css" : "Resource\\app\\css\\main.min.css",            
             "highlight.min.css" : "Resource\\Arshu\\highlight\\highlight.min.css"

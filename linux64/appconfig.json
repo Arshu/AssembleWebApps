@@ -9,29 +9,30 @@
   "AllowConfigReload": true,
   "AllowConfigUpdate": true,
 
-
-  "InitialTimeInSec": 0,
-  "IdleTimeInSec": 0,
+  "InitialTimeInSec": 30,
+  "IdleTimeInSec": 30,
   "ContextJson": {
-    "PageTitle": "Declarative Static AppWebs",
+    "PageTitle": "Arshu AppWeb Viewer",
     "ShowIntroTip": true,
     "ShowAppSiteTest": true,
     "EnableArshuFramework": true,
-    "EnableLoginCheck": false
+    "EnableLoginCheck": false,
+    "FlyAppName": "guiapp",
+    "HaveFlyApiService": false
   },
   "WSClientHeartBeatTimeInMs": 60000,
-  "WSServerHeartBeatTimeInMs": 5000,
+  "WSServerHeartBeatTimeInMs": 60000,
   "ServerList": [
     {
-      "ServerUrl": "https://gluuie.com",
-      "ClusterName": "Gluuie",
+      "ServerUrl": "https://guiapp.fly.dev",
+      "ClusterName": "guiapp",
       "MethodPrefixes": "Save, Add, Delete, Edit, Clone, Get",
       "Enabled": false
     }
   ],
 
   "RealtimeAppSites": "",
-  "StaticAppSites": "Index, Config, Account, Fly, Test",
+  "StaticAppSites": "Index, Config, Account, Test",
   "SearchAppSites": "Config, Account, Index",
   "SearchAppFolders": "SampleJson",
 
@@ -46,7 +47,7 @@
       "AssetTypeName": "Arshu.Core.AssetRegister",
       "AssetDll": "Arshu.Core.dll",
       "IsEnabled": true
-    },
+    },    
     {
       "AssetTypeName": "AppWeb.Web.AssetRegister",
       "AssetDll": "AppWeb.Web.dll",
@@ -75,7 +76,7 @@
       "RegisterTypeName": "Arshu.Git.App.Register.GitRegister",
       "RegisterDll": "Arshu.Git.dll",
       "IsEnabled": true
-    }
+    }    
   ],
 
   "AppProviders": [
@@ -99,7 +100,7 @@
 
   "PackAppDirectories": "AppSites, AppApi",
   "PackResourcesDirectories": "Resource,Content",
-  "PackDataDirectories": "App_Data, Db",
+  "PackDataDirectories": "App_Data, Db, AppApi",
   "PackAppWebDirectories": "SampleJson",
   "PackTemplateDirectories": "Templates",
 
@@ -108,7 +109,7 @@
   "PackData": true,
   "PackAppFolder": false,
   "PackTemplate": false,
-  "PackAppSites": "Index, Account, Config, Fly, Test",
+  "PackAppSites": "Index, Account, Config, Test, Template, Fly",
   "PackAppDatas": "Roles, Members",
 
   "PackName": "AppWeb.Web.1.0.pap",

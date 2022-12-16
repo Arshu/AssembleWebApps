@@ -2,23 +2,44 @@
   "WebRootName": "wwwroot",
   "ConfigType": "Base",
   "ConfigLogLevel": "Critical,Error,Warn",
+  "PublishDebugInfo": true,
   "ApiConfigWrite": true,
   "CreateWebConfig": true,
   "AllowReload": true,
   "AllowConfigReload": true,
   "AllowConfigUpdate": true,
 
+  "InitialTimeInSec": 30,
+  "IdleTimeInSec": 30,
+  "ContextJson": {
+    "PageTitle": "Arshu AppWeb Viewer",
+    "ShowIntroTip": true,
+    "ShowAppSiteTest": true,
+    "EnableArshuFramework": true,
+    "EnableLoginCheck": false,
+    "FlyAppName": "guiapp",
+    "HaveFlyApiService": false
+  },
+  "WSClientHeartBeatTimeInMs": 60000,
+  "WSServerHeartBeatTimeInMs": 60000,
+  "ServerList": [
+    {
+      "ServerUrl": "https://guiapp.fly.dev",
+      "ClusterName": "guiapp",
+      "MethodPrefixes": "Save, Add, Delete, Edit, Clone, Get",
+      "Enabled": false
+    }
+  ],
+
   "RealtimeAppSites": "",
   "StaticAppSites": "Index, Config, Account, Test",
   "SearchAppSites": "Config, Account, Index",
-  "SearchAppFolders": "",
+  "SearchAppFolders": "SampleJson",
 
   "LoadAppFiles": true,
   "LoadAppFolders": true,
   "LoadFileChanges": true,
-  "EnableRealtime": true,
-  "EnableArshuFramework": true,
-  "UnPackAppSites": true,
+  "UnPackAppSites": false,
 
   "AppAssets": [
 
@@ -26,11 +47,11 @@
       "AssetTypeName": "Arshu.Core.AssetRegister",
       "AssetDll": "Arshu.Core.dll",
       "IsEnabled": true
-    },
+    },    
     {
       "AssetTypeName": "AppWeb.Web.AssetRegister",
       "AssetDll": "AppWeb.Web.dll",
-      "IsEnabled": false
+      "IsEnabled": true
     }
   ],
 
@@ -55,7 +76,7 @@
       "RegisterTypeName": "Arshu.Git.App.Register.GitRegister",
       "RegisterDll": "Arshu.Git.dll",
       "IsEnabled": true
-    }
+    }    
   ],
 
   "AppProviders": [
@@ -79,7 +100,7 @@
 
   "PackAppDirectories": "AppSites, AppApi",
   "PackResourcesDirectories": "Resource,Content",
-  "PackDataDirectories": "App_Data, Db",
+  "PackDataDirectories": "App_Data, Db, AppApi",
   "PackAppWebDirectories": "SampleJson",
   "PackTemplateDirectories": "Templates",
 
@@ -88,19 +109,19 @@
   "PackData": true,
   "PackAppFolder": false,
   "PackTemplate": false,
-  "PackAppSites": "Index, Account, Config, Test",
+  "PackAppSites": "Index, Account, Config, Test, Template, Fly",
   "PackAppDatas": "Roles, Members",
 
-  "PackName": "Arshu.AppWeb.1.0.pap",
-  "PackDescription": "Arshu AppWeb for Managing AppWebs",
-  "PackResourceName": "Arshu.AppBase.Resource.1.0.pap",
-  "PackResourceDescription": "Resource of Arshu AppWeb for Managing AppWebs",
-  "PackDataName": "Arshu.AppWeb.Data.1.0.pap",
-  "PackDataDescription": "Data of Arshu AppWeb for Managing AppWebs",
-  "PackAppWebFolderName": "Arshu.AppWeb.AppWebFolder.1.0.pap",
-  "PackAppWebFolderDescription": "WebFolder of AppWeb App for Managing AppWebs",
-  "PackTemplateName": "Arshu.AppWeb.Template.1.0.pap",
-  "PackTemplateDescription": "Templates of AppWeb App for Managing AppWebs",
+  "PackName": "AppWeb.Web.1.0.pap",
+  "PackDescription": "AppWeb.Web for Managing AppWebs",
+  "PackResourceName": "AppWeb.Web.Resource.1.0.pap",
+  "PackResourceDescription": "Resource of AppWeb.Web for Managing AppWebs",
+  "PackDataName": "AppWeb.Web.Data.1.0.pap",
+  "PackDataDescription": "Data of AppWeb.Web for Managing AppWebs",
+  "PackAppWebFolderName": "AppWeb.Web.AppWebFolder.1.0.pap",
+  "PackAppWebFolderDescription": "WebFolder of AppWeb.Web for Managing AppWebs",
+  "PackTemplateName": "AppWeb.Web.Template.1.0.pap",
+  "PackTemplateDescription": "Templates of AppWeb.Web for Managing AppWebs",
 
   "PackAppSubFolderPath": "A0",
   "PackResourceSubFolderPath": "A0",

@@ -1,0 +1,17 @@
+#Alpine x64
+FROM mcr.microsoft.com/dotnet/runtime-deps:7.0-alpine-amd64 as initial
+
+WORKDIR /app
+COPY . .
+RUN chmod +x ./AppWeb.Web
+
+FROM mcr.microsoft.com/dotnet/runtime-deps:7.0-alpine-amd64
+
+WORKDIR /app
+COPY --from=initial /app /app
+
+EXPOSE 8080
+EXPOSE 9091
+
+CMD ["./AppWeb.Web", "--urls", "http://0.0.0.0:8080;http://0.0.0.0:9091"]
+

@@ -92,6 +92,7 @@ flyctl machine update [machineID] --image registry.fly.io/[appname]:latest --por
 
 #### Abstraction for Composing of Html from Html Fragements
 <pre>
+
 Index.html
 &lt;div&gt; 
     {{MainHeader}}    
@@ -102,6 +103,7 @@ Index.html
 &lt;div&gt; 
     {{MainFooter}}
 &lt;/div&gt;     
+
 </pre>
 
     The Runtime will search the wwwroot folder arranged in correct folder structure and auto replace the mustache definition with the actual html component recursively. Reorganizing the Html Components in the appropirate folders has no impact to composition.
@@ -119,6 +121,7 @@ Index.html
     The Main Prefix of a Mustache is replaced with the AppView Context (About) to render a different page retaining the same index.html page.
 
 <pre>
+
 Index.html
 &lt;div&gt; 
      {{MainHeader}}      =>      {{MainHeader}}
@@ -128,7 +131,8 @@ Index.html
 &lt;/div&gt;     
 &lt;div&gt; 
      {{MainFooter}}      =>      {{MainFooter}}
-&lt;/div&gt;     
+&lt;/div&gt;    
+
 </pre>
 
 2. Inner Composition: 
@@ -136,17 +140,21 @@ Index.html
 #### Abstraction for Composing Inner Components of a Parent Component defined in the page where the Component is used 
 
 <pre>
+
 Center.html
 &lt;div&gt; 
     {{$HTMLPLACEHOLDER}}
 &lt;/div&gt;     
 
 Index.html
+&lt;div&gt; 
     {{#Center}}                 =>      {{Center}}
         {{@HTMLPLACEHOLDER}}
             {{MainContent}}     =>      {{MainContent}} under the Center Html PlaceHolder
         {{/HTMLPLACEHOLDER}}
     {{/Center}}      
+&lt;/div&gt;     
+
 </pre>
 
 # Abstraction for Assembling Static Data UI from Html + Json Components
@@ -156,6 +164,7 @@ Index.html
 #### Abstraction for Composing from Html + Json Property Fragemnts
 
 <pre>
+
 Title.html
 &lt;div&gt; 
      {{$Title}}
@@ -165,6 +174,7 @@ Title.json
     {
         "Title" : "Name"
     }
+
 </pre>
 
 2. Direct Array Composition
@@ -172,6 +182,7 @@ Title.json
 #### Abstraction for Composing from Html + Json Array Fragemnts
 
 <pre>
+
 List.html
  &lt;div&gt; 
     {{@List}}
@@ -187,6 +198,7 @@ List.json
             }
         ]
     }
+
 </pre>
 
 3. Data Flow Compsition
@@ -194,18 +206,22 @@ List.json
 #### Data Defined at Parent Components Flow to the Child Components and are Overwritable at the Child if allowed
 
 <pre>
+
     Title.json
     {
         "Title$" : "Name"           ==> Allow Override with Parent Data if Available
     }
+
 </pre>
 
 #### Data Flows based on the below hierarchy
 <pre>
+
     Global State
         Context State
             Parent Components State
                 Component State
+
 </pre>
 
 # Abstraction for Assembling Dynamic/Realtime UI from Html + Json Components
@@ -213,19 +229,23 @@ List.json
 1. Abstractions for Assembling Dynamic Components is by adding a {{ViewPlaceHolder}} where the system will auto generate a View ID for accessing from Javascript
 
 <pre>
+
 Center.html
     &lt;div&gt;     
         {{ViewPlaceHolder}}
     &lt;/div&gt;     
+
 </pre>
 
 2. Currently state flow between components is completed. State flow between global state, context state, parent state and component state where the component state overwrite all the previous state is implemented. Viewing the Metadata of the Page gives the State Flow.
 
 <pre>
+
     Global State
         Context State
             Parent Components State
                 Component State
+                
 </pre>
 
 # Component Organization 
@@ -242,4 +262,4 @@ Components should be grouped into AppSites and AppViews Folders for providing UR
 
     Url to access a page is https://[Hosting Domain]/[AppSite]/[AppView]
 
-    
+

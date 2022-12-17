@@ -139,6 +139,10 @@ Run the Server and it will prompt for the Initial Users ID which can be used to 
 #### Abstraction for Composing of Html from Html Fragements
 <pre>
 
+Url - / or /Index/Main - [AppSite]/[AppView]
+UI Namespace is AppSite - Mapped to Directory Structure under AppSites Root Directory
+UI Context is Main AppView - Mapped to File Name Prefix of Component
+
 Index.html
 &lt;div&gt; 
     {{MainHeader}}    
@@ -168,12 +172,16 @@ Index.html
 
 <pre>
 
+Url : /Index/About - [AppSite]/[AppView]
+UI Namespace is AppSite - Mapped to Directory Structure under AppSites Root Directory
+UI Context is About AppView - Mapped to File Name Prefix of Component
+
 Index.html
 &lt;div&gt; 
      {{MainHeader}}      =>      {{MainHeader}}
 &lt;/div&gt;     
 &lt;div&gt; 
-     {{MainContent}}     =>      {{AboutContent}} -- If Available
+     {{MainContent}}     =>      {{AboutContent}} -- If Available else {{MainContent}}
 &lt;/div&gt;     
 &lt;div&gt; 
      {{MainFooter}}      =>      {{MainFooter}}
@@ -205,7 +213,7 @@ Index.html
 
 # Abstraction for Assembling Static Data UI from Html + Json Components
 
-1. Direct Data Composition
+1. Placeholder Data Composition
 
 #### Abstraction for Composing from Html + Json Property Fragemnts
 
@@ -223,7 +231,7 @@ Title.json
 
 </pre>
 
-2. Direct Array Composition
+2. Section Array Composition
 
 #### Abstraction for Composing from Html + Json Array Fragemnts
 
@@ -247,9 +255,21 @@ List.json
 
 </pre>
 
-3. Data Flow Compsition
+3. Data Flow Composition
 
-#### Data Defined at Parent Components Flow to the Child Components and are Overwritable at the Child if allowed
+#### Json Data is composed with Html Component based on the below precedence
+
+<pre>
+
+    Component State
+        Parent Components State                
+                Context State
+                    Global State            
+                
+
+</pre>
+
+#### Data Defined at the Any Data Level can be Overwriten by the Previous Precedence Data if allowed by $ Suffix to the Json Key
 
 <pre>
 
@@ -257,16 +277,6 @@ List.json
     {
         "Title$" : "Name"           ==> Allow Override with Parent Data if Available
     }
-
-</pre>
-
-#### Data Flows based on the below hierarchy
-<pre>
-
-    Global State
-        Context State
-            Parent Components State
-                Component State
 
 </pre>
 
@@ -287,10 +297,10 @@ Center.html
 
 <pre>
 
-    Global State
-        Context State
-            Parent Components State
-                Component State
+     Component State
+        Parent Components State                
+                Context State
+                    Global State   
 
 </pre>
 
@@ -298,11 +308,13 @@ Center.html
 
 Components should be grouped into AppSites and AppViews Folders for providing URL Context
 
-    AppSite's are grouped under AppSites Directory under the Root Folder 
+    AppSites are like namespaces which is used to separate components into libraries
 
-    AppView's can be grouped under Views/ViewsDefer Directory under Respective AppSite Directory.
+    AppSite's are created under AppSites Root Directory under the Application Root Folder 
 
-    Components can be added to Component Directory under Respective AppSite Directory 
+    AppView's can be grouped into Views/ViewsDefer Root Directory under Respective AppSite Directory.
+
+    General Components can be added to Component/Common Directory under Respective AppSite Directory 
 
     Page Components can be added to AppView Directory under Views/ViewsDefer Directory
 

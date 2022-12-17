@@ -37,7 +37,9 @@ Test Page to show case the different abstractions for assembling Html + Json
 ## Running Locally
 Clone the repo and run the appropriate **appweb.web** asp.net core application for the respective platform
 
-On first run the application will extract the Index and Test AppSite's and run the asp.net core kestrel server under port 7000
+On first run the application will run the asp.net core kestrel server
+
+If the source of the Html + Json is required, set the appconfig.json parameter UnPackAppSites to true for the server to extract the AppSites Html + Json to be root folder. Modifying any of the Html + Json should update the Browser UI by hot reload (WIP)
 
 ## Running from Docker
 
@@ -245,7 +247,7 @@ Center.html
         Context State
             Parent Components State
                 Component State
-                
+
 </pre>
 
 # Component Organization 

@@ -32,6 +32,29 @@ Just add Meta to the end of the page to view the Metadata Json
 Test Page to show case the different abstractions for assembling Html + Json 
 #### Test : https://guiapp.fly.dev/Test/Main
 
+# Major Features
+
+Can be deployed in fly.io machines across all regions but charged based on actual usage since the runtime will auto shutdown after a idle time of 30 seconds
+
+Can check the performance of the webpage by clicking the hidden button at the bottom left corner of any page
+
+![WebPage Performance Tootip](screenshots/performancetooltip.png) "Click Bottom Left Corner to View Page Performance tooltip".
+
+Can check the metadata of the assembeled components by opening the Inspect Toolbar by clicking the invisible top bar and clicking the view button
+
+![View Inspect Toolbar](screenshots/viewinspecttoolbar.png) "Click Top Hiddent Toolbar to View Inspect Toolbar".
+
+![Inspect Toolbar](screenshots/inspecttoolbar.png) "Inspect Toolbar".
+
+Can view the Source Hierarchy of the Page (WIP)
+
+![View Source Hierarchy](screenshots/ViewSourceHierarchy.png) "View Component Source Hierarchy".
+
+Can edit the Data Source Hierarchy of the Page after login
+
+![Edit Data Source Hierarchy](screenshots/EditDataSourceHierarchy.png) "Edit Component Data Source Hierarchy".
+
+
 # Getting Started
 
 ## Running Locally
@@ -87,6 +110,22 @@ Update the Machine
 flyctl machine update [machineID] --image registry.fly.io/[appname]:latest --port 443:8080/tcp:tls --port 80:8080/tcp:http --env INITIAL_TIME_IN_SEC="150" --env IDLE_TIME_IN_SEC="150" --config fly.toml --app [appname] --skip-health-checks --yes
 
 </pre>
+
+# Advanced Configuration (WIP)
+
+To Reset the Login Details delete the contents of the App_Data Directory and disable the loading of the AppWeb.Web.dll assets as below
+
+<pre>
+
+    {
+      "AssetTypeName": "AppWeb.Web.AssetRegister",
+      "AssetDll": "AppWeb.Web.dll",
+      "IsEnabled": false
+    }
+
+</pre>
+
+Run the Server and it will prompt for the Initial Users ID which can be used to login and explore the other features of the application.
 
 # Abstraction for Assembling Static UI from Html Components
 

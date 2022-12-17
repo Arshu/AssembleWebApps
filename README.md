@@ -34,22 +34,27 @@ Test Page to show case the different abstractions for assembling Html + Json
 
 # Major Features
 
+## Serverless Deployment in fly.io Machines
 Can be deployed in fly.io machines across all regions but charged based on actual usage since the runtime will auto shutdown after a idle time of 30 seconds
 
+## View Page Performance on Cold Start/Warm Start
 Can check the performance of the webpage by clicking the hidden button at the bottom left corner of any page
 
 ![WebPage Performance Tootip](screenshots/PerformanceTooltip.png) "Click Bottom Left Corner to View Page Performance tooltip".
 
+## Inspect Toolbar for View Component Hierarchy
 Can check the metadata of the assembeled components by opening the Inspect Toolbar by clicking the invisible top bar and clicking the view button
 
 ![View Inspect Toolbar](screenshots/ViewInspectToolbar.png) "Click Top Hiddent Toolbar to View Inspect Toolbar".
 
 ![Inspect Toolbar](screenshots/InspectToolbar.png) "Inspect Toolbar".
 
+## View Component Source Hierarchy
 Can view the Source Hierarchy of the Page (WIP)
 
 ![View Source Hierarchy](screenshots/ViewSourceHierarchy.png) "View Component Source Hierarchy".
 
+## Edit Data Component Source Hierarchy
 Can edit the Data Source Hierarchy of the Page after login
 
 ![Edit Data Source Hierarchy](screenshots/EditDataSourceHierarchy.png) "Edit Component Data Source Hierarchy".
@@ -113,7 +118,7 @@ flyctl machine update [machineID] --image registry.fly.io/[appname]:latest --por
 
 # Advanced Configuration (WIP)
 
-To Reset the Login Details delete the contents of the App_Data Directory and disable the loading of the AppWeb.Web.dll assets as below
+To Reset the Login Details delete the contents of the App_Data Directory and disable the loading of the AppWeb.Web.dll assets as below in appconfig.json file before starting the server.
 
 <pre>
 

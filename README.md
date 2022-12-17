@@ -38,13 +38,13 @@ Can be deployed in fly.io machines across all regions but charged based on actua
 
 Can check the performance of the webpage by clicking the hidden button at the bottom left corner of any page
 
-![WebPage Performance Tootip](screenshots/performancetooltip.png) "Click Bottom Left Corner to View Page Performance tooltip".
+![WebPage Performance Tootip](screenshots/PerformanceTooltip.png) "Click Bottom Left Corner to View Page Performance tooltip".
 
 Can check the metadata of the assembeled components by opening the Inspect Toolbar by clicking the invisible top bar and clicking the view button
 
-![View Inspect Toolbar](screenshots/viewinspecttoolbar.png) "Click Top Hiddent Toolbar to View Inspect Toolbar".
+![View Inspect Toolbar](screenshots/ViewInspectToolbar.png) "Click Top Hiddent Toolbar to View Inspect Toolbar".
 
-![Inspect Toolbar](screenshots/inspecttoolbar.png) "Inspect Toolbar".
+![Inspect Toolbar](screenshots/InspectToolbar.png) "Inspect Toolbar".
 
 Can view the Source Hierarchy of the Page (WIP)
 

@@ -9,16 +9,12 @@
   "AllowConfigReload": true,
   "AllowConfigUpdate": true,
 
-  "InitialTimeInSec": 30,
-  "IdleTimeInSec": 30,
+  "InitialTimeInSec": 5,
+  "IdleTimeInSec": 5,
   "ContextJson": {
     "PageTitle": "Arshu AppWeb Viewer",
     "ShowIntroTip": true,
-    "ShowAppSiteTest": true,
-    "EnableArshuFramework": true,
-    "EnableLoginCheck": false,
-    "FlyAppName": "guiapp",
-    "HaveFlyApiService": false
+    "FlyAppName": "appweb"
   },
   "WSClientHeartBeatTimeInMs": 60000,
   "WSServerHeartBeatTimeInMs": 60000,
@@ -47,7 +43,7 @@
       "AssetTypeName": "Arshu.Core.AssetRegister",
       "AssetDll": "Arshu.Core.dll",
       "IsEnabled": true
-    },    
+    },   
     {
       "AssetTypeName": "AppWeb.Web.AssetRegister",
       "AssetDll": "AppWeb.Web.dll",

@@ -24,13 +24,13 @@ The tool and the application using the MIT Licensed assembler/abstraction will b
 Some intersting links to showcase the abstraction. View the hidden Inspect Toolbar at the top to know other features
 
 Main Page explaining the abstraction
-#### Main : https://guiapp.fly.dev
+#### Main : https://appweb.fly.dev
 
 Just add Meta to the end of the page to view the Metadata Json
-#### Meta : https://guiapp.fly.dev/meta
+#### Meta : https://appweb.fly.dev/meta
 
 Test Page to show case the different abstractions for assembling Html + Json 
-#### Test : https://guiapp.fly.dev/Test/Main
+#### Test : https://appweb.fly.dev/Test/Main
 
 # Major Features
 

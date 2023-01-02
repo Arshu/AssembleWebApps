@@ -95,18 +95,17 @@ flyctl ips allocate-v6 --app [appname]
 flyctl ips allocate-v4 --app [appname]
 flyctl ips list --app [appname]
 
-
-Initial Step 4 : Create a Fly Machine [NOT A FLY APP]
+Initial Step 3 : Create a Fly Machine [NOT A FLY APP]
 flyctl apps create --machines --name [appname] --org personal
 
-Initila Step 3 : Upload the Docker Image to Fly Docker Registry
+Initila Step 4 : Upload the Docker Image to Fly Docker Registry
 Change directory to the linux64_musl Directory
 flyctl deploy . --build-only --remote-only --push --image-label latest -a [appname]
 
-Initial Step 4 : Deploy the Machine to Fly
-flyctl machine run registry.fly.io/webimages:guiapp --name guiapp-sin-1 --port 443:8080/tcp:tls --port 80:8080/tcp:http --env INITIAL_TIME_IN_SEC="30" --env IDLE_TIME_IN_SEC="30" --config fly.toml --app guiapp
+Initial Step 5 : Deploy the Machine to Fly
+flyctl machine run registry.fly.io/webimages:appweb --name appweb-sin-1 --port 443:8080/tcp:tls --port 80:8080/tcp:http --env INITIAL_TIME_IN_SEC="30" --env IDLE_TIME_IN_SEC="30" --config fly.toml --app [appname]
 
-Update Step 5
+Update Step 6
 After Deploy after every change in the deploy folder deploy the docker image to Fly Docker Registry
 flyctl deploy . --build-only --remote-only --push --image-label latest -a [appname]
 Retrive the Machine ID
@@ -162,11 +161,11 @@ Index.html
 
 #### Abstraction for Composing where the Parent Component is composed with Child Components based on Context
 
-    When Context is https://guiapp.com/Index/Main vs https://guiapp.com/Index/About
+    When Context is https://appweb.com/Index/Main vs https://appweb.com/Index/About
 
     MetaData of the Pages are    
-    https://guiapp.com/Index/Main/Meta    
-    https://guiapp.com/Index/About/Meta
+    https://appweb.com/Index/Main/Meta    
+    https://appweb.com/Index/About/Meta
 
     The Main Prefix of a Mustache is replaced with the AppView Context (About) to render a different page retaining the same index.html page.
 

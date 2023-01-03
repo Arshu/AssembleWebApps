@@ -1,0 +1,17 @@
+{
+    "AllowedRoles" : [
+        "Guest"
+    ],    
+    "Main" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "Contact" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    }
+}

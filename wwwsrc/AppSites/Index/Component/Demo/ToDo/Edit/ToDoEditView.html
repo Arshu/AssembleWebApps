@@ -1,0 +1,45 @@
+
+<div class="flex-input-wrap bg-alt" id="toDoEditViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+    <div id="toDoEditKey">
+        <input type="hidden" class="border" style="width:100%;" data-key="" id="{{$ParentViewID}}EditGuid" />
+    </div>
+    <div class="flex-input-wrap" id="toDoEditInput">
+        <div>Task Name</div>
+        <input type="text" class="border" style="width:100%;" data-key="" id="{{$ParentViewID}}EditTaskName" />
+        <input type="hidden" class="border" style="width:100%;" id="{{$ParentViewID}}EditKey" value="" />
+        <div>Task Status</div>
+        <select class="border" data-key="" style="width:100%;padding:0 0 0 10px;" id="{{$ParentViewID}}EditTaskStatus">
+            <option>Pending</option>
+            <option>InProgress</option>
+            <option>Complete</option>
+        </select>
+    </div>
+    <div>
+        <button class="border button" style="margin:5px;background-color:green;width:60px;" onclick="hideElm('toDoEditViewDiv')">Close</button>
+        <button class="border button" style="margin:5px;background-color:lightblue;width:60px;display:none;"
+                onclick="editViewComponentJsonArray('{{$ParentViewID}}Progress', '{{$ParentViewID}}Response',
+                '{{$AppSite}}', '{{$AppView}}', '{{$ParentViewID}}',
+                {'TaskName':'', 'TaskStatus':''}, {'TaskName':''},
+                function () {
+                    //return {};
+                    //let keyPathVal = getElm('{{$ParentViewID}}EditKey').value;
+                    //return { 'KeyPath': keyPathVal };
+                    let jsonData = getViewComponentFlatJson('toDoEditKey', 'ToDo');
+                    return jsonData;
+                },
+                function () {
+                    let jsonData = getViewComponentFlatJson('toDoEditInput', 'ToDo');
+                    return jsonData;
+                },
+                 '{{$ParentViewID}}',
+                { 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' },
+                getElm('{{$ParentViewID}}RealtimeRefresh').checked,
+                getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value), '')">
+            Change
+        </button>
+        <button class="border button" style="margin:5px;background-color:lightblue;width:60px;"
+                onclick="{{%ToDoEditViewData}}">
+            Change
+        </button>
+    </div>
+</div>

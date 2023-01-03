@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+
+    <meta property="og:title" content="{{$OGTitle}}" />
+    <meta property="og:type" content="{{$OGType}}" />
+    <meta property="og:url" content="{{$OGUrl}}" />
+    <meta property="og:image" content="{{$OGImageUrl}}" />
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="{{$IOSTitle}}" />
+
+    <link rel="icon" sizes="180x180" href="{{$AndroidIconUrl}}" />
+    <link rel="shortcut icon" href="{{$FaviconUrl}}" />
+
+    <link rel="icon" href="/favicon.ico" sizes="any"><!-- 32×32 -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="{{$IOSIconUrl}}"><!-- 180×180 -->
+    <link rel="manifest" href="/Resource/Arshu/site.webmanifest">
+
+    <!-- Kills text zoom in iOS.-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <meta name="description" content="{{$SiteDescription}}" />
+    <meta name="author" content="{{$SiteAuthor}}" />
+
+    <title>{{$SiteTitle}}</title>
+
+    <style>
+
+        .Site {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .SiteToolbar {
+            flex-shrink: 0; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
+            width: 100%;
+        }
+
+        .SiteNav {
+            flex-shrink: 0; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
+            width: 100%;
+        }
+
+        .SiteContent {
+            flex: 1;
+            padding-bottom: 50px;
+        }
+
+        .SiteFooter {
+            flex-shrink: 0; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
+            width: 100%;
+            bottom: 0px;
+            position: fixed;
+        }
+    </style>
+    {{MainHeader}}
+</head>
+<body class="Site">
+    <nav class="SiteNav" id="mainNav">
+        {{ MainNav() }}
+    </nav>   
+    <main class="SiteContent" id="mainContent">
+        {{MainContent}}
+    </main>
+    <footer class="SiteFooter" id="mainFooter">
+        {{ MainFooter}}
+    </footer>
+    {{MainAction}}  
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!--PageTitle = {{$PageTitle}} -->
+<div class="bg-primary center_container" style="min-height: calc(100vh - 95px); padding: calc(0.5vmin + .5rem)">
+    {{AboveFold}}
+</div>
+
+<div id="belowFold">
+    {{!BelowFold}}
+</div>
+
+<script>
+
+    ready(() => {
+
+        let useAjax = true;
+        let delayInterval = 10;
+        let parentViewElmId = "mainContent";
+        let replaceBelowFolderComponent = "belowFold";
+
+        loadViewComponentHtml(false, useAjax, parentViewElmId, replaceBelowFolderComponent, delayInterval, null, 'noprogress');
+    })
+    
+</script>
+
+{{HTMLPLACEHOLDER}}

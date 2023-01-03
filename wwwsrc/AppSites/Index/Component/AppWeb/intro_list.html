@@ -1,0 +1,29 @@
+
+<div>
+    <div class="container" style="border: 0px solid green; padding: 30px 5px;">
+
+        <h2 style="text-align:center">{{$IntroMainTitle}}</h2>
+        <p class="card-text" style="text-align:center">{{$IntroSubTitle}}</p>
+
+        <div class="flex-content-wrap" style="text-align:center;margin-top:25px;">
+
+            {{@IntroList}}
+            <div class="flex-item-card card_border" style="text-align:center;margin:5px;">
+                <div class="card_title">{{$InfoTitle}}</div>
+                <div><a href="{{$InfoLink}}">More...</a></div>
+                {{$InfoIcon}}
+                <p class="card_text">
+                    {{$InfoInfo}}
+                </p>
+            </div>
+            {{/IntroList}}
+
+        </div>
+        
+    </div>
+</div>
+
+
+
+
+

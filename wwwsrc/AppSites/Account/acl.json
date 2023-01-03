@@ -1,0 +1,89 @@
+{
+    "AllowedRoles" : [
+        "Guest"
+    ],    
+    "AssignRole.s" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ]
+    },    
+    "ChangePassword.s" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ]
+    },    
+    "ClaimUser.s" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ]
+    },    
+    "ManageRole.s" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ]
+    },    
+    "ManageUser.s" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ]
+    },    
+    "ResetPassword.s" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ]
+    },    
+    "RoleProfile.s" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ]
+    },    
+    "UserProfile.s" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ]
+    },    
+    "Login" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "Logoff" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "Register" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "AppWeb" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "Splash" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "Help" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    }
+}

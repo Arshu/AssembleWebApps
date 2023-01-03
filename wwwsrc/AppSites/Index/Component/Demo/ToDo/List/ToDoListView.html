@@ -1,0 +1,13 @@
+<div style="padding:5px 5px;width:250px;position:relative;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+   
+    {{ToDoTop}}
+
+    {{@ToDoList}}
+        {{ToDoItem}}
+    {{/ToDoList}}
+    {{^ToDoList}}
+        {{ToDoEmpty}}
+    {{/ToDoList}}
+
+    {{ToDoBottom}}
+</div>

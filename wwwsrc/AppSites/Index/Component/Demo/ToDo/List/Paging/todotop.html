@@ -1,0 +1,56 @@
+<div class="flex-content-spaced" style="width:100%;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+    {{@HavePreviousPage}}
+    <button class="border" style="width:40px;height:40px;"
+            onclick="{{%ToDoFirstView}}">
+        <strong style="font-weight:bolder;"><<</strong> <span id="firstToDoProgress"></span>
+    </button>
+    <button class="border" style="width:40px;height:40px;"
+            onclick="{{%ToDoPreviousView}}">
+        <strong style="font-weight:bolder;"><</strong> <span id="previousToDoProgress"></span>
+    </button>
+    {{/HavePreviousPage}}
+    {{^HavePreviousPage}}
+    <button class="border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;"><<</strong>
+    </button>
+    <button class="border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;"><</strong>
+    </button>
+    {{/HavePreviousPage}}
+
+    <div class="flex-item-stretch"></div>
+
+    {{@HaveNextPage}}
+    <button class="border" style="width: 40px; height: 40px;"
+            onclick="{{%ToDoNextView}}">
+        <strong style="font-weight:bolder;">></strong><span id="nextToDoProgress"></span>
+    </button>
+    <button class="border" style="width: 40px; height: 40px;"
+            onclick="{{%ToDoLastView}}">
+        <strong style="font-weight:bolder;">>></strong><span id="lastToDoProgress"></span>
+    </button>
+    {{/HaveNextPage}}
+    {{^HaveNextPage}}
+    <button class="border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">></strong>
+    </button>
+    <button class="border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">>></strong>
+    </button>
+    {{/HaveNextPage}}
+
+
+    <button class="border" style="width:40px;height:40px;margin-left:5px;display:none;"
+            onclick="return refreshViewComponentHtml('refreshToDoProgress', '{{$ParentViewID}}Response',
+                '{{$AppSite}}', '{{$AppView}}', '{{$ParentViewID}}',
+                { 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }, false,
+                getElm('{{$ParentViewID}}RealtimeRefresh').checked,
+                getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value), '')">
+        &#x2714;
+    </button>
+    <button class="border" style="width:40px;height:40px;margin-left:5px;"
+            onclick="{{%ToDoRefreshView}}">
+        &#x2714;<span id="refreshToDoProgress"></span>
+    </button>
+
+</div>

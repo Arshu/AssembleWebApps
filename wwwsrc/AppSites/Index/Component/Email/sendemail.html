@@ -1,0 +1,119 @@
+
+
+<script type="text/javascript">
+
+    window.ajaxid = 0;
+
+    ready(() => {
+
+        let userEmailElm = getElm('userEmail');
+        let userMessageElm = getElm('userMessage');
+        let sendEmailSubmitElm = getElm('sendEmailSubmit');
+
+        userEmailElm.addEventListener('keypress', function (event) {
+            let key = event.which || event.keyCode;
+            if (key === 13) { // 13 is enter
+                userMessageElm.focus();
+            }
+        });
+
+        //userMessageElm.addEventListener('keypress', function (event) {
+        //    let key = event.which || event.keyCode;
+        //    if (key === 13) { // 13 is enter
+        //        sendEmailSubmitElm.click()
+        //    }
+        //});
+    })
+
+    function sendEmailMessage(progressElmId, responseElmId, userEmailVal, userMessageVal, successCallback) {
+        let id = window.ajaxid++;
+        let responseContainerElmId = responseElmId + "Container";
+        let responseElm = getElm(responseElmId)
+        let responseContainerElm = getElm(responseContainerElmId)
+        responseElm.innerHTML = "";
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (userEmailVal.trim().length === 0) {
+            showText(responseElm, 'Enter Your Email', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+            if (userMessageVal.trim().length === 0) {
+                showText(responseElm, 'Enter Your Message', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+
+            let url = '/AppApi/EmailApi';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'SendEmail',
+                "params": {
+                    "userEmail": userEmailVal,
+                    "userMessage": userMessageVal
+                }, "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
+                        let result = data.Result;
+
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                        else if (result.hasOwnProperty('message') === true) {
+                            showText(responseElm, result.message, 'green');
+
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }
+                    }
+                });
+        }
+        return false;
+    }
+
+</script>
+
+<div class="flex-content-center">
+
+    <div class="flex-card card_border" style="text-align:center;width:90%;">
+        
+        <div class="flex-content-wrap flex-item-stretch">
+            <button class="button flex-item-stretch border" style="background-color:#209cee;">
+                Send Email Message
+            </button>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 25px 0px;">
+            <label style="width:100%;">Your Email</label>
+            <input class="flex-item-stretch border" style="height:39px;" id="userEmail" maxlength="50" autocomplete="none" type="email" placeholder="Your Email" autofocus="" tabindex="1" value="">
+        </div>
+
+
+        <div class="flex-input-wrap" style="margin: 25px 0px;">
+            <label style="width:100%;">Your Message</label>
+            <textarea class="flex-item-stretch border" id="userMessage" placeholder="Your Message" tabindex="2" rows="5" maxlength="250"></textarea>
+        </div>
+
+        <div class="notification" id="sendEmailResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+            <button class="delete" onclick="hideElm('sendEmailResponseContainer')"></button>
+            <div id="sendEmailResponse"></div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 25px 0px;">
+            <button class="border button" id="sendEmailSubmit" style="background-color:#209cee;" tabindex="4"
+                    onclick="return sendEmailMessage('sendEmailProgress', 'sendEmailResponse', getElm('userEmail').value, getElm('userMessage').value);">
+                Send Message <div id="sendEmailProgress"></div>
+            </button>
+        </div>
+
+    </div>
+
+</div>

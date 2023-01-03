@@ -9,8 +9,8 @@
   "AllowConfigReload": true,
   "AllowConfigUpdate": true,
 
-  "InitialTimeInSec": 5,
-  "IdleTimeInSec": 5,
+  "InitialTimeInSec": 500,
+  "IdleTimeInSec": 500,
   "ContextJson": {
     "PageTitle": "Arshu AppWeb Viewer",
     "ShowIntroTip": true,

@@ -1,0 +1,119 @@
+{
+  "ToDoFilterView": {
+    "JsFunctionName": "FilterView",
+    "ProgressViewID": "filterToDoProgress",
+    "ResponseViewID": "{{$ParentViewID}}Response",
+    "ComponentName": "{{$ParentViewID}}",
+    "FilterJson": "getViewComponentFlatJson('toDoFilterInput', 'ToDo')",
+    "ContextJson": "{ 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }",
+    "RefreshAppDomain": "getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value)",
+    "RealtimeRefresh": "getElm('{{$ParentViewID}}RealtimeRefresh').checked",
+    "SuccessCallback": "null"
+  },
+  "ToDoRefreshView": {
+    "JsFunctionName": "RefreshView",
+    "ProgressViewID": "refreshToDoProgress",
+    "ResponseViewID": "{{$ParentViewID}}Response",
+    "ComponentName": "{{$ParentViewID}}",
+    "ContextJson": "{ 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }",
+    "RefreshAppDomain": "getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value)",
+    "RealtimeRefresh": "getElm('{{$ParentViewID}}RealtimeRefresh').checked",
+    "SuccessCallback": "null"
+  },
+  "ToDoNextView": {
+    "JsFunctionName": "FilterView",
+    "ProgressViewID": "nextToDoProgress",
+    "ResponseViewID": "{{$ParentViewID}}Response",
+    "ComponentName": "{{$ParentViewID}}",
+    "FilterJson": "getViewComponentFlatJson('toDoFilterInput', 'ToDo')",
+    "ContextJson": "{ 'PageNo': '{{$NextPage}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }",
+    "RefreshAppDomain": "getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value)",
+    "RealtimeRefresh": "getElm('{{$ParentViewID}}RealtimeRefresh').checked",
+    "SuccessCallback": "null"
+  },
+  "ToDoLastView": {
+    "JsFunctionName": "FilterView",
+    "ProgressViewID": "lastToDoProgress",
+    "ResponseViewID": "{{$ParentViewID}}Response",
+    "ComponentName": "{{$ParentViewID}}",
+    "FilterJson": "getViewComponentFlatJson('toDoFilterInput', 'ToDo')",
+    "ContextJson": "{ 'PageNo': '999999', 'ItemsPerPage': '{{$ItemsPerPage}}' }",
+    "RefreshAppDomain": "getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value)",
+    "RealtimeRefresh": "getElm('{{$ParentViewID}}RealtimeRefresh').checked",
+    "SuccessCallback": "null"
+  },
+  "ToDoFirstView": {
+    "JsFunctionName": "FilterView",
+    "ProgressViewID": "firstToDoProgress",
+    "ResponseViewID": "{{$ParentViewID}}Response",
+    "ComponentName": "{{$ParentViewID}}",
+    "FilterJson": "getViewComponentFlatJson('toDoFilterInput', 'ToDo')",
+    "ContextJson": "{ 'PageNo': '1', 'ItemsPerPage': '{{$ItemsPerPage}}' }",
+    "RefreshAppDomain": "getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value)",
+    "RealtimeRefresh": "getElm('{{$ParentViewID}}RealtimeRefresh').checked",
+    "SuccessCallback": "null"
+  },
+  "ToDoPreviousView": {
+    "JsFunctionName": "FilterView",
+    "ProgressViewID": "previousToDoProgress",
+    "ResponseViewID": "{{$ParentViewID}}Response",
+    "ComponentName": "{{$ParentViewID}}",
+    "FilterJson": "getViewComponentFlatJson('toDoFilterInput', 'ToDo')",
+    "ContextJson": "{ 'PageNo': '{{$PreviousPage}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }",
+    "RefreshAppDomain": "getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value)",
+    "RealtimeRefresh": "getElm('{{$ParentViewID}}RealtimeRefresh').checked",
+    "SuccessCallback": "null"
+  },
+  "ToDoChangeItemPerPageView": {
+    "JsFunctionName": "FilterView",
+    "ProgressViewID": "toDoItemsPerPageProgress",
+    "ResponseViewID": "{{$ParentViewID}}Response",
+    "ComponentName": "{{$ParentViewID}}",
+    "FilterJson": "getViewComponentFlatJson('toDoFilterInput', 'ToDo')",
+    "ContextJson": "{ 'PageNo': '{{$PreviousPage}}', 'ItemsPerPage': this.value }",
+    "RefreshAppDomain": "getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value)",
+    "RealtimeRefresh": "getElm('{{$ParentViewID}}RealtimeRefresh').checked",
+    "SuccessCallback": "null"
+  },
+  "ToDoDeleteViewData": {
+    "JsFunctionName": "DeleteViewData",
+    "ProgressViewID": "{{$ParentViewID}}Progress",
+    "ResponseViewID": "{{$ParentViewID}}Response",
+    "ComponentName": "{{$ParentViewID}}",
+    "GetKeyInfoJson": "{ 'KeyPath': '{{$KeyPath}}.TaskName' }",
+    "RefreshComponentName": "{{$ParentViewID}}",
+    "ContextJson": "{ 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }",
+    "RefreshAppDomain": "getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value)",
+    "RealtimeRefresh": "getElm('{{$ParentViewID}}RealtimeRefresh').checked",
+    "SuccessCallback": "null"
+  },
+  "ToDoEditViewData": {
+    "JsFunctionName": "EditViewData",
+    "ProgressViewID": "{{$ParentViewID}}Progress",
+    "ResponseViewID": "{{$ParentViewID}}Response",
+    "ComponentName": "{{$ParentViewID}}",
+    "GetValidKeyJson": "{'TaskName':'', 'TaskStatus':''}",
+    "GetDuplicateKeyJson": "{'TaskName':''}",
+    "GetKeyInfoJson": "getViewComponentFlatJson('toDoEditKey', 'ToDo')",
+    "GetEditDataJson": "getViewComponentFlatJson('toDoEditInput', 'ToDo')",
+    "RefreshComponentName": "{{$ParentViewID}}",
+    "ContextJson": "{ 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }",
+    "RefreshAppDomain": "getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value)",
+    "RealtimeRefresh": "getElm('{{$ParentViewID}}RealtimeRefresh').checked",
+    "SuccessCallback": "null"
+  },
+  "ToDoAddViewData": {
+    "JsFunctionName": "AddViewData",
+    "ProgressViewID": "{{$ParentViewID}}Progress",
+    "ResponseViewID": "{{$ParentViewID}}Response",
+    "ComponentName": "{{$ParentViewID}}",
+    "GetValidKeyJson": "{'TaskName':''}",
+    "GetDuplicateKeyJson": "{'TaskName':''}",
+    "GetAddDataJson": "getViewComponentFlatJson('toDoAddViewDiv', 'ToDo')",
+    "RefreshComponentName": "{{$ParentViewID}}",
+    "ContextJson": "{ 'PageNo': '999999', 'ItemsPerPage': '{{$ItemsPerPage}}' }",
+    "RefreshAppDomain": "getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value)",
+    "RealtimeRefresh": "getElm('{{$ParentViewID}}RealtimeRefresh').checked",
+    "SuccessCallback": "null"
+  }
+}

@@ -1,0 +1,17 @@
+{
+    "AutoUpdate" : false,    
+    "ResourceOptimize" : true,    
+    "DisableAuthentication" : false,    
+    "TicketAuthExpiresMin" : 1440,    
+    "CookieAuthExpiresMin" : 0,    
+    "CookieTempExpiresMin" : 144000,    
+    "CookieExpiresMin" : 0,    
+    "EnableHSTS" : false,    
+    "HSTSMaxAgeInDays" : 30,    
+    "EnableContentTypeOptions" : true,    
+    "EnableCSP" : false,    
+    "ContentSecurityPolicy" : "default-src 'self'",    
+    "EnableXSS" : true,    
+    "XSSProtection" : "1; mode=block",    
+    "SendAuthCookieExpiry" : false
+}

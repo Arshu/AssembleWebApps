@@ -1,0 +1,90 @@
+{
+  "FilterView": {
+    "JsFunction": "filterViewComponentHtml('{{$ProgressViewID}}', '{{$ResponseViewID}}', '{{$AppSite}}', '{{$AppView}}', '{{$ComponentName}}', {{$FilterJson}}, {{$ContextJson}}, {{$RealtimeRefresh}}, {{$RefreshAppDomain}}, '{{$RemoteKey}}', {{$SuccessCallback}})",
+    "JsParams": {
+      "ProgressViewID": "progress",
+      "ResponseViewID": "response",
+      "AppSite": "{{$AppSite}}",
+      "AppView": "{{$AppView}}",
+      "ComponentName": "",
+      "FilterJson": "",
+      "ContextJson": "{}",
+      "RealtimeRefresh": false,
+      "RefreshAppDomain": "",
+      "RemoteKey": "",
+      "SuccessCallback": "null"
+    }
+  },
+  "RefreshView": {
+    "JsFunction": "refreshViewComponentHtml('{{$ProgressViewID}}', '{{$ResponseViewID}}', '{{$AppSite}}', '{{$AppView}}', '{{$ComponentName}}', {{$ContextJson}}, {{$RealtimeRefresh}}, {{$RefreshAppDomain}}, '{{$RemoteKey}}', {{$SuccessCallback}})",
+    "JsParams": {
+      "ProgressViewID": "progress",
+      "ResponseViewID": "response",
+      "AppSite": "{{$AppSite}}",
+      "AppView": "{{$AppView}}",
+      "ComponentName": "",
+      "ContextJson": "{}",
+      "RealtimeRefresh": false,
+      "RefreshAppDomain": "",
+      "RemoteKey": "",
+      "SuccessCallback": "null"
+    }
+  },
+  "AddViewData": {
+    "JsFunction": "addViewComponentJsonArray('{{$ProgressViewID}}', '{{$ResponseViewID}}', '{{$AppSite}}', '{{$AppView}}', '{{$ComponentName}}', {{$GetValidKeyJson}}, {{$GetDuplicateKeyJson}}, {{$GetKeyInfoJson}}, {{$GetAddDataJson}}, '{{$RefreshComponentName}}', {{$ContextJson}}, {{$RealtimeRefresh}}, {{$RefreshAppDomain}},  '{{$RemoteKey}}', {{$SuccessCallback}})",
+    "JsParams": {
+      "ProgressViewID": "progress",
+      "ResponseViewID": "response",
+      "AppSite": "{{$AppSite}}",
+      "AppView": "{{$AppView}}",
+      "ComponentName": "",
+      "GetValidKeyJson": {},
+      "GetDuplicateKeyJson": {},
+      "GetKeyInfoJson": "{}",
+      "GetAddDataJson": "",
+      "ContextJson": "{}",
+      "RefreshComponentName": "",
+      "RealtimeRefresh": false,
+      "RefreshAppDomain": "",
+      "RemoteKey": "",
+      "SuccessCallback": "null"
+    }
+  },
+  "EditViewData": {
+    "JsFunction": "editViewComponentJsonArray('{{$ProgressViewID}}', '{{$ResponseViewID}}', '{{$AppSite}}', '{{$AppView}}', '{{$ComponentName}}', {{$GetValidKeyJson}}, {{$GetDuplicateKeyJson}}, {{$GetKeyInfoJson}}, {{$GetEditDataJson}}, '{{$RefreshComponentName}}', {{$ContextJson}}, {{$RealtimeRefresh}}, {{$RefreshAppDomain}}, '{{$RemoteKey}}', {{$SuccessCallback}})",
+    "JsParams": {
+      "ProgressViewID": "progress",
+      "ResponseViewID": "response",
+      "AppSite": "{{$AppSite}}",
+      "AppView": "{{$AppView}}",
+      "ComponentName": "",
+      "GetValidKeyJson": {},
+      "GetDuplicateKeyJson": {},
+      "GetKeyInfoJson": "{}",
+      "GetEditDataJson": "",
+      "ContextJson": "{}",
+      "RefreshComponentName": "",
+      "RealtimeRefresh": false,
+      "RefreshAppDomain": "",
+      "RemoteKey": "",
+      "SuccessCallback": "null"
+    }
+  },
+  "DeleteViewData": {
+    "JsFunction": "deleteViewComponentJsonArray('{{$ProgressViewID}}', '{{$ResponseViewID}}', '{{$AppSite}}', '{{$AppView}}', '{{$ComponentName}}', {{$GetKeyInfoJson}}, '{{$RefreshComponentName}}', {{$ContextJson}}, {{$RealtimeRefresh}}, {{$RefreshAppDomain}}, '{{$RemoteKey}}', {{$SuccessCallback}})",
+    "JsParams": {
+      "ProgressViewID": "progress",
+      "ResponseViewID": "response",
+      "AppSite": "{{$AppSite}}",
+      "AppView": "{{$AppView}}",
+      "ComponentName": "",
+      "GetKeyInfoJson": "{}",
+      "ContextJson": "{}",
+      "RefreshComponentName": "",
+      "RealtimeRefresh": false,
+      "RefreshAppDomain": "",
+      "RemoteKey": "",
+      "SuccessCallback": "null"
+    }
+  }
+}

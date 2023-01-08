@@ -1,6 +1,6 @@
 {
   "Progress Title": "Tool to deploy prototype html/json declarative appwebs",
-  "Title": "Declarative Static Html/Json AppWeb's",
+  "Title$": "Build Declarative Static Html/Json AppWeb's",
   "SubTitle": "App<strike>Web</strike> Offline Viewer",
   "Description": "App<strike>Web</strike> Viewer is a Tool for Viewing of Html Json Components",
   "Info1 Title": "Copy/Replace your own Html/Json files into the component folder under the wwwroot folder",

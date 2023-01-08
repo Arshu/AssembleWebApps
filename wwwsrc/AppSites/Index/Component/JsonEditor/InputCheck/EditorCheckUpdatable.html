@@ -1,0 +1,12 @@
+<div class="flex-input-wrap" style="margin: 5px 0px;width:100%;">
+    <div class="border" style="width:100%;">
+        <label for="{{$EditorItemKey}}" style="margin-top:8px;display:inline-block;">{{$EditorItemName}}</label>
+        <label style="padding:10px 0px 0 5px;">
+            <input value="{{$EditorItemMatchValue}}"                   
+                   name="{{$EditorItemKey}}"
+                   data-key="{{$EditorItemKey}}"
+                   data-value="{{$EditorItemValue}}"
+                   {{@EditorItemValueMatch}} checked="checked" {{/EditorItemValueMatch}} type="checkbox">
+        </label>
+    </div>
+</div>

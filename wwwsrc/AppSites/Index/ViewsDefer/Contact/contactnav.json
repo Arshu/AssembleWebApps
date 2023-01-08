@@ -2,8 +2,8 @@
   "NAVList": [
     {
       "NavTitle": "Home",
-      "NavUrl": "/",
-      "NavAppSite": "",
+      "NavUrl": "#/",
+      "NavAppSite": "Index",
       "NavAppView": "Main",
       "NavAppViewIDs": "mainNav, mainContent, mainFooter",
       "NavActive": "",

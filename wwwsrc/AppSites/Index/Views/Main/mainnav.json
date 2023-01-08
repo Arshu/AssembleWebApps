@@ -12,10 +12,20 @@
     },
     {
       "NavTitle": "What is this?",
-      "NavUrl": "#/Arshu/Help",
-      "NavAppSite": "Arshu",
-      "NavAppView": "Help",
-      "NavAppViewIDs": "mainNav, mainContent, mainFooter",
+      "NavUrl": "/Arshu/Help",
+      "NavAppSite": "",
+      "NavAppView": "",
+      "NavAppViewIDs": "",
+      "NavActive": "",
+      "HaveSubMenu": false,
+      "SubNAVList": []
+    },
+    {
+      "NavTitle": "SignIn",
+      "NavUrl": "/Account/Login",
+      "NavAppSite": "",
+      "NavAppView": "",
+      "NavAppViewIDs": "",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []

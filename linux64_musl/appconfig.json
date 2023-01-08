@@ -32,6 +32,7 @@
   "SearchAppSites": "Config, Account, Index",
   "SearchAppFolders": "SampleJson",
 
+  "LoadAppData": false,
   "LoadAppFiles": true,
   "LoadAppFolders": true,
   "LoadFileChanges": true,
@@ -43,7 +44,7 @@
       "AssetTypeName": "Arshu.Core.AssetRegister",
       "AssetDll": "Arshu.Core.dll",
       "IsEnabled": true
-    },   
+    },
     {
       "AssetTypeName": "AppWeb.Web.AssetRegister",
       "AssetDll": "AppWeb.Web.dll",
@@ -72,7 +73,7 @@
       "RegisterTypeName": "Arshu.Git.App.Register.GitRegister",
       "RegisterDll": "Arshu.Git.dll",
       "IsEnabled": true
-    }    
+    }
   ],
 
   "AppProviders": [

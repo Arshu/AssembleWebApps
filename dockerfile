@@ -11,14 +11,12 @@ RUN apk upgrade --no-cache --available && \
 
 RUN curl -L https://fly.io/install.sh | sh
 
-COPY ./config.yml /root/.fly/
-
 FROM mcr.microsoft.com/dotnet/runtime-deps:7.0-alpine-amd64
 
 LABEL Author="Sridharan Srinivasan" 
 
 EXPOSE 8080
-EXPOSE 9091
+#EXPOSE 9091
 
 WORKDIR /app
 COPY --from=initial /app /app

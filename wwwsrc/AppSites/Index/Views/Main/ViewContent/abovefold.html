@@ -1,4 +1,19 @@
 <div class="center_item">
     {{abovefold_1_appweb_about}}
-    {{AppWeb_Domain}}
+    <div id="app_domain">
+        {{!App_Domain}}
+    </div>
 </div>
+
+<script>
+
+    ready(() => {
+        let useAjax = true;
+        let delayInterval = 10;
+        let parentViewElmId = "mainContent";
+        let replaceAppDomainComponent = "app_domain";
+
+        loadViewComponentHtml(false, useAjax, parentViewElmId, replaceAppDomainComponent, delayInterval, function () {}, 'noprogress');
+    });
+
+</script>

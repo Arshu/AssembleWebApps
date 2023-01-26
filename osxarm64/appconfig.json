@@ -1,0 +1,133 @@
+{
+  "WebRootName": "wwwroot",
+  "ConfigType": "Base",
+  "ConfigLogLevel": "Critical,Error,Warn",
+  "PublishDebugInfo": true,
+  "ApiConfigWrite": true,
+  "CreateWebConfig": true,
+  "AllowReload": true,
+  "AllowConfigReload": true,
+  "AllowConfigUpdate": true,
+
+  "InitialTimeInSec": 500,
+  "IdleTimeInSec": 500,
+  "ContextJson": {
+    "PageTitle": "Arshu AppWeb Viewer",
+    "ShowIntroTip": true,
+    "FlyAppName": "appweb"
+  },
+  "WSClientHeartBeatTimeInMs": 60000,
+  "WSServerHeartBeatTimeInMs": 60000,
+  "ServerList": [
+    {
+      "ServerUrl": "https://guiapp.fly.dev",
+      "ClusterName": "guiapp",
+      "MethodPrefixes": "Save, Add, Delete, Edit, Clone, Get",
+      "Enabled": false
+    }
+  ],
+
+  "RealtimeAppSites": "",
+  "StaticAppSites": "Index, Config, Account, Test",
+  "SearchAppSites": "Config, Account, Index",
+  "SearchAppFolders": "SampleJson",
+
+  "LoadAppData": false,
+  "LoadAppFiles": true,
+  "LoadAppFolders": true,
+  "LoadFileChanges": true,
+  "UnPackAppSites": false,
+
+  "AppAssets": [
+
+    {
+      "AssetTypeName": "Arshu.Core.AssetRegister",
+      "AssetDll": "Arshu.Core.dll",
+      "IsEnabled": true
+    },
+    {
+      "AssetTypeName": "AppWeb.Web.AssetRegister",
+      "AssetDll": "AppWeb.Web.dll",
+      "IsEnabled": true
+    }
+  ],
+
+  "AppServices": [
+
+    {
+      "RegisterTypeName": "Arshu.Core.App.Register.WebRegister",
+      "RegisterDll": "Arshu.Core.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.Core.App.Register.VueRegister",
+      "RegisterDll": "Arshu.Core.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.Core.App.Register.SyncRegister",
+      "RegisterDll": "Arshu.Core.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.Git.App.Register.GitRegister",
+      "RegisterDll": "Arshu.Git.dll",
+      "IsEnabled": true
+    }
+  ],
+
+  "AppProviders": [
+
+    {
+      "RegisterTypeName": "Arshu.Data.Register.DataRegister",
+      "RegisterDll": "Arshu.Data.dll",
+      "IsEnabled": false,
+      "ProviderTypeName": "Microsoft.Data.Sqlite.SqliteFactory",
+      "ProviderDll": "Microsoft.Data.Sqlite.dll"
+    }
+  ],
+
+  "PackWebRootName": "wwwroot",
+  "SkipSystemDirectories": "_Meta, .git, Log, bin, obj, _bin_deployableAssemblies, Bak, Backup, Repository, Cache, Inbox, InboxLocal, InboxRemote",
+  "SystemDirectories": "App_Config, App_Data, Db, Backup, Output, UndoRedo, Cache",
+  "AllowDirectories": "",
+  "SkipAppDirectories": "Arshu, Templates, Resource, Content, App_Config, App_Data, Backup, Output, UndoRedo, Cache",
+  "SkipResourceDirectories": "Arshu, Component, AppSites, Templates, App_Config, App_Data, Backup, Output, UndoRedo, AppApi, Dynamic, Meta, Upload, Cache",
+  "SkipDataDirectories": "Arshu, AppSites, Component, Templates, Resource, Content, Backup, Output, UndoRedo, Cache",
+
+  "PackAppDirectories": "AppSites, AppApi",
+  "PackResourcesDirectories": "Resource,Content",
+  "PackDataDirectories": "App_Data, Db, AppApi",
+  "PackAppWebDirectories": "SampleJson",
+  "PackTemplateDirectories": "Templates",
+
+  "PackApp": true,
+  "PackResource": true,
+  "PackData": true,
+  "PackAppFolder": false,
+  "PackTemplate": false,
+  "PackAppSites": "Index, Account, Config, Test, Template, Fly",
+  "PackAppDatas": "Roles, Members",
+
+  "PackName": "AppWeb.Web.1.0.pap",
+  "PackDescription": "AppWeb.Web for Managing AppWebs",
+  "PackResourceName": "AppWeb.Web.Resource.1.0.pap",
+  "PackResourceDescription": "Resource of AppWeb.Web for Managing AppWebs",
+  "PackDataName": "AppWeb.Web.Data.1.0.pap",
+  "PackDataDescription": "Data of AppWeb.Web for Managing AppWebs",
+  "PackAppWebFolderName": "AppWeb.Web.AppWebFolder.1.0.pap",
+  "PackAppWebFolderDescription": "WebFolder of AppWeb.Web for Managing AppWebs",
+  "PackTemplateName": "AppWeb.Web.Template.1.0.pap",
+  "PackTemplateDescription": "Templates of AppWeb.Web for Managing AppWebs",
+
+  "PackAppSubFolderPath": "A0",
+  "PackResourceSubFolderPath": "A0",
+  "PackDataSubFolderPath": "A0",
+  "PackTemplateSubFolderPath": "A0",
+
+  "SkippedFileExtension": "dll, config, xml, exe, pap, so, map, txt",
+  "AllowedAppFileExtension": "Html, Json",
+  "AllowedResourceFileExtension": "Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Css, json",
+  "AllowedDataFileExtension": "json, dat, xlsx, db, sdf",
+  "AllowedTemplateFileExtension": "Html, Json, md, Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Css"
+}

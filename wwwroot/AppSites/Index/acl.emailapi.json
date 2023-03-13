@@ -1,0 +1,16 @@
+{
+    "AllowedRoles" : [
+        "User"
+    ],    
+    "SendEmail" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "userEmail" : "String",            
+            "userMessage" : "String"
+        }
+    }
+}

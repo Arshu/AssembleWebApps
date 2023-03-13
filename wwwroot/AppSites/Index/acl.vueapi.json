@@ -1,0 +1,528 @@
+{
+    "AllowedRoles" : [
+        "User"
+    ],    
+    "GetAppSiteListView" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "htmlContainer" : "String",            
+            "htmlItem" : "String",            
+            "htmlEmpty" : "String",            
+            "htmlTop" : "String",            
+            "htmlBottom" : "String",            
+            "pageNo" : "Int32",            
+            "itemsPerPage" : "Int32"
+        }
+    },    
+    "GetAppViewListView" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "htmlContainer" : "String",            
+            "htmlItem" : "String",            
+            "htmlEmpty" : "String",            
+            "htmlTop" : "String",            
+            "htmlBottom" : "String",            
+            "pageNo" : "Int32",            
+            "itemsPerPage" : "Int32",            
+            "filterAppSite" : "String"
+        }
+    },    
+    "GetAppSiteSelectView" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "selectEmptyText" : "String",            
+            "selectedKey" : "String",            
+            "filterKey" : "String",            
+            "skipValue" : "String",            
+            "appendOptionText" : "String",            
+            "appendOptionValue" : "String",            
+            "addCurrent" : "Boolean"
+        }
+    },    
+    "GetAppViewSelectView" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "selectEmptyText" : "String",            
+            "selectedKey" : "String",            
+            "filterKey" : "String",            
+            "skipValue" : "String",            
+            "appendOptionText" : "String",            
+            "appendOptionValue" : "String",            
+            "textAsValue" : "Boolean",            
+            "filterAppSite" : "String"
+        }
+    },    
+    "GetViewComponentSourceHierarchy" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentAppView" : "String",            
+            "componentName" : "String"
+        }
+    },    
+    "GetViewComponentMetaData" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "appView" : "String",            
+            "componentName" : "String",            
+            "configJson" : "JsonObject",            
+            "reloadMetaData" : "Boolean"
+        }
+    },    
+    "GetEditComponentSourceHierarchy" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "appView" : "String",            
+            "editPage" : "String"
+        }
+    },    
+    "GetViewComponentHierarchy" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentAppView" : "String",            
+            "componentName" : "String"
+        }
+    },    
+    "GetViewComponentCategoryList" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "skipValue" : "String",            
+            "selectEmptyText" : "String",            
+            "selectedKey" : "String",            
+            "appendOptionText" : "String",            
+            "appendOptionValue" : "String"
+        }
+    },    
+    "GetViewComponentList" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentCategory" : "String"
+        }
+    },    
+    "GetComponentChangeListView" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "htmlTableEmpty" : "String",            
+            "htmlTable" : "String",            
+            "htmlTableBody" : "String",            
+            "htmlTableRow" : "String",            
+            "htmlTableHeader" : "String",            
+            "htmlTableFooter" : "String",            
+            "pageNo" : "Int32",            
+            "itemsPerPage" : "Int32",            
+            "filterKey" : "String",            
+            "filterValue" : "String"
+        }
+    },    
+    "AddViewComponentRemote" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "changeComponentAppSite" : "String",            
+            "changeComponentAppView" : "String",            
+            "changeComponentName" : "String",            
+            "subComponentName" : "String",            
+            "newComponentAppSite" : "String",            
+            "newComponentName" : "String",            
+            "addBeforeComponent" : "Boolean",            
+            "addAsCopyComponent" : "Boolean",            
+            "replaceComponent" : "Boolean",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "realtimeRefresh" : "Boolean",            
+            "refreshAppDomain" : "String",            
+            "remoteKey" : "String"
+        }
+    },    
+    "DeleteViewComponentRemote" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "changeComponentAppSite" : "String",            
+            "changeComponentAppView" : "String",            
+            "changeComponentName" : "String",            
+            "subComponentName" : "String",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "realtimeRefresh" : "Boolean",            
+            "refreshAppDomain" : "String",            
+            "remoteKey" : "String"
+        }
+    },    
+    "AddViewComponent" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "changeComponentAppSite" : "String",            
+            "changeComponentAppView" : "String",            
+            "changeComponentName" : "String",            
+            "subComponentName" : "String",            
+            "newComponentAppSite" : "String",            
+            "newComponentName" : "String",            
+            "addBeforeComponent" : "Boolean",            
+            "addAsCopyComponent" : "Boolean",            
+            "replaceComponent" : "Boolean",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "realtimeRefresh" : "Boolean",            
+            "refreshAppDomain" : "String",            
+            "remoteKey" : "String"
+        }
+    },    
+    "DeleteViewComponent" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "changeComponentAppSite" : "String",            
+            "changeComponentAppView" : "String",            
+            "changeComponentName" : "String",            
+            "subComponentName" : "String",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "realtimeRefresh" : "Boolean",            
+            "refreshAppDomain" : "String",            
+            "remoteKey" : "String"
+        }
+    },    
+    "GetViewPageHtml" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "appView" : "String",            
+            "appViewIDs" : "String",            
+            "realtimeRefresh" : "Boolean",            
+            "refreshAppDomain" : "String",            
+            "remoteKey" : "String"
+        }
+    },    
+    "GetViewComponentHtml" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "appView" : "String",            
+            "componentName" : "String",            
+            "configJson" : "JsonObject",            
+            "realtimeRefresh" : "Boolean",            
+            "refreshAppDomain" : "String",            
+            "remoteKey" : "String"
+        }
+    },    
+    "GetJsonEditorView" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "viewId" : "String",            
+            "jsonAppSite" : "String",            
+            "jsonAppView" : "String",            
+            "jsonSource" : "String",            
+            "jsonKey" : "String",            
+            "viewMode" : "String",            
+            "pageNo" : "Int32",            
+            "itemsPerPage" : "Int32",            
+            "pageNoArray" : "Int32",            
+            "itemsPerPageArray" : "Int32",            
+            "pageNoArrayItem" : "Int32",            
+            "itemsPerPageArrayItem" : "Int32",            
+            "filterKeyPath" : "String"
+        }
+    },    
+    "CopyAppView" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ],        
+        "Parameters" : 
+        {
+            "fromAppSite" : "String",            
+            "fromAppView" : "String",            
+            "toAppSite" : "String",            
+            "toAppView" : "String",            
+            "copyGlobalJson" : "Boolean",            
+            "isDeferView" : "Boolean",            
+            "isSecureView" : "Boolean",            
+            "overwrite" : "Boolean"
+        }
+    },    
+    "DeleteAppView" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "appView" : "String"
+        }
+    },    
+    "GetApiTimingListView" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "htmlTableEmpty" : "String",            
+            "htmlTable" : "String",            
+            "htmlTableBody" : "String",            
+            "htmlTableRow" : "String",            
+            "htmlTableHeader" : "String",            
+            "htmlTableFooter" : "String",            
+            "pageNo" : "Int32",            
+            "itemsPerPage" : "Int32",            
+            "filterKey" : "String",            
+            "filterValue" : "String"
+        }
+    },    
+    "SaveViewComponentJsonRemote" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentAppView" : "String",            
+            "componentName" : "String",            
+            "flatJsonData" : "JsonObject",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "refreshAppDomain" : "String",            
+            "realtimeRefresh" : "Boolean",            
+            "remoteKey" : "String"
+        }
+    },    
+    "AddViewComponentJsonArrayRemote" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentAppView" : "String",            
+            "componentName" : "String",            
+            "validKeyJson" : "JsonObject",            
+            "duplicateKeyJson" : "JsonObject",            
+            "keyInfoJson" : "JsonObject",            
+            "flatJsonData" : "JsonObject",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "refreshAppDomain" : "String",            
+            "realtimeRefresh" : "Boolean",            
+            "remoteKey" : "String"
+        }
+    },    
+    "EditViewComponentJsonArrayRemote" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentAppView" : "String",            
+            "componentName" : "String",            
+            "validKeyJson" : "JsonObject",            
+            "duplicateKeyJson" : "JsonObject",            
+            "keyInfoJson" : "JsonObject",            
+            "flatJsonData" : "JsonObject",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "refreshAppDomain" : "String",            
+            "realtimeRefresh" : "Boolean",            
+            "remoteKey" : "String"
+        }
+    },    
+    "DeleteViewComponentJsonArrayRemote" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentAppView" : "String",            
+            "componentName" : "String",            
+            "keyInfoJson" : "JsonObject",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "refreshAppDomain" : "String",            
+            "realtimeRefresh" : "Boolean",            
+            "remoteKey" : "String"
+        }
+    },    
+    "SaveViewComponentJson" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentAppView" : "String",            
+            "componentName" : "String",            
+            "flatJsonData" : "JsonObject",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "refreshAppDomain" : "String",            
+            "realtimeRefresh" : "Boolean",            
+            "remoteKey" : "String"
+        }
+    },    
+    "AddViewComponentJsonArray" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentAppView" : "String",            
+            "componentName" : "String",            
+            "validKeyJson" : "JsonObject",            
+            "duplicateKeyJson" : "JsonObject",            
+            "keyInfoJson" : "JsonObject",            
+            "flatJsonData" : "JsonObject",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "refreshAppDomain" : "String",            
+            "realtimeRefresh" : "Boolean",            
+            "remoteKey" : "String"
+        }
+    },    
+    "EditViewComponentJsonArray" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentAppView" : "String",            
+            "componentName" : "String",            
+            "validKeyJson" : "JsonObject",            
+            "duplicateKeyJson" : "JsonObject",            
+            "keyInfoJson" : "JsonObject",            
+            "flatJsonData" : "JsonObject",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "refreshAppDomain" : "String",            
+            "realtimeRefresh" : "Boolean",            
+            "remoteKey" : "String"
+        }
+    },    
+    "DeleteViewComponentJsonArray" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentAppView" : "String",            
+            "componentName" : "String",            
+            "keyInfoJson" : "JsonObject",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "refreshAppDomain" : "String",            
+            "realtimeRefresh" : "Boolean",            
+            "remoteKey" : "String"
+        }
+    },    
+    "CloneViewComponentJsonArray" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "componentAppSite" : "String",            
+            "componentAppView" : "String",            
+            "componentName" : "String",            
+            "keyInfoJson" : "JsonObject",            
+            "refreshComponentName" : "String",            
+            "refreshConfigJson" : "JsonObject",            
+            "refreshAppDomain" : "String",            
+            "realtimeRefresh" : "Boolean",            
+            "remoteKey" : "String"
+        }
+    }
+}

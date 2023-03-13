@@ -3,10 +3,10 @@
     "ResourceVersion" : 0,    
     "ResourceOptimizeMergeRetain" : true,    
     "ResourceOptimizeMergeJs" : true,    
-    "ResourceOptimizeMergeJsPattern" : "jquery-, arshu, signalr, main, web-vitals, highlight, quill; bootstrap; *",    
+    "ResourceOptimizeMergeJsPattern" : "jquery-, base, arshu, signalr, main, web-vitals, highlight, quill; bootstrap; *",    
     "ResourceOptimizeMergeJsSkipPattern" : "",    
     "ResourceOptimizeMergeCss" : true,    
-    "ResourceOptimizeMergeCssPattern" : "arshu, normalize, layout, animate, animation, pylon, main, highlight, quill, bulma, bootstrap, style, all; *",    
+    "ResourceOptimizeMergeCssPattern" : "arshu, base, normalize, layout, animate, animation, pylon, main, highlight, quill, bulma, bootstrap, style, all; *",    
     "ResourceOptimizeMergeCssSkipPattern" : "",    
     "ResourceOptimizeMergeDeferSuffix" : "@",    
     "ResourceOptimizeMergeDeferCss" : false,    
@@ -36,24 +36,21 @@
     "ResourceOptimizeSplitDomain" : false,    
     "ResourceOptimizeSplitDomainExtension" : ".js,.css",    
     "ResourceOptimizeHtmlCompress" : false,    
-    "ResourceCompress" : true,    
     "JsResourceList" : 
     {
-        "main.js" : "Resource\\app\\js\\main.js",        
-        "main.min.js" : "Resource\\app\\js\\main.min.js",        
-        "arshubase.js" : "Resource\\Arshu\\app\\js\\arshubase.js",        
-        "arshubase.min.js" : "Resource\\Arshu\\app\\js\\arshubase.min.js",        
-        "arshujsoneditor.js" : "Resource\\Arshu\\app\\js\\arshujsoneditor.js",        
-        "arshujsoneditor.min.js" : "Resource\\Arshu\\app\\js\\arshujsoneditor.min.js",        
-        "arshurpc.js" : "Resource\\Arshu\\app\\js\\arshurpc.js",        
-        "arshurpc.min.js" : "Resource\\Arshu\\app\\js\\arshurpc.min.js",        
+        "apibase.js" : "Resource\\Arshu\\app\\js\\apibase.js",        
+        "apibase.min.js" : "Resource\\Arshu\\app\\js\\apibase.min.js",        
+        "arshuapi.js" : "Resource\\Arshu\\app\\js\\arshuapi.js",        
+        "arshuapi.min.js" : "Resource\\Arshu\\app\\js\\arshuapi.min.js",        
+        "arshueditor.js" : "Resource\\Arshu\\app\\js\\arshueditor.js",        
+        "arshueditor.min.js" : "Resource\\Arshu\\app\\js\\arshueditor.min.js",        
         "highlight.pack.js" : "Resource\\Arshu\\highlight\\highlight.pack.js",        
-        "signalr.min.js" : "Resource\\Arshu\\signalr\\signalr.min.js"
+        "signalr.min.js" : "Resource\\Arshu\\signalr\\signalr.min.js",        
+        "main.js" : "Resource\\app\\js\\main.js",        
+        "main.min.js" : "Resource\\app\\js\\main.min.js"
     },    
     "CssResourceList" : 
     {
-        "main.css" : "Resource\\app\\css\\main.css",        
-        "main.min.css" : "Resource\\app\\css\\main.min.css",        
         "animate.min.css" : "Resource\\Arshu\\animation\\animate.min.css",        
         "arshubase.css" : "Resource\\Arshu\\app\\css\\arshubase.css",        
         "arshubase.min.css" : "Resource\\Arshu\\app\\css\\arshubase.min.css",        
@@ -62,7 +59,9 @@
         "normalize.css" : "Resource\\Arshu\\app\\css\\normalize.css",        
         "normalize.min.css" : "Resource\\Arshu\\app\\css\\normalize.min.css",        
         "highlight.css" : "Resource\\Arshu\\highlight\\highlight.css",        
-        "highlight.min.css" : "Resource\\Arshu\\highlight\\highlight.min.css"
+        "highlight.min.css" : "Resource\\Arshu\\highlight\\highlight.min.css",        
+        "main.css" : "Resource\\app\\css\\main.css",        
+        "main.min.css" : "Resource\\app\\css\\main.min.css"
     },    
     "MediaResourceList" : 
     {
@@ -91,9 +90,9 @@
     {
         "J1" : 
         {
-            "arshubase.min.js" : "Resource\\Arshu\\app\\js\\arshubase.min.js",            
-            "arshujsoneditor.min.js" : "Resource\\Arshu\\app\\js\\arshujsoneditor.min.js",            
-            "arshurpc.min.js" : "Resource\\Arshu\\app\\js\\arshurpc.min.js",            
+            "apibase.min.js" : "Resource\\Arshu\\app\\js\\apibase.min.js",            
+            "arshuapi.min.js" : "Resource\\Arshu\\app\\js\\arshuapi.min.js",            
+            "arshueditor.min.js" : "Resource\\Arshu\\app\\js\\arshueditor.min.js",            
             "signalr.min.js" : "Resource\\Arshu\\signalr\\signalr.min.js",            
             "main.min.js" : "Resource\\app\\js\\main.min.js",            
             "highlight.pack.js" : "Resource\\Arshu\\highlight\\highlight.pack.js"

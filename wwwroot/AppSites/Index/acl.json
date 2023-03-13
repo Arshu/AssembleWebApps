@@ -1,0 +1,29 @@
+{
+    "AllowedRoles" : [
+        "Guest"
+    ],    
+    "Main" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "AppSites.s" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ]
+    },    
+    "AppViews.s" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ]
+    },    
+    "Contact" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    }
+}

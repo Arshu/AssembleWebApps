@@ -2,23 +2,26 @@
   "WebRootName": "wwwroot",
   "ConfigType": "Base",
   "ConfigLogLevel": "Critical,Error,Warn",
-  "PublishDebugInfo": true,
-  "ApiConfigWrite": true,
-  "CreateWebConfig": true,
+  "CreateWebConfig": false,
+  "AllowConfigUpdate": false,
+  "ApiConfigWrite": false,
   "AllowReload": true,
-  "AllowConfigReload": true,
-  "AllowConfigUpdate": true,
 
-  "InitialTimeInSec": 500,
-  "IdleTimeInSec": 500,
   "ContextJson": {
     "PageTitle": "Arshu AppWeb Viewer",
     "ShowIntroTip": true,
+    "EnableRealtime": true,
     "FlyAppName": "appweb"
   },
+
+  "CacheWebCompression": "br,gzip,deflate",
+  "NormalWebCompression": "br,gzip,deflate",
+  "MetricPort": 0,
+  "InitialTimeInSec": 30,
+  "IdleTimeInSec": 30,
   "WSClientHeartBeatTimeInMs": 60000,
   "WSServerHeartBeatTimeInMs": 60000,
-  "ServerList": [
+  "WSServerList": [
     {
       "ServerUrl": "https://guiapp.fly.dev",
       "ClusterName": "guiapp",
@@ -32,10 +35,10 @@
   "SearchAppSites": "Config, Account, Index",
   "SearchAppFolders": "SampleJson",
 
-  "LoadAppData": false,
-  "LoadAppFiles": true,
-  "LoadAppFolders": true,
-  "LoadFileChanges": true,
+  "LoadAppData": true,
+  "LoadAppFolders": false,
+  "LoadPapFiles": false,
+  "LoadFileChanges": false,
   "UnPackAppSites": false,
 
   "AppAssets": [
@@ -104,7 +107,7 @@
   "PackApp": true,
   "PackResource": true,
   "PackData": true,
-  "PackAppFolder": false,
+  "PackAppFolder": true,
   "PackTemplate": false,
   "PackAppSites": "Index, Account, Config, Test, Template, Fly",
   "PackAppDatas": "Roles, Members",

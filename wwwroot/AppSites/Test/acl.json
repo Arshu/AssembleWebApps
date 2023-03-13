@@ -1,0 +1,59 @@
+{
+    "AllowedRoles" : [
+        "Guest"
+    ],    
+    "Main" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "TestComposeHtml" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "TestDataCopy" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "TestDataFlow" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "TestDataFlowGlobal" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "TestDataFlowHierarchical" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "TestViewComponentScope" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "TestViewIDJsonEditor" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    },    
+    "TestViewRealtime" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ]
+    }
+}

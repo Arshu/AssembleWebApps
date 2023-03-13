@@ -1,0 +1,27 @@
+<table class="pure-table pure-table-horizontal">
+    <thead >
+        <tr>
+            <th style="width:30%;">Role Name</th>
+            <th>User Name List</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{@RolesUserList("PageNo":1, "ItemsPerPage":3)}}
+        <tr>
+            <td>
+                {{$Name}}
+            </td>
+            <td>
+                {{$Value}}
+            </td>
+        </tr>
+        {{/RolesUserList}}
+        {{^RolesUserList}}
+        <tr>
+            <td colspan="2" style="text-align:center">No Roles/User Name List Found</td>
+        </tr>
+        {{/RolesUserList}}
+    </tbody>
+</table>
+
+

@@ -1,6 +1,0 @@
-{
-  "ComponentCategory": "Declarative (Html/Json) ToDo Component",
-  "ComponentTitle": "ToDo Component ajax/websocket refreshed from server",
-  "ItemsPerPage$": "2",
-  "DefaultWebSocket": true
-}

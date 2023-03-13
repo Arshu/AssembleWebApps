@@ -1,0 +1,174 @@
+
+<script type="text/javascript">
+
+    window.ajaxid = 0;
+    let timoutCheckLogin = {{$TimeoutCheckInterval}}; // Check logout in 30 seconds
+
+    function isLoggedIn(successCallback, failureCallback, failureRedirectUrl) {
+
+        let id = window.ajaxid++;
+
+        let valid = true;
+
+        if (valid === true) {
+
+            let url = '/AppApi/WEBApi';
+            let urlMethod = 'POST';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'IsWebLoggedIn',
+                "params": {},
+                "id": id
+            };
+
+            dopost('progress', 'response', url, urlContent,
+                function (data) {
+                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
+                        let result = data.Result;
+
+                        if (result.hasOwnProperty('status') === true) {
+                            if (result.status === true) {
+                                if (result.hasOwnProperty('data') === true) {
+                                    if (typeof successCallback === "function") {
+                                        successCallback(result.data);
+                                    }
+                                } else {
+                                    if (typeof successCallback === "function") {
+                                        successCallback(failureRedirectUrl);
+                                    }
+                                }
+                            }
+                            else {
+                                if (typeof failureCallback === "function") {
+                                    failureCallback();
+                                }
+                            }
+                        }
+
+                        if (result.hasOwnProperty('error') === true) {
+                            if (haveElm(responseElmId) == true) {
+                                showText(responseElm, result.error, 'red');
+                            }
+                        }
+                    }
+                    if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error) {
+                            if (error.hasOwnProperty('Message') === true) {
+                                if (haveElm(responseElmId) == true) {
+                                    showText(responseElm, error.Message, 'red');
+                                }
+                            }
+                        }
+                    }
+                }, function () {
+                    if (typeof failureCallback === "function") {
+                        failureCallback();
+                    }
+            });
+        }
+     
+        return false;
+    }
+
+    ready(() => {
+
+        checkIsLoggedIn();
+        setInterval("checkIsLoggedIn()", timoutCheckLogin)
+
+    });
+
+    function checkIsLoggedIn() {
+        isLoggedIn(function (redirectUrl) {
+
+            console.log("Current Url :" + window.location.href);
+            console.log("Redirect Url :" + redirectUrl);
+            if (window.location.href.indexOf(redirectUrl) === -1) {
+                setTimeout(function () {
+                    if (haveElm('progress') == true) { ajaxStop('progress'); };
+                    window.location.replace(redirectUrl);
+                }, timoutCheckLogin);
+            }
+
+        }, function () {
+            //window.location.href = "/"
+            forceLogOff('progress', 'response', null, null, "/");
+        }, '/');
+    }
+
+    function forceLogOff(progressElmId, responseElmId, successCallback, failureCallback, logOffUrl) {
+
+        let id = window.ajaxid++;
+        let responseContainerElmId = responseElmId + "Container";
+        let responseElm = getElm(responseElmId)
+        let responseContainerElm = getElm(responseContainerElmId)
+        responseElm.innerHTML = "";
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid === true) {
+
+            let url = '/AppApi/WebApi';
+            let urlMethod = 'POST';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'WebLogOff',
+                "params": {},
+                "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
+                        let result = data.Result;
+
+                        if (result.hasOwnProperty('status') === true) {
+                            if (result.status === true) {
+
+                                if (typeof successCallback === "function") {
+                                    successCallback();
+                                } else {
+                                    if (logOffUrl) {
+                                        window.location.href = logOffUrl;
+                                    } else {
+                                        window.location.href = "/"
+                                    }
+                                }
+                            }
+                            else {
+                                if (typeof failureCallback === "function") {
+                                    failureCallback();
+                                }
+                                else {
+                                    if (logOffUrl) {
+                                        window.location.href = logOffUrl;
+                                    } else {
+                                        window.location.href = "/"
+                                    }
+                                }
+                            }
+                        }
+
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                        //else if (result.hasOwnProperty('message') === true) {
+                        //    showText(responseElm, result.message, 'green');
+                        //}
+                    }
+                    if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error) {
+                            if (error.hasOwnProperty('Message') === true) {
+                                if (haveElm(responseElmId) == true) {
+                                    alert(error.message);
+                                }
+                            }
+                        }
+                    }
+                });
+        }
+
+        return false;
+    }
+
+</script>

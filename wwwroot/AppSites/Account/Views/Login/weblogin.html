@@ -1,0 +1,348 @@
+{{weblogintypeJS}}
+
+<script type="text/javascript">
+
+    window.ajaxid = 0;
+
+    ready(() => {
+
+        let scanInputElm = getElm('scanInput');
+        let scanInputValElm = getElm('scanInputVal');
+        let loginIdElm = getElm('loginId');
+        let loginPwdElm = getElm('loginPwd');
+        let loginSubmitElm = getElm('loginSubmit');
+
+        scanInputElm.addEventListener('keypress', function (event) {
+            let key = event.which || event.keyCode;
+            if (key === 13) { // 13 is enter
+                if (scanInputVal.value.length == 0) {
+                    loginIdElm.value = scanInputElm.value;
+                    scanInputVal.value = scanInputElm.value;
+                    scanInputElm.value = "";
+                    scanInputElm.focus();
+                } else {
+                    loginPwdElm.value = scanInputElm.value;
+                    scanInputElm.value = "";
+                    scanInputVal.value = "";
+                    loginSubmitElm.click()
+                }
+            }
+        });
+
+        loginIdElm.addEventListener('keypress', function (event) {
+            let key = event.which || event.keyCode;
+            if (key === 13) { // 13 is enter
+                loginPwdElm.focus();
+            }
+        });
+
+        loginPwdElm.addEventListener('keypress', function (event) {
+            let key = event.which || event.keyCode;
+            if (key === 13) { // 13 is enter
+                loginSubmitElm.click()
+            }
+        });
+
+        haveLoginUser('loginProgress', 'loginResponse', 'haveUserInfo', function () {           
+            checkAllowedLoginType('loginProgress', 'loginResponse', 'autoLoginBtn', 'linkLoginBtn', function () {
+                setFocus(getElm('loginId'), 1000);
+            });
+        }, function () {
+            setFocus(getElm('loginId'), 1000);
+        });
+    })
+
+    function haveLoginUser(progressElmId, responseElmId, targetElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+
+        let responseContainerElmId = responseElmId + "Container";
+        let responseElm = getElm(responseElmId)
+        let responseContainerElm = getElm(responseContainerElmId)
+        responseElm.innerHTML = "";
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid === true) {
+
+            let url = '/AppApi/WebApi';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'HaveLoginUser', "params": {},
+                "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
+                        let result = data.Result;
+
+                        if (result.hasOwnProperty('message') === true) {
+                            //showText(responseElm, result.message, 'green');
+
+                            if (result.hasOwnProperty('status') === true) {
+                                if (result.status == false) {
+                                    let targetElm = getElm(targetElmId);
+                                    if (targetElm) {
+                                        targetElm.style.display = "block";
+                                    }
+
+                                    if (typeof (failureCallback) === "function") {
+                                        failureCallback();
+                                    }
+
+                                } else {
+                                    if (typeof (successCallback) === "function") {
+                                        successCallback();
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                });
+        }
+        return false;
+    }
+
+    function webLoginUser(progressElmId, responseElmId, loginIdVal, loginPasswordVal, loginRememberVal, redirectUrl) {
+        let id = window.ajaxid++;
+        let responseContainerElmId = responseElmId + "Container";
+        let responseElm = getElm(responseElmId)
+        let responseContainerElm = getElm(responseContainerElmId)
+        responseElm.innerHTML = "";
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (loginIdVal.trim().length === 0) {
+            showText(responseElm, 'Enter Login Id', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+            if (loginPasswordVal.trim().length === 0) {
+                showText(responseElm, 'Enter Login Password', 'red');
+                valid = false;
+            }
+        }
+
+        let rememberMe = false;
+        if (loginRememberVal === "on") rememberMe = true;
+        if (loginRememberVal == - true) rememberMe = true;
+
+        let jsonInput = {
+            "request type": "User",
+            "sub type": "Login",
+            "data": {
+                "UserPwd": loginPasswordVal,
+            },
+            "filter": { "UserId": loginIdVal }
+        }
+
+        if (valid === true) {
+
+            let url = '/AppApi/WebApi' + window.location.search;
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'DoWebValidateUser',
+                "params": {
+                    "userId": loginIdVal,
+                    "userPassword": loginPasswordVal,
+                    "rememberMe": rememberMe,
+                    "jsonInput": jsonInput
+                }, "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
+                        let result = data.Result;
+
+                        if (result.hasOwnProperty('data') === true) {
+                            redirectUrl = result.data;
+                        }
+                        if (result.hasOwnProperty('status') === true) {
+                            if (result.status == true) {
+                                if (redirectUrl) {
+                                    setTimeout(function () { window.location.replace(redirectUrl); }, 1000);
+                                } else {
+                                    setTimeout(function () { window.location.reload(true); }, 1000);
+                                }
+                            }
+                        }
+
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                        else if (result.hasOwnProperty('message') === true) {
+                            showText(responseElm, result.message, 'green');
+                        }
+                    }
+
+                });
+        }
+        return false;
+    }
+
+    function webForgotPassword(progressElmId, responseElmId, loginIdVal) {
+        let id = window.ajaxid++;
+        let responseContainerElmId = responseElmId + "Container";
+        let responseElm = getElm(responseElmId)
+        let responseContainerElm = getElm(responseContainerElmId)
+        responseElm.innerHTML = "";
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (loginIdVal.trim().length === 0) {
+            showText(responseElm, 'Enter Login Id', 'red');
+            valid = false;
+        }
+
+        let jsonInput = {
+            "request type": "User",
+            "sub type": "ForgotPassword",
+            "data": {
+            },
+            "filter": { "UserId": loginIdVal }
+        }
+
+        if (valid === true) {
+
+            let url = '/AppApi/WebApi' + window.location.search;
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'DoWebForgotPassword',
+                "params": {
+                    "userId": loginIdVal,
+                    "jsonInput": jsonInput
+                }, "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
+                        let result = data.Result;
+
+                        if (result.hasOwnProperty('data') === true) {
+                            redirectUrl = result.data;
+                        }
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                        else if (result.hasOwnProperty('message') === true) {
+                            showText(responseElm, result.message, 'green');
+                        }
+                    }
+                });
+        }
+        return false;
+    }
+
+</script>
+
+<style>
+    .avatar {
+        padding-bottom: 10px;
+    }
+
+        .avatar img {
+            padding: 0px;
+            background: #fff;
+            border-radius: 1rem;
+            /*border-radius: 50%;*/
+            -webkit-box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+            box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+        }
+</style>
+
+<div class="flex-content-center" style="min-height:calc(100vh - 95px);">
+
+    <div class="flex-card card_border" style="text-align:center;width:80%;">
+
+        <figure class="avatar" style="text-align:center;">
+            <img src="/Content/logos/logo_login.png" />
+        </figure>
+
+        <div style="text-align:center;display:none;" id="autoLoginBtnDiv">
+            <div id="autoLoginProgress"></div>
+            <button id="autoLoginBtn" disabled="disabled" onclick="return autoLogin('autoLoginProgress', 'loginResponse', '/');" class="button border" style="background-color:#209cee;">Auto Login</button>
+        </div>
+
+        <div class="flex-item-stretch" id="haveUserInfo" style="text-align:center;display:none;">
+            No login user found, the first user will become the admin user
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;display:none;">
+            <input id="scanInputVal" type="hidden" />
+            <input class="flex-item-stretch border" id="scanInput" autocomplete="none" type="text" placeholder="Your Scan Input" autofocus="">
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;">User Id</label>
+            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('loginId'); elm.value = ''; elm.focus();">
+                <div>&nbsp;</div>
+            </div>
+            <input class="flex-item-stretch border-top-bottom" style="height:39px;" id="loginId" autocomplete="none" type="email" placeholder="Your User Id" autofocus="" tabindex="1">
+            <button class="border-right" disabled="disabled" style="width:25px;height:40px;background-color:blue;" id="linkLoginBtn" onclick="toggleElm('linkLoginBtnDiv'); ">
+                &nbsp;
+            </button>
+        </div>
+
+        <div class="border" style="display:none;padding:10px 5px;" id="linkLoginBtnDiv">
+
+            <div style="text-align:center;">
+                <div id="sendLinkLoginProgress"></div>
+                <button onclick="return sendLinkLogin('sendLinkLoginProgress', 'loginResponse', getElm('loginId').value, 'linkLoginUserBtn');" class="button border" style="background-color:#209cee;">Send Link Info</button>
+            </div>
+
+            <div class="flex-input-wrap" style="margin: 5px 0px;">
+                <label style="width:100%;">Link Code</label>
+                <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('linkCode'); elm.value = ''; elm.focus();">
+                    <div>&nbsp;</div>
+                </div>
+                <input class="flex-item-stretch border-right" style="height:39px;" id="linkCode" autocomplete="none" type="password" placeholder="Your Link Code">
+            </div>
+
+            <div style="text-align:center;">
+                <div id="linkLoginProgress"></div>
+                <button id="linkLoginUserBtn" disabled="disabled" onclick="return linkLoginUser('linkLoginProgress', 'loginResponse', getElm('loginId').value, getElm('linkCode').value, '/');" class="button border" style="background-color:#209cee;">Link Login</button>
+            </div>
+
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;">Password</label>
+            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('loginPwd'); elm.value = ''; elm.focus();">
+                <div>&nbsp;</div>
+            </div>
+            <input class="flex-item-stretch border-right" style="height:39px;" id="loginPwd" autocomplete="none" type="password" placeholder="Your Password" tabindex="2">
+        </div>
+
+        <div style="text-align:right;margin-right:10px;">
+            <button class="border button" style="" tabindex="5"
+                    onclick="return webForgotPassword('forgotPasswordProgress', 'loginResponse', getElm('loginId').value);">
+                Forgot Password? <div id="forgotPasswordProgress"></div>
+            </button>
+        </div>
+
+        <div style="text-align:center;margin-top:10px;display:none;">
+            <input readonly type="checkbox" checked="checked" id="loginRemember" name="loginRemember" title="Remember the Login" tabindex="3">
+            <label for="loginRemember" style="padding:7px 0px 0 0px;">
+                Remember Me
+            </label>
+        </div>
+
+        <div class="notification" id="loginResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+            <button class="delete" onclick="hideElm('loginResponseContainer')"></button>
+            <div id="loginResponse"></div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 15px 0px;">
+            <button class="border button" id="loginSubmit" style="background-color:#209cee;" tabindex="4"
+                    onclick="return webLoginUser('loginProgress', 'loginResponse', getElm('loginId').value, getElm('loginPwd').value, getElm('loginRemember').checked, '/');">
+                Login <div id="loginProgress"></div>
+            </button>
+        </div>
+
+    </div>
+
+</div>

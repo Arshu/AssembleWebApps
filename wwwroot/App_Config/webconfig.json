@@ -1,4 +1,5 @@
 {
+    "WebFolder" : null,    
     "AutoUpdate" : false,    
     "ResourceOptimize" : true,    
     "DisableAuthentication" : false,    
@@ -10,8 +11,7 @@
     "HSTSMaxAgeInDays" : 30,    
     "EnableContentTypeOptions" : true,    
     "EnableCSP" : false,    
-    "ContentSecurityPolicy" : "default-src 'self'",    
+    "ContentSecurityPolicy" : "default-src \u0027self\u0027",    
     "EnableXSS" : true,    
-    "XSSProtection" : "1; mode=block",    
-    "SendAuthCookieExpiry" : false
+    "XSSProtection" : "1; mode=block"
 }

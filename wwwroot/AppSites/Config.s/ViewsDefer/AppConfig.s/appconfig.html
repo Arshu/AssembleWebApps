@@ -1,0 +1,911 @@
+<script>
+
+    window.ajaxid = 0;
+
+    ready(() => {
+        triggerEvent('refreshAppConfigBtn', 'click');
+    });
+
+    function triggerAppShutdown(progressElmId, responseElmId, successCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+        let valid = true;
+
+        if (valid === true) {
+
+
+            let url = '/AppApi/AppApi';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'TriggerAppShutdown', "params": {
+                }, "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
+                        let result = data.Result;
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                        else if (result.hasOwnProperty('message') === true) {
+                            showText(responseElm, result.message, 'green');
+
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }
+                    }
+                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                });
+        }
+
+        return false;
+    }
+
+    function fillAppConfig(json) {
+
+        if (json.hasOwnProperty('WebRootName') === true) {
+            getElm('webRootName').value = json.WebRootName;
+        }
+
+        if (json.hasOwnProperty('ConfigLogLevel') === true) {
+            let configLogLevelArr = json.ConfigLogLevel.split(",");;
+
+            let checkboxList = document.getElementsByName("logLevel");
+            for (let y = 0; y < checkboxList.length; y++) {
+                checkboxList[y].checked = false;
+            }
+
+            for (let i = 0; i < configLogLevelArr.length; i++) {
+                let configLogLevel = configLogLevelArr[i].trim();
+                if (configLogLevel.length > 0) {
+                    for (let y = 0; y < checkboxList.length; y++) {
+                        if (checkboxList[y].defaultValue.trim() == configLogLevel) {
+                            checkboxList[y].checked = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (json.hasOwnProperty('ApiConfigWrite') === true) {
+            getElm('apiConfigWrite').checked = json.ApiConfigWrite;
+        }
+        if (json.hasOwnProperty('CreateWebConfig') === true) {
+            getElm('createWebConfig').checked = json.CreateWebConfig;
+        }
+        if (json.hasOwnProperty('AllowReload') === true) {
+            getElm('allowReload').checked = json.AllowReload;
+        }
+        if (json.hasOwnProperty('AllowConfigReload') === true) {
+            getElm('allowConfigReload').checked = json.AllowConfigReload;
+        }
+
+        if (json.hasOwnProperty('StaticAppSites') === true) {
+
+            let checkboxList = document.getElementsByName("staticAppSiteList");
+            for (let y = 0; y < checkboxList.length; y++) {
+                checkboxList[y].checked = false;
+            }
+
+            let staticAppSiteIndex = 0;
+            let staticAppSitesArr = json.StaticAppSites.split(",");
+            for (let i = 0; i < staticAppSitesArr.length; i++) {
+                let staticAppSite = staticAppSitesArr[i].trim();
+                if (staticAppSite.length > 0) {
+                    for (let y = 0; y < checkboxList.length; y++) {
+                        if (checkboxList[y].defaultValue.trim() == staticAppSite) {
+                            checkboxList[y].checked = true;
+                            getElm("Select" + checkboxList[y].id).value = staticAppSiteIndex;
+                            staticAppSiteIndex++;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (json.hasOwnProperty('SearchAppSites') === true) {
+
+            let checkboxList = document.getElementsByName("searchAppSiteList");
+            for (let y = 0; y < checkboxList.length; y++) {
+                checkboxList[y].checked = false;
+            }
+
+            let searchAppSiteIndex = 0
+            let searchAppSitesArr = json.SearchAppSites.split(",");
+            for (let i = 0; i < searchAppSitesArr.length; i++) {
+                let searchAppSite = searchAppSitesArr[i].trim();
+                if (searchAppSite.length > 0) {
+                    for (let y = 0; y < checkboxList.length; y++) {
+                        if (checkboxList[y].defaultValue.trim() == searchAppSite) {
+                            checkboxList[y].checked = true;
+                            getElm("Select" + checkboxList[y].id).value = searchAppSiteIndex;
+                            searchAppSiteIndex++;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (json.hasOwnProperty('AppAssets') === true) {
+            let appAssetArray = json.AppAssets;
+
+            let selectElm = getElm("appAssets");
+            if (selectElm) {
+                selectElm.options.length = 0;
+                for (let i = 0; i < appAssetArray.length; i++) {
+                    let appAsset = appAssetArray[i];
+                    let selectText = "";
+                    let selectValue = "";
+                    for (let key in appAsset) {
+                        let value = appAsset[key];
+                        console.log(key + ": " + value);
+                        if (selectValue.length > 0) selectValue = selectValue + ",";
+                        selectValue = selectValue + key + "=" + value;
+                        if (key == "AssetTypeName") {
+                            selectText = value;
+                        }
+                    }
+                    selectElm.options[selectElm.options.length] = new Option(selectText, selectValue);
+                }
+            }
+        }
+
+        if (json.hasOwnProperty('AppServices') === true) {
+            let appServicesArray = json.AppServices;
+
+            let selectElm = getElm("appServices");
+            if (selectElm) {
+                selectElm.options.length = 0;
+                for (let i = 0; i < appServicesArray.length; i++) {
+                    let appService = appServicesArray[i];
+                    let selectText = "";
+                    let selectValue = "";
+                    for (let key in appService) {
+                        let value = appService[key];
+                        console.log(key + ": " + value);
+                        if (selectValue.length > 0) selectValue = selectValue + ",";
+                        selectValue = selectValue + key + "=" + value;
+                        if (key == "RegisterTypeName") {
+                            selectText = value;
+                        }
+                    }
+                    selectElm.options[selectElm.options.length] = new Option(selectText, selectValue);
+                }
+            }
+        }
+
+        if (json.hasOwnProperty('AppProviders') === true) {
+            let appProvidersArray = json.AppProviders;
+            let selectElm = getElm("appProviders");
+            if (selectElm) {
+                selectElm.options.length = 0;
+                for (let i = 0; i < appProvidersArray.length; i++) {
+                    let appProvider = appProvidersArray[i];
+                    let selectText = "";
+                    let selectValue = "";
+                    for (let key in appProvider) {
+                        let value = appProvider[key];
+                        console.log(key + ": " + value);
+                        if (selectValue.length > 0) selectValue = selectValue + ",";
+                        selectValue = selectValue + key + "=" + value;
+                        if (key == "RegisterTypeName") {
+                            selectText = value;
+                        }
+                        //if (key == "ProviderTypeName") {
+                        //    selectText = value;
+                        //}
+                    }
+                    selectElm.options[selectElm.options.length] = new Option(selectText, selectValue);
+                }
+            }
+        }
+    }
+
+    function fillSelectValue(selectElmId, selectValue, checkPrefix1, checkPrefix2, checkAppendPrefix, appendPrefix, selectedElmId) {
+
+        let selectElm = getElm(selectElmId);
+        if (selectElm) {
+            for (let i = 0; i < selectElm.options.length; i++) {
+                if (selectElm.options[i].value == selectValue) {
+                    let selectValueArr = selectValue.split(",");
+
+                    for (let x = 0; x < selectValueArr.length; x++) {
+                        let selectOptionArr = selectValueArr[x].split("=");
+                        if (selectOptionArr.length = 2) {
+                            let selectOptionText = selectOptionArr[0].trim();
+                            let selectOptionValue = selectOptionArr[1].trim();
+
+                            let selectOptionKey = appendPrefix + selectOptionText;
+                            if (checkPrefix1.length > 0) {
+                                if (selectOptionText.substring(0, checkPrefix1.length) == checkPrefix1) {
+                                    selectOptionKey = checkAppendPrefix + selectOptionText;
+                                }
+                            }
+                            if (checkPrefix2.length > 0) {
+                                if (selectOptionText.substring(0, checkPrefix2.length) == checkPrefix2) {
+                                    selectOptionKey = checkAppendPrefix + selectOptionText;
+                                }
+                            }
+                            let isBooleanValue = selectOptionValue.toLowerCase() === 'true' || selectOptionValue.toLowerCase() === 'false';
+                            if (isBooleanValue == false) {
+                                getElm(selectOptionKey).value = selectOptionValue;
+                            } else {
+                                getElm(selectOptionKey).checked = false;
+                                if (selectOptionValue.toLowerCase() === 'true') {
+                                    getElm(selectOptionKey).checked = true;
+                                }
+                            }
+                        }
+                    }
+                    getElm(selectedElmId).value = i;
+                }
+            }
+        }
+    }
+
+    function getAppConfigJson() {
+
+        let jsonAppConfig = new Object();
+
+        let configLogLevelList = "";
+        let logLevelCheckboxList = document.getElementsByName("logLevel");
+        for (let y = 0; y < logLevelCheckboxList.length; y++) {
+            if (logLevelCheckboxList[y].checked == true) {
+                if (configLogLevelList.length > 0) configLogLevelList = configLogLevelList + ",";
+                configLogLevelList = configLogLevelList + logLevelCheckboxList[y].defaultValue;
+            }
+        }
+        jsonAppConfig.ConfigLogLevel = configLogLevelList;
+
+        let configOptionCheckboxList = document.getElementsByName("configOption");
+        for (let y = 0; y < configOptionCheckboxList.length; y++) {
+            jsonAppConfig[configOptionCheckboxList[y].defaultValue] = configOptionCheckboxList[y].checked;
+        }
+
+        let maxOrderIndex = 9;
+
+        let staticAppSiteList = "";
+        let staticAppSiteCheckboxList = document.getElementsByName("staticAppSiteList");
+        for (let i = 0; i <= maxOrderIndex; i++) {
+            let startOrderIndex = i;
+            for (let y = 0; y < staticAppSiteCheckboxList.length; y++) {
+                let orderIndex = getElm("Select" + staticAppSiteCheckboxList[y].id).value;
+                if (orderIndex == startOrderIndex) {
+                    if (staticAppSiteCheckboxList[y].checked == true) {
+                        if (staticAppSiteList.length > 0) staticAppSiteList = staticAppSiteList + ",";
+                        staticAppSiteList = staticAppSiteList + staticAppSiteCheckboxList[y].defaultValue;
+                    }
+                }
+            }
+        }
+        jsonAppConfig.StaticAppSites = staticAppSiteList;
+
+        let searchAppSiteList = "";
+        let searchAppSiteCheckboxList = document.getElementsByName("searchAppSiteList");
+        for (let i = 0; i <= maxOrderIndex; i++) {
+            let startOrderIndex = i;
+            for (let y = 0; y < searchAppSiteCheckboxList.length; y++) {
+                let orderIndex = getElm("Select" + searchAppSiteCheckboxList[y].id).value;
+                if (orderIndex == startOrderIndex) {
+                    if (searchAppSiteCheckboxList[y].checked == true) {
+                        if (searchAppSiteList.length > 0) searchAppSiteList = searchAppSiteList + ",";
+                        searchAppSiteList = searchAppSiteList + searchAppSiteCheckboxList[y].defaultValue;
+                    }
+                }
+            }
+        }
+
+        jsonAppConfig.SearchAppSites = searchAppSiteList;
+
+        return jsonAppConfig;
+    }
+
+    function updateAppSelect(selectElmId, selectedElmId, checkPrefix1, checkPrefix2, checkAppendPrefix, appendPrefix, successCallback) {
+
+        let selectElm = getElm(selectElmId);
+        if (selectElm) {
+            for (let i = 0; i < selectElm.options.length; i++) {
+                let selectedIndex = getElm(selectedElmId).value;
+                if (i == selectedIndex) {
+
+                    let selectValue = selectElm.options[i].value;
+                    let selectValueArr = selectValue.split(",");
+                    let jsonItem = new Object();
+
+                    for (let x = 0; x < selectValueArr.length; x++) {
+                        let selectOptionArr = selectValueArr[x].split("=");
+                        if (selectOptionArr.length = 2) {
+                            let selectOptionText = selectOptionArr[0].trim();
+                            let selectOptionValue = selectOptionArr[1].trim();
+
+                            let selectOptionKey = appendPrefix + selectOptionText;
+                            if (checkPrefix1.length > 0) {
+                                if (selectOptionText.substring(0, checkPrefix1.length) == checkPrefix1) {
+                                    selectOptionKey = checkAppendPrefix + selectOptionText;
+                                }
+                            }
+                            if (checkPrefix2.length > 0) {
+                                if (selectOptionText.substring(0, checkPrefix2.length) == checkPrefix2) {
+                                    selectOptionKey = checkAppendPrefix + selectOptionText;
+                                }
+                            }
+                            let isBooleanValue = selectOptionValue.toLowerCase() === 'true' || selectOptionValue.toLowerCase() === 'false';
+                            let currentVal = "";
+                            if (isBooleanValue == false) {
+                                currentVal = getElm(selectOptionKey).value;
+                            } else {
+                                currentVal = getElm(selectOptionKey).checked;
+                            }
+                            jsonItem[selectOptionText] = currentVal;
+                        }
+                    }
+
+                    let newSelectValue = "";
+                    for (let key in jsonItem) {
+                        let value = jsonItem[key];
+                        console.log(key + ": " + value);
+                        if (newSelectValue.length > 0) newSelectValue = newSelectValue + ",";
+                        newSelectValue = newSelectValue + key + "=" + value;
+                    }
+
+                    selectElm.options[i].value = newSelectValue;
+                    break;
+                }
+            }
+        }
+
+        if (typeof successCallback === "function") {
+            successCallback();
+        }
+    }
+
+    function getAppSelectJson(selectElmId, listKey, checkPrefix1, checkPrefix2, checkAppendPrefix, appendPrefix) {
+
+        let jsonAppConfig = new Object();
+        let jsonArr = [];
+
+        let selectElm = getElm(selectElmId);
+        if (selectElm) {
+            for (let i = 0; i < selectElm.options.length; i++) {
+
+                let jsonItem = new Object();
+                let selectValueArr = selectElm.options[i].value.split(",");
+
+                for (let x = 0; x < selectValueArr.length; x++) {
+                    let selectOptionArr = selectValueArr[x].split("=");
+                    if (selectOptionArr.length = 2) {
+                        let selectOptionText = selectOptionArr[0].trim();
+                        let selectOptionValue = selectOptionArr[1].trim();
+
+                        let selectOptionKey = appendPrefix + selectOptionText;
+                        if (checkPrefix1.length > 0) {
+                            if (selectOptionText.substring(0, checkPrefix1.length) == checkPrefix1) {
+                                selectOptionKey = checkAppendPrefix + selectOptionText;
+                            }
+                        }
+                        if (checkPrefix2.length > 0) {
+                            if (selectOptionText.substring(0, checkPrefix2.length) == checkPrefix2) {
+                                selectOptionKey = checkAppendPrefix + selectOptionText;
+                            }
+                        }
+                        jsonItem[selectOptionText] = selectOptionValue;
+                    }
+                }
+
+                jsonArr.push(jsonItem);
+            }
+        }
+
+        jsonAppConfig[listKey] = jsonArr;
+
+        return jsonAppConfig;
+    }
+
+    function retrieveAppConfig(progressElmId, responseElmId, successCallback) {
+        let id = window.ajaxid++;
+
+        let responseContainerElmId = responseElmId + "Container";
+        let responseElm = getElm(responseElmId)
+        let responseContainerElm = getElm(responseContainerElmId)
+        //while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild);
+        //hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid === true) {
+
+            let url = '/AppApi/AppApi';
+            let urlMethod = 'POST';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'GetAppConfig',
+                "params": {},
+                "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
+                        let result = data.Result;
+
+                        if (result.hasOwnProperty('message') === true) {
+                            //showText(responseElm, result.message, 'green');
+                            if (result.hasOwnProperty('json') === true) {
+                                let json = result.json;
+                                fillAppConfig(json);
+
+                                if (typeof successCallback === "function") {
+                                    successCallback();
+                                }
+                            }
+                        }
+                        else if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                    }
+                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                });
+
+        }
+        return false;
+    }
+
+    function saveAppConfig(progressElmId, responseElmId, getJson, successCallback) {
+        let id = window.ajaxid++;
+
+        let responseContainerElmId = responseElmId + "Container";
+        let responseElm = getElm(responseElmId)
+        let responseContainerElm = getElm(responseContainerElmId)
+        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild);
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (getElm("webRootName").value.trim().length === 0) {
+            showText(responseElm, 'Enter Web Root Name', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            let jsonAppConfig = {};
+            if (typeof getJson === "function") {
+                jsonAppConfig = getJson();
+            }
+            let jsonAppConfigText = JSON.stringify(jsonAppConfig);
+            console.log(JSON.parse(jsonAppConfigText));
+
+            let url = '/AppApi/AppApi';
+            let urlMethod = 'POST';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": "SaveAppConfig",
+                "params": {
+                    "appConfigJson": jsonAppConfigText,
+                },
+                "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
+                        let result = data.Result;
+
+                        if (result.hasOwnProperty('message') === true) {
+                            showText(responseElm, result.message, 'green');
+
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }
+                        else if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                    }
+                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                });
+
+        }
+        return false;
+    }
+
+</script>
+
+<div class="container" style="text-align:center;">
+
+    <div class="flex-card card_border">
+
+        <div class="notification" id="appShutdownResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="delete" onclick="hideElm('appShutdownResponseContainer')"></button>
+            <div id="appShutdownResponse"></div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 0px;">
+
+            <button class="border button" style="background-color:red;"
+                    onclick="triggerAppShutdown('appShutdownProgress', 'appShutdownResponse', null)">
+                Trigger App Shutdown <div id="appShutdownProgress"></div>
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="flex-card card_border">
+
+        <div class="flex-content-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;">WebRootName</label>
+            <button class="border-left" style="width:40px;height:40px;" id="refreshAppConfigBtn" onclick="retrieveAppConfig('appConfigProgress', 'appConfigResponse', function () { hideElm('appAssetsView');hideElm('appServicesView');hideElm('appProvidersView'); });">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            </button>
+            <div class="flex-item-stretch border-top-bottom" style="height:40px;">
+                <select style="width:100%;border:none;" id="webRootName" disabled>
+                    {{
+                        VIEW_AppDomainSelect(
+                        "AppSiteList",
+                        "SkipValue" : "",
+                        "FilterValue": "",
+                        "SelectedKey":"Template",
+                        "SelectEmptyText":"No App Domain Found",
+                        "AppendOption" : "",
+                        "AppendOptionValue" : "")
+                    }}
+                </select>
+                <div id="appConfigProgress"></div>
+            </div>
+            <button class="border-right" style="width:40px;height:40px;" onclick="toggleElm('appConfigView');">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
+                </svg>
+            </button>
+        </div>
+
+    </div>
+
+    <div class="flex-card card_border" id="appConfigView" style="display:none;">
+
+        <div class="notification" id="appConfigResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="delete" onclick="hideElm('appConfigResponseContainer')"></button>
+            <div id="appConfigResponse"></div>
+        </div>
+
+        <div class="flex-content-wrap border" style="margin: 5px 0px;">
+            <label style="width:100%;">Log Level</label>
+            <div>
+                <label for="criticalLogLevel" style="padding:7px 5px 0 0px;display:inline-block;">
+                    <input readonly type="checkbox" id="criticalLogLevel" name="logLevel" title="Enable Critical Log" value="Critical">
+                    Critical
+                </label>
+                <label for="criticalLogLevel" style="padding:7px 5px 0 5px;display:inline-block;">
+                    <input readonly type="checkbox" id="errorLogLevel" name="logLevel" title="Enable Error Log" value="Error">
+                    Error
+                </label>
+                <label for="criticalLogLevel" style="padding:7px 5px 0 5px;display:inline-block;">
+                    <input readonly type="checkbox" id="warnLogLevel" name="logLevel" title="Enable Warn Log" value="Warn">
+                    Warn
+                </label>
+                <label for="criticalLogLevel" style="padding:7px 0px 0 5px;display:inline-block;">
+                    <input readonly type="checkbox" id="criticalInfoLogLevel" name="logLevel" title="Enable Critical Info Log" value="CriticalInfo">
+                    CriticalInfo
+                </label>
+            </div>
+        </div>
+
+        <div class="flex-content-wrap border" style="margin: 5px 0px;">
+            <label for="apiConfigWrite" style="padding:7px 5px 0 0px;display:inline-block;">
+                <input readonly type="checkbox" id="apiConfigWrite" name="configOption" title="Enable Api Config Write" value="ApiConfigWrite">
+                ApiConfigWrite
+            </label>
+            <label for="createWebConfig" style="padding:7px 0px 0 5px;display:inline-block;">
+                <input readonly type="checkbox" id="createWebConfig" name="configOption" title="Create Web Config" value="CreateWebConfig">
+                CreateWebConfig
+            </label>
+            <label for="createWebConfig" style="padding:7px 0px 0 5px;display:inline-block;">
+                <input readonly type="checkbox" id="allowReload" name="configOption" title="Create Web Config" value="AllowReload">
+                Allow Reload
+            </label>
+            <label for="createWebConfig" style="padding:7px 0px 0 5px;display:inline-block;">
+                <input readonly type="checkbox" id="allowConfigReload" name="configOption" title="Create Web Config" value="AllowConfigReload">
+                Allow Config Reload
+            </label>
+        </div>
+
+        <div class="border" style="margin: 10px 0px;">
+            <div>
+                Static App Sites With Order Sequence
+            </div>
+            {{
+                    VIEW_AppSiteSelect(
+                        "staticAppSiteList",
+                        "AppSite":"{$AppSite}",
+                        "AppSiteType": "Static",
+                        "SelectedOption" : "AppSiteSequenceCheckedOption",
+                        "SelectOption" : "AppSiteSequenceOption",
+                        "EmptyText" : "No App Site Found",
+                        "SkipValue": "",
+                        "FilterValue": "",
+                        "SelectedKey":"",
+                        "DefaultChecked": "True",
+                        "AppendOptionText": "",
+                        "AppendOptionValue": "",
+                        "DisableOptionValue": "Index",
+                        "DisableOptionChecked": "true")
+            }}
+        </div>
+
+        <div class="border" style="margin: 10px 0px;">
+            <div>
+                Search App Sites With Order Sequence
+            </div>
+            {{
+                VIEW_AppSiteSelect(
+                "searchAppSiteList",
+                "AppSite":"{$AppSite}",
+                "AppSiteType": "Search",
+                "SelectedOption" : "AppSiteSequenceCheckedOption",
+                "SelectOption" : "AppSiteSequenceOption",
+                "EmptyText" : "No App Site Found",
+                "SkipValue": "",
+                "FilterValue": "",
+                "SelectedKey":"",
+                "DefaultChecked": "True",
+                "AppendOptionText": "",
+                "AppendOptionValue": "",
+                "DisableOptionValue": "Index",
+                "DisableOptionChecked": "true")
+            }}
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 0px;">
+
+            <button class="border button" style="background-color:#209cee"
+                    onclick="saveAppConfig('appConfigProgress', 'appConfigResponse', getAppConfigJson, function () { retrieveAppConfig('appConfigProgress', 'appConfigResponse', null); } )">
+                Save AppConfig <div id="shutdownProgress"></div>
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="flex-card card_border">
+
+        <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <label style="width:100%;">App Assets</label>
+            <div class="flex-item-stretch border-left" style="height:40px;">
+                <select style="width:100%;border:none;" id="appAssets" onchange="updateAppSelect('appAssets', 'selectedAppAssets', 'Asset', '', 'app', 'appAsset', function () { fillSelectValue('appAssets', getElm('appAssets').value, 'Asset', '', 'app', 'appAsset', 'selectedAppAssets'); })">
+                </select>
+            </div>
+            <button class="border-right" style="width:40px;height:40px;" onclick="fillSelectValue('appAssets', getElm('appAssets').value, 'Asset', '', 'app', 'appAsset', 'selectedAppAssets'); toggleElm('appAssetsView'); hideElm('appServicesView'); hideElm('appProvidersView')">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+            </button>
+            <input type="hidden" id="selectedAppAssets" style="width:100%;" />
+        </div>
+
+        <div class="card_border" id="appAssetsView" style="display:none;">
+
+            <div style="margin: 5px 0px;">
+                <div style="padding: 0px 5px;">
+                    AssetDll
+                </div>
+                <div class="flex-item-stretch">
+                    <input class="border" style="width:100%;height:40px;" id="appAssetDll" name="appAssetDll" type="text" value="" placeholder="Enter Asset Dll Name">
+                </div>
+            </div>
+
+            <div style="margin: 5px 0px;">
+                <div style="padding: 0px 5px;">
+                    AssetTypeName
+                </div>
+                <div class="flex-item-stretch">
+                    <input class="border" style="width:100%;height:40px;" id="appAssetTypeName" name="appAssetTypeName" type="text" value="" placeholder="Enter Asset Type Name">
+                </div>
+            </div>
+
+            <div style="text-align:center;margin-top:10px">
+                <input readonly type="checkbox" id="appAssetIsEnabled" name="appAssetIsEnabled" title="Enable App Asset">
+                <label for="appAssetIsEnabled" style="padding:7px 0px 0 0px;">
+                    Enabled
+                </label>
+            </div>
+
+            <div class="notification" id="appAssetsResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+                <button class="delete" onclick="hideElm('appAssetsResponseContainer')"></button>
+                <div id="appAssetsResponse"></div>
+            </div>
+
+            <div class="flex-content-wrap" style="margin: 5px 0px;">
+
+                <button class="border button" style="background-color:#209cee;display:none;"
+                        onclick="updateAppSelect('appAssets', 'selectedAppAssets', 'Asset', '', '', 'app', 'appAsset')">
+                    Update AppAsset
+                </button>
+
+                <button class="border button" style="background-color:#209cee"
+                        onclick="updateAppSelect('appAssets', 'selectedAppAssets', 'Asset', '', '', 'app', 'appAsset', function () {
+                                saveAppConfig('appAssetProgress', 'appAssetsResponse', function () {
+                                   return getAppSelectJson('appAssets', 'AppAssets', 'Asset', '', 'app', 'appAsset')
+                                }, function () {
+                                    retrieveAppConfig('appConfigProgress', 'appConfigResponse', null);
+                                });
+                            })">
+                    Save AppAsset <div id="appAssetProgress"></div>
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <label style="width:100%;">App Services</label>
+            <div class="flex-item-stretch border-left" style="height:40px;">
+                <select style="width:100%;border:none;" id="appServices" onchange="updateAppSelect('appServices', 'selectedAppServices', 'Register', '', 'appService', 'appServiceRegister', function () { fillSelectValue('appServices', getElm('appServices').value, 'Register', '', 'appService', 'appServiceRegister', 'selectedAppServices'); })">
+                </select>
+            </div>
+            <button class="border-right" style="width:40px;height:40px;" onclick="fillSelectValue('appServices', getElm('appServices').value, 'Register', '', 'appService', 'appServiceRegister', 'selectedAppServices'); toggleElm('appServicesView'); hideElm('appAssetsView');hideElm('appProvidersView')">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+            </button>
+            <input type="hidden" id="selectedAppServices" style="width:100%;" />
+        </div>
+
+        <div class="card_border" id="appServicesView" style="display:none;">
+
+            <div style="margin: 5px 0px;">
+                <div style="padding: 0px 5px;">
+                    RegisterDll
+                </div>
+                <div class="flex-item-stretch">
+                    <input class="border" style="width:100%;height:40px;" id="appServiceRegisterDll" name="appServiceRegisterDll" type="text" value="" placeholder="Enter Register Dll Name">
+                </div>
+            </div>
+
+            <div style="margin: 5px 0px;">
+                <div style="padding: 0px 5px;">
+                    RegisterTypeName
+                </div>
+                <div class="flex-item-stretch">
+                    <input class="border" style="width:100%;height:40px;" id="appServiceRegisterTypeName" name="appServiceRegisterTypeName" type="text" value="" placeholder="Enter Register Type Name">
+                </div>
+            </div>
+
+            <div style="text-align:center;margin-top:10px">
+                <input readonly type="checkbox" id="appServiceRegisterIsEnabled" name="appServiceRegisterIsEnabled" title="Enable App Service">
+                <label for="appServiceRegisterIsEnabled" style="padding:7px 0px 0 0px;">
+                    Enabled
+                </label>
+            </div>
+
+            <div class="notification" id="appServiceResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+                <button class="delete" onclick="hideElm('appServiceResponseContainer')"></button>
+                <div id="appServiceResponse"></div>
+            </div>
+
+            <div class="flex-content-wrap" style="margin: 5px 0px;">
+
+                <button class="border button" style="background-color:#209cee;display:none;"
+                        onclick="updateAppSelect('appServices', 'selectedAppServices', 'Register', '', 'appService', 'appServiceRegister')">
+                    Update AppService
+                </button>
+
+                <button class="border button" style="background-color:#209cee"
+                        onclick="updateAppSelect('appServices', 'selectedAppServices', 'Register', '', 'appService', 'appServiceRegister', function () {
+                            saveAppConfig('appServiceProgress', 'appServiceResponse', function () {
+                                return getAppSelectJson('appServices', 'AppServices', 'Register', '', 'appService', 'appServiceRegister')
+                            }, function () {
+                                retrieveAppConfig('appConfigProgress', 'appConfigResponse', null);
+                            })
+                        })">
+                    Save AppService <div id="appServiceProgress"></div>
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <label style="width:100%;">App Providers</label>
+            <div class="flex-item-stretch border-left" style="height:40px;">
+                <select style="width:100%;border:none;" id="appProviders" onchange="updateAppSelect(getAppSelectJson('appProviders', 'selectedAppProviders', 'Provider', 'Register', 'app', 'appProvider', function () { fillSelectValue('appProviders', getElm('appProviders').value, 'Provider', 'Register', 'app', 'appProvider', 'selectedAppProviders'); })">
+                </select>
+            </div>
+            <button class="border-right" style="width:40px;height:40px;" onclick="fillSelectValue('appProviders', getElm('appProviders').value, 'Provider', 'Register', 'app', 'appProvider', 'selectedAppProviders'); toggleElm('appProvidersView');hideElm('appAssetsView');hideElm('appServicesView');">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+            </button>
+            <input type="hidden" id="selectedAppProviders" style="width:100%;" />
+        </div>
+
+        <div class="card_border" id="appProvidersView" style="display:none;">
+
+            <div style="margin: 5px 0px;">
+                <div style="padding: 0px 5px;">
+                    ProviderTypeName
+                </div>
+                <div class="flex-item-stretch">
+                    <input class="border" style="width:100%;height:40px;" id="appProviderTypeName" name="appProviderTypeName" type="text" value="" placeholder="Enter Provider Type Name">
+                </div>
+            </div>
+
+            <div style="margin: 5px 0px;">
+                <div style="padding: 0px 5px;">
+                    ProviderDll
+                </div>
+                <div class="flex-item-stretch">
+                    <input class="border" style="width:100%;height:40px;" id="appProviderDll" name="appProviderDll" type="text" value="" placeholder="Enter Provider Dll Name">
+                </div>
+            </div>
+
+            <div style="margin: 5px 0px;">
+                <div style="padding: 0px 5px;">
+                    RegisterTypeName
+                </div>
+                <div class="flex-item-stretch">
+                    <input class="border" style="width:100%;height:40px;" id="appRegisterTypeName" name="appRegisterTypeName" type="text" value="" placeholder="Enter Register Type Name">
+                </div>
+            </div>
+
+            <div style="margin: 5px 0px;">
+                <div style="padding: 0px 5px;">
+                    RegisterDll
+                </div>
+                <div class="flex-item-stretch">
+                    <input class="border" style="width:100%;height:40px;" id="appRegisterDll" name="appRegisterDll" type="text" value="" placeholder="Enter Register Dll Name">
+                </div>
+            </div>
+
+            <div style="text-align:center;margin-top:10px">
+                <input readonly type="checkbox" id="appProviderIsEnabled" name="appProviderIsEnabled" title="Enable App Provider">
+                <label for="appProviderIsEnabled" style="padding:7px 0px 0 0px;">
+                    Enabled
+                </label>
+            </div>
+
+            <div class="notification" id="appProviderResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+                <button class="delete" onclick="hideElm('appProviderResponseContainer')"></button>
+                <div id="appProviderResponse"></div>
+            </div>
+
+            <div class="flex-content-wrap" style="margin: 5px 0px;">
+
+                <button class="border button" style="background-color:#209cee;display:none;"
+                        onclick="updateAppSelect(getAppSelectJson('appProviders', 'selectedAppProviders', 'Provider', 'Register', 'app', 'appProvider')">
+                    Update AppProvider
+                </button>
+
+                <button class="border button" style="background-color:#209cee"
+                        onclick="updateAppSelect(getAppSelectJson('appProviders', 'selectedAppProviders', 'Provider', 'Register', 'app', 'appProvider', function () {
+                            saveAppConfig('appProviderProgress', 'appProviderResponse', function () {
+                                return getAppSelectJson('appProviders', 'AppProviders', 'Provider', 'Register', 'app', 'appProvider')
+                            }, function () { retrieveAppConfig('appConfigProgress', 'appConfigResponse', null); });
+                        })">
+                    Save AppProvider <div id="appProviderProgress"></div>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+

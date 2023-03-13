@@ -1,0 +1,68 @@
+{
+    "AllowedRoles" : [
+        "Guest"
+    ],    
+    "GetAppDomainListView" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appSite" : "String",            
+            "htmlContainer" : "String",            
+            "htmlItem" : "String",            
+            "htmlEmpty" : "String",            
+            "htmlTop" : "String",            
+            "htmlBottom" : "String",            
+            "filterValue" : "String",            
+            "pageNo" : "Int32",            
+            "itemsPerPage" : "Int32"
+        }
+    },    
+    "RegisterRandomAppDomainHost" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appDomainName" : "String",            
+            "appDomainAdminEmail" : "String",            
+            "appDomainAdminPwd" : "String"
+        }
+    },    
+    "RegisterAppDomainHost" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "appDomainName" : "String",            
+            "appDomainAdminEmail" : "String",            
+            "appDomainAdminPwd" : "String",            
+            "appDomainAlias" : "String",            
+            "appDomainTitle" : "String",            
+            "appDomainDescription" : "String"
+        }
+    },    
+    "RegisterAppDomainInfo" : 
+    {
+        "AllowedRoles" : [
+            "Guest"
+        ],        
+        "Parameters" : 
+        {
+            "registryUserId" : "String",            
+            "registryUserPassword" : "String",            
+            "appDomainName" : "String",            
+            "appDomainAlias" : "String",            
+            "appDomainUrlPattern" : "String",            
+            "appDomainTitle" : "String",            
+            "appDomainDescription" : "String",            
+            "appDomainAdminEmail" : "String",            
+            "appDomainAdminPwd" : "String"
+        }
+    }
+}

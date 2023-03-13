@@ -1,0 +1,25 @@
+{
+    "AllowedRoles" : [
+        "Guest"
+    ],    
+    "GetServerInfo" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ],        
+        "Parameters" : 
+        {
+            
+        }
+    },    
+    "CurlExecute" : 
+    {
+        "AllowedRoles" : [
+            "User"
+        ],        
+        "Parameters" : 
+        {
+            "url" : "String"
+        }
+    }
+}

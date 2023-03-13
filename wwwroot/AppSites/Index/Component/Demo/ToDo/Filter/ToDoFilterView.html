@@ -1,0 +1,33 @@
+
+<div class="flex-input-wrap bg-alt" id="toDoFilterViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+    <div class="flex-input-wrap" id="toDoFilterInput">
+        <div>Task Name</div>
+        <input type="text" class="border" style="width:100%;" data-key="ToDo.ToDoList~0.FilterTaskName" id="{{$ParentViewID}}FilterTaskName" value="{{$FilterTaskName}}"/>        
+        <div>Task Status</div>
+        <select class="border" data-key="ToDo.ToDoList~0.FilterTaskStatus" style="width:100%;padding:0 0 0 10px;" id="{{$ParentViewID}}FilterTaskStatus">
+            <option {{@FilterTaskStatusNone}} selected="selected" {{/FilterTaskStatusNone}}>None</option>
+            <option {{@FilterTaskStatusPending}} selected="selected" {{/FilterTaskStatusPending}}>Pending</option>
+            <option {{@FilterTaskStatusInProgress}} selected="selected" {{/FilterTaskStatusInProgress}}>InProgress</option>
+            <option {{@FilterTaskStatusComplete}} selected="selected" {{/FilterTaskStatusComplete}}>Complete</option>
+        </select>
+    </div>
+    <div>        
+        <button class="border button" style="margin:5px;background-color:green;width:60px;" onclick="hideElm('toDoFilterViewDiv')">Close</button>
+        <button class="border" style="width:40px;height:40px;margin-left:5px;display:none;"
+                onclick="return filterViewComponentHtml('filterToDoProgress', '{{$ParentViewID}}Response',
+                '{{$AppSite}}', '{{$AppView}}', '{{$ParentViewID}}',
+                function () {
+                    let jsonData = getViewComponentFlatJson('toDoFilterInput', 'ToDo');
+                    return jsonData;
+                },
+                { 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }, false,
+                getElm('{{$ParentViewID}}RealtimeRefresh').checked,
+                getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value), '')">
+            &#x2714;
+        </button>
+        <button class="border button" style="margin:5px;background-color:lightblue;width:60px;"
+                onclick="{{%ToDoFilterView}}">
+            Filter <span id="filterToDoProgress"></span>
+        </button>
+    </div>
+</div>

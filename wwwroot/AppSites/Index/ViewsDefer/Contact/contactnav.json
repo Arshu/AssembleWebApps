@@ -1,0 +1,14 @@
+{
+  "NAVList": [
+    {
+      "NavTitle": "Home",
+      "NavUrl": "#/",
+      "NavAppSite": "Index",
+      "NavAppView": "Main",
+      "NavAppViewIDs": "mainNav, mainContent, mainFooter",
+      "NavActive": "",
+      "HaveSubMenu": false,
+      "SubNAVList": []
+    }
+  ]
+}

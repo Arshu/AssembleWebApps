@@ -1,0 +1,9 @@
+{
+  "ComponentCategory": "Declarative",
+  "ComponentTitle": "Merge !{{$Html}} and !{Json} Object",
+  "JsonData1": "Json Data 1",
+  "JsonData2": "Json Data 2",
+  "JsonData3": "Json Data 3",
+  "JsonData4": "Json Data 4",
+  "JsonData5": "Json Data 5"
+}

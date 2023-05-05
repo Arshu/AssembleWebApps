@@ -11,7 +11,7 @@
 #### 2. Platform/Framework Independent Abstraction defined in Html/Json Files and Folder/File Names and Organization
 
 
-# Open Source Assembler (MIT) / Closed Source Tool/Runtime (12$ per Year or 60$ Perpetual per domain) 
+# Open Source Assembler (MIT) / Closed Source Tool/Runtime (1$ per Month per subdomain) 
 
 Currently the tool consists of Assembler which implements the abstraction and also a tool/runtime for facilitating hot reloading.
 

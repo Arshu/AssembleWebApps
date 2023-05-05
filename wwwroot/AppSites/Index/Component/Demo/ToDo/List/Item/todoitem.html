@@ -5,15 +5,15 @@
     </svg>
     <div class="flex-item-stretch">
         {{@TaskStatus('TaskStatus':'Complete')}}
-        <s>{{$TaskName}}</s>
+            <s>{{$TaskName}}</s>
         {{/TaskStatus}}
         {{^TaskStatus}}
-        {{@TaskStatus('TaskStatus':'InProgress')}}
-        <u>{{$TaskName}}</u>
-        {{/TaskStatus}}
-        {{^TaskStatus}}
-        {{$TaskName}}
-        {{/TaskStatus}}
+            {{@TaskStatus('TaskStatus':'InProgress')}}
+                <u>{{$TaskName}}</u>
+            {{/TaskStatus}}
+            {{^TaskStatus}}
+                {{$TaskName}}
+            {{/TaskStatus}}
         {{/TaskStatus}}
     </div>    
     <svg xmlns="http://www.w3.org/2000/svg" style="margin-top:12px; width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"

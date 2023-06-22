@@ -10,10 +10,9 @@
 
 #### 2. Platform/Framework Independent Abstraction defined in Html/Json Files and Folder/File Names and Organization
 
+# Open Source Assembler (MIT) / Closed Source Tool/Runtime (1$ per Month per instance) 
 
-# Open Source Assembler (MIT) / Closed Source Tool/Runtime (1$ per Month per subdomain) 
-
-Currently the tool consists of Assembler which implements the abstraction and also a tool/runtime for facilitating hot reloading.
+Currently the tool consists of Assembler which implements the abstraction and also a tool/runtime for facilitating hot reloading, deployment to multiple fly.io regions/machiens, git integration, performance testing from multiple regions, client side load balancing*, proxy for multiple apps deployed in same fly.io machines etc
 
 The Html/Json assembler will be extracted from the tool and the source will be published using MIT License.
 

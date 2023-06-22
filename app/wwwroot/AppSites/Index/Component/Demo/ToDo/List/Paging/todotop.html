@@ -11,10 +11,10 @@
     {{/HavePreviousPage}}
     {{^HavePreviousPage}}
     <button class="border" style="width:40px;height:40px;" disabled>
-        <strong style="font-weight:bolder;"><<</strong>
+        <strong style="font-weight:bolder;"><<</strong> <span id="firstToDoProgress"></span>
     </button>
     <button class="border" style="width:40px;height:40px;" disabled>
-        <strong style="font-weight:bolder;"><</strong>
+        <strong style="font-weight:bolder;"><</strong> <span id="previousToDoProgress"></span>
     </button>
     {{/HavePreviousPage}}
 
@@ -32,10 +32,10 @@
     {{/HaveNextPage}}
     {{^HaveNextPage}}
     <button class="border" style="width:40px;height:40px;" disabled>
-        <strong style="font-weight:bolder;">></strong>
+        <strong style="font-weight:bolder;">></strong> <span id="nextToDoProgress"></span>
     </button>
     <button class="border" style="width:40px;height:40px;" disabled>
-        <strong style="font-weight:bolder;">>></strong>
+        <strong style="font-weight:bolder;">>></strong> <span id="lastToDoProgress"></span>
     </button>
     {{/HaveNextPage}}
 

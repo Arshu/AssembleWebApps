@@ -10,7 +10,7 @@
     ready(() => {
         let useAjax = true;
         let delayInterval = 10;
-        let parentViewElmId = "mainContent";
+        let parentViewElmId = "{{$ViewID}}";
         let replaceAppDomainComponent = "app_domain";
 
         loadViewComponentHtml(false, useAjax, parentViewElmId, replaceAppDomainComponent, delayInterval, function () {}, 'noprogress');

@@ -1,5 +1,5 @@
 <div class="flex-content-spaced" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
-    <select class="border" style="margin: 0px;display:none;" id="toDoItemsPerPage"
+    <select class="border" style="margin: 0px;display:none;" id="toDoItemsPerPageOld"
             onchange="return refreshViewComponentHtml('toDoItemsPerPageProgress', '{{$ParentViewID}}Response',
                 '{{$AppSite}}', '{{$AppView}}', '{{$ParentViewID}}',
                 { 'PageNo': '{{$PreviousPage}}', 'ItemsPerPage': this.value }, false,

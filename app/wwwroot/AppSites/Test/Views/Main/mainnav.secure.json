@@ -3,6 +3,9 @@
     {
       "NavTitle": "Home",
       "NavUrl": "/Test/Main",
+      "NavAppSite": "",
+      "NavAppView": "Main",
+      "NavAppViewIDs": "mainContent",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []

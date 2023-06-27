@@ -24,7 +24,7 @@
     {{/HaveSubMenu}}
     {{^HaveSubMenu}}
     <li class="menuitem">
-        <a class="{{$NavActive}}" href="{{$NavUrl}}" onclick="refreshViewPageHtml('progress', 'response', '{{$NavAppSite}}',  '{{$NavAppView}}', '{{$NavAppViewIDs}}')">
+        <a class="{{$NavActive}}" href="{{$NavUrl}}" {{@NavAppSite}}onclick="refreshViewPageHtml('progress', 'response', '{{$NavAppSite}}',  '{{$NavAppView}}', '{{$NavAppViewIDs}}')"{{/NavAppSite}}>
             {{$NavTitle}}
         </a>
     </li>

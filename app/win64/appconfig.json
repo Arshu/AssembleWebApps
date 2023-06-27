@@ -1,7 +1,7 @@
 {
   "WebRootName": "wwwroot",
   "ConfigType": "Base",
-  "ConfigLogLevel": "Critical,Error,Warn",
+  "ConfigLogLevel": "Critical,Error,Warn,Debug",
   "CreateWebConfig": false,
   "CreateApiConfig": false,
   "SaveJsCssResource": false,
@@ -11,8 +11,8 @@
 
   "ContextJson": {
     "PageTitle": "Arshu AppWeb Viewer",
-    "ShowIntroTip": true,
-    "FlyAppName": "appweb"
+    "ShowIntroTip": false,
+    "DefaultRecordMetrics": true
   },
 
   "CacheWebCompression": "br,gzip,deflate",

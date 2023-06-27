@@ -1,7 +1,7 @@
 {
   "WebRootName": "wwwroot",
   "ConfigType": "Base",
-  "ConfigLogLevel": "Critical,Error,Warn",
+  "ConfigLogLevel": "Critical,Error,Warn,Debug",
   "CreateWebConfig": false,
   "CreateApiConfig": false,
   "SaveJsCssResource": false,
@@ -12,7 +12,7 @@
   "ContextJson": {
     "PageTitle": "Arshu AppWeb Data",
     "ShowIntroTip": false,
-    "FlyAppName": "appwebdata"
+    "DefaultRecordMetrics": false
   },
 
   "CacheWebCompression": "br,gzip,deflate",

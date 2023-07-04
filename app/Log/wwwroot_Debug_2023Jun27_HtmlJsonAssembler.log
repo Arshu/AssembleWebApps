@@ -1,4 +1,0 @@
-DBUG:[0068][T009][27/Jun/2023 : 12:35:20.843:][Debug]Getting Partial View From Type [GitWebFolderSelect][GetDynamicHtml]
-DBUG:[0069][T009][27/Jun/2023 : 12:35:20.843:][Debug]Retrieved Partial View From Type [GitWebFolderSelect][GitWebFolderSelect][GetDynamicHtml]
-DBUG:[0070][T009][27/Jun/2023 : 12:35:20.941:][Debug]Getting Partial View From Type [GitRepositorySelect][GetDynamicHtml]
-DBUG:[0071][T009][27/Jun/2023 : 12:35:20.942:][Debug]Retrieved Partial View From Type [GitRepositorySelect][GitRepositorySelect][GetDynamicHtml]

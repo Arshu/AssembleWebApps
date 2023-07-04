@@ -15,12 +15,16 @@
     "DefaultRecordMetrics": false
   },
 
-  "CacheWebCompression": "br,gzip,deflate",
-  "NormalWebCompression": "br,gzip,deflate",
   "MetricPort": 0,
   "InitialTimeInSec": 0,
   "IdleTimeInSec": 0,
-  "WSClientHeartBeatTimeInMs": 60000,
+  "LoadMMFUrls": true,
+  "LoadSecureMMFUrls": true,
+  "WriteMMFUrls": true,
+  "MMFUrlPatterns": "*",
+  "CacheWebCompression": "br,gzip,deflate",
+  "NormalWebCompression": "br,gzip,deflate",
+
   "WSServerHeartBeatTimeInMs": 60000,
   "WSServerList": [
     {

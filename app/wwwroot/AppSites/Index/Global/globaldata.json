@@ -17,5 +17,6 @@
   "UseDynamicJs": false,
   "UseDynamicCss": false,
   "EnableLoginCheck": false,
-  "ShowDefaultFooter": true
+  "ShowDefaultFooter": true,
+  "EnableRealtime": true
 }

@@ -20,7 +20,7 @@
                     let jsonData = getViewComponentFlatJson('toDoFilterInput', 'ToDo');
                     return jsonData;
                 },
-                { 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }, false,
+                { 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' },
                 getElm('{{$ParentViewID}}RealtimeRefresh').checked,
                 getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value), '')">
             &#x2714;

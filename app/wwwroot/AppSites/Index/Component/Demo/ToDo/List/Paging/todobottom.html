@@ -2,7 +2,7 @@
     <select class="border" style="margin: 0px;display:none;" id="toDoItemsPerPageOld"
             onchange="return refreshViewComponentHtml('toDoItemsPerPageProgress', '{{$ParentViewID}}Response',
                 '{{$AppSite}}', '{{$AppView}}', '{{$ParentViewID}}',
-                { 'PageNo': '{{$PreviousPage}}', 'ItemsPerPage': this.value }, false,
+                { 'PageNo': '{{$PreviousPage}}', 'ItemsPerPage': this.value },
                 getElm('{{$ParentViewID}}RealtimeRefresh').checked,
                 getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value), '')">
         <option value="2" {{@ItemsPerPage2}} selected="selected" {{/ItemsPerPage2}}>2</option>

@@ -2,12 +2,3 @@
 
 <link rel="stylesheet" href="/Resource/app/css/main.min.css">
 
-{{@IsLoggedIn}}
-    {{WebLogOffJs}}
-{{/IsLoggedIn}}
-
-{{@EnableLoginCheck}}
-    {{@IsLoggedIn}}
-        {{WebLoginCheckJS}}
-    {{/IsLoggedIn}}
-{{/EnableLoginCheck}}

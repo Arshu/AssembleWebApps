@@ -3,7 +3,7 @@
         
         {
             "NavTitle" : "AppSites",            
-            "NavUrl" : "/Index/AppSites",            
+            "NavUrl" : "/Config/AppSites",            
             "NavActive" : "",            
             "HaveSubMenu" : "False",            
             "SubNAVList" : [
@@ -12,7 +12,7 @@
         },
         {
             "NavTitle" : "AppViews",            
-            "NavUrl" : "/Index/AppViews",            
+            "NavUrl" : "/Config/AppViews",            
             "NavActive" : "",            
             "HaveSubMenu" : "False",            
             "SubNAVList" : [

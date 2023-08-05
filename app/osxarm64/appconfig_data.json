@@ -15,12 +15,13 @@
     "DefaultRecordMetrics": false
   },
 
-  "MetricPort": 0,
+  "DeployRegion": "sin",
+  "MetricPort": 9091,
   "InitialTimeInSec": 0,
   "IdleTimeInSec": 0,
   "LoadMMFUrls": true,
   "LoadSecureMMFUrls": true,
-  "WriteMMFUrls": true,
+  "WriteMMFUrls": false,
   "MMFUrlPatterns": "*",
   "CacheWebCompression": "br,gzip,deflate",
   "NormalWebCompression": "br,gzip,deflate",
@@ -36,9 +37,8 @@
   ],
 
   "RealtimeAppSites": "",
-  "StaticAppSites": "Index, Config, Account, Test",
+  "StaticAppSites": "Index, Config, Account, Documentation",
   "SearchAppSites": "Config, Account, Index",
-  "SearchAppFolders": "SampleJson",
 
   "LoadAppData": true,
   "LoadAppFolders": false,
@@ -65,6 +65,11 @@
     {
       "RegisterTypeName": "Arshu.Core.App.Register.WebRegister",
       "RegisterDll": "Arshu.Core.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.AppServer.App.Register.AppServerRegister",
+      "RegisterDll": "Arshu.AppServer.dll",
       "IsEnabled": true
     },
     {
@@ -99,7 +104,7 @@
   "SkipSystemDirectories": "_Meta, .git, Log, bin, obj, _bin_deployableAssemblies, Bak, Backup, Repository, Cache, Inbox, InboxLocal, InboxRemote",
   "SystemDirectories": "App_Config, App_Data, Db, Backup, Output, UndoRedo, Cache",
   "AllowDirectories": "",
-  "SkipAppDirectories": "Arshu, Templates, Resource, Content, App_Config, App_Data, Backup, Output, UndoRedo, Cache",
+  "SkipAppDirectories": "Arshu, Templates, Resource, Content, App_Config, App_Data, AppApi, Backup, Output, UndoRedo, Cache",
   "SkipResourceDirectories": "Arshu, Component, AppSites, Templates, App_Config, App_Data, Backup, Output, UndoRedo, AppApi, Dynamic, Meta, Upload, Cache",
   "SkipDataDirectories": "Arshu, AppSites, Component, Templates, Resource, Content, Backup, Output, UndoRedo, Cache",
 
@@ -112,9 +117,8 @@
   "PackApp": true,
   "PackResource": true,
   "PackData": true,
-  "PackAppFolder": true,
   "PackTemplate": false,
-  "PackAppSites": "Index, Account, Config, Test, Template, Fly",
+  "PackAppSites": "Index",
   "PackAppDatas": "Roles, Members",
 
   "PackName": "AppWeb.Web.1.0.pap",
@@ -123,8 +127,6 @@
   "PackResourceDescription": "Resource of AppWeb.Web for Managing AppWebs",
   "PackDataName": "AppWeb.Web.Data.1.0.pap",
   "PackDataDescription": "Data of AppWeb.Web for Managing AppWebs",
-  "PackAppWebFolderName": "AppWeb.Web.AppWebFolder.1.0.pap",
-  "PackAppWebFolderDescription": "WebFolder of AppWeb.Web for Managing AppWebs",
   "PackTemplateName": "AppWeb.Web.Template.1.0.pap",
   "PackTemplateDescription": "Templates of AppWeb.Web for Managing AppWebs",
 
@@ -140,9 +142,9 @@
   "AllowedTemplateFileExtension": "Html, Json, md, Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Css",
 
   "ResourceOptimizeMergeJs": true,
-  "ResourceOptimizeMergeJsPattern": "base, arshu, main, highlight, chart; *",
+  "ResourceOptimizeMergeJsPattern": "base, arshu, main, highlight, chart, htmx",
   "ResourceOptimizeMergeJsSkipPattern": "",
   "ResourceOptimizeMergeCss": true,
-  "ResourceOptimizeMergeCssPattern": "base, arshu, normalize, animate, main, highlight, chart; *",
+  "ResourceOptimizeMergeCssPattern": "base, arshu, normalize, animate, main, highlight, chart",
   "ResourceOptimizeMergeCssSkipPattern": ""
 }

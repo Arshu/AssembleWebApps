@@ -1,5 +1,5 @@
 {
-  "AllowedHosts" : "localhost, appbase.local, appweb.local, gluuie.local, arshucs.com, nmatrixcs.com, gluuie.com, numdns.com, tnsroot.com, vindyap.com, velnk.com, fly.dev, koyeb.app",
-  "BuildExpiry" : "21\/May\/2026",
-  "Signature" : "LAGXIvMP\/adiFmpWNRMbttgAiDVrJcl4HuYDbPA1XRa5oiF7RGGgZD4P+eEs+b0kF+uqLGmOTNQ+FJtSGsT2dazfH2Czp1gsskP3HWonujpaaGLBgj+M6z7Kl1NUuQFrttg1pqIhBbugWiMyWfaa6LC7MsVzMhZdVTwTuSiM89qbKXk3tG0vtsEz4uzOx8Yi5mxZIJgoOphNWzC2RhJKuTQX4EIk83Ws5sEowT5UsjFyMY6MmhqoqPCI08tYiXX5e4mN6bjPkUc0lS8irpZwQwBkrftFANARlvCXREWacTrvXQbp74TEHa7FshDOGSObzOW1BFLj9viivPaO01S4W1z\/6HN89P95n7lMiLl5Ezra1cltL7sAz9ALEhd7TptfzpK8BmdirtPCwF+W60lSXJygzNQJSjGOmN9HGg0s4ulVNj0YUV+digeedQYp9FF6Q0eB0TiIcXdXkgjcmY5h\/XbbocpBNMLNis8DXXkJAqkzrvcwBAFx1P8GJKOXup9WzDwtpBcxk4j+fEvM6KzDc+MyhDGq8jmlRH7V1NHRYbFiddh9Jss6tYxjyo4R4ggtlDSjrU60RTE4NTDTm4alfqnKj1hLFsRFo40gY4Qotv4vZffzhF00r6eUUkpUmzPe\/W0tzjX0j67yxPMlk2ALPSehW\/h\/QqElw1H7qr6hcTQ="
+  "AllowedHosts" : "::1, 0:0:0:0:0:0:0:1, 127.0.0.1, localhost, .local, fly.dev, koyeb.app",
+  "BuildExpiry" : "01\/Oct\/2024",
+  "Signature" : "Qbqf7LmwngAP5weX3Ym4GCBqhToVo\/MARWjHTc8KXVqiadI385FvPLnbhvYo7KZ7\/gimiMv9yFdrucbtKfns5mz2tJ7LJqQ4jhtVdZsI+XFhw3zLs7oJwzpFa9DFQudlzU13IgFnWEDs5JTNC9yOHWjdBuXGO43CvvyQcoTwMRO60P8jpae7irnnid1WmQF6P9L8J7LLcFaoPmMIgOLHY+9Y2lEpoOVeDh+hywgOHTx9S5aLfNPkaPchhbmY\/vBfLda5wrHjIuEzcqnxtP760CTiMxtZ5l1F3JKz8AsLJ1gvHpGYoQgaJc4Y4TgnWH8+8wNoNPGnfVFrs8tB2TBpX2Vp9YKvPTdpC2l3KP44k3Jjo1HZfjXEp0GX8T5mHPfdUliPWJFp1PTbPGLAngzMUkUbIIjxyoGrqy1eMurlhJzwCntMZR\/qjsPre0iY04hUwswVmwl9SMYeSOKwTozxOPqslhuQEyMwT7n6u401hk1f2bmJCwMoQ5UMefZ1KDuflRjinJWdKHEIs9vnh6IweQ342Rqs4fpttXCdpLJGYBC43I3AI\/dSmydADTEo2Eqj6fSNsQ\/NOC0ghni4yKAME6o\/nEgyBlspY0LwwHvC7TaiG2sj6qnqcWL0O3H9X9ghXaLxeBr30dxtNsxOobcywYudnQ1Hk+Is9IPHM1Urz4Q="
 }

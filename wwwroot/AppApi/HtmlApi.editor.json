@@ -1,0 +1,15 @@
+{
+  "CacheAllViewComponentPageRefresh" : "Radio, true|false",
+  "Encrypted" : "Radio, true|false",
+  "IndexPageTagSuffixViewList" : "Text, 100",
+  "Overwritable" : "Radio, true|false",
+  "ReCreate" : "Radio, true|false",
+  "RefreshViewComponentCacheTimeoutInMinutes" : "Number, 5",
+  "RefreshViewComponentCacheTimeoutInSeconds" : "Number, 5",
+  "RefreshViewComponentPageCacheTimeoutInMinutes" : "Number, 5",
+  "RefreshViewComponentPageCacheTimeoutInSeconds" : "Number, 5",
+  "RemoteUrl" : "Text, 100",
+  "RemoteUserId" : "Password, 100",
+  "RemoteUserPwd" : "Password, 100",
+  "SkipJsonValueValidationForAdminUser" : "Radio, true|false"
+}

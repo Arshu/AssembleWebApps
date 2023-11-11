@@ -1,0 +1,509 @@
+{{HTMLPLACEHOLDER}}
+
+<script type="text/javascript">
+
+    window.ajaxid = 0;
+
+    let gManageUserResponseElmId = "userListResponse";
+    let gManageUserTargetElmId = "userList";
+    let gManageUserDefaultItemsPerPage = '{{$ItemsPerPageManageUser}}';
+
+    function fillUserList(progressElmId, responseElmId, targetElmId, pageNo, successCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        //responseElm.textContent = '';
+        //hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        let htmlTableEmpty = "UserListEmpty";
+        let htmlTable = "UserListTable";
+        let htmlTableBody = "UserListTableBody";
+        let htmlTableRow = "UserListTableRow";
+        let htmlTableHeader = "UserListTableHeader";
+        let htmlTableFooter = "UserListTableFooter";
+
+        gManagerUserCurrentPage = pageNo;
+        let itemsPerPage = gManageUserDefaultItemsPerPage;
+        if (getElm("userListItemsPerPage") != null) {
+            itemsPerPage = getElm("userListItemsPerPage").value;
+        }
+
+        if (targetElmId.trim().length === 0) {
+            responseElm.textContent = 'Enter Target Element Id';
+            responseElm.style.color = "red";
+            showElm(responseContainerElmId);
+            valid = false;
+        }
+
+        if (valid === true) {
+
+
+            let url = '/AppApi/WebApi';
+            let urlMethod = 'POST';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'GetUserListView', "params": {
+                    "appSite": '{{$AppSite}}',
+                    "appView": "{{$AppView}}",
+                    "htmlTableEmpty": htmlTableEmpty,
+                    "htmlTable": htmlTable,
+                    "htmlTableBody": htmlTableBody,
+                    "htmlTableRow": htmlTableRow,
+                    "htmlTableHeader": htmlTableHeader,
+                    "htmlTableFooter": htmlTableFooter,
+                    "pageNo": pageNo,
+                    "itemsPerPage": itemsPerPage,
+                    "filterKey": "",
+                    "filterValue": ""
+                }, "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
+                        let result = data.Result;
+                        if (result.hasOwnProperty('html') === true) {
+
+                            let rootNode = getElm(targetElmId);
+                            rootNode.innerHTML = result.html;
+                            showElm(targetElmId);
+
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                        //else if (result.hasOwnProperty('message') === true) {
+                        //    showText(responseElm, result.message, 'green');
+                        //}
+                    }
+                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                });
+        }
+
+        return false;
+    }
+
+    function refreshUserList(progressElmId, currentPageNo, successCallback) {
+
+        let valid = true;
+        if (progressElmId) { valid = true; } else { valid = false; }
+        if (currentPageNo) { valid = true; } else { valid = false; }
+
+        if (valid === true) {
+            //let filterVal = getElm('filter').value;
+            fillUserList(progressElmId, gManageUserResponseElmId, gManageUserTargetElmId, currentPageNo, function () {
+                showAddUserBtn();
+            });
+        }
+    }
+
+    function setUser(userIdVal, userAliasVal, userEmailVal) {
+        if (getElm("userListEditMode").checked == true) {
+            getElm('userId').value = userIdVal;
+            getElm('userAlias').value -= userAliasVal;
+            getElm('userEmail').value -= userEmailVal;
+        }
+    }
+
+    function showAddUser() {
+        toggleElm('addUserDiv');
+    }
+
+    function addUser(progressElmId, responseElmId, userIdVal, userAliasVal, userEmailVal, userPasswordVal, userChangePasswordOnFirstLoginVal, successCallback) {
+
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid == true) {
+            if (userIdVal.trim().length === 0) {
+                showText(responseElm, 'Enter User Id', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (userAliasVal.trim().length === 0) {
+                showText(responseElm, 'Enter User Alias', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (userEmailVal.trim().length === 0) {
+                showText(responseElm, 'Enter User Email', 'red');
+                valid = false;
+            }
+        }
+
+        let userChangePasswordOnFirstLogin = false;
+        if (userChangePasswordOnFirstLoginVal === "on") userChangePasswordOnFirstLogin = true;
+        if (userChangePasswordOnFirstLoginVal === true) userChangePasswordOnFirstLogin = true;
+
+        let jsonInput = {
+            "request type": "User",
+            "sub type": "Add",
+            "data": {
+                "userId": userIdVal,
+                "userAlias": userAliasVal,
+                "userEmail": userEmailVal,
+                "userPassword": userPasswordVal,
+                "userChangePasswordOnFirstLogin": userChangePasswordOnFirstLogin,
+            },
+            "filter": {
+                "userId": userIdVal,
+                "userAlias": userAliasVal,
+                "userEmail": userEmailVal
+            }
+        }
+
+        if (valid === true) {
+
+            let url = '/AppApi/WebApi';
+            let urlMethod = 'POST';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'AddUser', "params": {
+                    "userId": userIdVal,
+                    "userAlias": userAliasVal,
+                    "userEmail": userEmailVal,
+                    "userPassword": userPasswordVal,
+                    "jsonInput": jsonInput
+                }, "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
+                        let result = data.Result;
+                        if (result.hasOwnProperty('message') === true) {
+
+                            showText(responseElm, result.message, 'green');
+
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                    }
+                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                });
+        }
+
+        return false;
+    }
+
+    function deleteUser(progressElmId, responseElmId, userIdVal, successCallback) {
+
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid == true) {
+            if (userIdVal.trim().length === 0) {
+                showText(responseElm, 'Enter User Id', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+
+            let url = '/AppApi/WebApi';
+            let urlMethod = 'POST';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'RemoveUser', "params": {
+                    "userId": userIdVal
+                }, "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
+                        let result = data.Result;
+                        if (result.hasOwnProperty('message') === true) {
+
+                            showText(responseElm, result.message, 'green');
+
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                    }
+                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                });
+        }
+
+        return false;
+    }
+
+    function setForceChangePassword(progressElmId, responseElmId, userIdVal, forceChangeVal, successCallback) {
+
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        let forceChange = false;
+        if (forceChangeVal === "on") forceChange = true;
+        if (forceChangeVal === true) forceChange = true;
+
+        if (valid == true) {
+            if (userIdVal.trim().length === 0) {
+                showText(responseElm, 'Enter User Name', 'red');
+                valid = false;
+            }
+        }
+
+
+        if (valid === true) {
+
+
+            let url = '/AppApi/WebApi';
+            let urlMethod = 'POST';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'SetUserForceChangePassword', "params": {
+                    "userId": userIdVal,
+                    "forceChange": forceChange
+                }, "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
+                        let result = data.Result;
+                        if (result.hasOwnProperty('message') === true) {
+
+                            showText(responseElm, result.message, 'green');
+
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                    }
+                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                });
+
+        }
+
+        return false;
+    }
+
+    function showAddUserBtn() {
+        if (haveElm('userIconPlus') == true) {
+            if (isHiddenElm('addUserDiv') == true) {
+                showElm('userIconPlus');
+                hideElm('userIconMinus')
+            } else {
+                showElm('userIconMinus');
+                hideElm('userIconPlus')
+            }
+        }
+    }
+
+    function clearUserInput() {
+        getElm('userId').value = "";
+        getElm('userAlias').value = "";
+        getElm('userEmail').value = "";
+        getElm('userPassword').value = "";
+
+        //let responseElm = getElm('userListResponse');
+        //responseElm.textContent = '';
+        //hideElm("userListResponseContainer");
+
+        getElm("userId").focus();
+        showAddUserBtn();
+    }
+
+    ready(() => {
+
+        let userIdElm = getElm("userId");
+        userIdElm.removeEventListener("keypress", null);
+        userIdElm.addEventListener("keypress", function (event) {
+            if (event.which == 13) {
+                let userAliasInput = getElm('userAlias');
+                userAliasInput.focus();
+            }
+        });
+
+        let userAliasElm = getElm("userAlias");
+        userAliasElm.removeEventListener("keypress", null);
+        userAliasElm.addEventListener("keypress", function (event) {
+            if (event.which == 13) {
+                let userEmailElm = getElm("userEmail");
+                userEmailElm.focus();
+            }
+        });
+
+        let userEmailElm = getElm("userEmail");
+        userEmailElm.removeEventListener("keypress", null);
+        userEmailElm.addEventListener("keypress", function (event) {
+            if (event.which == 13) {
+                let userPasswordInput = getElm('userPassword');
+                userPasswordInput.focus();
+            }
+        });
+
+        let userPasswordElm = getElm("userPassword");
+        userPasswordElm.removeEventListener("keypress", null);
+        userPasswordElm.addEventListener("keypress", function (event) {
+            if (event.which == 13) {
+                let addUserConfirmBtn = getElm('addUserConfirm');
+                addUserConfirmBtn.dispatchEvent(new Event('click'));
+                event.preventDefault();
+            }
+        });
+
+        clearUserInput();
+    });
+
+</script>
+
+<style>
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid gray;
+    }
+
+    tr, th, td {
+        border: 1px solid lightgray;
+    }
+
+    th {
+        background-color: lightgray;
+    }
+
+</style>
+
+<div class="container">
+
+
+    <div class="flex-card card_border" id="addUserDiv" style="display:none;">
+
+        <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <button class="border-left" style="width:70px" onclick="getElm('userId').value = ''; getElm('userId').focus();">
+                User Id<span style="color:red;">*</span>
+            </button>
+            <div class="flex-item-stretch border-right">
+                <input style="width:100%;height:40px;border:none;" id="userId" type="text" tabindex="1" placeholder="Enter User Name">
+            </div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <button class="border-left" style="width:70px" onclick="getElm('userAlias').value = ''; getElm('userAlias').focus();">
+                User Alias
+            </button>
+            <div class="flex-item-stretch border-right">
+                <input style="width:100%;height:40px;border:none;" id="userAlias" type="text" tabindex="2" placeholder="Enter User Alias">
+            </div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <button class="border-left" style="width:70px" onclick="getElm('userEmail').value = ''; getElm('userAlias').focus();">
+                User Email
+            </button>
+            <div class="flex-item-stretch border-right">
+                <input style="width:100%;height:40px;border:none;" id="userEmail" type="text" tabindex="2" placeholder="Enter User Email">
+            </div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <button class="border-left" style="width:70px" onclick="getElm('userPassword').value = ''; getElm('userPassword').focus();">
+                Password<span style="color:red;">*</span>
+            </button>
+            <div class="flex-item-stretch border-right">
+                <input style="width:100%;height:40px;border:none;" id="userPassword" type="password" tabindex="3" placeholder="Enter User Password">
+            </div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <label class="checkbox">
+                Change Password On First Logon
+                <input id="changePasswordOnFirstLogon" type="checkbox" alt="Change Password On First Logon">
+            </label>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;width:100%;">
+
+            <button class="border button" style="background-color:#209cee;margin-right:5px;" id="addUserConfirm"
+                    onclick="addUser('addUserProgress', 'userListResponse', getElm('userId').value, getElm('userAlias').value, getElm('userEmail').value, getElm('userPassword').value, getElm('changePasswordOnFirstLogon').checked, function () { refreshUserList('addUserProgress', 1); clearUserInput(); })">
+                Add <div id="addUserProgress"></div>
+            </button>
+
+            <button class="border button" onclick="clearUserInput()">
+                Clear
+            </button>
+        </div>
+
+    </div>
+
+    <div class="flex-card card_border">
+
+        <div class="notification" id="userListResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="delete" onclick="hideElm('userListResponseContainer')"></button>
+            <div id="userListResponse"></div>
+        </div>
+
+        <div id="userList">
+            {{
+                VIEW_UserList("UserList",
+                    "htmlTableEmpty":"UserListEmpty",
+                    "htmlTable":"UserListTable",
+                    "htmlTableBody":"UserListTableBody",
+                    "htmlTableRow":"UserListTableRow",
+                    "htmlTableHeader":"UserListTableHeader",
+                    "htmlTableFooter":"UserListTableFooter",
+                    "filterKey" :"",
+                    "filterValue":"",
+                    "pageNo": "1",
+                    "itemsPerPage":"10"
+                )
+            }}
+        </div>
+    </div>
+
+</div>
+

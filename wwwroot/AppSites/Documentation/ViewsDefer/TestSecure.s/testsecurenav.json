@@ -1,0 +1,23 @@
+{
+  "NAVList": [
+    {
+      "NavTitle": "Help",
+      "NavUrl": "/Index/Help",
+      "NavActive": ""
+    },
+    {
+      "NavTitle": "Home",
+      "NavUrl": "/",
+      "NavActive": ""
+    }  
+  ],
+  "Debug": {
+    "NAVList": [
+      {
+        "NavTitle": "AppSites",
+        "NavUrl": "/Index/AppSites",
+        "NavActive": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "Index": "globalviewdata.index",
+  "GlobalDefineDataRootComponent": "GlobalDefineDataRootComponent",
+  "GlobalDefineDataChildComponent": "GlobalDefineDataChildComponent",
+  "globalReuseDataRootComponent": "GlobalReuseData",
+  "globalReuseDataChildComponent": "GlobalReuseData"
+}

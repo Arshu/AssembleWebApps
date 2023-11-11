@@ -1,0 +1,16 @@
+{
+  "AllowAppShutdown" : "Radio, true|false",
+  "AppDomainPrefix" : "Text, 100",
+  "AssetOutputFolderName" : "Text, 100",
+  "Encrypted" : "Radio, true|false",
+  "IndexHtmlFileName" : "Text, 100",
+  "MaskConfigValue" : "Radio, true|false",
+  "Overwritable" : "Radio, true|false",
+  "ReCreate" : "Radio, true|false",
+  "RemoteUrl" : "Text, 100",
+  "RemoteUserId" : "Password, 100",
+  "RemoteUserPwd" : "Password, 100",
+  "SwitchAppDomainRoles" : "Text, 100",
+  "SwitchAppDomainRolesForLocalHost" : "Text, 100",
+  "ViewPathConfig" : "Text, 100"
+}

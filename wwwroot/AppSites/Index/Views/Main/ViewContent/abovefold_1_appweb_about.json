@@ -1,0 +1,8 @@
+{
+  "Progress Title$": "Tool to develop/test/deploy html/json declarative static prototype webapps",
+  "Title$": "Develop Static Prototype WebApp's using Declarative Html with Json Data",
+  "SubTitle$": "App<strike>Web</strike> Offline Viewer",
+  "Description$": "App<strike>Web</strike> Viewer is a Tool for Viewing of Html Json Components",
+  "Info1 Title$": "Copy/Replace your own Html/Json files into the component folder under the wwwroot folder",
+  "Info1 SubTitle$": "Ensure index.html exists in appsites folder of the Index AppSite"
+}

@@ -1,0 +1,26 @@
+{
+  "DynamicDataComponent": [
+    {
+      "IDataType": "EchoData",
+      "IDataParamFile": "DynamicData.DynamicDataComponent"
+    }
+  ],  
+  "ToDo": [
+    {
+      "IDataType": "ListPage",
+      "IDataParamFile": "DynamicData.ToDo"
+    }
+  ],  
+  "ListDiv": [
+    {
+      "IDataType": "ListPage",
+      "IDataParamFile": "DynamicData.ListDiv"
+    }
+  ],
+  "ListTableView": [
+    {
+      "IDataType": "ListFilterPage",
+      "IDataParamFile": "DynamicData.ListTableView"
+    }
+  ]
+}

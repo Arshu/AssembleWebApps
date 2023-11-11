@@ -1,0 +1,159 @@
+{{@HaveAdminRole}}
+
+<div style="margin: 5px;" class="flex-input-wrap">
+    <button style="height:40px; width: 40px; text-align:center;position:relative;" class="border-left" id="configViewRefresh"
+            onclick="refreshConfigViewPath('configViewPathRefreshProgress', 'confiViewResponse', 'selectInitView', 'selectStartView', 'selectLoginView', 'selectLoginAfterView', 'selectChangePwdView', function () { toggleElm('configViewData'); })">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+        <span id="configViewPathRefreshProgress"></span>
+    </button>
+    <button style="height:40px;" class="flex-item-stretch border-top-bottom">
+        Config View
+    </button>
+    <button style="height:40px; width: 40px; text-align:center;position:relative;" class="border-right"
+            onclick="if (isHiddenElm('configViewData') === false) { updateConfigViewPath('configViewUpdateProgress', 'confiViewResponse', getElm('selectInitView').value, getElm('selectStartView').value, getElm('selectLoginView').value,getElm('selectLoginAfterView').value, getElm('selectChangePwdView').value, null); }">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <span id="configViewUpdateProgress"></span>
+    </button>
+</div>
+
+<div class="notification" id="confiViewResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+    <button class="delete" onclick="hideElm('confiViewResponseContainer')"></button>
+    <div id="confiViewResponse"></div>
+</div>
+
+<div style="display:none;" class="flex-content-wrap" id="configViewData">
+
+    <div style="margin: 5px 5px;width:100%;" class="flex-input-wrap">
+        <button style="height:40px; width: 100px; text-align:center;" class="border-left" onclick="loadView(document.getElementById('selectInitView').value)">
+            Init View
+        </button>
+        <div style="height:40px;" class="flex-item-stretch border-top-bottom">
+            <select style="width:100%;border:none;padding:0 0 0 5px" id="selectInitView" placeholder="Select Start View" disabled="disabled">
+                {{
+                        VIEW_AppViewPathSelect(
+                        "InitViewList",
+                        "SelectEmptyText":"No Init View Found",
+                        "SelectedKey":"",
+                        "AppendOptionText": "",
+                        "AppendOptionValue": "",
+                        "SkipValue": "",
+                         "ItemsPerPage": "100")
+                }}
+            </select>
+        </div>
+        <button style="height:40px; width: 40px; text-align:center;" class="border-right" onclick="loadView(document.getElementById('selectStartView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+    </div>
+
+    <div style="margin: 5px 5px;width:100%;" class="flex-input-wrap">
+        <button style="height:40px; width: 100px; text-align:center;" class="border-left" onclick="loadView(document.getElementById('selectStartView').value)">
+            Start View
+        </button>
+        <div style="height:40px;" class="flex-item-stretch border-top-bottom">
+            <select style="width: 100%; border: none; padding: 0 0 0 5px" id="selectStartView" placeholder="Select Start View">
+                {{
+                        VIEW_AppViewPathSelect(
+                        "StartViewList",
+                        "SelectEmptyText":"No Start View Found",
+                        "SelectedKey":"",
+                        "AppendOptionText": "",
+                        "AppendOptionValue": "",
+                        "SkipValue": "",
+                         "ItemsPerPage": "100")
+                }}
+            </select>
+        </div>
+        <button style="height:40px; width: 40px; text-align:center;" class="border-right" onclick="loadView(document.getElementById('selectStartView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+    </div>
+
+    <div style="margin: 5px 5px;width:100%;" class="flex-input-wrap">
+        <button style="height:40px; width: 100px; text-align:center;" class="border-left" onclick="loadView(document.getElementById('selectLoginView').value)">
+            Login View
+        </button>
+        <div style="height:40px;" class="flex-item-stretch border-top-bottom">
+            <select style="width: 100%; border: none; padding: 0 0 0 5px" id="selectLoginView" placeholder="Select Login View">
+                {{
+                        VIEW_AppViewPathSelect(
+                        "LoginViewList",
+                        "SelectEmptyText":"No Login View Found",
+                        "SelectedKey":"",
+                        "AppendOptionText": "",
+                        "AppendOptionValue": "",
+                        "SkipValue": "",
+                        "ItemsPerPage": "100")
+                }}
+            </select>
+        </div>
+        <button style="height:40px; width: 40px; text-align:center;" class="border-right" onclick="loadView(document.getElementById('selectLoginView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+    </div>
+
+    <div style="margin: 5px 5px;width:100%;" class="flex-input-wrap">
+        <button style="height:40px; width: 100px; text-align:center;" class="border-left" onclick="loadView(document.getElementById('selectLoginAfterView').value)">
+            Login After
+        </button>
+        <div style="height:40px;" class="flex-item-stretch border-top-bottom">
+            <select style="width: 100%; border: none; padding: 0 0 0 5px" id="selectLoginAfterView" placeholder="Select Login After View">
+                {{
+                        VIEW_AppViewPathSelect(
+                        "LoginAfterViewList",
+                        "SelectEmptyText":"No Login After View Found",
+                        "SelectedKey":"",
+                        "AppendOptionText": "",
+                        "AppendOptionValue": "",
+                        "SkipValue": "",
+                        "ItemsPerPage": "100")
+                }}
+            </select>
+        </div>
+        <button style="height:40px; width: 40px; text-align:center;" class="border-right" onclick="loadView(document.getElementById('selectLoginAfterView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+    </div>
+
+    <div style="margin: 5px 5px;width:100%;" class="flex-input-wrap">
+        <button style="height:40px; width: 100px; text-align:center;" class="border-left" onclick="loadView(document.getElementById('selectChangePwdView').value)">
+            Change Pwd
+        </button>
+        <div style="height:40px;" class="flex-item-stretch border-top-bottom">
+            <select style="width: 100%; border: none; padding: 0 0 0 5px" id="selectChangePwdView" placeholder="Select Change Pwd View">
+                {{
+                        VIEW_AppViewPathSelect(
+                        "ChangePwdViewList",
+                        "SelectEmptyText":"No Change Pwd View Found",
+                        "SelectedKey":"",
+                        "AppendOptionText": "",
+                        "AppendOptionValue": "",
+                        "SkipValue": "",
+                        "ItemsPerPage": "100")
+                }}
+            </select>
+        </div>
+        <button style="height:40px; width: 40px; text-align:center;" class="border-right" onclick="loadView(document.getElementById('selectChangePwdView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+
+    </div>
+
+</div>
+
+{{/HaveAdminRole}}

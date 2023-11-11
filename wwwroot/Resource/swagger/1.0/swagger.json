@@ -1,0 +1,34 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "AppWeb API",
+    "description": "AppWeb API",
+    "termsOfService": "http://www.arshucs.com",
+    "contact": {
+      "name": "Sridharan Srinivasan",
+      "url": "https://arshucs.com",
+      "email": "sri@arshucs.com"
+    },
+    "license": {
+      "name": "1$ MIT License",
+      "url": "https://arshucs.com"
+    },
+    "version": "1.0"
+  },
+  "paths": { },
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JSON Web Token based security",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}

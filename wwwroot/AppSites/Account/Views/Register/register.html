@@ -1,0 +1,174 @@
+﻿{{weblogintypeJS}}
+
+<script type="text/javascript">
+
+    window.ajaxid = 0;
+
+    document.addEventListener('DOMContentLoaded', function (event) {
+        checkAllowedLoginType('registerProgress', 'registerResponse', 'autoLoginBtn', '', null);
+    });
+
+    function registerUser(progressElmId, responseElmId, registerIdVal, registerAliasVal, registerPasswordVal, confirmPasswordVal, redirectUrl) {
+        let id = window.ajaxid++;
+
+        let responseContainerElmId = responseElmId + "Container";
+        let responseElm = getElm(responseElmId)
+        let responseContainerElm = getElm(responseContainerElmId)
+        responseElm.innerHTML = "";
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (registerIdVal.trim().length === 0) {
+            showText(responseElm, 'Enter Login Id', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+            if (registerAliasVal.trim().length === 0) {
+                showText(responseElm, 'Enter Alias', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+            if (registerPasswordVal.trim().length === 0) {
+                showText(responseElm, 'Enter Password', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+            if (confirmPasswordVal.trim().length === 0) {
+                showText(responseElm, 'Enter Confirm Password', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+            if (registerPasswordVal !== confirmPasswordVal) {
+                showText(responseElm, 'Password and Confirm Password does not match', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+
+            let url = '/AppApi/WebApi';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'RegisterUser',
+                "params": { "userId": registerIdVal, "userAlias": registerAliasVal, "userPassword": confirmPasswordVal },
+                "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
+                        let result = data.Result;
+
+                        if (result.hasOwnProperty('data') === true) {
+                            redirectUrl = result.data;
+                        }
+
+                        if (result.hasOwnProperty('message') === true) {
+                            showText(responseElm, result.message + ". Please wait", 'green');
+                            if (redirectUrl) {
+                                setTimeout(function () { window.location.replace(redirectUrl); }, 1000);
+                            } else {
+                                setTimeout(function () { window.location.reload(true); }, 1000);
+                            }
+                        }
+                        else if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                    }
+                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                });
+          
+        }
+
+        return false;
+    }
+
+</script>
+<style>
+    .avatar {
+        padding-bottom: 10px;
+    }
+
+        .avatar img {
+            padding: 0px;
+            background: #fff;
+            border-radius: 1rem;
+            /*border-radius: 50%;*/
+            -webkit-box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+            box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+        }
+</style>
+
+<div class="flex-content-center" style="min-height:calc(100vh - 110px);">
+
+    <div class="flex-card card_border" style="text-align:center;">
+
+        <figure class="avatar" style="text-align:center;">
+            <img src="/Content/logos/logo_register.png" />
+        </figure>
+
+        <div style="text-align:center;display:none;" id="autoLoginBtnDiv">
+            <div id="autoLoginProgress"></div>
+            <button id="autoLoginBtn" disabled="disabled" onclick="return autoLogin('autoLoginProgress', 'registerResponse', '/');" class="border button" style="background-color:#209cee;">Auto Login</button>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerId'); elm.value = ''; elm.focus();">
+                <div>&nbsp;</div>
+            </div>
+            <input class="flex-item-stretch border-right" id="registerId" autocomplete="none" type="email" placeholder="Your User Id" autofocus="" tabindex="1">
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerAlias'); elm.value = ''; elm.focus();">
+                <div>&nbsp;</div>
+            </div>
+            <input class="flex-item-stretch border-right" id="registerAlias" autocomplete="none" type="text" placeholder="Your User Alias" autofocus="" tabindex="1">
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerPwd'); elm.value = ''; elm.focus();">
+                <div>&nbsp;</div>
+            </div>
+            <input class="flex-item-stretch border-right" id="registerPwd" style="border-radius: 0rem .4rem .4rem 0rem;" autocomplete="none" type="password" placeholder="Your Password" tabindex="2">
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerConfirmPwd'); elm.value = ''; elm.focus();">
+                <div>&nbsp;</div>
+            </div>
+            <input class="flex-item-stretch border-right" id="registerConfirmPwd" style="border-radius: 0rem .4rem .4rem 0rem;" autocomplete="none" type="password" placeholder="Confirm Password" tabindex="2">
+        </div>
+
+        <div class="notification" id="registerResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="delete" onclick="hideElm('registerResponseContainer')"></button>
+            <div id="registerResponse"></div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 0px;">
+            <button class="border button" id="registerSubmit" style="background-color:#209cee;" tabindex="4"
+                    onclick="return registerUser('registerProgress', 'registerResponse',  getElm('registerId').value, getElm('registerAlias').value, getElm('registerPwd').value, getElm('registerConfirmPwd').value, '/Account/Login');">
+                Register <div id="registerProgress"></div>
+            </button>
+        </div>
+
+        <p class="flex-content-wrap" style="margin: 5px 0px;">
+            <a href="/Account/Login">Sign In</a>
+        </p>
+
+    </div>
+
+</div>
+

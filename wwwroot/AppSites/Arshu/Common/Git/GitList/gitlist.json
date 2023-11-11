@@ -1,0 +1,14 @@
+{
+    "AllowedRoles" : "Guest",    
+    "GitList" : [
+      {
+        "GitLink": "https://github.com/Arshu/Landing-Page.git",
+        "GitName": "Tailwind CSS Landing Page"
+      }
+    ],    
+    "GitListSchema" : 
+    {
+        "GitLink" : "",        
+        "GitName" : ""
+    }
+}

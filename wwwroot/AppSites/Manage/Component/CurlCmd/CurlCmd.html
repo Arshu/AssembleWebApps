@@ -1,0 +1,108 @@
+﻿
+<style>
+    .serverMetricsChartWrapper {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        height: 300px;
+    }
+</style>
+
+<div style="margin: 5px 0px; " class="flex-input-wrap">
+    <button class="flex-item-stretch border" style="height:40px;padding-left:40px;" onclick="toggleElm('curlCmd'); if (isHiddenElm('curlCmd') == false) { fillServerRegions('curlTestShowProgress', 'curlMetricResponse', 'serverRegionsTemplate', 'serverRegions', function () { getElm('curlTest').removeAttribute('disabled'); }); }">
+        Curl Performance Testing <div id="curlTestShowProgress"></div>
+    </button>
+</div>
+
+<div id="curlCmd" class="border" style="margin: 5px 0px;padding: 5px; display: none;">
+
+    <div style="margin: 0 auto;position:relative; overflow:auto">
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <input id="appName" type="hidden" value="https://appweb.fly.dev"/>
+            <label style="width:100%;margin: 5px 0px;" onclick="let urlElm = getElm('curlUrl'); if (urlElm.value == '') { urlElm.value = getElm('appName').value; } else { urlElm.value = ''; } ">Curl Test Url</label>
+            <input class="flex-item-stretch border" id="curlUrl" style="height:40px;" autocomplete="none" type="text" placeholder="Your Curl Url" autofocus="" value="" />
+        </div>
+
+        <div class="notification" id="curlMetricResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+            <button class="delete" onclick="hideElm('curlMetricResponseContainer')"></button>
+            <div id="curlMetricResponse"></div>
+        </div>
+
+        <div class="flex-content-wrap" style="padding:3px 0px;background-color:#fff;">
+
+            <button class="border flex-item-stretch" style="margin: 2px 5px 0px 0px; height: 25px; background-color: lightgray;" onclick="clearCurlUrlMetrics('curlClearMetricProgress', 'curlMetricResponse', getElm('curlUrl').value)">
+                Clear Curl Url Metrics <div id="curlClearMetricProgress"></div>
+            </button>
+
+            <button class="border" id="regionRefresh" style="margin-top: 2px; width: 25px; height: 25px; text-align: center; position: relative;" onclick="fillServerRegions('curlClearMetricProgress', 'curlMetricResponse', 'serverRegionsTemplate', 'serverRegions')">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+            </button>
+
+        </div>
+        <div id="serverRegionsTemplate" style="display:none;">
+            <div style="min-width:50px; margin: 5px 5px;">
+                <label style="padding: 7px 0px 0 0px;">
+                    <input type="checkbox" checked="checked" name="{UrlRegion}" value="{Region}"> {Region}
+                </label>
+            </div>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width: 50%; margin: 5px 0px; text-align: left;">
+                Curl Test Region(s)
+            </label>
+            <label style="width: 50%; margin: 5px 0px; text-align: right">
+                All
+                <input type="checkbox" title="All Regions" id="selectAll" onclick="selectAll('curlUrlRegion', getElm('selectAll').checked)">
+            </label>
+            <div id="serverRegions" class="border" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
+            </div>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0 0 0;">
+            <label class="flex-item-stretch"> Request Count</label>
+            <label class="flex-item-stretch"> Request Interval</label>
+            <label class="flex-item-stretch"> Idle Time</label>
+        </div>
+        <div class="flex-input-wrap" style="margin: 0px;">
+            <select class="flex-item-stretch border" style="height: 30px; margin: 0 5px 0 0px; padding-left:5px; background-color: white;" id="curlRequestCount">
+                <option selected="selected" value="1">1</option>
+                <option>5</option>
+                <option>10</option>
+                <option>25</option>
+            </select>
+            <select class="flex-item-stretch border" style="height: 30px; margin: 0 0 0 5px; padding-left: 5px; background-color: white;" id="curlRequestInterval">
+                <option selected="selected" value="1000">1 sec</option>
+                <option value="5000">5 sec</option>
+                <option value="10000">10 sec</option>
+                <option value="30000">30 sec</option>
+            </select>
+            <select class="flex-item-stretch border" style="height: 30px; margin: 0 0 0 5px; padding-left: 5px; background-color: white;" id="serverIdleTime">
+                <option selected="selected" value="5000">5 sec</option>
+                <option value="10000">10 sec</option>
+                <option value="30000">30 sec</option>
+                <option value="60000">60 sec</option>
+            </select>
+        </div>
+
+        <div class="notification" id="curlTestActionResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+            <button class="delete" onclick="hideElm('curlTestActionResponseContainer')"></button>
+            <div id="curlTestActionResponse"></div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 15px 0px;">
+            <button class="border button" id="curlTest" style="background-color:#209cee;" tabindex="4" disabled="disabled"
+                    onclick="return doCurlTest('curlTestActionProgress', 'curlTestActionResponse', getElm('curlUrl').value, 'curlUrlRegion', getElm('curlRequestCount').value, getElm('curlRequestInterval').value, getElm('serverIdleTime').value); ">
+                Do Curl Performance Test <div id="curlTestActionProgress"></div>
+            </button>
+        </div>
+
+
+    </div>
+
+</div>
+
+{{CurlCmdJs}}

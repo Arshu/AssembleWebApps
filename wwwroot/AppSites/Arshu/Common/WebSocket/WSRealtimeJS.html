@@ -1,0 +1,545 @@
+﻿<script type="text/javascript">
+
+    const globalWebSocketTimeout = 10000;
+    let globalWebSocketConnection;
+    let lastServerRefreshTimestamp = 0;
+
+    const url = new URL(document.location);
+    const keepAliveInterval = 1000 * parseInt('{{$KeepAliveInterval}}'); // 15 Seconds
+    const serverTimeout = 1000 * parseInt('{{$ServerTimeout}}'); // 60 Seconds
+    let websocketPtotocol = "ws:";
+    if (location.protocol === 'https:') { 
+        websocketPtotocol = "wss:";
+    }
+    let websocketUrl = websocketPtotocol + url.hostname + ":" + url.port + "/{{$ApiHub}}";
+        
+    const urlParams = url.searchParams;
+    const region = urlParams.get('region');
+    const instance = urlParams.get('instance');
+    const appname = urlParams.get('app');
+
+    if ((region) && (region.length > 0)) {
+        var regionUrl = new URL(websocketUrl, document.baseURI);
+        if (regionUrl.searchParams.has('region') == false) {
+            regionUrl.searchParams.append('region', region);
+            websocketUrl = regionUrl.toString();
+            console.log('region Url:', websocketUrl);
+        }
+    }
+    else if ((instance) && (instance.length > 0)) {
+        var instanceUrl = new URL(websocketUrl, document.baseURI);
+        if (instanceUrl.searchParams.has('instance') == false) {
+            instanceUrl.searchParams.append('instance', instance);
+            websocketUrl = instanceUrl.toString();
+            console.log('instance Url:', websocketUrl);
+        }
+    }
+    else if ((appname) && (appname.length > 0)) {
+        var appnameUrl = new URL(websocketUrl, document.baseURI);
+        if (appnameUrl.searchParams.has('app') == false) {
+            appnameUrl.searchParams.append('app', appname);
+            appnameUrl = appnameUrl.toString();
+            console.log('app Url:', websocketUrl);
+        }
+    }
+    const folder = urlParams.get('folder');
+    if ((folder) && (folder.length > 0)) {
+        var folderUrl = new URL(websocketUrl, document.baseURI);
+        if (folderUrl.searchParams.has('folder') == false) {
+            folderUrl.searchParams.append('folder', folder);
+            websocketUrl = folderUrl.toString();
+            console.log('Folder Url:', websocketUrl);
+        }
+    }
+
+    function startWebSocketConnection(websocketUrl) {
+
+        const websocket = new WebSocket(websocketUrl);
+
+        websocket.onopen = function (event) {
+            if (websocket.readyState == 1) {
+                globalWebSocketConnection = websocket;
+                //console.log('Socket Opened');
+                callChangeContextPage("{{$AppSite}}", "{{$AppView}}");
+            }
+        };
+
+        websocket.onerror = function (event) {
+            console.error('Socket encountered error: ', event, 'Closing socket');
+            globalWebSocketActive = false;
+            globalWebSocketConnection = null;
+            websocket.close();
+            lastAppSite = "";
+            lastAppView = "";
+        }
+
+        websocket.onclose = function (event) {
+            //console.log('Socket is closed.', event.reason);
+            globalWebSocketActive = false;
+            globalWebSocketConnection = null;
+            lastAppSite = "";
+            lastAppView = "";
+            if (typeof serverStopped === "function") {
+                serverStopped();
+            }
+        };
+
+        websocket.onmessage = function (event) {
+            let returnJson = JSON.parse(event.data);
+            let method = "";
+            if (returnJson.hasOwnProperty('method')) {
+                method = returnJson.method;
+            }
+            let arg1 = "";
+            if (returnJson.hasOwnProperty('arg1')) {
+                arg1 = returnJson.arg1;
+            }
+            let arg2 = "";
+            if (returnJson.hasOwnProperty('arg2')) {
+                arg2 = returnJson.arg2;
+            }
+
+            if (method == "WebSocketCountChange") {
+                onSetOnlineCount(arg1, arg2);
+            }
+            else if (method == "PageChange") {
+                onPageChanged(arg1, arg2);
+            }           
+            else if (method == "RefreshView") {
+                onRefreshView(arg1, arg2);
+            }
+            else if (method == "ReturnCallWSApi") {
+                
+            }
+            else {
+                //alert(method + "," + arg1 + "," + arg2);
+            }
+        };
+    }
+
+    startWebSocketConnection(websocketUrl);
+
+    function restartWebSocketConnection() {
+        if ((globalWebSocketActive == false) || ((globalWebSocketConnection) && (globalWebSocketConnection.readyState == 3))) {
+            //console.log('Restarting WebSocket Connection');
+            startWebSocketConnection(websocketUrl);
+        }
+    }
+
+    function closeWebSocketConnection() {
+        if ((globalWebSocketConnection) && (globalWebSocketConnection.readyState == 1)) {
+            globalWebSocketConnection.close();
+        }
+    }
+
+    window.onbeforeunload = function (e) {
+        closeWebSocketConnection();       
+    }
+
+    let lastAppSite = "";
+    let lastAppView = "";
+    function callChangeContextPage(appSite, appView) {
+        if ((globalWebSocketConnection) && (globalWebSocketConnection.readyState == 1)) {
+            if ((lastAppSite != appSite) || (lastAppView != appView)) {
+                lastAppSite = appSite;
+                lastAppView = appView;
+                let appDomain = window.location.hostname;
+                let messageJson = {
+                    "method": "CallChangeContextPage",
+                    "arg1": appDomain + "," + appSite + "," + appView,
+                    "arg2": lastServerRefreshTimestamp
+                };
+                let messageText = JSON.stringify(messageJson);
+                globalWebSocketConnection.send(messageText);
+                //console.log('Sent ChangeContextPage Message: ' + appDomain + "," + appSite + "," + appView);
+            }
+        }
+    }
+
+    function callWSApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, successCallback, failureCallback, clientRequestStartTimestamp, refreshAppDomain) {
+        if ((globalWebSocketActive == true) && (globalWebSocketConnection) && (globalWebSocketConnection.readyState == 1)) {
+            ajaxStart(progressElmId);
+
+            let isSecure = true;
+            if (location.protocol !== 'https:') {
+                isSecure = false;
+            }
+            let requestToken = document.head.querySelector("[name=REQUESTTOKEN]").content;
+            if (!clientRequestStartTimestamp) {
+                clientRequestStartTimestamp = Math.floor(new Date().getTime());
+            }
+
+            let appDomain = window.location.hostname;
+            let rootPort = window.location.port;
+
+            if (rootPort.trim() == "") {
+                if (isSecure == true) { rootPort = "443"; } else { rootPort = "80"; }
+            }
+
+            var currentAppSite = "";
+            if (apiParams.hasOwnProperty("appSite") == true) {
+                currentAppSite = apiParams["appSite"];
+            }
+            if (apiParams.hasOwnProperty("appsite") == true) {
+                currentAppSite = apiParams["appsite"];
+            }
+            var currentAppView = "";
+            if (apiParams.hasOwnProperty("appView") == true) {
+                currentAppView = apiParams["appView"];
+            }
+            if (apiParams.hasOwnProperty("appview") == true) {
+                currentAppView = apiParams["appview"];
+            }
+
+            if (apiParams.hasOwnProperty("isRealtime") == true) {                
+                if (refreshAppDomain == "") {
+                    apiParams["isRealtime"] = false;
+                }
+            }
+            
+            let messageJson = {
+                "method": "CallWSApi",
+                "arg1": isSecure,
+                "arg2": requestToken,
+                "arg3": appDomain,
+                "arg4": parseInt(rootPort),
+                "arg5": apiUrl,
+                "arg6": apiMethod,
+                "arg7": apiParams,
+                "arg8": clientRequestStartTimestamp,
+                "arg9": refreshAppDomain
+            };
+            let messageText = JSON.stringify(messageJson);
+
+            let returnJson = {};
+            let webSocketTimeout = 10000;
+            if (typeof globalWebSocketTimeout !== 'undefined') {
+                webSocketTimeout = globalWebSocketTimeout;
+            }
+
+            globalWebSocketConnection.send(messageText);
+
+            if (refreshAppDomain != "") {
+                ajaxStop(returnJson, progressElmId, false);
+            }
+            var returnCallWSApiHandler = function (event) {
+                let returnMessage = JSON.parse(event.data);
+                let method = "";
+                if (returnMessage.hasOwnProperty('method')) {
+                    method = returnMessage.method;
+                }
+                if (method == "ReturnCallWSApi") {
+                    if ((Object.keys(returnMessage).length == 3)
+                        && (returnMessage.hasOwnProperty('arg1') == true)
+                        && (returnMessage.hasOwnProperty('arg2') == true)) {
+
+                        let returnJson = returnMessage.arg1;
+                        let connectionInfo = returnMessage.arg2;
+
+                        ajaxStop(returnJson, progressElmId, false);
+                        filterShowWSTime(returnJson, false);
+
+                        if (typeof successCallback === "function") {
+                            successCallback(returnJson);
+                        }
+                        globalWebSocketConnection.removeEventListener("message", returnCallWSApiHandler);
+
+                        let clientRequestStartTimestamp = 0;
+                        if (returnJson.hasOwnProperty('ClientRequestStartTimestamp') === true) {
+                            clientRequestStartTimestamp = returnJson['ClientRequestStartTimestamp'];
+                        }
+
+                        let serverRequestStartTimestamp = 0;
+                        if (returnJson.hasOwnProperty('ServerRequestStartTimestamp') === true) {
+                            serverRequestStartTimestamp = returnJson['ServerRequestStartTimestamp'];
+                        }
+
+                        let serverRequestEndTimestamp = 0;
+                        if (returnJson.hasOwnProperty('ServerRequestEndTimestamp') === true) {
+                            serverRequestEndTimestamp = returnJson['ServerRequestEndTimestamp'];
+                        }
+
+                        let currentTimestamp = Math.floor(new Date().getTime());
+                        let clientRequestTimestampDifference = currentTimestamp - clientRequestStartTimestamp;
+
+                        let serverRequestTimestampDifference = (serverRequestEndTimestamp - serverRequestStartTimestamp);
+                        let networkTimestampDifference = clientRequestTimestampDifference - serverRequestTimestampDifference;
+
+                        console.log('Direct WSRefreshView [' + connectionInfo + '] With Changed Json [' + clientRequestTimestampDifference + 'ms][' + serverRequestTimestampDifference + 'ms]');
+                    }
+                }
+            };
+
+            globalWebSocketConnection.addEventListener("message", returnCallWSApiHandler);
+        }
+    }
+
+    function onSetOnlineCount(onlineCount, connectionInfo) {
+        //console.log('WebSocket Count: [' + connectionInfo + "]" + onlineCount);
+        getElm('webSocketCount').textContent = onlineCount;
+    }
+
+    function onPageChanged(pageChangeInfo, connectionInfo) {
+        //console.log('PageChanged: [' + connectionInfo + "]" + pageChangeInfo);
+        globalWebSocketActive = true;
+        if (typeof serverStarted === "function") {
+            serverStarted();
+        }
+    }
+    
+    function onRefreshView(returnJson, connectionInfo) {
+        filterShowWSTime(returnJson, false);
+
+        let changedAppSite = "";
+        if (returnJson.hasOwnProperty('ChangedAppSite') === true) {
+            changedAppSite = returnJson['ChangedAppSite'];
+        }
+        let changedAppView = "";
+        if (returnJson.hasOwnProperty('ChangedAppView') === true) {
+            changedAppView = returnJson['ChangedAppView'];
+        }
+        let changedPageNameOrPath = "";
+        if (returnJson.hasOwnProperty('ChangedPageNameOrPath') === true) {
+            changedPageNameOrPath = returnJson['ChangedPageNameOrPath'];
+        }
+       
+        if (returnJson.hasOwnProperty('ChangedJson') == true) {
+
+            let clientRequestStartTimestamp = 0;
+            if (returnJson.hasOwnProperty('ClientRequestStartTimestamp') === true) {
+                clientRequestStartTimestamp = returnJson['ClientRequestStartTimestamp'];
+            }
+
+            let serverRequestStartTimestamp = 0;
+            if (returnJson.hasOwnProperty('ServerRequestStartTimestamp') === true) {
+                serverRequestStartTimestamp = returnJson['ServerRequestStartTimestamp'];
+            }
+
+            let serverRequestEndTimestamp = 0;
+            if (returnJson.hasOwnProperty('ServerRequestEndTimestamp') === true) {
+                serverRequestEndTimestamp = returnJson['ServerRequestEndTimestamp'];
+            }
+
+            let currentTimestamp = Math.floor(new Date().getTime());
+            let clientRequestTimestampDifference = currentTimestamp - clientRequestStartTimestamp;
+
+            let serverRequestTimestampDifference = (serverRequestEndTimestamp - serverRequestStartTimestamp);
+            let networkTimestampDifference = clientRequestTimestampDifference - serverRequestTimestampDifference;
+
+            console.log('WSRefreshView [' + connectionInfo + '] With Changed Json [' + clientRequestTimestampDifference + 'ms][' + serverRequestTimestampDifference + 'ms]');
+
+            let jsonTagList = returnJson.ChangedJson;
+            refreshViewComponentJson(jsonTagList);
+            setApiMetrics(returnJson);
+
+            if (typeof callChangeContextPage === "function") {
+                if ((changedAppSite != "") && (changedAppView != "")) {
+                    callChangeContextPage(changedAppSite, changedAppView);
+                }
+            }
+        } else {
+            console.log(`WSRefreshView With AppSite ${currentAppSite}, AppView ${currentAppView} and PageNameOrPath ${changedPageNameOrPath}`);
+
+            if ((currentAppSite.length > 0) && (currentAppView.length > 0) && (changedPageNameOrPath.length > 0)) {
+                refreshViewComponentHtml('progress', 'response', currentAppSite, currentAppView, changedPageNameOrPath, {}, false, false, '', '')
+            }
+        }
+    }
+
+
+
+
+    let showLastWebSocketCount = 7;
+
+    function filterShowWSTime(serverResponseJson) {
+        if ((serverResponseJson) && (serverResponseJson.ServiceInfo)) {
+            if ((serverResponseJson.ServiceInfo.toUpperCase().indexOf("ServerApi".toUpperCase()) === -1)
+                && (serverResponseJson.ServiceInfo.toUpperCase().indexOf("CurlApi".toUpperCase()) === -1)
+            ) {
+                recordWSTiming(serverResponseJson, false);
+            }
+        } else {
+            recordWSTiming(serverResponseJson, false);
+        }
+    }
+
+    function recordWSTiming(returnWsJson, clear) {
+        if (haveElm('wsTime') == true) {
+            let wsTimeElm = getElm('wsTime');
+            if (wsTimeElm) {
+
+                let currentTimestamp = Math.floor(new Date().getTime());
+                let wsTimeVal = "";
+                if (clear === true) wsTimeElm.innerHTML = "";
+
+                if (returnWsJson.hasOwnProperty('ClientRequestStartTimestamp') === true) {
+
+                    let clientRequestStartTimestamp = returnWsJson['ClientRequestStartTimestamp'];
+                    let clientRequestTimestampDifference = 0;
+                    if (clientRequestStartTimestamp > 0) {
+                        clientRequestTimestampDifference = currentTimestamp - clientRequestStartTimestamp;
+                    }
+
+                    let serverRequestStartTimestamp = 0;
+                    if (returnWsJson.hasOwnProperty('ServerRequestStartTimestamp') === true) {
+                        serverRequestStartTimestamp = returnWsJson['ServerRequestStartTimestamp'];
+                    }
+
+                    let serverRequestEndTimestamp = currentTimestamp;
+                    if (returnWsJson.hasOwnProperty('ServerRequestEndTimestamp') === true) {
+                        serverRequestEndTimestamp = returnWsJson['ServerRequestEndTimestamp'];
+                        lastServerRefreshTimestamp = serverRequestEndTimestamp;
+                    }
+
+                    let serverRequestTimestampDifference = (serverRequestEndTimestamp - serverRequestStartTimestamp);
+                    let networkTimestampDifference = clientRequestTimestampDifference - serverRequestTimestampDifference;
+
+                    if (clientRequestTimestampDifference > 0) {
+                        if ((serverRequestTimestampDifference <= 0) && (clientRequestTimestampDifference != serverRequestTimestampDifference)) {
+                            wsTimeVal = "(<span style='color:red;'>" + clientRequestTimestampDifference + "</span>)";
+                            if (returnWsJson.hasOwnProperty('ServiceInfo') === true) {
+                                wsTimeVal = "(<span style='color:red;' title='" + returnWsJson.ServiceInfo + "'>" + clientRequestTimestampDifference + "</span >)";
+                                if (typeof sendWSMetrics === "function") {
+                                    sendWSMetrics(returnWsJson.ServiceInfo, serverRequestTimestampDifference, clientRequestTimestampDifference);
+                                }
+                            }
+                        } else {
+                            wsTimeVal = "(<span style='color:red;'>" + clientRequestTimestampDifference + "[" + serverRequestTimestampDifference + "]</span>)";
+                            if (returnWsJson.hasOwnProperty('ServiceInfo') === true) {
+                                wsTimeVal = "(<span style='color:red;' title='" + returnWsJson.ServiceInfo + "'>" + clientRequestTimestampDifference + "[" + serverRequestTimestampDifference + "]</span>)";
+                                if (typeof sendWSMetrics === "function") {
+                                    sendWSMetrics(returnWsJson.ServiceInfo, serverRequestTimestampDifference, clientRequestTimestampDifference);
+                                }
+                            }
+                        }
+                    } else {
+                        if (serverRequestTimestampDifference > 0) {
+                            wsTimeVal = "(<span style='color:red;'>[" + serverRequestTimestampDifference + "]</span>)";
+                            if (returnWsJson.hasOwnProperty('ServiceInfo') === true) {
+                                wsTimeVal = "(<span style='color:red;' title='" + returnWsJson.ServiceInfo + "'>[" + serverRequestTimestampDifference + "]</span>)";
+                                if (typeof sendWSMetrics === "function") {
+                                    sendWSMetrics(returnWsJson.ServiceInfo, serverRequestTimestampDifference, clientRequestTimestampDifference);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (returnWsJson.hasOwnProperty('ServerRequestStartTimestamp') === true) {
+                        let serverRequestStartTimestamp = 0;
+                        if (returnWsJson.hasOwnProperty('ServerRequestStartTimestamp') === true) {
+                            serverRequestStartTimestamp = returnWsJson['ServerRequestStartTimestamp'];
+                        }
+
+                        let serverRequestEndTimestamp = currentTimestamp;
+                        if (returnWsJson.hasOwnProperty('ServerRequestEndTimestamp') === true) {
+                            serverRequestEndTimestamp = returnWsJson['ServerRequestEndTimestamp'];
+                        }
+
+                        let serverRequestTimestampDifference = (serverRequestEndTimestamp - serverRequestStartTimestamp);
+
+                        if (serverRequestTimestampDifference > 0) {
+                            wsTimeVal = "(<span style='color:red;'>[" + serverRequestTimestampDifference + "]</span>)";
+                            if (returnWsJson.hasOwnProperty('ServiceInfo') === true) {
+                                wsTimeVal = "(<span style='color:red;' title='" + returnWsJson.ServiceInfo + "'>[" + serverRequestTimestampDifference + "]</span>)";
+                                if (typeof sendWSMetrics === "function") {
+                                    sendWSMetrics(returnWsJson.ServiceInfo, serverRequestTimestampDifference, clientRequestTimestampDifference);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (wsTimeVal.length > 0) {
+                    let wsTimeElmText = wsTimeElm.innerHTML.trim();
+                    let storedWsTime = sessionStorage.getItem('wsTime');
+                    if (storedWsTime !== null) {
+                        if (storedWsTime.length > 0) {
+                            wsTimeElmText = storedWsTime;
+                        }
+                    }
+
+                    let wsTimeList = "";
+                    if (wsTimeElmText.length === 0) {
+                        wsTimeList = wsTimeVal;
+                    }
+                    else {
+
+                        if (wsTimeElmText.indexOf(",") === -1) {
+                            wsTimeList = wsTimeElmText + "," + wsTimeVal;
+                        } else {
+                            let wsTimeArr = wsTimeElmText.split(",", showLastWebSocketCount);
+                            if (wsTimeArr.length >= showLastWebSocketCount) wsTimeArr.shift();
+                            wsTimeList = wsTimeArr.join(",") + "," + wsTimeVal;
+                        }
+                    }
+                    wsTimeElm.innerHTML = "WS[" + wsTimeList + "]";
+                    sessionStorage.setItem("wsTime", wsTimeList);
+                }
+            }
+        }
+    }
+
+    function clearWSTiming() {
+        if (haveElm('wsTime') == true) {
+            let wsTimeElm = getElm('wsTime');
+            if (wsTimeElm) {
+                wsTimeElm.innerHTML = "";
+            }
+        }
+        sessionStorage.setItem("wsTime", "");
+    }
+
+    /*
+        let blob = jsonToBlob([{foo:[1,2,3], a:1, bar:["a", 2, {$hi:[1,2,3, {a:3}]}]}, 4, new Date(),, (()=>{})]);
+        console.log(JSON.parse(await blob.text()));
+
+        let json = {};
+        for(let i = 0; i < 600000; i++) {
+          json[Math.random()] = Math.random().toString().repeat(100);
+        }
+        let blob = jsonToBlob(json);
+        console.log(blob); // ~1 GB
+    */
+    function jsonToBlob(json) {
+        const textEncoder = new TextEncoder();
+        const seen = new WeakSet();
+
+        function processValue(value) {
+            if (seen.has(value)) {
+                throw new TypeError("Converting circular structure to JSON");
+            }
+
+            if (value && typeof value.toJSON === "function") {
+                value = value.toJSON();
+            }
+
+            if (typeof value === 'object' && value !== null) {
+                seen.add(value);
+
+                const blobParts = [];
+                const entries = Array.isArray(value) ? value : Object.entries(value);
+                for (let i = 0; i < entries.length; i++) {
+                    if (Array.isArray(value)) {
+                        blobParts.push(processValue(entries[i]));
+                    } else {
+                        const [key, val] = entries[i];
+                        blobParts.push(textEncoder.encode(JSON.stringify(key) + ':'), processValue(val));
+                    }
+                    if (i !== entries.length - 1) blobParts.push(textEncoder.encode(','));
+                }
+
+                const startBracket = Array.isArray(value) ? '[' : '{';
+                const endBracket = Array.isArray(value) ? ']' : '}';
+                return new Blob([textEncoder.encode(startBracket), ...blobParts, textEncoder.encode(endBracket)]);
+            } else if (typeof value === 'function' || typeof value === 'undefined') {
+                return textEncoder.encode("null");
+            } else {
+                // For primitives we just convert it to string and encode
+                return textEncoder.encode(JSON.stringify(value));
+            }
+        }
+
+        return processValue(json);
+    }
+
+</script>

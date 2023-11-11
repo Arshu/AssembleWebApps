@@ -1,0 +1,20 @@
+{
+  "CurlMetricsFileName" : "MetricsCurl.json",
+  "CurlWriteParams" : "\nurl- %{url_effective}, time_namelookup-  %{time_namelookup}, time_connect-  %{time_connect}, time_appconnect-  %{time_appconnect}, time_pretransfer-  %{time_pretransfer}, time_redirect-  %{time_redirect}, time_starttransfer-  %{time_starttransfer}, time_total-  %{time_total}, speed_download- %{speed_download}, http_code-%{http_code}, size_download-%{size_download}",
+  "CurlWriteParamsJson" : "\n%{json}",
+  "Encrypted" : false,
+  "LoadCurlMetrics" : true,
+  "MaxTimeMetricsCount" : 100,
+  "MetricsFlushWaitTime" : 5000,
+  "MetricsFolderName" : "Metrics",
+  "MetricsWorkerCount" : 1,
+  "Overwritable" : true,
+  "ReCreate" : false,
+  "RemoteUrl" : "",
+  "RemoteUserId" : "",
+  "RemoteUserPwd" : "",
+  "SaveCurlMetrics" : false,
+  "ShowLocalInstanceOnly" : false,
+  "UseJsonParam" : false,
+  "UseServerTime" : false
+}

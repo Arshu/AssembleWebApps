@@ -1,0 +1,54 @@
+<ul class="menu" id="navMenu" style="{{$NavBarBackgroundStyle}};">
+    <li class="menuimage" style="margin:0px;">
+        <a href="{{$LoginAfterPageUrl}}" style="width: 40px;">
+            <svg style="height:40px;" name="arrow-back" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        </a>
+    </li>
+    <li class="flex-item-stretch" style="width:100%;padding:10px 10px 15px 10px">
+
+    </li>
+    {{@HaveAdminRole}}
+
+    {{@NAVList}}
+
+    {{@HaveSubMenu}}
+    <li class="menuitem has-submenu">
+        <a tabindex="0">{{$NavTitle}}</a>
+        <ul class="submenu">
+            {{@SubNAVList}}
+            <li class="submenuitem">
+                <a class="{{$SubNavActive}}" href="{{$SubNavUrl}}">
+                    {{$SubNavTitle}}
+                </a>
+            </li>
+            {{/SubNAVList}}
+        </ul>
+    </li>
+    {{/HaveSubMenu}}
+    {{^HaveSubMenu}}
+    <li class="menuitem">
+        <a class="{{$NavActive}}" href="{{$NavUrl}}">
+            {{$NavTitle}}
+        </a>
+    </li>
+    {{/HaveSubMenu}}
+
+    {{/NAVList}}
+
+    {{/HaveAdminRole}}
+
+    <li class="menutoggle" data-target="navMenu" style="margin: 0 40px 0 0;">
+        <svg style="width:32px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </li>
+
+    <li class="menuitem" style="margin: 0 40px 0 0; order: 1; visibility: hidden; height: 5px; padding:0px;">
+        <svg style="width:32px;display:none;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </li>
+
+    <li class="menuimage_right" style="margin: 0 0 0 40px;position:fixed;right:0px;top:0px;">
+        <button style="height: 43.5px; width: 40px;" class="logoff">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        </button>
+    </li>
+</ul>
+

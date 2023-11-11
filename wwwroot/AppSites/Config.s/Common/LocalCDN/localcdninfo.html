@@ -1,0 +1,16 @@
+<div class="flex-content-wrap">
+    <div class="flex-item-stretch card_border" style="text-align:center;">
+        {{@IsLocalHost}}
+        <a href="/?CDNHost={{$RootDomain}}&CDNPORT={{$RootPort}}">
+            <h5>Test NearCDN Url</h5>
+            <p style="font-size:x-small">(/?CDNHost={{$RootDomain}}&CDNPORT={{$RootPort}})</p>
+        </a>
+        {{/IsLocalHost}}
+        {{^IsLocalHost}}
+        <a href="/?CDNHost={{$RootDomain}}&CDNPORT={{$RootPort}}">
+            <h5>Test NearCDN Url</h5>
+            <p style="font-size:x-small">(/?CDNHost=localcdn.{{$RootDomain}}&CDNPORT={{$RootPort}})</p>
+        </a>
+        {{/IsLocalHost}}
+    </div>
+</div>

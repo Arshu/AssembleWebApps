@@ -1,0 +1,29 @@
+{
+  "NAVList": [
+    {
+      "NavTitle": "Home",
+      "NavUrl": "/",
+      "NavActive": "",
+      "HaveSubMenu": false,
+      "SubNAVList": []
+    }
+  ],
+  "Debug": {
+    "NAVList": [
+      {
+        "NavTitle": "AppSites",
+        "NavUrl": "/Index/AppSites",
+        "NavActive": "",
+        "HaveSubMenu": false,
+        "SubNAVList": []
+      },
+      {
+        "NavTitle": "AppViews",
+        "NavUrl": "/Index/AppViews",
+        "NavActive": "",
+        "HaveSubMenu": false,
+        "SubNAVList": []
+      }
+    ]
+  }
+}

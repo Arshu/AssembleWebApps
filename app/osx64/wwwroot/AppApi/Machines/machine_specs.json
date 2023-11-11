@@ -1,0 +1,167 @@
+{
+  "DefaultFlyMachine": "shared-1x-256",
+  "Shared-1x-256MB": {
+    "cpu_kind": "shared",
+    "cpus": 1,
+    "memory_mb": 256
+  },
+  "Shared-1x-512MB": {
+    "cpu_kind": "shared",
+    "cpus": 1,
+    "memory_mb": 512
+  },
+  "Shared-1x-1GB": {
+    "cpu_kind": "shared",
+    "cpus": 1,
+    "memory_mb": 1024
+  },
+  "Shared-1x-2GB": {
+    "cpu_kind": "shared",
+    "cpus": 1,
+    "memory_mb": 2048
+  },
+
+  "Shared-2x-512MB": {
+    "cpu_kind": "shared",
+    "cpus": 2,
+    "memory_mb": 512
+  },
+  "Shared-2x-1GB": {
+    "cpu_kind": "shared",
+    "cpus": 2,
+    "memory_mb": 1024
+  },
+  "Shared-2x-2GB": {
+    "cpu_kind": "shared",
+    "cpus": 2,
+    "memory_mb": 2048
+  },
+  "Shared-2x-4GB": {
+    "cpu_kind": "shared",
+    "cpus": 2,
+    "memory_mb": 4096
+  },
+
+  "Shared-4x-1GB": {
+    "cpu_kind": "shared",
+    "cpus": 4,
+    "memory_mb": 1024
+  },
+  "Shared-4x-2GB": {
+    "cpu_kind": "shared",
+    "cpus": 4,
+    "memory_mb": 2048
+  },
+  "Shared-4x-4GB": {
+    "cpu_kind": "shared",
+    "cpus": 4,
+    "memory_mb": 4096
+  },
+  "Shared-4x-8GB": {
+    "cpu_kind": "shared",
+    "cpus": 4,
+    "memory_mb": 8192
+  },
+
+  "Shared-8x-2GB": {
+    "cpu_kind": "shared",
+    "cpus": 8,
+    "memory_mb": 2048
+  },
+  "Shared-8x-4GB": {
+    "cpu_kind": "shared",
+    "cpus": 8,
+    "memory_mb": 4096
+  },
+  "Shared-8x-8GB": {
+    "cpu_kind": "shared",
+    "cpus": 8,
+    "memory_mb": 8192
+  },
+  "Shared-8x-16GB": {
+    "cpu_kind": "shared",
+    "cpus": 8,
+    "memory_mb": 16384
+  },
+
+  "Performance-1x-2GB": {
+    "cpu_kind": "performance",
+    "cpus": 1,
+    "memory_mb": 2048
+  },
+  "Performance-1x-4GB": {
+    "cpu_kind": "performance",
+    "cpus": 1,
+    "memory_mb": 4096
+  },
+  "Performance-1x-8GB": {
+    "cpu_kind": "performance",
+    "cpus": 1,
+    "memory_mb": 8192
+  },
+
+  "Performance-2x-4GB": {
+    "cpu_kind": "performance",
+    "cpus": 2,
+    "memory_mb": 4096
+  },
+  "Performance-2x-8GB": {
+    "cpu_kind": "performance",
+    "cpus": 2,
+    "memory_mb": 8192
+  },
+  "Performance-2x-16GB": {
+    "cpu_kind": "performance",
+    "cpus": 2,
+    "memory_mb": 16384
+  },
+
+  "Performance-4x-8GB": {
+    "cpu_kind": "performance",
+    "cpus": 4,
+    "memory_mb": 8192
+  },
+  "Performance-4x-16GB": {
+    "cpu_kind": "performance",
+    "cpus": 4,
+    "memory_mb": 16384
+  },
+  "Performance-4x-32GB": {
+    "cpu_kind": "performance",
+    "cpus": 4,
+    "memory_mb": 32768
+  },
+
+  "Performance-8x-16GB": {
+    "cpu_kind": "performance",
+    "cpus": 8,
+    "memory_mb": 16384
+  },
+  "Performance-8x-32GB": {
+    "cpu_kind": "performance",
+    "cpus": 8,
+    "memory_mb": 32768
+  },
+  "Performance-8x-64GB": {
+    "cpu_kind": "performance",
+    "cpus": 8,
+    "memory_mb": 65536
+  },
+
+  "Performance-16x-32GB": {
+    "cpu_kind": "performance",
+    "cpus": 8,
+    "memory_mb": 32768
+  },
+  "Performance-16x-64GB": {
+    "cpu_kind": "performance",
+    "cpus": 8,
+    "memory_mb": 65536
+  },
+  "Performance-16x-128GB": {
+    "cpu_kind": "performance",
+    "cpus": 8,
+    "memory_mb": 131072
+  }
+
+}

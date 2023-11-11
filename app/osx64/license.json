@@ -1,5 +1,6 @@
 {
-  "AllowedHosts" : "::1, 0:0:0:0:0:0:0:1, 127.0.0.1, localhost, .local, fly.dev, koyeb.app",
-  "BuildExpiry" : "01\/Oct\/2024",
-  "Signature" : "Qbqf7LmwngAP5weX3Ym4GCBqhToVo\/MARWjHTc8KXVqiadI385FvPLnbhvYo7KZ7\/gimiMv9yFdrucbtKfns5mz2tJ7LJqQ4jhtVdZsI+XFhw3zLs7oJwzpFa9DFQudlzU13IgFnWEDs5JTNC9yOHWjdBuXGO43CvvyQcoTwMRO60P8jpae7irnnid1WmQF6P9L8J7LLcFaoPmMIgOLHY+9Y2lEpoOVeDh+hywgOHTx9S5aLfNPkaPchhbmY\/vBfLda5wrHjIuEzcqnxtP760CTiMxtZ5l1F3JKz8AsLJ1gvHpGYoQgaJc4Y4TgnWH8+8wNoNPGnfVFrs8tB2TBpX2Vp9YKvPTdpC2l3KP44k3Jjo1HZfjXEp0GX8T5mHPfdUliPWJFp1PTbPGLAngzMUkUbIIjxyoGrqy1eMurlhJzwCntMZR\/qjsPre0iY04hUwswVmwl9SMYeSOKwTozxOPqslhuQEyMwT7n6u401hk1f2bmJCwMoQ5UMefZ1KDuflRjinJWdKHEIs9vnh6IweQ342Rqs4fpttXCdpLJGYBC43I3AI\/dSmydADTEo2Eqj6fSNsQ\/NOC0ghni4yKAME6o\/nEgyBlspY0LwwHvC7TaiG2sj6qnqcWL0O3H9X9ghXaLxeBr30dxtNsxOobcywYudnQ1Hk+Is9IPHM1Urz4Q="
+  "AllowedHosts" : "::1, 0:0:0:0:0:0:0:1, 127.0.0.1, localhost, .local, fly.dev",
+  "BuildExpiry" : "10\/Apr\/2026",
+  "LicensedTo" : "Everyone",
+  "Signature" : "u5AolSdnWg3sd+T1mlHOP4bWN2iiegRg49DYBBGLENSFOPIu\/DIHIpWD4aNFO4HmoKur0d4mGmpq3aYVBRLVNVltQx\/3ck0vis3IzjxyGdQzvT5EaEA3GXQvAZVBYnjJHZjL\/PQtGZeacRLXt23K6nhhHN4s1fVlNOnLJM2fDatRGkjK5snYjCfc+Nn\/\/PyxCGqYEgAjPWy5qIDmOCxhwC98bMbGQz502YSv\/v7zA7FrbNOL3rKFsvoYabMaUj3zzTSTGRto557kL+IqK3nwkL4h4AbIWcVE46lHXdle57t7rW3DB9v7NZprhgE7iff7g8LGKrngIdzC8EfoG48BlvdsOPadAAPxmHuL+PPWWjqzvWkz1DEwgKR9xVC4MvRHQK6B5KXGjTaGAvgCfgR14lAD8sriAzOQ9rByjQrOhmDY+69xCnsjEZUsO7Y69Z4NQfUaujW6BsgrtvqIQBGPgQLgI+dFhFENZBIcjqaHL4lyKgaJ2BsN2ceby+QdChEt9KzyNjwP3NfGkYahl\/XCH2PiE8hae4XS7YmewtQoa5WaCAItg0rMoVUfjRFenhB3oFm5RQNcYGv+LCR2wVYMJAxYpXX\/3vzsnuJ8eorpWYAGVOIdEVfcSfUUoT8mRXHX8N2RNabKWcP6Yzk3AtkhcHULtmlNGiilJYOxo0ZmlDA="
 }

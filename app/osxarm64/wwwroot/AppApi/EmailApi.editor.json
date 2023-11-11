@@ -1,0 +1,18 @@
+{
+    "MaxEmailLength" : "Number, 5",    
+    "MaxMessageLength" : "Number, 5",    
+    "SendEmailRoles" : "Text, 100",    
+    "SendEmailConfig" : "Text, 100",    
+    "SendEmailDateFormat" : "Text, 100",    
+    "SendFromDisplayName" : "Text, 100",    
+    "SendSubject" : "Text, 100",    
+    "SendBody" : "Text, 100",    
+    "SendFromAddress" : "Text, 100",    
+    "SendToAddressess" : "Text, 100",    
+    "SendSuccessMessage" : "Text, 100",    
+    "SendErrorMessage" : "Text, 100",    
+    "ReCreate" : "Radio, true|false",    
+    "RemoteUrl" : "Text, 100",    
+    "RemoteUserId" : "Password, 100",    
+    "RemoteUserPwd" : "Password, 100"
+}

@@ -2,10 +2,10 @@
   "NAVList": [
     {
       "NavTitle": "Home",
-      "NavUrl": "/Documentation/Main",
-      "NavAppSite": "",
+      "NavUrl": "#/Documentation/Main",
+      "NavAppSite": "Documentation",
       "NavAppView": "Main",
-      "NavAppViewIDs": "mainContent",
+      "NavAppViewIDs": "mainNav, mainContent",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []

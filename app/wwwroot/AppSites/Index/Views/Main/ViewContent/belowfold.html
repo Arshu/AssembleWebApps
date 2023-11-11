@@ -1,41 +1,31 @@
 
-<div id="demoToDo">
+<div id="demoToDo"
+     data-action="loadViewComponentHtml"
+     data-progress="progress"
+     data-component="demoToDo"
+     data-isrealtime="false"
+     data-delay="10">
     {{!DemoToDo}}
 </div>
 
-{{HTMLPLACEHOLDER}}
-
-<div id="intro_list">
-    {{!intro_list}}
+<div id="usage_list"
+     data-action="loadViewComponentHtml"
+     data-progress="progress"
+     data-component="usage_list"
+     data-isrealtime="false"
+     data-delay="10">
+    {{!usage_list}}
 </div>
 
-<div id="appweb_intro">
+<div id="appweb_intro"
+     data-action="loadViewComponentHtml"
+     data-progress="progress"
+     data-component="appweb_intro"
+     data-isrealtime="true"
+     data-delay="100">
     {{!appweb_intro}}
 </div>
 
+{{HTMLPLACEHOLDER}}
 {{VIEWPLACEHOLDER}}
-
-<script>
-    ready(() => {
-        let useAjax = true;
-        let delayInterval = 10;
-        let initialWSDelayInterval = 100;
-        let parentViewElmId = "{{$ViewID}}";
-        let replaceToDoComponent = "demoToDo";
-        let replaceIntroListComponent = "intro_list";
-        let replaceIntroAppWebComponent = "appweb_intro";
-
-        //loadViewComponentHtml(false, useAjax, parentViewElmId, replaceToDoComponent, delayInterval, function () {
-        //    loadViewComponentHtml(false, !useAjax, parentViewElmId, replaceIntroListComponent, initialWSDelayInterval, function () {
-        //        loadViewComponentHtml(false, !useAjax, parentViewElmId, replaceIntroAppWebComponent, delayInterval, null, 'noprogress');
-        //    }, 'noprogress');
-        //}, 'noprogress');
-
-        loadViewComponentHtml(false, useAjax, parentViewElmId, replaceToDoComponent, delayInterval, function () {}, 'noprogress');
-
-        loadViewComponentHtml(false, useAjax, parentViewElmId, replaceIntroListComponent, initialWSDelayInterval, function () {
-            loadViewComponentHtml(false, useAjax, parentViewElmId, replaceIntroAppWebComponent, delayInterval, null, 'noprogress');
-        }, 'noprogress');
-    })
-</script>
 

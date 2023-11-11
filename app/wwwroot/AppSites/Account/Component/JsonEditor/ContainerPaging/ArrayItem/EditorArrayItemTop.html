@@ -3,7 +3,7 @@
         -
     </button>
     {{@HavePreviousPage}}
-    <button class="border flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" title="{{$PageNoCurrent}}, {{$PageNoArray}}, {{$PreviousPage}}, {{$FilterKeyPath}}"
+    <button class="border flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" title="{{$PageNo}}, {{$PageNoArray}}, {{$PreviousPage}}, {{$FilterKeyPath}}"
             onclick="return refreshEditorJsonArrayItem('{{$ViewID}}', '{{$ViewID}}{{$FilterKeyPath}}PreviousJsonArrayItemEditorProgress',
                 '{{$PageNo}}', '{{$PageNoArray}}', '{{$PreviousPage}}', '{{$FilterKeyPath}}');">
         < <span id="{{$ViewID}}{{$FilterKeyPath}}PreviousJsonArrayItemEditorProgress"></span>

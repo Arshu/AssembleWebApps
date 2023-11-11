@@ -1,18 +1,11 @@
 <div class="flex-content-spaced" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
-    <select class="border" style="margin: 0px;display:none;" id="toDoItemsPerPageOld"
-            onchange="return refreshViewComponentHtml('toDoItemsPerPageProgress', '{{$ParentViewID}}Response',
-                '{{$AppSite}}', '{{$AppView}}', '{{$ParentViewID}}',
-                { 'PageNo': '{{$PreviousPage}}', 'ItemsPerPage': this.value },
-                getElm('{{$ParentViewID}}RealtimeRefresh').checked,
-                getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value), '')">
-        <option value="2" {{@ItemsPerPage2}} selected="selected" {{/ItemsPerPage2}}>2</option>
-        <option value="5" {{@ItemsPerPage5}} selected="selected" {{/ItemsPerPage5}}>5</option>
-        <option value="10" {{@ItemsPerPage10}} selected="selected" {{/ItemsPerPage10}}>10</option>
-        <option value="25" {{@ItemsPerPage25}} selected="selected" {{/ItemsPerPage25}}>25</option>
-        <option value="100" {{@ItemsPerPage100}} selected="selected" {{/ItemsPerPage100}}>100</option>
-    </select>
     <select class="border" style="margin: 0px;" id="toDoItemsPerPage"
-            onchange="{{%ToDoChangeItemPerPageView}}">
+            data-action="filterViewComponentHtml" data-progress="toDoItemsPerPageProgress" data-response="{{$ParentViewID}}Response"
+            data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
+            data-filter="todoGetFilter"
+            data-component="{{$ParentViewID}}"
+            data-config="{'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
+            data-isrealtime="todoGetRealtime">
         <option value="2" {{@ItemsPerPage2}} selected="selected" {{/ItemsPerPage2}}>2</option>
         <option value="5" {{@ItemsPerPage5}} selected="selected" {{/ItemsPerPage5}}>5</option>
         <option value="10" {{@ItemsPerPage10}} selected="selected" {{/ItemsPerPage10}}>10</option>

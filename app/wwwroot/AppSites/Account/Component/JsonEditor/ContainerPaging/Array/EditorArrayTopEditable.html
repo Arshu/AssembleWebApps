@@ -1,6 +1,6 @@
 ﻿<div class="flex-content-spaced" style="{{@ArrayTopHidden}}display:none;{{/ArrayTopHidden}}width:100%;">
     {{@HavePreviousPage}}
-    <button class="border flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" title="{{$PageNoCurrent}}, {{$PreviousPage}}, {{$FilterKeyPath}}"
+    <button class="border flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" title="{{$PageNo}}, {{$PreviousPage}}, {{$FilterKeyPath}}"
             onclick="return refreshEditorJsonArray('{{$ViewID}}', '{{$ViewID}}{{$FilterKeyPath}}PreviousJsonArrayEditorProgress',
                 '{{$PageNo}}', '{{$PreviousPage}}', '{{$PageNoArrayItem}}', '{{$FilterKeyPath}}');">
         < <span id="{{$ViewID}}{{$FilterKeyPath}}PreviousJsonArrayEditorProgress"></span>

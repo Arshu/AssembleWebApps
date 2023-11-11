@@ -1,37 +1,12 @@
 {
-  "NAVList": [
-    {
-      "NavTitle": "Register",
-      "NavUrl": "/Account/Register",
-      "NavActive": "",
-      "HaveSubMenu": false,
-      "SubNAVList": []
-    },
+  "NAVList": [    
     {
       "NavTitle": "Home",
       "NavUrl": "/",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []
-    },
-    {
-      "NavTitle": "Account",
-      "NavUrl": "/",
-      "NavActive": "",
-      "HaveSubMenu": true,
-      "SubNAVList": [
-        {
-          "SubNavTitle": "ChangePassword",
-          "SubNavUrl": "/Account/ChangePassword",
-          "SubNavActive": ""
-        },
-        {
-          "SubNavTitle": "LogOff ({{$LOGINALIAS}})",
-          "SubNavUrl": "#",
-          "SubNavActive": "logoff"
-        }
-      ]
-    }
+    }   
   ],
   "NAVAccountList": [
     {

@@ -1,8 +1,0 @@
-{
-  "warmUpCount": 10,
-  "count": 100,
-  "scenarios": [ { "name": "Default" } ],
-  "processName": "Arshu.AppBaseWeb.exe",
-  "workingDirectory": "$(CWD)/",
-  "processTimeout": 15,
-}

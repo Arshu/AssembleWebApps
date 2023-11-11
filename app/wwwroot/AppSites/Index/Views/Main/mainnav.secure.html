@@ -8,7 +8,7 @@
         <ul class="submenu">
             {{@SubNAVList}}
             <li class="submenuitem">
-                <a class="{{$SubNavActive}}" href="{{$SubNavUrl}}" {{@NavAppSite}} onclick="refreshViewPageHtml('progress', 'response', '{{$NavAppSite}}',  '{{$NavAppView}}', '{{$NavAppViewIDs}}')" {{/NavAppSite}}>
+                <a class="{{$SubNavActive}}" href="{{$SubNavUrl}}" data-action="refreshViewPageHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
                     {{$SubNavTitle}}
                 </a>
             </li>
@@ -18,7 +18,7 @@
     {{/HaveSubMenu}}
     {{^HaveSubMenu}}
     <li class="menuitem">
-        <a class="{{$NavActive}}" href="{{$NavUrl}}" {{@NavAppSite}} onclick="refreshViewPageHtml('progress', 'response', '{{$NavAppSite}}',  '{{$NavAppView}}', '{{$NavAppViewIDs}}')"{{/NavAppSite}}>
+        <a class="{{$NavActive}}" href="{{$NavUrl}}" data-action="refreshViewPageHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
             {{$NavTitle}}
         </a>
     </li>
@@ -26,9 +26,7 @@
 
     {{/NAVList}}
     <li class="menuitem has-submenu">
-        <a tabindex="0">
-            Accounts
-        </a>
+        <a tabindex="0">Accounts</a>
         <ul class="submenu">
             {{@IsTempUser}}
             <li class="submenuitem">
@@ -53,7 +51,7 @@
             {{/HaveAdminRole}}
             {{@NAVAccountList}}
             <li class="submenuitem">
-                <a class="{{$NavActive}}" href="{{$NavUrl}}" {{@NavAppSite}}onclick="refreshViewPageHtml('progress', 'response', '{{$NavAppSite}}',  '{{$NavAppView}}', '{{$NavAppViewIDs}}')"{{/NavAppSite}}>
+                <a class="{{$NavActive}}" href="{{$NavUrl}}" data-action="refreshViewPageHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
                     {{$NavTitle}}
                 </a>
             </li>

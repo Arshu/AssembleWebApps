@@ -1,1 +1,4 @@
-{}
+{
+  "RootData1": "Child Inherit Root Data 1",
+  "RootData2": "Child Child Inherit Root Data 2"
+}

@@ -4,24 +4,27 @@
     <input type="text" class="border" style="width:100%;" data-key="ToDo.ToDoList~0.TaskName" />
     <div>
         <button class="border button" style="margin:5px;background-color:green;width:60px;" onclick="hideElm('toDoAddViewDiv')">Close</button>
-        <button class="border button" style="margin: 5px; background-color: lightblue; width: 60px;display:none;"
-                onclick="addViewComponentJsonArray('{{$ParentViewID}}Progress', '{{$ParentViewID}}Response',
-            '{{$AppSite}}', '{{$AppView}}', '{{$ParentViewID}}',
-            {'TaskName':''}, {'TaskName':''},
-            {}, function () {
-                let jsonData = getViewComponentFlatJson('toDoAddViewDiv', 'ToDo');
-                return jsonData;
-            },
-            '{{$ParentViewID}}',
-            { 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' },
-            getElm('{{$ParentViewID}}RealtimeRefresh').checked,
-            getRealtimeDomain('{{$RootDomain}}', '{{$SubDomain}}', getElm('{{$ParentViewID}}RealtimeRefreshDomain').value), '')">
-            Add
-        </button>
         <button class="border button" style="margin:5px;background-color:lightblue;width:60px;"
-                onclick="{{%ToDoAddViewData}}">
+                data-action="addViewComponentJsonArray" data-progress="{{$ParentViewID}}Progress" data-response="{{$ParentViewID}}Response"
+                data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" 
+                data-appcomponent="{{$ParentViewID}}"
+                data-keyinfo="{'TaskName':''}"
+                data-datainfo="todoAddViewGetAddInfo"
+                data-duplicatekeyinfo="{'TaskName':''}"
+                data-component="{{$ParentViewID}}"
+                data-config="{ 'PageNo': '999999', 'ItemsPerPage': '{{$ItemsPerPage}}' }"
+                data-isrealtime="todoGetRealtime" ,
+                data-realtimedomain="todoGetRealtimeDomain">
             Add
         </button>
 
     </div>
 </div>
+
+<script>
+
+    function todoAddViewGetAddInfo() {
+        return getViewComponentFlatJson('toDoAddViewDiv', '{{$ParentViewID}}');
+    }
+    
+</script>

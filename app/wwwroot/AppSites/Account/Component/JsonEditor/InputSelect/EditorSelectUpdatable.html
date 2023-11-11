@@ -3,9 +3,9 @@
     <select class="flex-item-stretch border"
             name="{{$EditorItemKey}}"
             data-key="{{$EditorItemKey}}"
-            data-value="{{$EditorListItemMatchValue}}">
+            data-value="{{$EditorItemValue}}">
             {{@EditorItemList}}
-            <option value="{{$EditorListItemValue}}" {{@EditorListItemMatchName}} selected {{/EditorListItemMatchName}}>
+            <option value="{{$EditorListItemMatchValue}}" {{@EditorListItemMatchName}} selected {{/EditorListItemMatchName}}>
                 {{$EditorListItemText}}
             </option>
             {{/EditorItemList}}

@@ -5,6 +5,21 @@
     <h2>{{$HotReloadTitle}}</h2>
 </div>
 
+<div style="margin: 10px 10px;text-align:center;">
+
+    {{RealtimeAction}}
+
+    <script type="text/javascript">
+        function getRealtime() {
+            return getElm('{{$ParentViewID}}RealtimeRefresh').checked;
+        }
+
+        function getRealtimeDomain() {
+            return getElm('{{$ParentViewID}}RealtimeRefreshDomain').value;
+        }
+    </script>
+</div>
+
 {{refresh_componentrootwithoutid}}
 
 <hr class="flex-item-stretch" style="background-color:black;margin: 10px 10px" />

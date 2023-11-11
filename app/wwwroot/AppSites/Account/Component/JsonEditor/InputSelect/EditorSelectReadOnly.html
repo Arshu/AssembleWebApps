@@ -3,10 +3,10 @@
     <select class="flex-item-stretch border" style="background-color:#efefef;"
             name="{{$EditorItemKey}}"
             data-key="{{$EditorItemKey}}"
-            data-value="{{$EditorListItemMatchValue}}">
+            data-value="{{$EditorItemMatchValue}}">
             disabled="disabled">
             {{@EditorItemList}}
-            <option style="background-color:#efefef;" value="{{$EditorListItemValue}}" {{@EditorListItemMatchName}} selected {{/EditorListItemMatchName}}>
+            <option style="background-color:#efefef;" value="{{$EditorListItemMatchValue}}" {{@EditorListItemMatchName}} selected {{/EditorListItemMatchName}}>
                 {{$EditorListItemText}}
             </option>
             {{/EditorItemList}}

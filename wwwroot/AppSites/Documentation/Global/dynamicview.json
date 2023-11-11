@@ -1,0 +1,6 @@
+{
+  "DynamicViewComponent": {
+    "IViewType": "EchoView",
+    "IViewParamFile": "DynamicView.EchoView"
+  }
+}

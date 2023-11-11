@@ -1,0 +1,46 @@
+﻿{{VIEWPLACEHOLDER}}
+
+<script>
+
+    function toggleSelect(publishAppSitesListElmName) {
+
+        let appSiteCheckboxList = document.getElementsByName(publishAppSitesListElmName);
+        for (let y = 0; y < appSiteCheckboxList.length; y++) {
+            if (appSiteCheckboxList[y].disabled == false) {
+                if (appSiteCheckboxList[y].checked == true) {
+                    appSiteCheckboxList[y].checked = false;
+                } else {
+                    appSiteCheckboxList[y].checked = true;
+                }
+            }
+        }
+    }
+
+</script>
+
+<div class="flex-content-wrap" style="padding:3px 10px;background-color:#fff;">
+    <div class="border" style="text-align:center;width:100%;">
+        <button class="border" style="text-align:center;width:100%;" onclick="toggleSelect('publishAppSitesList')">App Sites to publish</button>
+        <div style="text-align:center;width:100%;">
+            <div class="flex-item-stretch" style="margin: 10px 0px;text-align:center;width:100%;">
+                {{
+                VIEW_AppSiteSelect(
+                    "publishAppSitesList",
+                    "AppSite":"{$AppSite}",
+                    "AppSiteType": "All",
+                    "SelectedOption" : "AppSiteCheckedOption",
+                    "SelectOption" : "AppSiteOption",
+                    "EmptyText" : "No App Site Found",
+                    "SkipValue": "",
+                    "FilterValue": "",
+                    "SelectedKey":"",
+                    "DefaultChecked": "True",
+                    "AppendOptionText": "",
+                    "AppendOptionValue": "",
+                    "DisableOptionValue": "Index",
+                    "DisableOptionChecked": "true")
+                }}
+            </div>
+        </div>
+    </div>
+</div>

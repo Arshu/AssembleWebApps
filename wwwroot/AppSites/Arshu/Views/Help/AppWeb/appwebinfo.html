@@ -1,0 +1,17 @@
+<div class="card_border">
+    <h4 style="text-align:center;color:red;">{{$InstructionHeading}}</h4>
+    <h6 style="text-align:center;margin-top:5px;color:blue;">{{$InstructionSubTitle}}</h6>
+    <h2 style="text-align:center;margin-bottom:15px;">{{$InstructionTitle}}</h2>
+    <h3 style="text-align:center">{{$InstructionHeader}}</h3>
+</div>
+<div class="flex-content-wrap card_border" style="{{$InstructionListStyle}};text-align:center;">
+    {{@InstructionList}}
+    <div class="flex-item-card card_border" style="margin:5px;">
+        <h3 class="title is-3">{{$InfoHeader}}</h3>
+        <img src="{{$InfoIcon}}" style="width:200px;margin: 10px auto;" />
+        <p class="is-size-6">
+            {{$InfoItem}}
+        </p>
+    </div>
+    {{/InstructionList}}
+</div>

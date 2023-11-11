@@ -1,0 +1,8 @@
+{
+  "ChatMessageList": [
+    {
+      "IDataType": "ListChatPage",
+      "IDataParamFile": "DynamicData.ChatMessageList"
+    }
+  ]
+}

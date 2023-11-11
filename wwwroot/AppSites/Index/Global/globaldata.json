@@ -1,0 +1,22 @@
+{
+  "OGTitle": "Arshu AppWeb",
+  "OGType": "AppWeb",
+  "OGUrl": "https://arshucs.com",
+  "OGImageUrl": "https://arshucs.com/Resource/Arshu/logos/apple-touch-icon.png",
+  "IOSTitle": "AppWeb",
+  "IOSIconUrl": "/Resource/Arshu/logos/apple-touch-icon.png",
+  "AndroidIconUrl": "/Resource/Arshu/logos/android-chrome-192x192.png",
+  "FaviconUrl": "/Resource/Arshu/logos/favicon.png",
+  "SiteTitle": "AppWeb",
+  "SiteDescription": "Arshu AppWeb",
+  "SiteAuthor": "AppWeb Team",
+  "SiteName": "AppWeb",
+  "FooterText": "&copy;2023 Arshu Consultancy",
+  "FooterLink": "https://www.arshucs.com",
+  "NavBarBackgroundStyle": "background-color:#209dee;",
+  "UseDynamicJs": false,
+  "UseDynamicCss": false,
+  "EnableLoginCheck": false,
+  "ShowDefaultFooter": true,
+  "EnableRealtime": true
+}

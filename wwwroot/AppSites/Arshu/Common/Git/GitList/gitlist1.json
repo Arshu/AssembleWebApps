@@ -1,0 +1,42 @@
+{
+    "AllowedRoles" : "Guest",    
+    "GitList" : [
+      {
+        "GitLink": "https://github.com/Arshu/ArshuWeb.git",
+        "GitName": "Arshu Consultancy WebSite"
+      },
+      {
+        "GitLink": "https://github.com/Arshu/startbootstrap-clean-blog.git",
+        "GitName": "Bootstrap Blog Theme"
+      },
+      {
+        "GitLink": "https://github.com/Arshu/Landing-Page.git",
+        "GitName": "Tailwind CSS Landing Page"
+      },
+      {
+        "GitLink": "https://github.com/Arshu/tailblocks.git",
+        "GitName": "Tailwind CSS blocks"
+      },
+      {
+        "GitLink": "https://github.com/Arshu/tailblocks.git",
+        "GitName": "Tailwind CSS blocks"
+      },
+      {
+        "GitLink": "https://github.com/Arshu/transactional-email-templates.git",
+        "GitName": "Transactional HTML email templates"
+      },
+      {
+        "GitLink": "https://github.com/Arshu/bulma-templates.git",
+        "GitName": "Bulma Css Template"
+      },
+      {
+        "GitLink": "https://github.com/Arshu/email-templates.git",
+        "GitName": "Mailchimp HTML email templates"
+      }
+    ],    
+    "GitListSchema" : 
+    {
+        "GitLink" : "",        
+        "GitName" : ""
+    }
+}

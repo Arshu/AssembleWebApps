@@ -1,0 +1,127 @@
+<script type="text/javascript">let sT = new Date().getTime();</script>
+<script type="text/javascript">
+    //https://github.com/GoogleChrome/web-vitals (polyfill.js)
+    !function () { let e, t, n, i, r = { passive: !0, capture: !0 }, a = new Date, o = function () { i = [], t = -1, e = null, f(addEventListener) }, c = function (i, r) { e || (e = r, t = i, n = new Date, f(removeEventListener), u()) }, u = function () { if (t >= 0 && t < n - a) { let r = { entryType: "first-input", name: e.type, target: e.target, cancelable: e.cancelable, startTime: e.timeStamp, processingStart: e.timeStamp + t }; i.forEach((function (e) { e(r) })), i = [] } }, s = function (e) { if (e.cancelable) { let t = (e.timeStamp > 1e12 ? new Date : performance.now()) - e.timeStamp; "pointerdown" == e.type ? function (e, t) { let n = function () { c(e, t), a() }, i = function () { a() }, a = function () { removeEventListener("pointerup", n, r), removeEventListener("pointercancel", i, r) }; addEventListener("pointerup", n, r), addEventListener("pointercancel", i, r) }(t, e) : c(t, e) } }, f = function (e) { ["mousedown", "keydown", "touchstart", "pointerdown"].forEach((function (t) { return e(t, s, r) })) }, p = "hidden" === document.visibilityState ? 0 : 1 / 0; addEventListener("visibilitychange", (function e(t) { "hidden" === document.visibilityState && (p = t.timeStamp, removeEventListener("visibilitychange", e, !0)) }), !0); o(), self.webVitals = { firstInputPolyfill: function (e) { i.push(e), u() }, resetFirstInputPolyfill: o, get firstHiddenTime() { return p } } }();
+    /******************************************************************************************************************/
+    const ready = (cb) => {
+        if (document.readyState != "loading") {
+            cb();
+        } else {
+            if (window.addEventListener) {
+                document.addEventListener("DOMContentLoaded", cb);
+            } else {
+                window.attachEvent('onload', cb);
+            }
+        }
+    }
+    const readyLoad = (cb) => {
+        if (document.readyState == "complete") {
+            cb();
+        } else {
+            if (window.addEventListener) {
+                document.addEventListener("load", cb);
+            } else {
+                window.attachEvent('onload', cb);
+            }
+        }
+    }
+    const delayUntil = async (timeoutMs, f) => {
+        return new Promise((resolve) => {
+            const timeWas = new Date();
+            const wait = setInterval(function () {
+                if (f()) {
+                    //console.log("Resolved after", new Date() - timeWas, "ms before Timeout " + timeoutMs);
+                    clearInterval(wait);
+                    resolve();
+                } else if (new Date() - timeWas > timeoutMs) { // Timeout
+                    //console.log("Resolved after", new Date() - timeWas, "ms for Timeout " + timeoutMs);
+                    clearInterval(wait);
+                    resolve();
+                }
+            }, 5);
+        });
+    }
+    const awaitTimeout = (timeoutMs, reason) => new Promise((resolve, reject) => setTimeout(() => (reason === undefined ? resolve() : reject(reason)), timeoutMs));
+    const wrapPromise = (promise, timeoutMs, reason) => Promise.race([promise, awaitTimeout(timeoutMs, reason)]);
+
+    let is_DEVICE_Runtime = true; /* isIOSRuntime | isANDROIDRuntime | isWINRuntime | isWEBRuntime*/
+    
+</script>
+
+<style>
+    .is_DEVICE_Hide { /* isIOSHide | isANDROIDHide | isWINHide | isWEBHide*/
+        display: none;
+    }
+
+    .is_DEVICE_Show { /* isIOSShow | isANDRODShow | isWINShow | isWEBShow*/
+        display: inline-block;
+    }
+</style>
+
+<script src="/Resource/Arshu/app/js/apibase.min.js"></script>
+<script src="/Resource/Arshu/app/js/arshuapi.min.js"></script>
+<script src="/Resource/Arshu/app/js/arshueditor.min.js"></script>
+
+<script>
+
+    ready(() => {
+        const urlParams = (new URL(document.location)).searchParams;
+        const region = urlParams.get('region');
+        const instance = urlParams.get('instance');
+        const appname = urlParams.get('app');
+        if (((region) && (region.length > 0))
+            || ((instance) && (instance.length > 0))
+            || ((appname) && (appname.length > 0))
+        ) {
+            document.querySelectorAll('a').forEach(function (el) {
+                let href = el.getAttribute('href');
+                if ((href.startsWith("#") == false)
+                    && (href.startsWith("/") == true)) {
+
+                    if ((region) && (region.length > 0)) {
+                        var regionUrl = new URL(href, document.baseURI);
+                        if (regionUrl.searchParams.has('region') == false) {
+                            regionUrl.searchParams.append('region', region);
+                            href = regionUrl.toString();
+                            console.log('Region Url:', href);
+                        }
+                    }
+                    else if ((instance) && (instance.length > 0)) {
+                        var instanceUrl = new URL(href, document.baseURI);
+                        if (instanceUrl.searchParams.has('instance') == false) {
+                            instanceUrl.searchParams.append('instance', region);
+                            href = instanceUrl.toString();
+                            console.log('Instance Url:', href);
+                        }
+                    }
+                    else if ((appname) && (appname.length > 0)) {
+                        var appnameUrl = new URL(href, document.baseURI);
+                        if (appnameUrl.searchParams.has('app') == false) {
+                            appnameUrl.searchParams.append('app', appname);
+                            href = appnameUrl.toString();
+                            console.log('App Url:', href);
+                        }
+                    }
+
+                    el.setAttribute('href', href);
+                }
+            });
+        }
+
+        if (typeof bindArshuAction === "function") {
+            bindArshuAction(document);
+        }
+    });
+
+</script>
+
+{{@IsLoggedIn}}
+{{WebLogOffJs}}
+{{/IsLoggedIn}}
+
+
+<link rel="stylesheet" href="/Resource/Arshu/app/css/normalize.min.css">
+<link rel="stylesheet" href="/Resource/Arshu/app/css/arshubase.min.css">
+<link rel="stylesheet" href="/Resource/Arshu/app/css/arshulayout.min.css">
+<link rel="stylesheet" href="/Resource/Arshu/animation/animate.min.css">
+

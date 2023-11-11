@@ -1,0 +1,30 @@
+
+<div class="flex-input-wrap bg-alt" id="toDoAddViewDiv" style="text-align:center;padding:5px 5px;display:none;">
+    <div>TaskName</div>
+    <input type="text" class="border" style="width:100%;" data-key="ToDo.ToDoList~0.TaskName" />
+    <div>
+        <button class="border button" style="margin:5px;background-color:green;width:60px;" onclick="hideElm('toDoAddViewDiv')">Close</button>
+        <button class="border button" style="margin:5px;background-color:lightblue;width:60px;"
+                data-action="addViewComponentJsonArray" data-progress="{{$ParentViewID}}Progress" data-response="{{$ParentViewID}}Response"
+                data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" 
+                data-appcomponent="{{$ParentViewID}}"
+                data-keyinfo="{'TaskName':''}"
+                data-datainfo="todoAddViewGetAddInfo"
+                data-duplicatekeyinfo="{'TaskName':''}"
+                data-component="{{$ParentViewID}}"
+                data-config="{ 'PageNo': '999999', 'ItemsPerPage': '{{$ItemsPerPage}}' }"
+                data-isrealtime="todoGetRealtime" ,
+                data-realtimedomain="todoGetRealtimeDomain">
+            Add
+        </button>
+
+    </div>
+</div>
+
+<script>
+
+    function todoAddViewGetAddInfo() {
+        return getViewComponentFlatJson('toDoAddViewDiv', '{{$ParentViewID}}');
+    }
+    
+</script>

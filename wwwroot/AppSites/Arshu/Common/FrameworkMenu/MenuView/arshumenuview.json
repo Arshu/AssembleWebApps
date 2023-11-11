@@ -1,0 +1,7 @@
+{
+  "ShowIntroTip$": false,
+  "ShowManageLink$": false,
+  "ShowDocumentLink$": false,
+  "NavBarBackgroundStyle$": "background-color:#209dee;",
+  "SignInLink$": "/Account/Login"
+}

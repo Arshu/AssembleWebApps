@@ -1,0 +1,127 @@
+{{RealtimeAction}}
+
+<div class="flex-content-wrap" style="margin:5px;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+    {{VIEWPLACEHOLDER}}
+
+    <div style="text-align:center;">
+        <div id="{{$ViewID}}Progress"></div>
+        <div style="margin:5px; padding:10px;text-align:center;display:none;" class="notification" id="{{$ViewID}}ResponseContainer">
+            <button class="delete" onclick="hideElm('{{$ViewID}}ResponseContainer')"></button>
+            <div id="{{$ViewID}}Response"></div>
+        </div>
+    </div>
+
+    <div class="flex-item-stretch" style="text-align:center;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+        <button class="border button" style="margin:5px;background-color:lightblue;width:60px;margin: 0 5px 0 0" onclick="toDoShowAddView('toDoAddViewDiv')">Add</button>
+        <button class="border button" style="margin: 5px; background-color: lightblue; width: 60px; margin: 0 0 0 5px" onclick="toDoShowFilterView('toDoFilterViewDiv')">Filter</button>
+    </div>
+
+    {{ToDoAddView}}
+
+    {{ToDoEditView}}
+
+    {{ToDoDeleteView}}
+
+    {{ToDoFilterView}}
+
+    {{ToDoListView}}
+
+</div>
+
+<script type="text/javascript" id="{{$ViewID}}Script">
+
+    function toDoShowAddView(addViewElmId) {
+        hideElm('toDoEditViewDiv');
+        hideElm('toDoDeleteViewDiv');
+        hideElm('toDoFilterViewDiv');
+
+        if (haveElm(addViewElmId) == true) {
+            showElm(addViewElmId)
+            clearViewComponentFlatJson(addViewElmId);
+        }
+    }
+
+    function toDoShowFilterView(filterViewElmId) {
+
+        hideElm('toDoAddViewDiv');
+        hideElm('toDoEditViewDiv');
+        hideElm('toDoDeleteViewDiv');
+
+        if (haveElm(filterViewElmId) == true) {
+            showElm(filterViewElmId)
+        }
+    }
+
+    function toDoShowEditView(keyPath, keyPathJson) {
+
+        hideElm('toDoAddViewDiv');
+        hideElm('toDoDeleteViewDiv');
+        hideElm('toDoFilterViewDiv');
+
+        let editKeyElmId = '{{$ViewID}}EditKey'
+        if (haveElm(editKeyElmId) == true) {
+
+            let elmEditKey = getElm(editKeyElmId);
+            elmEditKey.value = keyPath;
+
+            let editElmPrefix = '{{$ViewID}}Edit';
+            for (let key in keyPathJson) {
+                let jsonValue = keyPathJson[key];
+                let idxLastDot = key.lastIndexOf(".");
+                let elmId = key.substring(idxLastDot + 1);
+                let jsonKey = editElmPrefix + elmId;
+                let elmEdit = getElm(jsonKey);
+                elmEdit.value = jsonValue;
+                elmEdit.setAttribute('data-key', key);
+            }
+
+            let editViewElmId = 'toDoEditViewDiv'
+            if (haveElm(editViewElmId) == true) {
+                showElm(editViewElmId)
+            }
+        }
+    }
+
+    function toDoShowDeleteView(keyPath, keyPathJson) {
+
+        hideElm('toDoAddViewDiv');
+        hideElm('toDoEditViewDiv');
+        hideElm('toDoFilterViewDiv');
+
+        let deleteKeyElmId = '{{$ViewID}}DeleteKey'
+        if (haveElm(deleteKeyElmId) == true) {
+
+            let elmDeleteKey = getElm(deleteKeyElmId);
+            elmDeleteKey.value = keyPath;
+
+            let deleteElmPrefix = '{{$ViewID}}Delete';
+            for (let key in keyPathJson) {
+                let jsonValue = keyPathJson[key];
+                let idxLastDot = key.lastIndexOf(".");
+                let elmId = key.substring(idxLastDot + 1);
+                let jsonKey = deleteElmPrefix + elmId;
+                let elmDelete = getElm(jsonKey);
+                elmDelete.value = jsonValue;
+                elmDelete.setAttribute('data-key', key);
+            }
+
+            let deleteViewElmId = 'toDoDeleteViewDiv'
+            if (haveElm(deleteViewElmId) == true) {
+                showElm(deleteViewElmId)
+            }
+        }
+    }
+
+    function todoGetFilter() {
+        return getViewComponentFlatJson('toDoFilterInput', '{{$ViewID}}');
+    }
+
+    function todoGetRealtime() {
+        return getElm('{{$ViewID}}RealtimeRefresh').checked;
+    }
+
+    function todoGetRealtimeDomain() {
+        return getElm('{{$ViewID}}RealtimeRefreshDomain').value;
+    }
+   
+</script>

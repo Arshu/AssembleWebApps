@@ -1,0 +1,561 @@
+﻿
+<script type="text/javascript">
+
+    window.ajaxid = 0;
+
+    let PageMetricsCheckCount = 0;
+    function sendPageMetrics(pageMetricsCheckTimeInterval, forceRecord, dynamicUrl, successCallback) {
+
+        if ((haveElm("perfFIDValue") == true) || (forceRecord == true)) {
+            clearInterval(pageMetricsCheckTimeInterval);
+            PageMetricsCheckCount = 0;
+
+            let id = window.ajaxid++;
+
+            let jsonMetricData = new Object();
+
+            jsonMetricData["LoadingTime"] = parseFloat(getElm("loadingTimeValue").innerHTML);
+            //jsonMetricData["NetworkInfo"] = getElm("networkInfo").innerHTML;
+            jsonMetricData["NetworkInfoPage"] = parseFloat(getElm("networkInfoPageValue").innerHTML);
+            jsonMetricData["NetworkInfoLatency"] = parseFloat(getElm("networkInfoLatencyValue").innerHTML);
+            jsonMetricData["NetworkInfoNetwork"] = parseFloat(getElm("networkInfoNetworkValue").innerHTML);
+            jsonMetricData["NetworkInfoDns"] = parseFloat(getElm("networkInfoDnsValue").innerHTML);
+            //jsonMetricData["PerfMetrics"] = getElm("perfMetrics").innerHTML;
+            jsonMetricData["PerfMetricsResponse"] = parseFloat(getElm("perfMetricsResponseValue").innerHTML);
+            jsonMetricData["PerfMetricsRender"] = parseFloat(getElm("perfMetricsRenderValue").innerHTML);
+            jsonMetricData["PerfMetricsTls"] = parseFloat(getElm("perfMetricsTlsValue").innerHTML);
+
+            jsonMetricData["LoginUser"] = parseInt(getElm("loginUser").innerHTML);
+            jsonMetricData["LoginCount"] = parseInt(getElm("loginCount").innerHTML);
+            jsonMetricData["ConcurrentCount"] = parseInt(getElm("concurrentCount").innerHTML);
+            jsonMetricData["WebSocketCount"] = parseInt(getElm("webSocketCount").innerHTML);
+
+            //jsonMetricData["HtmlInfo"] = getElm("htmlInfo").innerHTML;
+            jsonMetricData["HtmlInfoDomCount"] = parseInt(getElm("htmlInfoDomCountValue").innerHTML);
+            //jsonMetricData["ResourceInfo"] = getElm("resourceInfo").innerHTML;
+            jsonMetricData["ResourceInfoCount"] = parseInt(getElm("resourceInfoCountValue").innerHTML);
+            jsonMetricData["ResourceInfoSize"] = parseFloat(getElm("resourceInfoSizeValue").innerHTML);
+
+            if (haveElm("perfTTFBValue") == true) {
+                jsonMetricData["PerfTTFB"] = parseFloat(getElm("perfTTFBValue").innerHTML);
+            }
+            else {
+                jsonMetricData["PerfTTFB"] = -1;
+            }
+            if (haveElm("perfFCPValue") == true) {
+                jsonMetricData["PerfFCP"] = parseFloat(getElm("perfFCPValue").innerHTML);
+            }
+            else {
+                jsonMetricData["PerfFCP"] = -1;
+            }
+            if (haveElm("perfFIDValue") == true) {
+                jsonMetricData["PerfFID"] = parseFloat(getElm("perfFIDValue").innerHTML);
+            }
+            else {
+                jsonMetricData["PerfFID"] = -1;
+            }
+            if (haveElm("perfLCPValue") == true) {
+                jsonMetricData["PerfLCP"] = parseFloat(getElm("perfLCPValue").innerHTML);
+            }
+            else {
+                jsonMetricData["PerfLCP"] = -1;
+            }
+            if (haveElm("perfCLSValue") == true) {
+                jsonMetricData["PerfCLS"] = parseFloat(getElm("perfCLSValue").innerHTML);
+            }
+            else {
+                jsonMetricData["PerfCLS"] = -1;
+            }
+
+            let currentPath = window.location.pathname;
+            if (currentPath.length == 0) currentPath = "/"
+            if ((dynamicUrl) && (dynamicUrl.length > 0)) {
+                currentPath = currentPath + "#" + dynamicUrl;
+            }
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RecordPageMetrics';
+
+            let apiParams = {
+                "urlPath": currentPath,
+                "clientTime": Math.floor(new Date().getTime()),
+                "metricsData": jsonMetricData,
+                "metricsInfo": {}
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('message') === true) {
+                    //showText(responseElm, result.message, 'green');
+                    console.log(result.message);
+                }
+
+            };
+
+            callAssemblerApi('noprogress', 'noresponse', apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+            
+        } else {
+            PageMetricsCheckCount++;
+            if (PageMetricsCheckCount >= 20) //20 * 100 = 2 Seconds
+            {
+                sendPageMetrics(pageMetricsCheckTimeInterval, true);
+            }
+        }
+    }
+
+    function mergePageMetrics(progressElmId, responseElmId, resetMerge, successCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid === true) {
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'MergePageMetricsData';
+
+            let apiParams = {
+                "resetMerge": resetMerge
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green');
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                    else if (window.hasOwnProperty(successCallback) == true) {
+                        window[successCallback]();
+                    }
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+        }
+
+        return false;
+    }
+
+    function fillPageMetricsInstance(progressElmId, responseElmId, selectElmId, cacheFlagElmId, mergeShowElmId, mergeStatusElmId, successCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+        let check = "✓"; //"&#10003;";
+        let uncheck = "✗" //"&#65794;";
+
+        if (valid === true) {
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'GetPageMetricsInstance';
+
+            let apiParams = {
+                "instanceID": ""
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('json') === true) {
+
+                    let instanceArray = result['json'];
+
+                    let selectElm = getElm(selectElmId);
+                    if (selectElm) {
+                        selectElm.options.length = 0;
+
+                        for (let i = 0; i < instanceArray.length; i++) {
+                            let instancePath = instanceArray[i];
+                            selectElm.options[selectElm.options.length] = new Option(instancePath, instancePath);
+                        }
+                    }
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                    else if (window.hasOwnProperty(successCallback) == true) {
+                        window[successCallback]();
+                    }
+                }
+
+                if (result.hasOwnProperty('status') === true) {
+                    let persistStatusElm = getElm(cacheFlagElmId);
+                    if (result.status === true) {
+                        persistStatusElm.innerHTML = check;
+                        persistStatusElm.setAttribute('title', "Metrics Persistent");
+                    } else {
+                        persistStatusElm.innerHTML = uncheck;
+                        persistStatusElm.setAttribute('title', "Metrics Not Persistent");
+                    }
+                }
+
+                hideElm(mergeShowElmId);
+
+                if (result.hasOwnProperty('MergeStatus') === true) {
+                    showElm(mergeShowElmId);
+                    let mergeStatusElm = getElm(mergeStatusElmId);
+                    if (result.MergeStatus === true) {
+                        mergeStatusElm.setAttribute("checked", true);
+                    } else {
+                        mergeStatusElm.removeAttribute("checked");
+                    }
+                }
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+        }
+
+        return false;
+    }
+
+    function fillPageMetricsPath(progressElmId, responseElmId, selectElmId, successCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        let pageInstance = getElm("pageMetricsInstance").value;
+        if (valid === true) {
+            if (pageInstance.trim().length === 0) {
+                showText(responseElm, 'No Page Instance Found to Retrieve Page Metrics', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'GetPageMetricsPath';
+
+            let apiParams = {
+                "instanceID": pageInstance
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('json') === true) {
+
+                    let urlArray = result['json'];
+
+                    let selectElm = getElm(selectElmId);
+                    if (selectElm) {
+                        selectElm.options.length = 0;
+
+                        let currentPath = window.location.pathname;
+                        if (currentPath.length == 0) currentPath = "/"
+
+                        for (let i = 0; i < urlArray.length; i++) {
+                            let urlPath = urlArray[i];
+                            selectElm.options[selectElm.options.length] = new Option(urlPath, urlPath);
+                            if (urlPath == currentPath) {
+                                selectElm.selectedIndex = i;
+                            }
+                        }
+                    }
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                    else if (window.hasOwnProperty(successCallback) == true) {
+                        window[successCallback]();
+                    }
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+        }
+
+        return false;
+    }
+
+    function fillPageMetricsType(progressElmId, responseElmId, selectElmId, successCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        let pageInstance = getElm("pageMetricsInstance").value;
+        if (valid === true) {
+            if (pageInstance.trim().length === 0) {
+                showText(responseElm, 'No Page Instance Found to Retrieve Page Metrics', 'red');
+                valid = false;
+            }
+        }
+
+        let pagePath = getElm("pageMetricsPath").value;
+        if (valid === true) {
+            if (pagePath.trim().length === 0) {
+                showText(responseElm, 'No Page Path Found to Retrieve Page Metrics', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'GetPageMetricsType';
+
+            let apiParams = {
+                "instanceID": pageInstance,
+                "urlPath": pagePath
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                var selectedMetrixType = "";
+                if (result.hasOwnProperty('data') === true) {
+                    selectedMetrixType = result['data'];
+                }
+
+                if (result.hasOwnProperty('json') === true) {
+
+                    let metricxTypeArray = result['json'];
+
+                    let selectElm = getElm(selectElmId);
+                    if (selectElm) {
+                        selectElm.options.length = 0;
+
+                        for (let i = 0; i < metricxTypeArray.length; i++) {
+                            let metricxType = metricxTypeArray[i];
+                            selectElm.options[selectElm.options.length] = new Option(metricxType, metricxType);
+                            const indexOfFirst = metricxType.indexOf(selectedMetrixType)
+                            if (indexOfFirst != -1) {
+                                selectElm.selectedIndex = i;
+                            }
+                        }
+                    }
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                    else if (window.hasOwnProperty(successCallback) == true) {
+                        window[successCallback]();
+                    }
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+        }
+
+        return false;
+    }
+  
+    function fillPageMetricsChart(progressElmId, responseElmId, pageNo, successCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        let pageInstance = getElm("pageMetricsInstance").value;
+        if (valid === true) {
+            if (pageInstance.trim().length === 0) {
+                showText(responseElm, 'No Page Instance Found to Retrieve Page Metrics', 'red');
+                valid = false;
+            }
+        }
+
+        let pagePath = getElm("pageMetricsPath").value;
+        if (valid === true) {
+            if (pagePath.trim().length === 0) {
+                showText(responseElm, 'No Page Path Found to Retrieve Page Metrics', 'red');
+                valid = false;
+            }
+        }
+
+        let metricType = getElm("pageMetricsType").value;
+        if (valid === true) {
+            if (metricType.trim().length === 0) {
+                showText(responseElm, 'No Page Metric Type Found to Retrieve Ajax Metrics', 'red');
+                valid = false;
+            }
+        }
+
+               
+        if (valid === true) {
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'GetPageMetrics';
+
+            let apiParams = {
+                "instanceID": pageInstance,
+                "urlPath": pagePath,
+                "metricType": metricType,
+                "metricCount": getElm("pageMetricsCount").value,
+                "metricOffset": pageNo,
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('json') === true) {
+
+                    let metricsData = result['json'];
+
+                    let nextBtn = getElm('nextPageMetric');
+                    nextBtn.setAttribute("disabled", true);
+                    if ((metricsData.hasOwnProperty('haveNextPage') === true)
+                        && (metricsData.hasOwnProperty('nextPage') === true)) {
+                        if (metricsData['haveNextPage'] == true) {
+                            nextBtn.removeAttribute("disabled");
+                            nextBtn.setAttribute("data-nextpage", metricsData['nextPage'])
+                        }
+                    }
+
+                    let previousBtn = getElm('previousPageMetric');
+                    previousBtn.setAttribute("disabled", true);
+                    if ((metricsData.hasOwnProperty('havePreviousPage') === true)
+                        && (metricsData.hasOwnProperty('previousPage') === true)) {
+                        if (metricsData['havePreviousPage'] == true) {
+                            previousBtn.removeAttribute("disabled");
+                            previousBtn.setAttribute("data-previouspage", metricsData['previousPage'])
+                        }
+                    }
+
+                    if ((metricsData.hasOwnProperty('Key') === true)
+                        && (metricsData.hasOwnProperty('Value') === true)) {
+                        var pageChartExist = Chart.getChart("pageMetricChart"); // <canvas> id
+                        if (pageChartExist == undefined) {
+                            showPageChart(metricsData.Key, metricsData.Value);
+                        } else {
+                            pageChartExist.destroy();
+                            showPageChart(metricsData.Key, metricsData.Value);
+                        }
+                    }
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                    else if (window.hasOwnProperty(successCallback) == true) {
+                        window[successCallback]();
+                    }
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+        }
+
+        return false;
+    }
+
+    function refreshPageMetricsChart(progressElmId, currentPageNo, successCallback) {
+
+        let valid = true;
+        if (progressElmId) { valid = true; } else { valid = false; }
+        if (currentPageNo) { valid = true; } else { valid = false; }
+
+        if (valid === true) {
+            fillPageMetricsChart(progressElmId, 'metricsResponse', currentPageNo, successCallback);
+        }
+    }
+
+    function showPageChart(xAxes, yAxes) {
+        const chartView = document.getElementById('pageMetricChart');
+
+        //create a line chart
+        let chart = new Chart(chartView, {
+            type: 'line', //This is a line chart
+            options: {
+                animation: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    },
+                    tooltip: {
+                        enabled: false
+                    }
+                }
+            },
+            data: {
+                labels: xAxes, //x-axes data
+                datasets: [{
+                    label: "Page Metrics Chart",
+                    data: yAxes, //y-axes data
+                    borderColor: 'black',
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false                
+            }
+        });
+    }
+
+</script>
+

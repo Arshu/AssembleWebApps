@@ -1,0 +1,14 @@
+<div class="flex-input-wrap" style="margin: 5px 0px;width:100%;">
+    <label for="{{$EditorItemKey}}" style="width:100%;">{{EditorItemName}}</label>
+    <select class="flex-item-stretch border" style="background-color:#efefef;"
+            name="{{$EditorItemKey}}"
+            data-key="{{$EditorItemKey}}"
+            data-value="{{$EditorItemMatchValue}}">
+            disabled="disabled">
+            {{@EditorItemList}}
+            <option style="background-color:#efefef;" value="{{$EditorListItemMatchValue}}" {{@EditorListItemMatchName}} selected {{/EditorListItemMatchName}}>
+                {{$EditorListItemText}}
+            </option>
+            {{/EditorItemList}}
+    </select>
+</div>

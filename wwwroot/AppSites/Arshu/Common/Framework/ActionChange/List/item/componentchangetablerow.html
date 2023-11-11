@@ -1,0 +1,21 @@
+﻿<tr>
+    <td>
+        {{$ChangedAppSite}}
+    </td>
+    <td>
+        {{$ChangedAppView}}
+    </td>
+    <td>
+        {{$ChangedPageName}}
+    </td>
+    <td style="width:50px;">
+        <div class="flex-content-wrap">
+            <div class="flex-item-stretch">
+                &nbsp;
+            </div>
+            <button class="button border" onclick="refreshComponentChange('{{$ChangedAppSite}}', '{{$ChangedAppView}}', '{{$ChangedPageName}}')">
+                &#x2714;
+            </button>
+        </div>
+    </td>
+</tr>

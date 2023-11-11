@@ -1,0 +1,116 @@
+
+<script type="text/javascript">
+
+    window.ajaxid = 0;
+    let gResponseElmId = "appsiteResponse";
+    let gProgressElmId = "appsiteProgress";
+    let gTargetElmId = "appsiteList";
+    let gShowElmId = "appsiteList";
+    let gCurrentPage = 1;
+    let gItemsPerPage = "{{$AppSitesItemsPerPage}}";
+
+    function fillAppSiteList(progressElmId, responseElmId, targetElmId, showElmId, pageNo, successCallback) {
+
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container";
+        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild);
+        hideElm(responseContainerElmId);
+        let valid = true;
+
+        let htmlContainer = "AppSiteContainer";
+        let htmlTop = "AppSiteTop";
+        let htmlBottom = "AppSiteBottom";
+        let htmlItem = "AppSiteItem";
+        let htmlEmpty = "AppSiteEmpty";
+
+        gCurrentPage = pageNo;
+        let itemsPerPage = gItemsPerPage;
+        if (getElm("appSiteItemsPerPage") != null) {
+            itemsPerPage = getElm("appSiteItemsPerPage").value;
+        }
+
+        if (targetElmId.trim().length == 0) {
+            showText(responseElm, 'Enter Target Element Id', 'red');
+            valid = false;
+        }
+
+        if (targetElmId.trim().length == 0) {
+            showText(responseElm, 'Enter Target Element Id', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+
+            let url = '/AppApi/VueApi';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'GetAppSiteListView', "params": {
+                    "appSite": '{{$AppSite}}',
+                    "htmlContainer": htmlContainer,
+                    "htmlItem": htmlItem,
+                    "htmlEmpty": htmlEmpty,
+                    "htmlTop": htmlTop,
+                    "htmlBottom": htmlBottom,
+                    "pageNo": pageNo,
+                    "itemsPerPage": itemsPerPage
+                }, "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
+                        let result = data.Result;
+                        if (result.hasOwnProperty('html') === true) {
+
+                            let rootNode = getElm(targetElmId);
+                            rootNode.innerHTML = result.html;
+                            //showElm(targetElmId);
+
+                            if (typeof successCallback == "function") {
+                                successCallback();
+                            }
+                        }
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                        //else if (result.hasOwnProperty('message') === true) {
+                        //    showText(responseElm, result.message, 'green');
+                        //}
+                    }
+                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                });
+        }
+
+        return false;
+    }
+
+    function refreshAppSiteList(progressElmId, currentPageNo) {
+
+        let valid = true;
+
+        if (valid == true) {
+            fillAppSiteList(progressElmId, gResponseElmId, gTargetElmId, gShowElmId, currentPageNo, function () {
+
+            });
+        }
+    }
+
+</script>
+
+<div class="border" style="margin:5px;">
+    <div id="appsiteProgress"></div>
+    <div class="notification" id="appsiteResponseContainer" style="margin:5px; padding:10px;display:none;">
+        <button class="delete" onclick="hideElm('appsiteResponseContainer')"></button>
+        <div id="appsiteResponse"></div>
+    </div>
+
+    <div style="{{$ViewListStyle}}" id="appsiteList">
+        {{AppSiteList}}
+    </div>
+</div>

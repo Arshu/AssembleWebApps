@@ -1,0 +1,6 @@
+{
+  "ComponentCategory": "Declarative (Html/Json) ToDo Component",
+  "ComponentTitle": "ToDo Component refreshed from server",
+  "ItemsPerPage$": "2",
+  "DefaultWebSocket": false
+}

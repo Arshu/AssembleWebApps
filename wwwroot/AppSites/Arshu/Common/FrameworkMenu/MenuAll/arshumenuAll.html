@@ -1,0 +1,183 @@
+﻿<script type="text/javascript">
+    window.ajaxid = 0;
+
+    function showHideIntro() {
+        hideElm('introtip');
+        if (haveElms('.SiteContent') == true) {
+            let contentElm = getElmBySel('.SiteContent');
+            if (contentElm) {
+                if (getElm('autoOpenIntroTip').checked == true) {
+                    let showInfoTip = localStorage.getItem('SHOW_INTRO_TIP{{$ROOTDOMAIN}}');
+                    if (showInfoTip) {
+                        if (showInfoTip == "true") {
+                            showElm('introtip')
+                        }
+                    } else {
+                        showElm('introtip')
+                    }
+                }
+            }
+        }
+    }
+
+    ready(() => {
+        showHideIntro();
+    });
+
+</script>
+
+<style>
+    .is-active {
+        color: black;
+    }
+    /* THE SPEECH BUBBLE
+    ------------------------------------------------------------------------------------------------------------------------------- */
+    .triangle-right {
+        position: relative;
+        padding: 5px 10px;
+        margin: 1em 0 3em;
+        color: #fff;
+        background: #075698; /* default background for browsers without gradient support */
+        /* css3 */
+        background: -webkit-gradient(linear, 0 0, 0 100%, from(#2e88c4), to(#075698));
+        background: -moz-linear-gradient(#2e88c4, #075698);
+        background: -o-linear-gradient(#2e88c4, #075698);
+        background: linear-gradient(#2e88c4, #075698);
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+    }
+
+        /* Variant : for top positioned triangle
+    ------------------------------------------ */
+        .triangle-right.top {
+            background: -webkit-gradient(linear, 0 0, 0 100%, from(#075698), to(#2e88c4));
+            background: -moz-linear-gradient(#075698, #2e88c4);
+            background: -o-linear-gradient(#075698, #2e88c4);
+            background: linear-gradient(#075698, #2e88c4);
+        }
+
+        /* Variant : for left positioned triangle
+    ------------------------------------------ */
+        .triangle-right.left {
+            margin-left: 40px;
+            background: #075698;
+        }
+
+        /* Variant : for right positioned triangle
+    ------------------------------------------ */
+        .triangle-right.right {
+            margin-right: 40px;
+            background: #075698;
+        }
+
+        /* THE TRIANGLE
+    ------------------------------------------------------------------------------------------------------------------------------- */
+        .triangle-right:after {
+            content: "";
+            position: absolute;
+            bottom: -20px; /* value = - border-top-width - border-bottom-width */
+            left: 50px; /* controls horizontal position */
+            border-width: 20px 0 0 20px; /* vary these values to change the angle of the vertex */
+            border-style: solid;
+            border-color: #075698 transparent;
+            /* reduce the damage in FF3.0 */
+            display: block;
+            width: 0;
+        }
+
+        /* Variant : top
+    ------------------------------------------ */
+        .triangle-right.top:after {
+            top: -20px; /* value = - border-top-width - border-bottom-width */
+            right: 50px; /* controls horizontal position */
+            bottom: auto;
+            left: auto;
+            border-width: 20px 20px 0 0; /* vary these values to change the angle of the vertex */
+            border-color: transparent #075698;
+        }
+
+        /* Variant : left
+    ------------------------------------------ */
+        .triangle-right.left:after {
+            top: 12px;
+            left: -40px; /* value = - border-left-width - border-right-width */
+            bottom: auto;
+            border-width: 15px 40px 0 0; /* vary these values to change the angle of the vertex */
+            border-color: transparent #075698;
+        }
+
+        /* Variant : right
+    ------------------------------------------ */
+        .triangle-right.right:after {
+            top: 12px;
+            right: -40px; /* value = - border-left-width - border-right-width */
+            bottom: auto;
+            left: auto;
+            border-width: 15px 0 0 40px; /* vary these values to change the angle of the vertex */
+            border-color: transparent #075698;
+        }
+</style>
+
+<div style="background-color:transparent;position:absolute; min-width:100%;height:10px;left:0px;top:0px;z-index:99999;background-color:transparent;"
+     onclick="toggleElm('sourceMenu'); if (isHiddenElm('sourceMenu') == false) { hideElm('introtip'); } else { showHideIntro('introtip'); }">
+</div>
+
+<div style="font-size: xx-small; margin-top: 12px; position: absolute; left: 75px; top: 0px; z-index: 99999; display: none;" id="introtip">
+    <p class="triangle-right top" style="max-width:160px;text-align:justify;position:relative;">
+        <input type="checkbox" id="autoOpenIntroTip" {{@ShowIntroTip}} checked="checked" {{/ShowIntroTip}} title="Show/Hide this Info Message" onclick="if (this.checked === true) { localStorage.setItem('SHOW_INTRO_TIP{{$ROOTDOMAIN}}', true); } else { localStorage.setItem('SHOW_INTRO_TIP{{$ROOTDOMAIN}}', false); }" />
+        Click <span style="font-weight:bolder;">above</span> for Inspect Toolbar
+        and <span style="font-weight: bolder;">below left corner</span> for Performance Tooltip
+        and <span style="font-weight: bolder;">info icon</span>
+        <svg xmlns="http://www.w3.org/2000/svg" style="width:12px;height:12px;position:absolute;" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+        </svg>
+        <span style="margin:0 0 0 14px;">for component info</span>
+    </p>
+</div>
+
+<ul class="menu" id="sourceMenu" style="{{$NavBarBackgroundStyle}};display:none;position:absolute; min-width:100%;left:0px;top:0px;z-index:99990;">
+    <li class="menulogo">
+        <a href="#" onclick="window.open('{{$DomainUrl}}', '_blank');">
+            Inspect Tool
+        </a>
+    </li>
+    {{@ShowManageLink}}
+    <li class="menuitem">
+        <a href="/Manage/Main">Manage</a>
+    </li>
+    {{/ShowManageLink}}
+    {{@ShowDocumentLink}}
+    <li class="menuitem">
+        <a href="/Documentation/Main">Doc~Test</a>
+    </li>
+    {{/ShowDocumentLink}}
+    <li class="menuitem" style="position:relative;cursor:pointer;" onclick="showComponentSourceViewer('showMenuEditProgress', '{{$AppSite}}', '{{$AppView}}', '{{$RootComponentID}}', true)">
+        View <div id="showMenuEditProgress"></div>
+    </li>
+    <li class="menuitem" style="position:relative;cursor:pointer;" onclick="showComponentSourceCopy('showMenuEditProgress', '{{$AppSite}}', '{{$AppView}}', '{{$RootComponentID}}', true)">
+        Copy
+    </li>
+    <li class="menuitem" style="position:relative;cursor:pointer;" onclick="showComponentSourceEditor('showMenuEditProgress', '{{$AppSite}}', '{{$AppView}}', '{{$RootComponentID}}', true)">
+        Edit
+    </li>
+    <li class="menuitem" style="position:relative;cursor:pointer;" onclick="showComponentSourceCloner('showMenuEditProgress', '{{$AppSite}}', '{{$AppView}}', '{{$RootComponentID}}')">
+        Clone
+    </li>
+    <li class="menuitem" style="position:relative;cursor:pointer;" onclick="showAppDomainPublisher('showMenuEditProgress')">
+        Publish
+    </li>
+    {{@IsLoggedIn}}
+    <li class="menuitem logoff">
+        <a href="#" class="logoff">LogOut</a>
+    </li>
+    {{/IsLoggedIn}}
+    {{^IsLoggedIn}}
+    <li class="menuitem">
+        <a href="{{$SignInLink}}">SignIn</a>
+    </li>
+    {{/IsLoggedIn}}
+    <li class="menutoggle" data-target="sourceMenu">
+        <svg style="width:32px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </li>
+</ul>

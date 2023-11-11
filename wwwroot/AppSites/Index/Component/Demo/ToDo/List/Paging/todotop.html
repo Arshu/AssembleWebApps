@@ -1,0 +1,76 @@
+<div class="flex-content-spaced" style="width:100%;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+    {{@HavePreviousPage}}
+    <button class="border" style="width:40px;height:40px;"
+            data-action="filterViewComponentHtml" data-progress="firstToDoProgress" data-response="{{$ParentViewID}}Response"
+            data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
+            data-filter="todoGetFilter"
+            data-component="{{$ParentViewID}}"
+            data-config="{'PageNo': '1', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
+            data-isrealtime="todoGetRealtime" ,
+            data-realtimedomain="todoGetRealtimeDomain">
+        <strong style="font-weight:bolder;"><<</strong> <span id="firstToDoProgress"></span>
+    </button>
+    <button class="border" style="width:40px;height:40px;"
+            data-action="filterViewComponentHtml" data-progress="previousToDoProgress" data-response="{{$ParentViewID}}Response"
+            data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
+            data-filter="todoGetFilter"
+            data-component="{{$ParentViewID}}"
+            data-config="{'PageNo': '{{$PreviousPage}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
+            data-isrealtime="todoGetRealtime" ,
+            data-realtimedomain="todoGetRealtimeDomain">
+        <strong style="font-weight:bolder;"><</strong> <span id="previousToDoProgress"></span>
+    </button>
+    {{/HavePreviousPage}}
+    {{^HavePreviousPage}}
+    <button class="border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;"><<</strong> <span id="firstToDoProgress"></span>
+    </button>
+    <button class="border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;"><</strong> <span id="previousToDoProgress"></span>
+    </button>
+    {{/HavePreviousPage}}
+
+    <div class="flex-item-stretch"></div>
+
+    {{@HaveNextPage}}
+    <button class="border" style="width: 40px; height: 40px;"
+            data-action="filterViewComponentHtml" data-progress="nextToDoProgress" data-response="{{$ParentViewID}}Response"
+            data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
+            data-filter="todoGetFilter"
+            data-component="{{$ParentViewID}}"
+            data-config="{'PageNo': '{{$NextPage}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
+            data-isrealtime="todoGetRealtime" ,
+            data-realtimedomain="todoGetRealtimeDomain">
+        <strong style="font-weight:bolder;">></strong><span id="nextToDoProgress"></span>
+    </button>
+    <button class="border" style="width: 40px; height: 40px;"
+            data-action="filterViewComponentHtml" data-progress="lastToDoProgress" data-response="{{$ParentViewID}}Response"
+            data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
+            data-filter="todoGetFilter"
+            data-component="{{$ParentViewID}}"
+            data-config="{'PageNo': '999999', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
+            data-isrealtime="todoGetRealtime" ,
+            data-realtimedomain="todoGetRealtimeDomain">
+        <strong style="font-weight:bolder;">>></strong><span id="lastToDoProgress"></span>
+    </button>
+    {{/HaveNextPage}}
+    {{^HaveNextPage}}
+    <button class="border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">></strong> <span id="nextToDoProgress"></span>
+    </button>
+    <button class="border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">>></strong> <span id="lastToDoProgress"></span>
+    </button>
+    {{/HaveNextPage}}
+
+    <button class="border" style="width:40px;height:40px;margin-left:5px;"
+            data-action="refreshViewComponentHtml" data-progress="refreshToDoProgress" data-response="{{$ParentViewID}}Response"
+            data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" 
+            data-component="{{$ParentViewID}}"
+            data-config="{'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
+            data-isrealtime="todoGetRealtime" ,
+            data-realtimedomain="todoGetRealtimeDomain">
+        &#x2714;<span id="refreshToDoProgress"></span>
+    </button>
+
+</div>

@@ -1,0 +1,20 @@
+{
+  "CurlMetricsFileName" : "Text, 100",
+  "CurlWriteParams" : "Text, 100",
+  "CurlWriteParamsJson" : "Text, 100",
+  "Encrypted" : "Radio, true|false",
+  "LoadCurlMetrics" : "Radio, true|false",
+  "MaxTimeMetricsCount" : "Number, 5",
+  "MetricsFlushWaitTime" : "Number, 5",
+  "MetricsFolderName" : "Text, 100",
+  "MetricsWorkerCount" : "Number, 5",
+  "Overwritable" : "Radio, true|false",
+  "ReCreate" : "Radio, true|false",
+  "RemoteUrl" : "Text, 100",
+  "RemoteUserId" : "Password, 100",
+  "RemoteUserPwd" : "Password, 100",
+  "SaveCurlMetrics" : "Radio, true|false",
+  "ShowLocalInstanceOnly" : "Radio, true|false",
+  "UseJsonParam" : "Radio, true|false",
+  "UseServerTime" : "Radio, true|false"
+}

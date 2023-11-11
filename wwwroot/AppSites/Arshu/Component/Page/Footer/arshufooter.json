@@ -1,0 +1,9 @@
+{
+  "ShowRecordMetrics$": true,
+  "DefaultRecordMetrics$": true,
+  "EnableRealtime$": false,
+  "EnableArshuFramework$": true,
+  "ShowRefreshServerInfo$": true,
+  "DefaultRefreshServerInfo$": false,
+  "RefreshServerInfoInterval$": 5000
+}

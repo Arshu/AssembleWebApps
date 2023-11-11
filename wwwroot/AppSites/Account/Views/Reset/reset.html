@@ -1,0 +1,164 @@
+<script type="text/javascript">
+
+    window.ajaxid = 0;
+
+    ready(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has("Id") == true) {
+            getElm('resetInfo').value = urlParams.get('Id');
+        } else {
+            const urlPath = window.location.pathname;
+            const lastSlashIdx = urlPath.lastIndexOf("/");
+            if (lastSlashIdx > -1) {
+                const idInfo = urlPath.substring(lastSlashIdx + 1);
+                getElm('resetInfo').value = idInfo.replace("Id=", "");
+            }
+        }
+    });
+
+
+    function resetPassword(progressElmId, responseElmId, resetInfo, enterLoginId, loginNewPassword, confirmNewPassword, redirectUrl) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+        let valid = true;
+
+        if (resetInfo.trim().length === 0) {
+            showText(responseElm, 'Reset Info Not Found', 'red');
+            valid = false;
+        }
+
+        if (enterLoginId.trim().length === 0) {
+            showText(responseElm, 'Enter Login Id', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+            if (loginNewPassword.trim().length === 0) {
+                showText(responseElm, 'Enter Login New Password', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+            if (confirmNewPassword.trim().length === 0) {
+                showText(responseElm, 'Enter Login Confirm New Password', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+            if (loginNewPassword !== confirmNewPassword) {
+                showText(responseElm, 'Login Password and Confirm Password does not match', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+
+
+            let url = '/AppApi/WebApi';
+            let urlMethod = 'POST';
+            let urlContent = {
+                "jsonrpc": '2.0', "method": 'DoWebResetForgotPassword', "params": {
+                    "resetInfo": resetInfo,
+                    "userId": enterLoginId,
+                    "newPassword": confirmNewPassword
+                }, "id": id
+            };
+
+            dopost(progressElmId, responseElmId, url, urlContent,
+                function (data) {
+                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
+                        let result = data.Result;
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                        }
+                        else if (result.hasOwnProperty('message') === true) {
+                            showText(responseElm, result.message, 'green');
+                        }
+
+                        if (result.hasOwnProperty('data') === true) {
+                            redirectUrl = result.data;
+                        }
+                        if (result.hasOwnProperty('status') === true) {
+                            if (result.status == true) {
+                                if (redirectUrl) {
+                                    setTimeout(function () { window.location.replace(redirectUrl); }, 1000);
+                                } else {
+                                    setTimeout(function () { window.location.reload(true); }, 1000);
+                                }
+                            }
+                        }
+                    }
+                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
+                        let error = data.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                });
+        }
+
+        return false;
+    }
+
+    function clearResetPasswordInput() {
+        getElm('resetLoginId').value = '';
+        getElm('resetNewPwd').value = '';
+        getElm('resetConfirmNewPwd').value = '';
+
+        getElm('resetPasswordResponse').textContent = "";
+        hideElm("resetPasswordResponseContainer");
+
+        getElm('resetLoginId').focus();        
+    }
+    
+</script>
+
+<div class="flex-content-center" style="min-height:calc(100vh - 110px);">
+
+    <div class="flex-card card_border" style="text-align:center;">
+
+        <label>Reset Your Password</label>
+
+        <div class="flex-content-wrap" style="margin: 5px 0px;">
+            <input class="flex-item-stretch border" type="text" id="resetInfo" value="" disabled="disabled" placeholder="Your Reset Info" style="background-color:gray"/>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 0px;">
+            <input class="flex-item-stretch border" type="text" id="resetLoginId" value="" placeholder="Your Login Id" tabindex="1"/>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 0px;">
+            <input class="flex-item-stretch border" id="resetNewPwd" type="password" autocomplete="none" value="" placeholder="Your New Password" tabindex="2">
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 0px;">
+            <input class="flex-item-stretch border" id="resetConfirmNewPwd" type="password" autocomplete="none" value="" placeholder="Confirm New Password" tabindex="3">
+        </div>
+
+        <div class="notification" id="resetPasswordResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="delete" onclick="hideElm('resetPasswordResponseContainer')"></button>
+            <div id="resetPasswordResponse"></div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 5px 0px;">
+
+            <button class="border button" id="setPasswordConfirm" style="background-color:#209cee;margin-right:5px;" tabindex="4"
+                    onclick="return resetPassword('resetPasswordProgress', 'resetPasswordResponse', getElm('resetInfo').value, getElm('resetLoginId').value, getElm('resetNewPwd').value, getElm('resetConfirmNewPwd').value, '/Account/Login');">
+                Reset <div id="resetPasswordProgress"></div>
+            </button>
+
+            <button class="border button" tabindex="5"
+                    onclick="clearResetPasswordInput()">
+                Clear
+            </button>
+        </div>
+
+    </div>
+    </div>
+
+

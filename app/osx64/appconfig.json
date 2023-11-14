@@ -1,0 +1,137 @@
+{
+  "WebRootName": "wwwroot",
+  "ConfigType": "Base",
+  "ConfigLogLevel": "Critical,Error,Warn",
+  "CreateWebConfig": false,
+  "CreateApiConfig": false,
+  "SaveJsCssResource": false,
+  "PersistMetricLog": false,
+  "AllowReload": true,
+  "AllowConfigUpdate": false,
+
+  "ContextJson": {
+    "PageTitle": "Arshu AppWeb Viewer",
+    "ShowIntroTip": false,
+    "ShowManageLink": true,
+    "ShowDocumentLink": true,
+    "EnableArshuFramework": true,
+    "DefaultRecordMetrics": true,
+    "ShowRecordMetrics": true
+  },
+
+  "DeployRegion": "",
+  "MetricPort": 9091,
+  "InitialTimeInSec": 0,
+  "IdleTimeInSec": 0,
+  "MMFLoadUrls": true,
+  "MMFLoadSecureUrls": true,
+  "MMFWriteUrls": false,
+  "MMFUrlPatterns": "*",
+
+  "RealtimeAppSites": "",
+  "StaticAppSites": "Index, Config, Account, Documentation, Manage",
+  "SearchAppSites": "Config, Account, Index",
+
+  "LoadAppData": true,
+  "LoadAppFolders": false,
+  "LoadPapFiles": false,
+  "LoadFileChanges": false,
+  "UnPackAppSites": false,
+
+  "AppAssets": [
+
+    {
+      "AssetTypeName": "Arshu.AppCore.AssetRegister",
+      "AssetDll": "Arshu.AppCore.dll",
+      "IsEnabled": true
+    },
+    {
+      "AssetTypeName": "Arshu.AppBaseWeb.AssetRegister",
+      "AssetDll": "Arshu.AppBaseWeb.dll",
+      "IsEnabled": true
+    }
+  ],
+
+  "AppServices": [
+
+    {
+      "RegisterTypeName": "Arshu.AppCore.App.Register.WebRegister",
+      "RegisterDll": "Arshu.AppCore.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.AppCore.App.Register.VueRegister",
+      "RegisterDll": "Arshu.AppCore.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.AppCore.App.Register.SyncRegister",
+      "RegisterDll": "Arshu.AppCore.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.AppServer.App.Register.ServerRegister",
+      "RegisterDll": "Arshu.AppServer.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.Git.App.Register.GitRegister",
+      "RegisterDll": "Arshu.Git.dll",
+      "IsEnabled": true
+    }
+  ],
+
+  "AppProviders": [
+
+    {
+      "RegisterTypeName": "Arshu.Data.Register.DataRegister",
+      "RegisterDll": "Arshu.Data.dll",
+      "IsEnabled": false,
+      "ProviderTypeName": "Microsoft.Data.Sqlite.SqliteFactory",
+      "ProviderDll": "Microsoft.Data.Sqlite.dll"
+    }
+  ],
+
+  "PackWebRootName": "wwwroot",
+  "SkipSystemDirectories": "_Meta, .git, Log, bin, obj, _bin_deployableAssemblies, Bak, Backup, Repository, Cache, Inbox, InboxLocal, InboxRemote",
+  "SystemDirectories": "App_Config, App_Data, Db, Backup, Output, UndoRedo, Cache",
+  "AllowDirectories": "",
+  "SkipAppDirectories": "Arshu, Templates, Resource, Content, App_Config, App_Data, AppApi, Backup, Output, UndoRedo, Cache",
+  "SkipResourceDirectories": "Arshu, Component, AppSites, Templates, App_Config, App_Data, Backup, Output, UndoRedo, AppApi, Dynamic, Meta, Upload, Cache",
+  "SkipDataDirectories": "Arshu, AppSites, Component, Templates, Resource, Content, Backup, Output, UndoRedo, Cache",
+
+  "PackAppDirectories": "AppSites, AppApi",
+  "PackResourcesDirectories": "Resource,Content",
+  "PackDataDirectories": "App_Data, Db, AppApi",
+
+  "PackApp": false,
+  "PackResource": false,
+  "PackData": true,
+  "PackTemplate": false,
+  "PackAppSites": "Index",
+  "PackAppDatas": "Roles, Members",
+
+  "PackName": "Arshu.AppBaseWeb.1.0.pap",
+  "PackDescription": "Arshu.AppBaseWeb for Managing AppWebs",
+  "PackResourceName": "Arshu.AppBaseWeb.Resource.1.0.pap",
+  "PackResourceDescription": "Resource of Arshu,AppBaseWeb for Managing AppWebs",
+  "PackDataName": "Arshu.AppBaseWeb.Data.1.0.pap",
+  "PackDataDescription": "Data of Arshu.AppBaseWeb for Managing AppWebs",
+
+  "PackAppSubFolderPath": "A0",
+  "PackResourceSubFolderPath": "A0",
+  "PackDataSubFolderPath": "A0",
+
+  "SkippedFileExtension": "dll, config, xml, exe, pap, so, map, txt",
+  "AllowedAppFileExtension": "Html, Json",
+  "AllowedResourceFileExtension": "Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Css, json",
+  "AllowedDataFileExtension": "json, dat, xlsx, db, sdf",
+  "AllowedTemplateFileExtension": "Html, Json, md, Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Css",
+
+  "ResourceOptimizeMergeJs": true,
+  "ResourceOptimizeMergeJsPattern": "base, arshu, main, highlight, chart, htmx",
+  "ResourceOptimizeMergeJsSkipPattern": "",
+  "ResourceOptimizeMergeCss": true,
+  "ResourceOptimizeMergeCssPattern": "base, arshu, normalize, animate, main, highlight, chart",
+  "ResourceOptimizeMergeCssSkipPattern": ""
+}

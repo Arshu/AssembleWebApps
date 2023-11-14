@@ -19,7 +19,7 @@
     "ShowRecordMetrics": true
   },
 
-  "DeployRegion": "sin",
+  "DeployRegion": "",
   "MetricPort": 9091,
   "InitialTimeInSec": 0,
   "IdleTimeInSec": 0,

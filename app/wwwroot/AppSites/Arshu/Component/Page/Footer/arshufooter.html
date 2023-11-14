@@ -17,9 +17,14 @@
         <div title="{{$AppSite}}-{{$AppView}}-{{$PageName}}" style="margin-bottom:5px;">
             <div>
                 <input type="checkbox" {{^ShowRecordMetrics}} style="display:none;" {{/ShowRecordMetrics}} {{@DefaultRecordMetrics}} checked="checked" {{/DefaultRecordMetrics}} id="recordAppMetrics" title="Record App Metrics" onchange="localStorage.setItem('RECORD_APP_METRICS', getElm('recordAppMetrics').checked);" />
-                Version(<span style='color:red;cursor:pointer' title='@@UID@@' onclick="event.stopPropagation(); localStorage.setItem('SHOW_PERFORMANCE_INFO', false); showAppMetricsViewer('showAppMetricsProgress', function () { document.getElementById('performanceFooterinfo').style.display = 'none'; })">@@VERSION@@</span>)
+                Version(<span style='color:red;cursor:pointer' title='@@UID@@' onclick="event.stopPropagation(); localStorage.setItem('SHOW_PERFORMANCE_INFO', false); showAppMetricsViewer('showAppMetricsProgress', 'showAppMetricsResponse', function () { document.getElementById('performanceFooterinfo').style.display = 'none'; })">@@VERSION@@</span>)
                 <span id="showAppMetricsProgress"></span>
             </div>
+        </div>
+
+        <div class="notification" id="showAppMetricsResponseContainer" style="margin:5px; padding:10px;display:none;">
+            <button class="delete" onclick="hideElm('showAppMetricsResponseContainer')"></button>
+            <div id="showAppMetricsResponse"></div>
         </div>
 
         <div style="" onclick="if (document.getElementById('performanceFooterinfo').style.display === 'block') { event.stopPropagation(); document.getElementById('performanceFooterinfo').style.display = 'none'; localStorage.setItem('SHOW_PERFORMANCE_INFO', false); }">

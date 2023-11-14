@@ -1,0 +1,59 @@
+﻿
+
+<div style="margin: 5px 0px; " class="flex-input-wrap">
+    <button class="flex-item-stretch border" style="height:40px;padding-left:40px;" onclick="toggleElm('appDeploy'); if (isHiddenElm('appDeploy') == false) { fillDeployRegions('appDeployShowProgress', 'appDeployResponse', 'deployRegionsTemplate', 'deployRegions', function () { getElm('deployApp').removeAttribute('disabled'); }); }">
+        App Machine Deploy <div id="appDeployShowProgress"></div>
+    </button>
+</div>
+
+<div id="appDeploy" class="border" style="margin: 5px 0px;padding: 5px; display: none;">
+
+    <div style="margin: 0 auto;position:relative; overflow:auto">
+
+        <div class="notification" id="appDeployResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+            <button class="delete" onclick="hideElm('appDeployResponseContainer')"></button>
+            <div id="appDeployResponse"></div>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;margin: 5px 0px;">App Name</label>
+            <input class="flex-item-stretch border" id="deployAppName" style="height:40px;" autocomplete="none" type="text" placeholder="Your App Name" autofocus="" value="" />
+        </div>
+
+        <div id="deployRegionsTemplate" style="display:none;">
+            <div style="min-width:50px; margin: 5px 5px;">
+                <label style="padding: 7px 0px 0 0px;">
+                    <input type="checkbox" checked="checked" name="{DeployRegion}" value="{Region}"> {Region}
+                </label>
+            </div>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width: 50%; margin: 5px 0px; text-align: left;">
+                Deploy Region(s)
+            </label>
+            <label style="width: 50%; margin: 5px 0px; text-align: right">
+                All
+                <input type="checkbox" title="All Regions" id="selectAllDeployRegion" onclick="appDeploySelectAll('deployRegion', getElm('selectAll').checked)">
+            </label>
+            <div id="deployRegions" class="border" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
+            </div>
+        </div>
+
+        <div class="notification" id="appDeployResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+            <button class="delete" onclick="hideElm('appDeployResponseContainer')"></button>
+            <div id="appDeployResponse"></div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 15px 0px;">
+            <button class="border button" id="deployApp" style="background-color:#209cee;" tabindex="4" disabled="disabled"
+                    onclick="">
+                Deploy Machines <div id="appDeployProgress"></div>
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+{{AppDeployJs}}

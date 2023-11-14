@@ -15,19 +15,27 @@
         modal.classList.remove('is-active');
     }
 
-    function showAppMetricsViewer(progressElmId, successCallback) {
+    function showAppMetricsViewer(progressElmId, responseElmId, successCallback) {
 
-        let modal = getElm('viewAppMetrics');
+        let viewAppMetricsModal = getElm('viewAppMetrics');
 
-        fillPageMetricsInstance(progressElmId, 'metricsResponse', 'pageMetricsInstance', 'pageMetricsCached', 'mergePageAction', 'mergePageStatus', function () {
+        fillPageMetricsInstance(progressElmId, responseElmId, 'pageMetricsInstance', 'pageMetricsCached', 'mergePageAction', 'mergePageStatus', function () {
 
-            fillPageMetricsPath(progressElmId, 'metricsResponse', 'pageMetricsPath', function () {
+            fillPageMetricsPath(progressElmId, responseElmId, 'pageMetricsPath', function () {
 
-                fillPageMetricsType(progressElmId, 'metricsResponse', 'pageMetricsType', function () {
+                fillPageMetricsType(progressElmId, responseElmId, 'pageMetricsType', function () {
 
                     refreshPageMetricsChart(progressElmId, 1, function () {
+
+                        viewAppMetricsModal.classList.add('is-active');
+
                         getElm("pageMetricsTab").classList.add("metricTabActive");
-                        modal.classList.add('is-active');
+                        getElm("ajaxMetricsTab").classList.remove("metricTabActive");
+                        getElm("wsMetricsTab").classList.remove("metricTabActive");
+
+                        showElm('pageMetrics');
+                        hideElm('ajaxMetrics');
+                        hideElm('wsMetrics');
 
                         if (typeof successCallback === "function") {
                             successCallback();
@@ -41,15 +49,15 @@
         });
     }
 
-    function showPageMetrics() {
+    function showPageMetrics(progressElmId, responseElmId) {
 
-        fillPageMetricsInstance('metricsProgress', 'metricsResponse', 'pageMetricsInstance', 'pageMetricsCached', 'mergePageAction', 'mergePageStatus', function () {
+        fillPageMetricsInstance(progressElmId, responseElmId, 'pageMetricsInstance', 'pageMetricsCached', 'mergePageAction', 'mergePageStatus', function () {
 
-            fillPageMetricsPath('metricsProgress', 'metricsResponse', 'pageMetricsPath', function () {
+            fillPageMetricsPath(progressElmId, responseElmId, 'pageMetricsPath', function () {
 
-                fillPageMetricsType('metricsProgress', 'metricsResponse', 'pageMetricsType', function () {
+                fillPageMetricsType(progressElmId, responseElmId, 'pageMetricsType', function () {
 
-                    refreshPageMetricsChart('metricsProgress', 1, function () {
+                    refreshPageMetricsChart(progressElmId, 1, function () {
 
                         getElm("pageMetricsTab").classList.add("metricTabActive");
                         getElm("ajaxMetricsTab").classList.remove("metricTabActive");
@@ -58,7 +66,6 @@
                         showElm('pageMetrics');
                         hideElm('ajaxMetrics');
                         hideElm('wsMetrics');
-
                     });
 
                 });
@@ -68,15 +75,15 @@
         });
     }
 
-    function showAjaxMetrics() {
+    function showAjaxMetrics(progressElmId, responseElmId) {
 
-        fillAjaxMetricsInstance('metricsProgress', 'metricsResponse', 'ajaxMetricsInstance', 'ajaxMetricsCached', 'mergeAjaxAction', 'mergeAjaxStatus', function () {
+        fillAjaxMetricsInstance(progressElmId, responseElmId, 'ajaxMetricsInstance', 'ajaxMetricsCached', 'mergeAjaxAction', 'mergeAjaxStatus', function () {
 
-            fillAjaxMetricsServiceMethod('metricsProgress', 'metricsResponse', 'ajaxMetricsServiceMethod', function () {
+            fillAjaxMetricsServiceMethod(progressElmId, responseElmId, 'ajaxMetricsServiceMethod', function () {
 
-                fillAjaxMetricsType('metricsProgress', 'metricsResponse', 'ajaxMetricsType', function () {
+                fillAjaxMetricsType(progressElmId, responseElmId, 'ajaxMetricsType', function () {
 
-                    refreshAjaxMetricsChart('metricsProgress', 1, function () {
+                    refreshAjaxMetricsChart(progressElmId, 1, function () {
 
                         getElm("pageMetricsTab").classList.remove("metricTabActive");
                         getElm("ajaxMetricsTab").classList.add("metricTabActive");
@@ -95,15 +102,15 @@
         });
     }
 
-    function showWSMetrics() {
+    function showWSMetrics(progressElmId, responseElmId) {
 
-        fillWSMetricsInstance('metricsProgress', 'metricsResponse', 'wsMetricsInstance', 'wsMetricsCached', 'mergeWSAction', 'mergeWSStatus', function () {
+        fillWSMetricsInstance(progressElmId, responseElmId, 'wsMetricsInstance', 'wsMetricsCached', 'mergeWSAction', 'mergeWSStatus', function () {
 
-            fillWSMetricsServiceMethod('metricsProgress', 'metricsResponse', 'wsMetricsServiceMethod', function () {
+            fillWSMetricsServiceMethod(progressElmId, responseElmId, 'wsMetricsServiceMethod', function () {
 
-                fillWSMetricsType('metricsProgress', 'metricsResponse', 'wsMetricsType', function () {
+                fillWSMetricsType(progressElmId, responseElmId, 'wsMetricsType', function () {
 
-                    refreshWSMetricsChart('metricsProgress', 1, function () {
+                    refreshWSMetricsChart(progressElmId, 1, function () {
 
                         getElm("pageMetricsTab").classList.remove("metricTabActive");
                         getElm("ajaxMetricsTab").classList.remove("metricTabActive");
@@ -130,7 +137,7 @@
 
         <div class="flex-content-wrap border" style="padding:3px 0px;background-color:#fff;">
             <div class="flex-item-stretch" style="margin: 2px 25px 0px 5px; height: 25px;">
-                Performance Metrics
+                Performance Metrics <div id="metricsProgress"></div>
             </div>
             <button class="border" style="margin-top:2px;width:25px;height:25px;background-color: lightgray;" onclick="hideAppMetricsViewer()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -138,22 +145,20 @@
                 </svg>
             </button>
         </div>
+
         <div class="notification" id="metricsResponseContainer" style="margin:5px; padding:10px;display:none;">
             <button class="delete" onclick="hideElm('metricsResponseContainer')"></button>
             <div id="metricsResponse"></div>
         </div>
-        <div style="position:relative;text-align:center;height:0px;">
-            <div id="metricsProgress"></div>
-        </div>
 
         <div class="flex-input-wrap" style="margin: 5px 0px;width:100%;">
-            <button class="flex-item-stretch border" id="pageMetricsTab" style="font-size: small; height: 38px; text-align:center;" onclick="showPageMetrics()">
+            <button class="flex-item-stretch border" id="pageMetricsTab" style="font-size: small; height: 38px; text-align:center;" onclick="showPageMetrics('metricsProgress', 'metricsResponse')">
                 Page Metrics
             </button>
-            <button class="flex-item-stretch border" id="ajaxMetricsTab" style="font-size: small; height: 38px; text-align: center;" onclick="showAjaxMetrics()">
+            <button class="flex-item-stretch border" id="ajaxMetricsTab" style="font-size: small; height: 38px; text-align: center;" onclick="showAjaxMetrics('metricsProgress', 'metricsResponse')">
                 AJAX Metrics
             </button>
-            <button class="flex-item-stretch border" id="wsMetricsTab" style="font-size: small; height: 38px; text-align: center;" onclick="showWSMetrics()">
+            <button class="flex-item-stretch border" id="wsMetricsTab" style="font-size: small; height: 38px; text-align: center;" onclick="showWSMetrics('metricsProgress', 'metricsResponse')">
                 Websocket Metrics
             </button>
         </div>

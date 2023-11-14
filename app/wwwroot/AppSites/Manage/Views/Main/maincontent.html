@@ -4,9 +4,16 @@
 
     {{ServerMetrics}}
 
-    {{CurlCmd}}
+    {{@ShowServerTool}}
+        {{AppDeploy}}
+        {{AppUpdate}}
+        {{AppList}}
+    {{/ShowServerTool}}
 
+    {{@ShowCurlTool}}
+    {{CurlCmd}}
     {{CurlMetrics}}
+    {{/ShowCurlTool}}
 
 </div>
 

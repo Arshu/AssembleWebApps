@@ -2,18 +2,21 @@
 <script type="text/javascript">
 
     window.ajaxid = 0;
+    ready(() => {
+        showServerMetrics('serverMetricProgress', 'serverMetricResponse', 'serverMetrics');
+    });
 
-    function showServerMetrics() {
+    function showServerMetrics(progressElmId, responseElmId, showElmId) {
 
-        fillServerMetricsInstance('metricsProgress', 'metricsResponse', 'serverMetricsInstance', 'serverMetricsCached', 'mergeServerAction', 'mergeServerStatus', function () {
+        fillServerMetricsInstance(progressElmId, responseElmId, 'serverMetricsInstance', 'serverMetricsCached', 'mergeServerAction', 'mergeServerStatus', function () {
 
-            fillServerMetricsPath('metricsProgress', 'metricsResponse', 'serverMetricsPath', function () {
+            fillServerMetricsPath(progressElmId, responseElmId, 'serverMetricsPath', function () {
 
-                fillServerMetricsType('metricsProgress', 'metricsResponse', 'serverMetricsType', function () {
+                fillServerMetricsType(progressElmId, responseElmId, 'serverMetricsType', function () {
 
-                    refreshServerMetricsChart('metricsProgress', 1, function () {
+                    refreshServerMetricsChart(progressElmId, 1, function () {
 
-                        showElm('serverMetrics');
+                        showElm(showElmId);
 
                     });
 

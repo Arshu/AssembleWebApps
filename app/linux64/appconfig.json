@@ -5,12 +5,12 @@
   "CreateWebConfig": false,
   "CreateApiConfig": false,
   "SaveJsCssResource": false,
-  "PersistMetricLog": false,
+  "PersistMetricLog": true,
   "AllowReload": true,
   "AllowConfigUpdate": false,
 
   "ContextJson": {
-    "PageTitle": "Arshu AppWeb Viewer",
+    "PageTitle": "Arshu AppWeb Data",
     "ShowIntroTip": false,
     "ShowManageLink": true,
     "ShowDocumentLink": true,
@@ -43,11 +43,6 @@
     {
       "AssetTypeName": "Arshu.AppCore.AssetRegister",
       "AssetDll": "Arshu.AppCore.dll",
-      "IsEnabled": true
-    },
-    {
-      "AssetTypeName": "Arshu.AppBaseWeb.AssetRegister",
-      "AssetDll": "Arshu.AppBaseWeb.dll",
       "IsEnabled": true
     }
   ],
@@ -104,8 +99,8 @@
   "PackResourcesDirectories": "Resource,Content",
   "PackDataDirectories": "App_Data, Db, AppApi",
 
-  "PackApp": false,
-  "PackResource": false,
+  "PackApp": true,
+  "PackResource": true,
   "PackData": true,
   "PackTemplate": false,
   "PackAppSites": "Index",

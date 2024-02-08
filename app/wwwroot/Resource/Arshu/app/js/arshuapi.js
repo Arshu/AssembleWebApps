@@ -327,7 +327,7 @@ function clearResponse(responseElmId) {
     return responseElm;
 }
 
-function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, clientRequestTimestamp, componentAppSite, componentAppView, componentName, appComponentName) {
+function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, componentAppSite, componentAppView, componentName, appComponentName) {
     let responseElm = clearResponse(responseElmId);
     let apiMessage = "";
 
@@ -342,7 +342,7 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
             function (data) {
                 if (((data.hasOwnProperty('Result') === true) && (data.Result))) {
                     let result = data.Result;
-                    processReturn(result, responseElmId, successCallback);
+                    processReturn(result, responseElmId, successCallback, failureCallback);
                     setApiMetrics(result);
                 }               
                 if (data.hasOwnProperty('ErrorMessage') === true) {
@@ -361,7 +361,7 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
                         }
                     }
                 }
-            }, null, clientRequestTimestamp);
+            }, failureCallback, clientRequestTimestamp);
 
     }
     else {
@@ -399,7 +399,8 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
 
             let delayInterval = 0;
             if ((isRealtime === true) && (globalWebSocketActive == false)) {
-                dogetHtml(progressElmId, responseElmId, "/EchoInfo", function () {
+                //dogetHtml?
+                doget(progressElmId, responseElmId, "/EchoInfo", function () {
                     console.log("Called '/EchoInfo' to start the Server");
                     if (typeof restartWebSocketConnection === "function") {
                         restartWebSocketConnection();
@@ -481,7 +482,7 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
 
 }
 
-function refreshViewPageHtml(progressElmId, responseElmId, appSite, appView, componentName, configJson, isRealtime, realtimeDomain, successCallback) {
+function refreshViewPageHtml(progressElmId, responseElmId, appSite, appView, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
@@ -551,13 +552,13 @@ function refreshViewPageHtml(progressElmId, responseElmId, appSite, appView, com
             }
         }
 
-        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, clientRequestTimestamp, appSite, appView, componentName, "");
+        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, appSite, appView, componentName, "");
     }
 
     return false;
 }
 
-function refreshViewComponentHtml(progressElmId, responseElmId, appSite, appView, componentName, configJson, isRealtime, realtimeDomain, successCallback) {
+function refreshViewComponentHtml(progressElmId, responseElmId, appSite, appView, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
@@ -641,7 +642,7 @@ function refreshViewComponentHtml(progressElmId, responseElmId, appSite, appView
             }
         }
 
-        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, clientRequestTimestamp, appSite, appView, componentName, "");
+        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, appSite, appView, componentName, "");
     }
 
     return false;
@@ -711,7 +712,7 @@ function filterViewComponentHtml(progressElmId, responseElmId, appSite, appView,
 
 
 
-function saveViewComponentJson(progressElmId, responseElmId, appSite, appView, appComponentName, getKeyJson, getSaveJson, componentName, configJson, isRealtime, realtimeDomain, successCallback) {
+function saveViewComponentJson(progressElmId, responseElmId, appSite, appView, appComponentName, getKeyJson, getSaveJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
@@ -784,12 +785,12 @@ function saveViewComponentJson(progressElmId, responseElmId, appSite, appView, a
             }
         }
 
-        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, clientRequestTimestamp, appSite, appView, componentName, appComponentName);
+        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, appSite, appView, componentName, appComponentName);
     }
     return false;
 }
 
-function addViewComponentJsonArray(progressElmId, responseElmId, appSite, appView, appComponentName, getKeyJson, getAddJson, getValidKeyJson, getDuplicateKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback) {
+function addViewComponentJsonArray(progressElmId, responseElmId, appSite, appView, appComponentName, getKeyJson, getAddJson, getValidKeyJson, getDuplicateKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
@@ -890,12 +891,12 @@ function addViewComponentJsonArray(progressElmId, responseElmId, appSite, appVie
             }
         }
 
-        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, clientRequestTimestamp, appSite, appView, componentName, appComponentName);
+        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, appSite, appView, componentName, appComponentName);
     }
     return false;
 }
 
-function editViewComponentJsonArray(progressElmId, responseElmId, appSite, appView, appComponentName, getKeyJson, getEditJson, getValidKeyJson, getDuplicateKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback) {
+function editViewComponentJsonArray(progressElmId, responseElmId, appSite, appView, appComponentName, getKeyJson, getEditJson, getValidKeyJson, getDuplicateKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
@@ -999,12 +1000,12 @@ function editViewComponentJsonArray(progressElmId, responseElmId, appSite, appVi
             }
         }
 
-        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, clientRequestTimestamp, appSite, appView, componentName, appComponentName);
+        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, appSite, appView, componentName, appComponentName);
     }
     return false;
 }
 
-function deleteViewComponentJsonArray(progressElmId, responseElmId, appSite, appView, appComponentName, getKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback) {
+function deleteViewComponentJsonArray(progressElmId, responseElmId, appSite, appView, appComponentName, getKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
@@ -1071,12 +1072,12 @@ function deleteViewComponentJsonArray(progressElmId, responseElmId, appSite, app
             }
         }
 
-        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, clientRequestTimestamp, appSite, appView, componentName, appComponentName);
+        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, appSite, appView, componentName, appComponentName);
     }
     return false;
 }
 
-function cloneViewComponentJsonArray(progressElmId, responseElmId, appSite, appView, appComponentName, getKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback) {
+function cloneViewComponentJsonArray(progressElmId, responseElmId, appSite, appView, appComponentName, getKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
@@ -1143,7 +1144,7 @@ function cloneViewComponentJsonArray(progressElmId, responseElmId, appSite, appV
             }
         }
 
-        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, clientRequestTimestamp, appSite, appView, componentName, appComponentName);
+        callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, appSite, appView, componentName, appComponentName);
     }
     return false;
 }
@@ -1226,6 +1227,9 @@ function getBoolValue(getDataBool, defaultBool = false) {
     }
     else if ((isBool === false) || (isBool === "false")) {
         isBool = false;
+    }
+    if (!isBool) {
+        isBool = defaultBool;
     }
 
     return isBool;
@@ -1412,12 +1416,13 @@ function bindRefreshViewPageHtml(event) {
     let dataComponent = getTextValue(el.getAttribute('data-component'), "");
     let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
     let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-    if (!isRealtime) {
-        let href = el.getAttribute('href');
+    let href = el.getAttribute('href');
+    if (href.length == 1) {
         if (href[0] == "#") {
             isRealtime = true;
         }
-    }
+    }    
+
     let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
 
     let dataCallback = el.getAttribute('data-callback');
@@ -1683,9 +1688,9 @@ function setApiMetrics(result) {
             getElm('dynamicAppView').value = result.AppView;
         }
     }
-    if (result.hasOwnProperty('PageName') === true) {
-        if (haveElm('dynamicPageName') == true) {
-            getElm('dynamicPageName').value = result.PageName;
+    if (result.hasOwnProperty('AppFile') === true) {
+        if (haveElm('dynamicAppFile') == true) {
+            getElm('dynamicAppFile').value = result.AppFile;
         }
     }
 

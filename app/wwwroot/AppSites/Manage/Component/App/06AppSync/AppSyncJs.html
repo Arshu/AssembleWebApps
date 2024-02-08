@@ -1,0 +1,397 @@
+﻿
+<script type="text/javascript">
+
+    function clearAppSyncMessage(responseElmId) {
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+    }
+
+    function clearAppSyncDetailsMessage(responseElmId) {
+        getElm(responseElmId).innerHTML = '';
+    }
+
+    function retrieveAppSyncInfo(progressElmId, responseElmId, syncAppNameVal, appNameElmId, appImageSelectElmId, appTagElmId, syncReferenceRegionTemplateElmId, syncReferenceRegionTargetElmId, syncRegionTemplateElmId, syncRegionTargetElmId, syncEnvInitialTimeoutElmId, syncEnvIdleTimeoutElmId, syncEnvAutoDestroyAfterXMinElmId, doSyncBtnElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        //if (apiToken.length == 0) {
+        //    showText(responseElm, 'Enter the API Token', 'red');
+        //    valid = false;
+        //}
+
+        if (valid === true) {
+
+            getElm(doSyncBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RetrieveSyncInfo';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "syncAppName": syncAppNameVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    getElm(doSyncBtnElmId).removeAttribute("disabled");
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+
+                //    if (typeof successCallback === "function") {
+                //        successCallback();
+                //    }
+                //}
+                else
+                {
+                    if (result.hasOwnProperty('AppName') === true) {
+                        getElm(appNameElmId).value = result.AppName;
+                    }
+                    getElm(appTagElmId).value = "latest";
+
+                    if (result.hasOwnProperty('MinInitialShutdownTimeInSec') === true) {
+                        getElm(syncEnvInitialTimeoutElmId).value = result.MinInitialShutdownTimeInSec;
+                    }
+                    if (result.hasOwnProperty('MinIdleShutdownTimeInSec') === true) {
+                        getElm(syncEnvIdleTimeoutElmId).value = result.MinIdleShutdownTimeInSec;
+                    }
+                    if (result.hasOwnProperty('AutoDestroyAfterXMin') === true) {
+                        getElm(syncEnvAutoDestroyAfterXMinElmId).value = result.AutoDestroyAfterXMin;
+                    }
+
+                    if (result.hasOwnProperty("DockerList") === true) {
+                        let dockerList = result.DockerList;
+
+                        let selectElm = getElm(appImageSelectElmId);
+                        if (selectElm) {
+                            selectElm.options.length = 0;
+
+                            for (var i = 0; i < dockerList.length; i++) {
+                                let dockerInfo = dockerList[i];
+                                let dockerName = "";
+                                if (dockerInfo.hasOwnProperty('DockerName') === true) {
+                                    dockerName = dockerInfo.DockerName
+                                }
+                                let dockerImage = "";
+                                if (dockerInfo.hasOwnProperty('DockerImage') === true) {
+                                    dockerImage = dockerInfo.DockerImage
+                                }
+                                let isAppImage = false;
+                                if (dockerInfo.hasOwnProperty('IsAppImage') === true) {
+                                    isAppImage = dockerInfo.IsAppImage
+                                }
+                                if (isAppImage == true) {
+                                    selectElm.options[selectElm.options.length] = new Option(dockerImage, dockerName, true, true);
+                                } else {
+                                    selectElm.options[selectElm.options.length] = new Option(dockerImage, dockerName, false, false);
+                                }
+                            }
+                        }
+
+                    }
+
+                    if (result.hasOwnProperty("SyncReferenceRegionList") === true) {
+                        let syncReferenceRegionList = result.SyncReferenceRegionList;
+
+                        let syncReferenceRegionTemplateElm = getElm(syncReferenceRegionTemplateElmId);
+                        let syncReferenceRegionTemplateHtml = syncReferenceRegionTemplateElm.innerHTML;
+
+                        let syncReferenceRegionTemplate = "";
+
+                        for (var i = 0; i < syncReferenceRegionList.length; i++) {
+                            let regionInfo = syncReferenceRegionList[i];
+
+                            let regionName = "";
+                            if (regionInfo.hasOwnProperty('Region') === true) {
+                                regionName = regionInfo.Region
+                            }
+                            let syncRegion = false;
+                            if (regionInfo.hasOwnProperty('Status') === true) {
+                                syncRegion = regionInfo.Status
+                            }
+                            let regionText = regionName;
+                            if (regionInfo.hasOwnProperty('MachineCount') === true) {
+                                regionText = regionText + "[" + regionInfo.MachineCount + "]";
+                            }
+
+                            let syncReferenceRegionTemplateItem = syncReferenceRegionTemplateHtml;
+                            if (syncRegion == false) {
+                                syncReferenceRegionTemplateItem = syncReferenceRegionTemplateItem.replace(/checked="checked"/g, "")
+                            }
+                            if (result.hasOwnProperty('AppName') === true) {
+                                syncReferenceRegionTemplateItem = syncReferenceRegionTemplateItem.replace(/{AppName}/g, result.AppName)
+                            }
+                            syncReferenceRegionTemplateItem = syncReferenceRegionTemplateItem.replace(/{RegionName}/g, 'syncReferenceRegion')
+                            syncReferenceRegionTemplateItem = syncReferenceRegionTemplateItem.replace(/{Region}/g, regionName)
+                            syncReferenceRegionTemplateItem = syncReferenceRegionTemplateItem.replace(/{RegionText}/g, regionText)
+
+                            syncReferenceRegionTemplate = syncReferenceRegionTemplate + syncReferenceRegionTemplateItem;
+                        }
+
+                        let syncReferenceRegionTargetElm = getElm(syncReferenceRegionTargetElmId);
+                        syncReferenceRegionTargetElm.innerHTML = syncReferenceRegionTemplate;
+
+                    }
+
+                    if (result.hasOwnProperty("SyncRegionList") === true) {
+                        let syncRegionList = result.SyncRegionList;
+
+                        let syncRegionTemplateElm = getElm(syncRegionTemplateElmId);
+                        let syncRegionTemplateHtml = syncRegionTemplateElm.innerHTML;
+
+                        let syncRegionTemplate = "";
+
+                        for (var i = 0; i < syncRegionList.length; i++) {
+                            let regionInfo = syncRegionList[i];
+                            let regionName = "";
+                            if (regionInfo.hasOwnProperty('Region') === true) {
+                                regionName = regionInfo.Region
+                            }
+                            let syncRegion = false;
+                            if (regionInfo.hasOwnProperty('Status') === true) {
+                                syncRegion = regionInfo.Status
+                            }
+                            let regionText = regionName;
+                            if (regionInfo.hasOwnProperty('MachineCount') === true) {
+                                regionText = regionText + "[" + regionInfo.MachineCount + "]";
+                            }
+
+                            let syncRegionTemplateItem = syncRegionTemplateHtml;
+                            if (syncRegion == false) {
+                                syncRegionTemplateItem = syncRegionTemplateItem.replace(/checked="checked"/g, "")
+                            }
+                            syncRegionTemplateItem = syncRegionTemplateItem.replace(/{RegionName}/g, 'syncRegion')
+                            syncRegionTemplateItem = syncRegionTemplateItem.replace(/{Region}/g, regionName)
+                            syncRegionTemplateItem = syncRegionTemplateItem.replace(/{RegionText}/g, regionText)
+
+                            syncRegionTemplate = syncRegionTemplate + syncRegionTemplateItem;
+                        }
+
+                        let syncRegionTargetElm = getElm(syncRegionTargetElmId);
+                        syncRegionTargetElm.innerHTML = syncRegionTemplate;
+                    }
+
+               
+                    getElm(doSyncBtnElmId).removeAttribute("disabled");
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+    function appSyncSelectAll(regionTargetElmId, checkedState) {
+        var regionCheckboxes = document.getElementsByName(regionTargetElmId);
+        for (var i = 0; i < regionCheckboxes.length; i++) {
+            regionCheckboxes[i].checked = checkedState;
+        }
+    }
+
+    function syncApp(progressElmId, responseElmId, appNameVal, appImageVal, appTagVal, syncReferenceRegionTargetElmName, syncRegionTargetElmName, envInitialTimeoutVal, envIdleTimeoutVal, envLoadAppDataVal, configRestartOnSyncVal, doSyncBtnElmId, detailResponseElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid == true) {
+            if (appNameVal.length == 0) {
+                showText(responseElm, 'App Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (appImageVal.length == 0) {
+                showText(responseElm, 'App Image Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (appTagVal.length == 0) {
+                showText(responseElm, 'App Image Tag Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        let syncReferenceRegion = "";
+        var syncReferenceRegionRadios = document.getElementsByName(syncReferenceRegionTargetElmName);
+        for (var i = 0; i < syncReferenceRegionRadios.length; i++) {
+            // And stick the checked ones onto an array...
+            if (syncReferenceRegionRadios[i].checked) {
+                syncReferenceRegion = syncReferenceRegionRadios[i].value;
+            }
+        }
+
+        if (valid == true) {
+            if (syncReferenceRegion.length == 0) {
+                showText(responseElm, 'Select at least 1 Reference Region', 'red');
+                valid = false;
+            }
+        }
+
+        let syncRegionList = [];
+        var syncRegionCheckboxes = document.getElementsByName(syncRegionTargetElmName);
+        for (var i = 0; i < syncRegionCheckboxes.length; i++) {
+            // And stick the checked ones onto an array...
+            if (syncRegionCheckboxes[i].checked) {
+                syncRegionList.push(syncRegionCheckboxes[i].value);
+            }
+        }
+
+        if (valid == true) {
+            if (syncRegionList.length == 0) {
+                showText(responseElm, 'Select at least 1 Sync Region', 'red');
+                valid = false;
+            }
+        }
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        //if (apiToken.length == 0) {
+        //    showText(responseElm, 'Enter the API Token', 'red');
+        //    valid = false;
+        //}
+
+        if (valid === true) {
+
+            getElm(doSyncBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'SyncApp';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "appName": appNameVal,
+                "imageName": appImageVal,
+                "tagName": appTagVal,
+                "referenceRegion": syncReferenceRegion,
+                "syncRegions": syncRegionList,
+                "envInitialTimeout": envInitialTimeoutVal,
+                "envIdleTimeout": envIdleTimeoutVal,
+                "envLoadAppData": envLoadAppDataVal,
+                "configRestartOnSync": configRestartOnSyncVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+                    getElm(doSyncBtnElmId).removeAttribute("disabled");
+
+                    let detailMessageHtml = "";
+                    let messageNo = 0;
+                    if (result.hasOwnProperty('errorJson') === true) {
+                        let errorJson = result.errorJson;
+                        for (let i = 0; i < errorJson.length; i++) {
+                            messageNo++;
+                            let messageObj = errorJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    getElm(detailResponseElmId).innerHTML = detailMessageHtml;
+                    showElm(detailResponseElmId);
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green');
+
+                    let detailMessageHtml = "";
+                    let messageNo = 0;
+                    if (result.hasOwnProperty('messageJson') === true)
+                    {
+                        let messageJson = result.messageJson;
+                        for (let i = 0; i < messageJson.length; i++) {
+                            messageNo++;
+                            let messageObj = messageJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:green'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    if (result.hasOwnProperty('warnJson') === true) {
+                        let messageJson = result.warnJson;
+                        for (let i = 0; i < messageJson.length; i++) {
+                            messageNo++;
+                            let messageObj = messageJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    getElm(detailResponseElmId).innerHTML = detailMessageHtml;
+                    showElm(detailResponseElmId);
+                }
+                else if (result.hasOwnProperty('warn') === true) {
+                    showText(responseElm, result.warn, 'red');
+
+                    let detailMessageHtml = "";
+                    let messageNo = 0;
+                    if (result.hasOwnProperty('warnJson') === true) {
+                        let messageJson = result.warnJson;
+                        for (let i = 0; i < messageJson.length; i++) {
+                            messageNo++;
+                            let messageObj = messageJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    getElm(detailResponseElmId).innerHTML = detailMessageHtml;
+                    showElm(detailResponseElmId);
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+</script>
+

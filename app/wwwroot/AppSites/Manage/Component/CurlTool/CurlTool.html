@@ -1,0 +1,20 @@
+﻿
+
+<div style="margin: 5px 0px; " class="flex-input-wrap">
+    <button class="flex-item-stretch border" style="height:40px;" onclick="toggleElm('curlTool');">
+        Curl Tool
+    </button>
+</div>
+
+<div id="curlTool" class="border" style="margin: 5px 0px;padding: 5px; display: none;">
+
+    <div style="margin: 0 auto;position:relative; overflow:auto">
+
+        {{CurlCmd}}
+        {{CurlMetrics}}
+
+    </div>
+
+</div>
+
+{{CurlToolJs}}

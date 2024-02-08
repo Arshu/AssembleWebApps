@@ -1,12 +1,4 @@
-﻿{{@EnableArshuFramework}}
-{{@IsLoggedIn}}
-{{ArshuEditComponents("RootComponentID":"Index")}}
-{{/IsLoggedIn}}
-{{^IsLoggedIn}}
-{{ArshuViewComponents("RootComponentID":"Index")}}
-{{/IsLoggedIn}}
-{{/EnableArshuFramework}}
-
+﻿
 <div style="position:fixed; border:solid 1px rgba(0,0,0,0.05); min-width:40px;min-height:40px;left:0px;bottom:0px;z-index:10000;"
      onclick="if (document.getElementById('performanceFooterinfo').style.display === 'none') {
         document.getElementById('performanceFooterinfo').style.display = 'block'; localStorage.setItem('SHOW_PERFORMANCE_INFO', true);
@@ -14,28 +6,18 @@
 
     <div id="performanceFooterinfo" style="font-family: Courier New, Courier, monospace; font-size: 8px; z-index: 10000; display: none; color: white; background-color: black; position: fixed; padding-bottom: 5px; width: 220px; min-height: 20px; left: 0px; bottom: 0px; text-align: left; padding-left: 5px; ">
 
-        <div title="{{$AppSite}}-{{$AppView}}-{{$PageName}}" style="margin-bottom:5px;">
-            <div>
-                <input type="checkbox" {{^ShowRecordMetrics}} style="display:none;" {{/ShowRecordMetrics}} {{@DefaultRecordMetrics}} checked="checked" {{/DefaultRecordMetrics}} id="recordAppMetrics" title="Record App Metrics" onchange="localStorage.setItem('RECORD_APP_METRICS', getElm('recordAppMetrics').checked);" />
-                Version(<span style='color:red;cursor:pointer' title='@@UID@@' onclick="event.stopPropagation(); localStorage.setItem('SHOW_PERFORMANCE_INFO', false); showAppMetricsViewer('showAppMetricsProgress', 'showAppMetricsResponse', function () { document.getElementById('performanceFooterinfo').style.display = 'none'; })">@@VERSION@@</span>)
-                <span id="showAppMetricsProgress"></span>
-            </div>
-        </div>
-
         <div class="notification" id="showAppMetricsResponseContainer" style="margin:5px; padding:10px;display:none;">
             <button class="delete" onclick="hideElm('showAppMetricsResponseContainer')"></button>
             <div id="showAppMetricsResponse"></div>
         </div>
 
+        <div title="{{$AppSite}}-{{$AppView}}-{{$AppFile}}" style="margin-bottom:5px;position:relative;">
+            <input type="checkbox" {{^ShowRecordMetrics}} style="display:none;" {{/ShowRecordMetrics}} {{@DefaultRecordMetrics}} checked="checked" {{/DefaultRecordMetrics}} id="recordAppMetrics" title="Record App Metrics" onchange="localStorage.setItem('RECORD_APP_METRICS', getElm('recordAppMetrics').checked);" />
+            Version(<span style='color:red;cursor:pointer' onclick="event.stopPropagation(); if (typeof showAppMetricsViewer === 'function') { showAppMetricsViewer('showAppMetricsProgress', 'showAppMetricsResponse', function () { document.getElementById('performanceFooterinfo').style.display = 'none'; }); }">{{$Version}}</span>)
+            <span id="showAppMetricsProgress"></span>
+        </div>
+
         <div style="" onclick="if (document.getElementById('performanceFooterinfo').style.display === 'block') { event.stopPropagation(); document.getElementById('performanceFooterinfo').style.display = 'none'; localStorage.setItem('SHOW_PERFORMANCE_INFO', false); }">
-            <div>
-                Login(<span style='color:white;' title="Login User Count" id="loginCount">@@LOGINCOUNT@@</span>)
-                User (<span style='color:red;' id='loginUser' title='Login User'>@@LOGINUSERID@@</span>)
-            </div>
-            <div>
-                Concurrent(<span style='color:white;' title="Concurrent Count" id="concurrentCount">{{$ConcurrentCount}}</span>)
-                Websocket(<span style='color:white;' title="WebSocket Count" id="webSocketCount">0</span>)
-            </div>
             ~~~~~
             <div style="color:white;" title="Network Perf Metrics (Page/Network/Latency/Dns)[ms]" id="networkInfo"></div>
             <div>
@@ -91,7 +73,7 @@
 
     <div id="serverFooterInfo" style="font-family: Courier New, Courier, monospace; font-size: 8px; z-index: 99999; display: none; color: white; background-color: black; position: fixed; padding-bottom: 5px; width: 150px; min-height: 20px; right: 0px; bottom: 0px; text-align: left;">
         <div style="position:relative;">
-            <input type="checkbox" id="refreshServerInfo" {{@DefaultRefreshServerInfo}} checked="checked" {{/DefaultRefreshServerInfo}} style="{{^ShowRefreshServerInfo}}display:none;{{/ShowRefreshServerInfo}}; position:absolute;left:0px; top:0px;" title="Auto Refresh Server Info Every {{$RefreshServerInfoInterval}} Seconds" onchange="autoRefreshServerInfo();" />
+            <input type="checkbox" id="enableRefreshServerInfo" {{@DefaultRefreshServerInfo}} checked="checked" {{/DefaultRefreshServerInfo}} style="{{^ShowRefreshServerInfo}}display:none;{{/ShowRefreshServerInfo}}; position:absolute;left:0px; top:0px;" title="Auto Refresh Server Info Every {{$RefreshServerInfoInterval}} Seconds" onchange="autoRefreshServerInfo();" />
             <div style="margin:auto;padding-top: 3px; padding-left:15px;" onclick="if (document.getElementById('serverFooterInfo').style.display === 'block')
                 { event.stopPropagation(); document.getElementById('serverFooterInfo').style.display = 'none'; localStorage.setItem('SHOW_SERVER_INFO', false); }">
                 Server Info
@@ -102,9 +84,15 @@
 
 </div>
 
-{{@ShowRecordMetrics}}
-{{AppMetrics}}
-{{/ShowRecordMetrics}}
+
+{{@EnableArshuFramework}}
+{{@IsLoggedIn}}
+{{ArshuEditComponents("RootComponentID":"Index")}}
+{{/IsLoggedIn}}
+{{^IsLoggedIn}}
+{{ArshuViewComponents("RootComponentID":"Index")}}
+{{/IsLoggedIn}}
+{{/EnableArshuFramework}}
 
 {{@EnableArshuFramework}}
 <link rel="stylesheet" href="/Resource/Arshu/highlight/highlight.min.css" defer>
@@ -114,6 +102,10 @@
 {{@EnableRealtime}}
 {{WSRealtimeJs}}
 {{/EnableRealtime}}
+
+{{@ShowRecordMetrics}}
+{{AppMetrics}}
+{{/ShowRecordMetrics}}
 
 <script type="text/javascript">
 
@@ -136,34 +128,52 @@
                 document.getElementById('serverFooterInfo').style.display = 'block';
                 localStorage.setItem('SHOW_SERVER_INFO', true);
 
-                document.getElementById('refreshServerInfo').checked = false;
+                document.getElementById('enableRefreshServerInfo').checked = false;
                 if (!localStorage.getItem('AUTOREFRESH_SERVER_INFO')) {
                     //if DefaultRefreshServerInfo$ in config json is true
                     if ('{{$DefaultRefreshServerInfo$}}' === "true") {
-                        document.getElementById('refreshServerInfo').checked = true;
+                        document.getElementById('enableRefreshServerInfo').checked = true;
                     }
                 }
                 let checkRefreshServerInfo = localStorage.getItem('AUTOREFRESH_SERVER_INFO');
                 if (checkRefreshServerInfo == "true") {
-                    document.getElementById('refreshServerInfo').checked = true;
+                    document.getElementById('enableRefreshServerInfo').checked = true;
                 }
-                triggerEvent('refreshServerInfo', 'change')
-            })
+                triggerEvent('enableRefreshServerInfo', 'change')
+            }, null, null)
         }
     }
 
     var serverInfoRefreshIntervalId = 0;
+    var serverInfoRefreshRequestCount = 0;
     function autoRefreshServerInfo() {
-        localStorage.setItem('AUTOREFRESH_SERVER_INFO', getElm('refreshServerInfo').checked);
-        if (getElm('refreshServerInfo').checked == true) {
+        localStorage.setItem('AUTOREFRESH_SERVER_INFO', getElm('enableRefreshServerInfo').checked);
+        if (getElm('enableRefreshServerInfo').checked == true) {
             let refreshInterval = parseInt('{{$RefreshServerInfoInterval}}');
+            let refreshRequestMaxCount = parseInt('{{$RefreshServerInfoMaxCount}}');
             clearInterval(serverInfoRefreshIntervalId);
             serverInfoRefreshIntervalId = setInterval(function () {
                 if (isElmDisplayNone('serverFooterInfo') == false) {
-                    refreshServerInfo('serverInfoProgress', 'noresponse', 'serverInfo', 'serverFooterInfo');
+                    serverInfoRefreshRequestCount++;
+                    if (serverInfoRefreshRequestCount <= refreshRequestMaxCount) {
+                        refreshServerInfo('serverInfoProgress', 'noresponse', 'serverInfo', 'serverFooterInfo', function () {
+                        }, function () {
+                            clearInterval(serverInfoRefreshIntervalId);
+                            getElm('enableRefreshServerInfo').checked = false;
+                        },
+                        function (autoRefresh) {
+                            if (autoRefresh == false) {
+                                clearInterval(serverInfoRefreshIntervalId);
+                                getElm('enableRefreshServerInfo').checked = false;
+                            }
+                        });
+                    } else {
+                        clearInterval(serverInfoRefreshIntervalId);
+                        getElm('enableRefreshServerInfo').checked = false;
+                    }
                 } else {
                     clearInterval(serverInfoRefreshIntervalId);
-                    getElm('refreshServerInfo').checked = false;
+                    getElm('enableRefreshServerInfo').checked = false;
                 }
             }, refreshInterval);
         }
@@ -190,7 +200,7 @@
         }
     }
 
-    function refreshServerInfo(progressElmId, responseElmId, serverInfoElmId, serverDataElmId, successCallback) {
+    function refreshServerInfo(progressElmId, responseElmId, serverInfoElmId, serverDataElmId, successCallback, failureCallback, autoRefreshCallback) {
         let id = window.ajaxid++;
         let valid = true;
 
@@ -203,11 +213,11 @@
             let isRealtime = false;
             let realtimeDomain = "";
 
-            let apiUrl = '/AppApi/ServerApi';
+            let apiUrl = '/AppApi/MetricsApi';
             let apiMethod = 'GetServerInfo';
             let apiParams = {}
 
-            let processReturn = function (result, responseElmId, successCallback) {
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
 
                 let responseElm = getElm(responseElmId);
 
@@ -226,9 +236,15 @@
                         getElm(serverDataElmId).setAttribute("title", result.data);
                     }
                 }
+
+                if (result.hasOwnProperty('status') === true) {
+                    if (typeof autoRefreshCallback === "function") {
+                        autoRefreshCallback(result.status);
+                    }
+                }
             };
 
-            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "ServerInfo");
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "ServerInfo");
         }
         return false;
     }
@@ -451,7 +467,7 @@
 
 </script>
 
-<script>
+<script type="text/javascript">
 
     function updateFCPMetric(metric) {
         let metricElm = document.getElementById('perfFCP');

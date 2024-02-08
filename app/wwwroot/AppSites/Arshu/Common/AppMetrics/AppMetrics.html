@@ -25,7 +25,7 @@
 
                 fillPageMetricsType(progressElmId, responseElmId, 'pageMetricsType', function () {
 
-                    refreshPageMetricsChart(progressElmId, 1, function () {
+                    refreshPageMetricsChart(progressElmId, responseElmId, 1, function () {
 
                         viewAppMetricsModal.classList.add('is-active');
 
@@ -57,7 +57,7 @@
 
                 fillPageMetricsType(progressElmId, responseElmId, 'pageMetricsType', function () {
 
-                    refreshPageMetricsChart(progressElmId, 1, function () {
+                    refreshPageMetricsChart(progressElmId, responseElmId, 1, function () {
 
                         getElm("pageMetricsTab").classList.add("metricTabActive");
                         getElm("ajaxMetricsTab").classList.remove("metricTabActive");
@@ -83,7 +83,7 @@
 
                 fillAjaxMetricsType(progressElmId, responseElmId, 'ajaxMetricsType', function () {
 
-                    refreshAjaxMetricsChart(progressElmId, 1, function () {
+                    refreshAjaxMetricsChart(progressElmId, responseElmId, 1, function () {
 
                         getElm("pageMetricsTab").classList.remove("metricTabActive");
                         getElm("ajaxMetricsTab").classList.add("metricTabActive");
@@ -110,7 +110,7 @@
 
                 fillWSMetricsType(progressElmId, responseElmId, 'wsMetricsType', function () {
 
-                    refreshWSMetricsChart(progressElmId, 1, function () {
+                    refreshWSMetricsChart(progressElmId, responseElmId, 1, function () {
 
                         getElm("pageMetricsTab").classList.remove("metricTabActive");
                         getElm("ajaxMetricsTab").classList.remove("metricTabActive");

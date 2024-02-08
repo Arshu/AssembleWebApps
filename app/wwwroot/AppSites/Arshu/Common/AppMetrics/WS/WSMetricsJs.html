@@ -2,11 +2,11 @@
 <script type="text/javascript">
 
     window.ajaxid = 0;
-    function sendWSMetrics(serviceMethod, serverTime, clientTime, successCallback) {
+    function sendWSMetrics(serviceMethod, serverTime, clientTime, successCallback, failureCallback) {
 
         if ((haveElm('recordAppMetrics') == true) && (document.getElementById('recordAppMetrics').checked == true)) {
 
-            if (serviceMethod.indexOf("/ServerApi/") == -1) {
+            if (serviceMethod.indexOf("/MetricsApi/") == -1) {
 
                 let id = window.ajaxid++;
 
@@ -17,7 +17,7 @@
                 let isRealtime = false;
                 let realtimeDomain = "";
 
-                let apiUrl = '/AppApi/ServerApi';
+                let apiUrl = '/AppApi/MetricsApi';
                 let apiMethod = 'RecordWSMetrics';
 
                 let apiParams = {
@@ -40,12 +40,12 @@
 
                 };
 
-                callAssemblerApi('noprogress', 'noresponse', apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+                callAssemblerApi('noprogress', 'noresponse', apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
             }
         }
     }
 
-    function mergeWSMetrics(progressElmId, responseElmId, resetMerge, successCallback) {
+    function mergeWSMetrics(progressElmId, responseElmId, resetMerge, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -59,7 +59,7 @@
             let isRealtime = false;
             let realtimeDomain = "";
 
-            let apiUrl = '/AppApi/ServerApi';
+            let apiUrl = '/AppApi/MetricsApi';
             let apiMethod = 'MergeWSMetricsData';
 
             let apiParams = {
@@ -79,19 +79,16 @@
                     if (typeof successCallback === "function") {
                         successCallback();
                     }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback]();
-                    }
-                }
+               }
             };
 
-            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
         }
 
         return false;
     }
 
-    function fillWSMetricsInstance(progressElmId, responseElmId, selectElmId, cacheFlagElmId, mergeShowElmId, mergeStatusElmId, successCallback) {
+    function fillWSMetricsInstance(progressElmId, responseElmId, selectElmId, cacheFlagElmId, mergeShowElmId, mergeStatusElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -107,7 +104,7 @@
             let isRealtime = false;
             let realtimeDomain = "";
 
-            let apiUrl = '/AppApi/ServerApi';
+            let apiUrl = '/AppApi/MetricsApi';
             let apiMethod = 'GetWSMetricsInstance';
           
             let apiParams = {
@@ -135,9 +132,6 @@
 
                     if (typeof successCallback === "function") {
                         successCallback();
-                    }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback]();
                     }
                 }
                 if (result.hasOwnProperty('status') === true) {
@@ -168,14 +162,14 @@
                 //}
             };
 
-            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
 
         }
 
         return false;
     }
 
-    function fillWSMetricsServiceMethod(progressElmId, responseElmId, selectElmId, successCallback) {
+    function fillWSMetricsServiceMethod(progressElmId, responseElmId, selectElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -197,7 +191,7 @@
             let isRealtime = false;
             let realtimeDomain = "";
 
-            let apiUrl = '/AppApi/ServerApi';
+            let apiUrl = '/AppApi/MetricsApi';
             let apiMethod = 'GetWSMetricsServiceMethod';
 
             let apiParams = {
@@ -226,9 +220,6 @@
                     if (typeof successCallback === "function") {
                         successCallback();
                     }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback]();
-                    }
                 }
                 if (result.hasOwnProperty('error') === true) {
                     showText(responseElm, result.error, 'red');
@@ -238,14 +229,14 @@
                 //}
             };
 
-            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
 
         }
 
         return false;
     }
 
-    function fillWSMetricsType(progressElmId, responseElmId, selectElmId, successCallback) {
+    function fillWSMetricsType(progressElmId, responseElmId, selectElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -275,7 +266,7 @@
             let isRealtime = false;
             let realtimeDomain = "";
 
-            let apiUrl = '/AppApi/ServerApi';
+            let apiUrl = '/AppApi/MetricsApi';
             let apiMethod = 'GetWSMetricsType';
 
             let apiParams = {
@@ -313,9 +304,6 @@
                     if (typeof successCallback === "function") {
                         successCallback();
                     }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback]();
-                    }
                 }
                 if (result.hasOwnProperty('error') === true) {
                     showText(responseElm, result.error, 'red');
@@ -325,14 +313,14 @@
                 //}
             };
 
-            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
 
         }
 
         return false;
     }
 
-    function fillWSMetricsChart(progressElmId, responseElmId, pageNo, successCallback) {
+    function fillWSMetricsChart(progressElmId, responseElmId, pageNo, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -370,7 +358,7 @@
             let isRealtime = false;
             let realtimeDomain = "";
 
-            let apiUrl = '/AppApi/ServerApi';
+            let apiUrl = '/AppApi/MetricsApi';
             let apiMethod = 'GetWSMetrics';
 
             let apiParams = {
@@ -424,9 +412,6 @@
                     if (typeof successCallback === "function") {
                         successCallback();
                     }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback]();
-                    }
                 }
                 if (result.hasOwnProperty('error') === true) {
                     showText(responseElm, result.error, 'red');
@@ -436,21 +421,21 @@
                 //}
             };
 
-            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
 
         }
 
         return false;
     }
 
-    function refreshWSMetricsChart(progressElmId, currentWSNo, successCallback) {
+    function refreshWSMetricsChart(progressElmId, responseElmId, currentWSNo, successCallback, failureCallback) {
 
         let valid = true;
         if (progressElmId) { valid = true; } else { valid = false; }
         if (currentWSNo) { valid = true; } else { valid = false; }
 
         if (valid === true) {
-            fillWSMetricsChart(progressElmId, 'metricsResponse', currentWSNo, successCallback);
+            fillWSMetricsChart(progressElmId, responseElmId, currentWSNo, successCallback, failureCallback);
         }
     }
 

@@ -6,5 +6,5 @@
   "ItemsPerPageManageRole": 10,
   "ItemsPerPageManageUser": 10,
   "ShowCurlTool$": false,
-  "ShowServerTool$": false
+  "ShowAppManage$": true
 }

@@ -1,6 +1,8 @@
 <ul class="menu" id="navMenu" style="{{$NavBarBackgroundStyle}};">
     <li class="menulogo">
-    <a href="#/" onclick="refreshViewPageHtml('progress', 'response', 'Index', 'Main', 'mainNav, mainContent, mainFooter')">{{$SiteTitle}}</a>
+        <a href="#" data-action="refreshViewPageHtml" data-progress="progress" data-response="response" data-appsite="{{$DefaultAppSite}}" data-appview="{{$DefaultAppView}}" data-component="mainNav, mainContent">
+            {{$SiteTitle}}
+        </a>
     </li>
     {{@NAVList}}
 

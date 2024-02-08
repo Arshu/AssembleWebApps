@@ -1,0 +1,174 @@
+﻿
+<script type="text/javascript">
+
+    function retrieveAppUploadInfo(progressElmId, responseElmId, uploadAppNameVal, appNameElmId, folderSelectElmId, doUploadBtnElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        //if (apiToken.length == 0) {
+        //    showText(responseElm, 'Enter the API Token', 'red');
+        //    valid = false;
+        //}
+
+        if (valid === true) {
+
+            getElm(doUploadBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RetrieveUploadInfo';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "uploadAppName": uploadAppNameVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    getElm(doUploadBtnElmId).removeAttribute("disabled");
+
+                    if (typeof failureCallback === "function") {
+                        failureCallback();
+                    }
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+
+                //    if (typeof successCallback === "function") {
+                //        successCallback();
+                //    }
+                //}
+                else
+                {
+                    if (result.hasOwnProperty('AppName') === true) {
+                        getElm(appNameElmId).value = result.AppName;
+                    }
+
+                    if (result.hasOwnProperty('UploadFolderList') === true) {
+                        let folderListArray = result.UploadFolderList;
+
+                        let selectElm = getElm(folderSelectElmId);
+                        if (selectElm) {
+                            selectElm.options.length = 0;
+                            for (let i = 0; i < folderListArray.length; i++) {
+                                let bakFolder = folderListArray[i];
+                                let selectText = "";
+                                if (bakFolder.hasOwnProperty('Name') === true) {
+                                    selectText = bakFolder.Name
+                                }
+                                let selectValue = "";
+                                if (bakFolder.hasOwnProperty('Path') === true) {
+                                    selectText = bakFolder.Path
+                                }                                
+                                selectElm.options[selectElm.options.length] = new Option(selectText, selectText);
+                                if (selectText.indexOf("wwwroot") > -1) {
+                                    selectElm.selectedIndex = selectElm.options.length - 1;
+                                }
+                            }
+                            getElm(doUploadBtnElmId).removeAttribute("disabled");
+
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }
+                    }
+                }                
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+    function uploadAppFolder(progressElmId, responseElmId, appNameVal, fileElmId, folderSelectVal, overwriteAppDataVal, doUploadBtnElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        var data = new FormData();
+        var uploadFile = document.getElementById(fileElmId);
+        if (uploadFile.files.length > 0) {
+            data.append("file", uploadFile.files[0]);
+        }
+        else {
+            showText(responseElm, 'Select a Zip File before Uploading', 'red');
+            valid = false;
+        }
+
+        if (folderSelectVal == "") {
+            showText(responseElm, 'Select the Server Folder to upload to', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            getElm(doUploadBtnElmId).setAttribute("disabled", true);
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'UploadAppFolder';
+
+            data.append('appName', appNameVal);
+            data.append('uploadFolder', folderSelectVal);
+            data.append('overwriteAppData', overwriteAppDataVal);
+            data.append('ProcessFormData', apiMethod);
+
+            dopostform(progressElmId, responseElmId, apiUrl, data,
+                function (jsonData) {
+                    if (jsonData.hasOwnProperty('Result') === true) {
+                        var result = jsonData.Result;
+                        if (result.hasOwnProperty('message') === true) {
+                            showText(responseElm, result.message, 'green');
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }
+                        else if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+                            if (typeof failureCallback === "function") {
+                                failureCallback();
+                            }
+                        }
+                        else if (result.hasOwnProperty('Exception') === true) {
+                            showText(responseElm, "Exception:" + result.Exception, 'red');
+                            if (typeof failureCallback === "function") {
+                                failureCallback();
+                            }
+                        }
+                    }
+                    else if (jsonData.hasOwnProperty('Error') === true) {
+                        var error = jsonData.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                }
+            );
+
+        }
+
+        return false;
+    }
+    
+</script>
+

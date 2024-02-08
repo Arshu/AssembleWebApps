@@ -1,7 +1,7 @@
 ﻿
 <script>
 
-    function addViewComponent(progressElmId, responseElmId, appSite, appView, appComponentName, subComponentName, newComponentAppSite, newComponentName, addBeforeComponent, addAsCopyComponent, replaceComponent, configJson, getRealtimeRefresh, successCallback) {
+    function addViewComponent(progressElmId, responseElmId, appSite, appView, appComponentName, subComponentName, newComponentAppSite, newComponentName, addBeforeComponent, addAsCopyComponent, replaceComponent, configJson, getRealtimeRefresh, successCallback, failureCallback) {
 
         let clientRequestTimestamp = Math.floor(new Date().getTime());
 
@@ -80,13 +80,13 @@
                 }
             }
 
-            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, clientRequestTimestamp, currentAppSite, currentAppView, changeComponentName + " to " + subComponentName);
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, currentAppSite, currentAppView, changeComponentName + " to " + subComponentName);
         }
 
         return false;
     }
 
-    function deleteViewComponent(progressElmId, responseElmId, currentAppSite, currentAppView, appComponentName, subComponentName, configJson, getRealtimeRefresh, successCallback) {
+    function deleteViewComponent(progressElmId, responseElmId, currentAppSite, currentAppView, appComponentName, subComponentName, configJson, getRealtimeRefresh, successCallback, failureCallback) {
 
         let clientRequestTimestamp = Math.floor(new Date().getTime());
 
@@ -150,7 +150,7 @@
                 }
             }
 
-            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, clientRequestTimestamp, currentAppSite, currentAppView, changeComponentName + " to " + subComponentName);
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, currentAppSite, currentAppView, changeComponentName + " to " + subComponentName);
         }
 
         return false;

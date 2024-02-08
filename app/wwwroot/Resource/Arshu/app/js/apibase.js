@@ -1,28 +1,87 @@
-﻿/*! spin.js/MIT license 
-// Creating spinner see <a href="http://fgnass.github.com/spin.js/">http://fgnass.github.com/spin.js/</a> for configuration wizzard
-*/
-!function (t, e, i) { let o = ["webkit", "Moz", "ms", "O"], r = {}, n; function a(t, i) { let o = e.createElement(t || "div"), r; for (r in i) o[r] = i[r]; return o; } function s(t) { for (let e = 1, i = arguments.length; e < i; e++) t.appendChild(arguments[e]); return t; } let f = function () { let t = a("style", { type: "text/css" }); s(e.getElementsByTagName("head")[0], t); return t.sheet || t.styleSheet; }(); function l(t, e, i, o) { let a = ["opacity", e, ~~(t * 100), i, o].join("-"), s = .01 + i / o * 100, l = Math.max(1 - (1 - t) / e * (100 - s), t), p = n.substring(0, n.indexOf("Animation")).toLowerCase(), u = p && "-" + p + "-" || ""; if (!r[a]) { f.insertRule("@" + u + "keyframes " + a + "{" + "0%{opacity:" + l + "}" + s + "%{opacity:" + t + "}" + (s + .01) + "%{opacity:1}" + (s + e) % 100 + "%{opacity:" + t + "}" + "100%{opacity:" + l + "}" + "}", f.cssRules.length); r[a] = 1; } return a; } function p(t, e) { let r = t.style, n, a; if (r[e] !== i) return e; e = e.charAt(0).toUpperCase() + e.slice(1); for (a = 0; a < o.length; a++) { n = o[a] + e; if (r[n] !== i) return n; } } function u(t, e) { for (let i in e) t.style[p(t, i) || i] = e[i]; return t; } function c(t) { for (let e = 1; e < arguments.length; e++) { let o = arguments[e]; for (let r in o) if (t[r] === i) t[r] = o[r]; } return t; } function d(t) { let e = { x: t.offsetLeft, y: t.offsetTop }; while (t === t.offsetParent) e.x += t.offsetLeft, e.y += t.offsetTop; return e; } let h = { lines: 12, length: 7, width: 5, radius: 10, rotate: 0, corners: 1, color: "#000", speed: 1, trail: 100, opacity: 1 / 4, fps: 20, zIndex: 2e9, className: "spinner", top: "auto", left: "auto", position: "relative" }; function m(t) { if (!this.spin) return new m(t); this.opts = c(t || {}, m.defaults, h); } m.defaults = {}; c(m.prototype, { spin: function (t) { this.stop(); let e = this, i = e.opts, o = e.el = u(a(0, { className: i.className }), { position: i.position, width: 0, zIndex: i.zIndex }), r = i.radius + i.length + i.width, s, f; if (t) { t.insertBefore(o, t.firstChild || null); f = d(t); s = d(o); u(o, { left: (i.left === "auto" ? f.x - s.x + (t.offsetWidth >> 1) : parseInt(i.left, 10) + r) + "px", top: (i.top === "auto" ? f.y - s.y + (t.offsetHeight >> 1) : parseInt(i.top, 10) + r) + "px" }); } o.setAttribute("aria-role", "progressbar"); e.lines(o, e.opts); if (!n) { let l = 0, p = i.fps, c = p / i.speed, h = (1 - i.opacity) / (c * i.trail / 100), m = c / i.lines; (function y() { l++; for (let t = i.lines; t; t--) { let r = Math.max(1 - (l + t * m) % c * h, i.opacity); e.opacity(o, i.lines - t, r, i); } e.timeout = e.el && setTimeout(y, ~~(1e3 / p)); })(); } return e; }, stop: function () { let t = this.el; if (t) { clearTimeout(this.timeout); if (t.parentNode) t.parentNode.removeChild(t); this.el = i; } return this; }, lines: function (t, e) { let i = 0, o; function r(t, o) { return u(a(), { position: "absolute", width: e.length + e.width + "px", height: e.width + "px", background: t, boxShadow: o, transformOrigin: "left", transform: "rotate(" + ~~(360 / e.lines * i + e.rotate) + "deg) translate(" + e.radius + "px" + ",0)", borderRadius: (e.corners * e.width >> 1) + "px" }); } for (; i < e.lines; i++) { o = u(a(), { position: "absolute", top: 1 + ~(e.width / 2) + "px", transform: e.hwaccel ? "translate3d(0,0,0)" : "", opacity: e.opacity, animation: n && l(e.opacity, e.trail, i, e.lines) + " " + 1 / e.speed + "s linear infinite" }); if (e.shadow) s(o, u(r("#000", "0 0 4px " + "#000"), { top: 2 + "px" })); s(t, s(o, r(e.color, "0 0 1px rgba(0,0,0,.1)"))); } return t; }, opacity: function (t, e, i) { if (e < t.childNodes.length) t.childNodes[e].style.opacity = i; } }); (function () { function t(t, e) { return a("<" + t + ' xmlns="urn:schemas-microsoft.com:vml" class="spin-vml">', e); } let e = u(a("group"), { behavior: "url(#default#VML)" }); if (!p(e, "transform") && e.adj) { f.addRule(".spin-vml", "behavior:url(#default#VML)"); m.prototype.lines = function (e, i) { let o = i.length + i.width, r = 2 * o; function n() { return u(t("group", { coordsize: r + " " + r, coordorigin: -o + " " + -o }), { width: r, height: r }); } let a = -(i.width + i.length) * 2 + "px", f = u(n(), { position: "absolute", top: a, left: a }), l; function p(e, r, a) { s(f, s(u(n(), { rotation: 360 / i.lines * e + "deg", left: ~~r }), s(u(t("roundrect", { arcsize: i.corners }), { width: o, height: i.width, left: i.radius, top: -i.width >> 1, filter: a }), t("fill", { color: i.color, opacity: i.opacity }), t("stroke", { opacity: 0 })))); } if (i.shadow) for (l = 1; l <= i.lines; l++) p(l, -2, "progid:DXImageTransform.Microsoft.Blur(pixelradius=2,makeshadow=1,shadowopacity=.3)"); for (l = 1; l <= i.lines; l++) p(l); return s(e, f); }; m.prototype.opacity = function (t, e, i, o) { let r = t.firstChild; o = o.shadow && o.lines || 0; if (r && e + o < r.childNodes.length) { r = r.childNodes[e + o]; r = r && r.firstChild; r = r && r.firstChild; if (r) r.opacity = i; } }; } else n = p(e, "animation"); })(); if (typeof define === "function" && define.amd) define(function () { return m; }); else t.Spinner = m; }(window, document);
+﻿
+(function (n, t) { typeof exports == "object" && typeof module != "undefined" ? t(exports) : typeof define == "function" && define.amd ? define(["exports"], t) : (n = typeof globalThis != "undefined" ? globalThis : n || self, t(n.Spin = {})) })(this, function (n) { "use strict"; function i(n, t) { for (var i in t) n.style[i] = t[i]; return n } function r(n, t) { return typeof n == "string" ? n : n[t % n.length] } function e(n, t) { var e = Math.round(t.corners * t.width * 500) / 1e3 + "px", f = "none", h, u, v; for (t.shadow === !0 ? f = "0 2px 4px #000" : typeof t.shadow == "string" && (f = t.shadow), h = o(f), u = 0; u < t.lines; u++) { var c = ~~(360 / t.lines * u + t.rotate), l = i(document.createElement("div"), { position: "absolute", top: -t.width / 2 + "px", width: t.length + t.width + "px", height: t.width + "px", background: r(t.fadeColor, u), borderRadius: e, transformOrigin: "left", transform: "rotate(" + c + "deg) translateX(" + t.radius + "px)" }), a = u * t.direction / t.lines / t.speed; a -= 1 / t.speed; v = i(document.createElement("div"), { width: "100%", height: "100%", background: r(t.color, u), borderRadius: e, boxShadow: s(h, c), animation: 1 / t.speed + "s linear " + a + "s infinite " + t.animation }); l.appendChild(v); n.appendChild(l) } } function o(n) { for (var o, t, f = [], u = 0, e = n.split(","); u < e.length; u++)if (o = e[u], t = o.match(/^\s*([a-zA-Z]+\s+)?(-?\d+(\.\d+)?)([a-zA-Z]*)\s+(-?\d+(\.\d+)?)([a-zA-Z]*)(.*)$/), t !== null) { var s = +t[2], h = +t[5], i = t[4], r = t[7]; (s !== 0 || i || (i = r), h !== 0 || r || (r = i), i === r) && f.push({ prefix: t[1] || "", x: s, y: h, xUnits: i, yUnits: r, end: t[8] }) } return f } function s(n, t) { for (var i, u, f = [], r = 0, e = n; r < e.length; r++)i = e[r], u = h(i.x, i.y, t), f.push(i.prefix + u[0] + i.xUnits + " " + u[1] + i.yUnits + i.end); return f.join(", ") } function h(n, t, i) { var r = i * Math.PI / 180, u = Math.sin(r), f = Math.cos(r); return [Math.round((n * f + t * u) * 1e3) / 1e3, Math.round((-n * u + t * f) * 1e3) / 1e3,] } var t = undefined && undefined.__assign || function () { return t = Object.assign || function (n) { for (var t, r, i = 1, u = arguments.length; i < u; i++) { t = arguments[i]; for (r in t) Object.prototype.hasOwnProperty.call(t, r) && (n[r] = t[r]) } return n }, t.apply(this, arguments) }, u = { lines: 12, length: 7, width: 5, radius: 10, scale: 1, corners: 1, color: "#000", fadeColor: "transparent", animation: "spinner-line-fade-default", rotate: 0, direction: 1, speed: 1, zIndex: 2e9, className: "spinner", top: "50%", left: "50%", shadow: "0 0 1px transparent", position: "absolute" }, f = function () { function n(n) { n === void 0 && (n = {}); this.opts = t(t({}, u), n) } return n.prototype.spin = function (n) { return this.stop(), this.el = document.createElement("div"), this.el.className = this.opts.className, this.el.setAttribute("role", "progressbar"), i(this.el, { position: this.opts.position, width: 0, zIndex: this.opts.zIndex, left: this.opts.left, top: this.opts.top, transform: "scale(" + this.opts.scale + ")" }), n && n.insertBefore(this.el, n.firstChild || null), e(this.el, this.opts), this }, n.prototype.stop = function () { return this.el && (typeof requestAnimationFrame != "undefined" ? cancelAnimationFrame(this.animateId) : clearTimeout(this.animateId), this.el.parentNode && this.el.parentNode.removeChild(this.el), this.el = undefined), this }, n }(); n.Spinner = f; Object.defineProperty(n, "__esModule", { value: !0 }) });
 
 /******************************************************************************************************************/
 
-let opts = {
+var opts = {
     lines: 13, // The number of lines to draw
-    length: 7, // The length of each line
-    width: 4, // The line thickness
-    radius: 10, // The radius of the inner circle
+    length: 38, // The length of each line
+    width: 17, // The line thickness
+    radius: 35, // The radius of the inner circle 45
+    scale: 0.25, // Scales overall size of the spinner
+    corners: 1, // Corner roundness (0..1)
+    speed: 1, // Rounds per second
     rotate: 0, // The rotation offset
-    color: '#efefef', // #rgb or #rrggbb
-    speed: 0.75, // Rounds per second
-    trail: 50, // Afterglow percentage
-    shadow: true, // Whether to render a shadow
-    hwaccel: true, // Whether to use hardware acceleration
+    animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
+    direction: 1, // 1: clockwise, -1: counterclockwise
+    color: '#919191', // 919191, 080808. ffffff CSS color or array of colors
+    fadeColor: 'transparent', // CSS color or array of colors
+    top: '50%', // Top position relative to parent
+    left: '50%', // Left position relative to parent
+    shadow: '0 0 1px transparent', // Box-shadow for the lines
+    zIndex: 2000000000, // The z-index (defaults to 2e9)
     className: 'spinner', // The CSS class to assign to the spinner
-    zIndex: 2e9, // The z-index (defaults to 2000000000)
-    top: 'auto', // Top position relative to parent in px
-    left: 'auto' // Left position relative to parent in px
+    position: 'absolute', // Element positioning
 };
 
-let spinner = new Spinner(opts);
+let spinnerlist = new Map();
+let spinnerCount = new Map();
+
+function ajaxStart(progressAnchorElmId) {
+
+    if ((progressAnchorElmId) && (progressAnchorElmId.length > 0)) {
+        if (haveElm(progressAnchorElmId) == true) {
+
+            if (spinnerlist.has(progressAnchorElmId) == false) {
+
+                let spinner = new Spin.Spinner(opts).spin();
+                spinnerlist.set(progressAnchorElmId, spinner);
+                spinnerCount.set(progressAnchorElmId, 1);
+
+                let progressAnchorElm = getElm(progressAnchorElmId);
+                progressAnchorElm.style.position = "relative";
+                progressAnchorElm.appendChild(spinner.el);
+            }
+            else if (spinnerCount.has(progressAnchorElmId) == true) {
+                let currentCount = spinnerCount.get(progressAnchorElmId);
+                spinnerCount.set(progressAnchorElmId, currentCount + 1);
+
+                if (currentCount == 0) {
+                    let spinner = spinnerlist.get(progressAnchorElmId).spin();
+
+                    let progressAnchorElm = getElm(progressAnchorElmId);
+                    progressAnchorElm.style.position = "relative";
+                    progressAnchorElm.appendChild(spinner.el);
+                }
+            }
+        } else {
+            console.error("Progress Element ID [" + progressAnchorElmId + "] not found to Start");
+        }
+    }
+}
+
+function ajaxStop(progressAnchorElmId) {
+
+    if ((progressAnchorElmId) && (progressAnchorElmId.length > 0)) {
+        if (haveElm(progressAnchorElmId) == true) {
+            if (spinnerlist.has(progressAnchorElmId) == true) {
+                if (spinnerCount.has(progressAnchorElmId) == true) {
+                    let currentCount = spinnerCount.get(progressAnchorElmId);
+
+                    if (currentCount <= 1) {
+                        spinnerCount.set(progressAnchorElmId, 0);
+                        spinnerlist.get(progressAnchorElmId).stop();
+                    } else {
+                        spinnerCount.set(progressAnchorElmId, currentCount - 1);
+                    }
+                }
+            }            
+        }
+        else {
+            console.error("Progress Element ID [" + progressAnchorElmId + "] not found to Stop");
+        }
+    }
+}
 
 /******************************************************************************************************************/
 
@@ -49,75 +108,12 @@ function getCoords() {
 
 /******************************************************************************************************************/
 
-let ajax_cnt = 0; // Support for parallel AJAX requests
-
-function ajaxStart(progressAnchorElmId) {
-
-    if ((progressAnchorElmId) && (progressAnchorElmId.length > 0)) {
-        if (haveElm(progressAnchorElmId) == true) {
-
-            let spinnerCenter = document.createElement("div");
-            spinnerCenter.id = "spinner_center";
-            //spinnerCenter.style = "display:block;position:absolute;top:15px;right:50%;";
-            spinnerCenter.style.display = "block";
-            spinnerCenter.style.position = "absolute";
-            spinnerCenter.style.top = "15px";
-            spinnerCenter.style.right = "50%";
-
-            if (haveElm(progressAnchorElmId) == true) {
-                let anchorElm = getElm(progressAnchorElmId);
-                anchorElm.style.display = "inline-block";
-                anchorElm.style.position = "relative";
-                anchorElm.style.top = "-35px";
-                anchorElm.appendChild(spinnerCenter);
-            } else {
-                let _body = document.getElementsByTagName('body')[0];
-                _body.insertBefore(spinnerCenter, _body.firstChild);
-            }
-
-            spinner.spin(spinnerCenter);
-            ajax_cnt++;
-        } else {
-            console.error("Progress Element ID [" + progressAnchorElmId + "] not found to Start");
-        }
-    }
-}
-
-function ajaxStop(serverResponseJson, progressAnchorElmId, isAjax = true) {
-
-    if ((progressAnchorElmId) && (progressAnchorElmId.length > 0)) {
-        if (haveElm(progressAnchorElmId) == true) {
-            ajax_cnt--;
-            if (ajax_cnt <= 0) {
-                spinner.stop();
-                let anchorElm = getElm(progressAnchorElmId);
-                if (anchorElm) {
-                    if (haveElm('spinner_center') == true) {
-                        let spinnerCenter = getElm('spinner_center');
-                        if (spinnerCenter) spinnerCenter.parentNode.removeChild(spinnerCenter);
-                    }
-                    ajax_cnt = 0;
-                }
-            }
-
-            if (isAjax == true) {
-                filterShowAjaxTime(serverResponseJson);
-            }
-        }
-        else {
-            console.error("Progress Element ID [" + progressAnchorElmId + "] not found to Stop");
-        }
-    }
-}
-
-/******************************************************************************************************************/
-
 window.showLastAjaxCount = 7;
 
 function filterShowAjaxTime(serverResponseJson) {
     if ((serverResponseJson) && (serverResponseJson.ServiceInfo)) {
-        if ((serverResponseJson.ServiceInfo.toUpperCase().indexOf("ServerApi".toUpperCase()) === -1)
-            && (serverResponseJson.ServiceInfo.toUpperCase().indexOf("CurlApi".toUpperCase()) === -1)
+        if ((serverResponseJson.ServiceInfo.toUpperCase().indexOf("MetricsApi".toUpperCase()) === -1)
+            //&& (serverResponseJson.ServiceInfo.toUpperCase().indexOf("CurlApi".toUpperCase()) === -1)
         ) {
             recordAjaxTiming(serverResponseJson, false);
         }
@@ -270,6 +266,7 @@ function dopost(progressElmId, responseElmId, url, jsonContent, successCallback,
     let requestToken = "";
     let requestTokenElm = document.head.querySelector("[name=REQUESTTOKEN]");
     if (requestTokenElm) requestToken = requestTokenElm.content
+
     if (!clientRequestStartTimestamp) {
         clientRequestStartTimestamp = Math.floor(new Date().getTime());
     }
@@ -316,7 +313,8 @@ function dopost(progressElmId, responseElmId, url, jsonContent, successCallback,
         .then(parseJson)
         .then(data => {
 
-            ajaxStop(data, progressElmId, true);
+            ajaxStop(progressElmId);
+            filterShowAjaxTime(data);
 
             if ((data.hasOwnProperty('result') === true) && (data.result)) {
                 data.Result = data.result;
@@ -329,23 +327,9 @@ function dopost(progressElmId, responseElmId, url, jsonContent, successCallback,
             }
             if ((data.hasOwnProperty('Result') === true) && (data.Result)) {
                 let result = data.Result;
-                if (result.hasOwnProperty('error') === true) {
-                    if (typeof failureCallback === "function") {
-                        failureCallback(data);
-                    } else {
-                        if (haveElm(responseElmId) == true) {
-                            showText(getElm(responseElmId), result.error, 'red');
-                        }
-                    }
-                }
-                else {
-                    if (typeof successCallback === "function") {
-                        successCallback(data);
-                    }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback]();
-                    }
-                }
+                if (typeof successCallback === "function") {
+                    successCallback(data);
+                }               
             }
             else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
                 if (data.hasOwnProperty('Redirect') === true) {
@@ -354,42 +338,33 @@ function dopost(progressElmId, responseElmId, url, jsonContent, successCallback,
                             window.location.href = "/";
                         }, 1000);
                     } else {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            if (typeof failureCallback === "function") {
-                                failureCallback(data);
-                            } else {
-                                if (haveElm(responseElmId) == true) {
-                                    showText(getElm(responseElmId), error.Message, 'red');
-                                }
-                            }
-                        }
+                        if (typeof failureCallback === "function") {
+                            failureCallback(data);
+                        } 
                     }
                 } else {
                     let error = data.Error;
-                    if (error.hasOwnProperty('Message') === true) {
-                        if (typeof failureCallback === "function") {
-                            failureCallback(data);
-                        } else {
-                            if (haveElm(responseElmId) == true) {
-                                showText(getElm(responseElmId), error.Message, 'red');
-                            }
-                        }
+                    if (typeof failureCallback === "function") {
+                        failureCallback(data);
                     }
                 }
-            }
-            
+            }            
         })                  
         .catch((error) => {
-            ajaxStop(error, progressElmId, true);
+            ajaxStop(progressElmId);
+            filterShowAjaxTime(error);
             if ((error.hasOwnProperty('statusText') === true) && (error.hasOwnProperty('status') === true)) {
                 if (typeof failureCallback === "function") {
-                    failureCallback(data);
+                    failureCallback(error);
                 } else {
                     if (haveElm(responseElmId) == true) {
                         showText(responseElm, error.status + ' ' + error.statusText, 'red');
                     }
                 }
+            } else {
+                if (typeof failureCallback === "function") {
+                    failureCallback(error);
+                } 
             }
         });
 
@@ -402,6 +377,7 @@ function dopostform(progressElmId, responseElmId, url, dataContent, successCallb
     let requestToken = "";
     let requestTokenElm = document.head.querySelector("[name=REQUESTTOKEN]");
     if (requestTokenElm) requestToken = requestTokenElm.content
+
     if (!clientRequestStartTimestamp) {
         clientRequestStartTimestamp = Math.floor(new Date().getTime());
     }
@@ -450,22 +426,11 @@ function dopostform(progressElmId, responseElmId, url, dataContent, successCallb
             if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
                 let result = data.Result;
 
-                if (result.hasOwnProperty('error') === true) {
-                    if (typeof failureCallback === "function") {
-                        failureCallback(data);
-                    } else {
-                        if (haveElm(responseElmId) == true) {
-                            showText(getElm(responseElmId), result.error, 'red');
-                        }
-                    }
+                if (typeof successCallback === "function") {
+                    successCallback(data);
                 }
-                else {
-                    if (typeof successCallback === "function") {
-                        successCallback(data);
-                    }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback]();
-                    }
+                else if (window.hasOwnProperty(successCallback) == true) {
+                    window[successCallback]();
                 }
             }
             else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
@@ -475,35 +440,24 @@ function dopostform(progressElmId, responseElmId, url, dataContent, successCallb
                             window.location.href = "/";
                         }, 1000);
                     } else {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            if (typeof failureCallback === "function") {
-                                failureCallback(data);
-                            } else {
-                                if (haveElm(responseElmId) == true) {
-                                    showText(getElm(responseElmId), error.Message, 'red');
-                                }
-                            }
+                        if (typeof failureCallback === "function") {
+                            failureCallback(data);
                         }
                     }
                 } else {
                     let error = data.Error;
-                    if (error.hasOwnProperty('Message') === true) {
-                        if (typeof failureCallback === "function") {
-                            failureCallback(data);
-                        } else {
-                            if (haveElm(responseElmId) == true) {
-                                showText(getElm(responseElmId), error.Message, 'red');
-                            }
-                        }
+                    if (typeof failureCallback === "function") {
+                        failureCallback(data);
                     }
                 }
             }
 
-            ajaxStop(data, progressElmId, true);
+            ajaxStop(progressAnchorElmId);
+            filterShowAjaxTime(data);
         })                    
         .catch((error) => {
-            ajaxStop(error, progressElmId, true);
+            ajaxStop(progressElmId);
+            filterShowAjaxTime(error);
             if ((error.hasOwnProperty('statusText') === true) && (error.hasOwnProperty('status') === true)) {
                 if (typeof failureCallback === "function") {
                     failureCallback(data);
@@ -523,6 +477,7 @@ function doget(progressElmId, responseElmId, url, successCallback, failureCallba
     let requestToken = "";
     let requestTokenElm = document.head.querySelector("[name=REQUESTTOKEN]");
     if (requestTokenElm) requestToken = requestTokenElm.content
+
     if (!clientRequestStartTimestamp) {
         clientRequestStartTimestamp = Math.floor(new Date().getTime());
     }
@@ -570,22 +525,11 @@ function doget(progressElmId, responseElmId, url, successCallback, failureCallba
             if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
                 let result = data.Result;
 
-                if (result.hasOwnProperty('error') === true) {
-                    if (typeof failureCallback === "function") {
-                        failureCallback(data);
-                    } else {
-                        if (haveElm(responseElmId) == true) {
-                            showText(getElm(responseElmId), result.error, 'red');
-                        }
-                    }
+                if (typeof successCallback === "function") {
+                    successCallback(data);
                 }
-                else {
-                    if (typeof successCallback === "function") {
-                        successCallback(data);
-                    }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback]();
-                    }
+                else if (window.hasOwnProperty(successCallback) == true) {
+                    window[successCallback]();
                 }
             }
             else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
@@ -595,29 +539,16 @@ function doget(progressElmId, responseElmId, url, successCallback, failureCallba
                             window.location.href = "/";
                         }, 1000);
                     } else {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            if (typeof failureCallback === "function") {
-                                failureCallback(data);
-                            } else {
-                                if (haveElm(responseElmId) == true) {
-                                    showText(getElm(responseElmId), error.Message, 'red');
-                                }
-                            }
+                        if (typeof failureCallback === "function") {
+                            failureCallback(data);
                         }
                     }
                 } else {
                     let error = data.Error;
-                    if (error.hasOwnProperty('Message') === true) {
-                        if (typeof failureCallback === "function") {
-                            failureCallback(data);
-                        } else {
-                            if (haveElm(responseElmId) == true) {
-                                showText(getElm(responseElmId), error.Message, 'red');
-                            }
-                        }
+                    if (typeof failureCallback === "function") {
+                        failureCallback(data);
                     }
-                }
+                }                
             } else {
                 if (typeof successCallback === "function") {
                     successCallback(data);
@@ -626,10 +557,12 @@ function doget(progressElmId, responseElmId, url, successCallback, failureCallba
                     window[successCallback]();
                 }
             }
-            ajaxStop(data, progressElmId, true);
+            ajaxStop(progressElmId);
+            filterShowAjaxTime(data);
         })            
         .catch((error) => {
-            ajaxStop(error, progressElmId, true);
+            ajaxStop(progressElmId);
+            filterShowAjaxTime(error);
             if ((error.hasOwnProperty('statusText') === true) && (error.hasOwnProperty('status') === true)) {
                 if (typeof failureCallback === "function") {
                     failureCallback(data);
@@ -642,80 +575,85 @@ function doget(progressElmId, responseElmId, url, successCallback, failureCallba
         });
 }
 
-function dogetHtml(progressElmId, responseElmId, url, successCallback, failureCallback, clientRequestStartTimestamp) {
+//function dogetHtml(progressElmId, responseElmId, url, successCallback, failureCallback, clientRequestStartTimestamp) {
 
-    ajaxStart(progressElmId);
+//    ajaxStart(progressElmId);
 
-    let requestToken = document.head.querySelector("[name=REQUESTTOKEN]").content;
-    if (!clientRequestStartTimestamp) {
-        clientRequestStartTimestamp = Math.floor(new Date().getTime());
-    }
+//    let requestToken = "";
+//    let requestTokenElm = document.head.querySelector("[name=REQUESTTOKEN]");
+//    if (requestTokenElm) requestToken = requestTokenElm.content
 
-    const urlParams = (new URL(document.location)).searchParams;
-    const region = urlParams.get('region');
-    const instance = urlParams.get('instance');
-    const appname = urlParams.get('app');
-    if ((region) && (region.length > 0)) {
-        var regionUrl = new URL(url, document.baseURI);
-        if (regionUrl.searchParams.has('region') == false) {
-            regionUrl.searchParams.append('region', region);
-            url = regionUrl.toString();
-            console.log('Region Url:', url);
-        }
-    }
-    else if ((instance) && (instance.length > 0)) {
-        var instanceUrl = new URL(url, document.baseURI);
-        if (instanceUrl.searchParams.has('instance') == false) {
-            instanceUrl.searchParams.append('instance', region);
-            url = instanceUrl.toString();
-            console.log('Region Url:', url);
-        }
-    }
-    else if ((appname) && (appname.length > 0)) {
-        var appnameUrl = new URL(url, document.baseURI);
-        if (appnameUrl.searchParams.has('app') == false) {
-            appnameUrl.searchParams.append('app', appname);
-            url = appnameUrl.toString();
-            console.log('App Url:', url);
-        }
-    } const folder = urlParams.get('folder');
-    if ((folder) && (folder.length > 0)) {
-        var folderUrl = new URL(url, document.baseURI);
-        if (folderUrl.searchParams.has('folder') == false) {
-            folderUrl.searchParams.append('folder', folder);
-            url = folderUrl.toString();
-            console.log('Folder Url:', url);
-        }
-    }
+//    if (!clientRequestStartTimestamp) {
+//        clientRequestStartTimestamp = Math.floor(new Date().getTime());
+//    }
 
-    fetch(url, {
-        method: 'GET',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'text/html', //application/xml, text/plain, text/html, *.*
-            'X-REQUEST-Token': requestToken,
-            'X-CLIENT_REQUEST_START_TIMESTAMP': clientRequestStartTimestamp
-        },
-    })
-        .then(response => response.text())
-        .then(data => {
-            ajaxStop(data, progressElmId, true);
+//    const urlParams = (new URL(document.location)).searchParams;
+//    const region = urlParams.get('region');
+//    const instance = urlParams.get('instance');
+//    const appname = urlParams.get('app');
+//    if ((region) && (region.length > 0)) {
+//        var regionUrl = new URL(url, document.baseURI);
+//        if (regionUrl.searchParams.has('region') == false) {
+//            regionUrl.searchParams.append('region', region);
+//            url = regionUrl.toString();
+//            console.log('Region Url:', url);
+//        }
+//    }
+//    else if ((instance) && (instance.length > 0)) {
+//        var instanceUrl = new URL(url, document.baseURI);
+//        if (instanceUrl.searchParams.has('instance') == false) {
+//            instanceUrl.searchParams.append('instance', region);
+//            url = instanceUrl.toString();
+//            console.log('Region Url:', url);
+//        }
+//    }
+//    else if ((appname) && (appname.length > 0)) {
+//        var appnameUrl = new URL(url, document.baseURI);
+//        if (appnameUrl.searchParams.has('app') == false) {
+//            appnameUrl.searchParams.append('app', appname);
+//            url = appnameUrl.toString();
+//            console.log('App Url:', url);
+//        }
+//    } const folder = urlParams.get('folder');
+//    if ((folder) && (folder.length > 0)) {
+//        var folderUrl = new URL(url, document.baseURI);
+//        if (folderUrl.searchParams.has('folder') == false) {
+//            folderUrl.searchParams.append('folder', folder);
+//            url = folderUrl.toString();
+//            console.log('Folder Url:', url);
+//        }
+//    }
 
-            if (typeof successCallback === "function") {
-                successCallback(data);
-            }
-            else if (window.hasOwnProperty(successCallback) == true) {
-                window[successCallback]();
-            }
-        })                 
-        .catch((error) => {
-            ajaxStop(error, progressElmId, true);
+//    fetch(url, {
+//        method: 'GET',
+//        credentials: 'same-origin',
+//        headers: {
+//            'Content-Type': 'text/html', //application/xml, text/plain, text/html, *.*
+//            'X-REQUEST-Token': requestToken,
+//            'X-CLIENT_REQUEST_START_TIMESTAMP': clientRequestStartTimestamp
+//        },
+//    })
+//        .then(response => response.text())
+//        .then(data => {
+//            ajaxStop(progressElmId);
+//            filterShowAjaxTime(data);
 
-            if (typeof failureCallback === "function") {
-                failureCallback(data);
-            }
-        });
-}
+//            if (typeof successCallback === "function") {
+//                successCallback(data);
+//            }
+//            else if (window.hasOwnProperty(successCallback) == true) {
+//                window[successCallback]();
+//            }
+//        })                 
+//        .catch((error) => {
+//            ajaxStop(progressElmId);
+//            filterShowAjaxTime(error);
+
+//            if (typeof failureCallback === "function") {
+//                failureCallback(data);
+//            }
+//        });
+//}
 
 //(document).ajaxComplete(function (event, request, settings) {
 //    console.log(settings.url + " completed");

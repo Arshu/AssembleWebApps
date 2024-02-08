@@ -1,5 +1,9 @@
 <ul class="menu" style="{{$NavBarBackgroundStyle}};">
-    <li class="menulogo"><a href="/">{{$SiteTitle}}</a></li>
+    <li class="menulogo">
+        <a href="#" data-action="refreshViewPageHtml" data-progress="progress" data-response="response" data-appsite="{{$DefaultAppSite}}" data-appview="{{$DefaultAppView}}" data-component="mainNav, mainContent">
+            {{$SiteTitle}}
+        </a>
+    </li>
     {{@NAVList}}
 
     {{@HaveSubMenu}}

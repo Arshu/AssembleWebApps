@@ -99,12 +99,12 @@
                                         if (jsonInfo.hasOwnProperty('ChangedAppView') === true) {
                                             changedAppView = jsonInfo.ChangedAppView;
                                         }
-                                        let changedPageName = "";
-                                        if (jsonInfo.hasOwnProperty('ChangedPageName') === true) {
-                                            changedPageName = jsonInfo.ChangedPageName;
+                                        let changedAppFile = "";
+                                        if (jsonInfo.hasOwnProperty('ChangedAppFile') === true) {
+                                            changedAppFile = jsonInfo.ChangedAppFile;
                                         }
-                                        if ((changedAppSite.length > 0) && (changedAppView.length > 0) && (changedPageName.length > 0)) {
-                                            refreshComponentChange(changedAppSite, changedAppView, changedPageName);
+                                        if ((changedAppSite.length > 0) && (changedAppView.length > 0) && (changedAppFile.length > 0)) {
+                                            refreshComponentChange(changedAppSite, changedAppView, changedAppFile);
                                         }
                                         else
                                         {
@@ -148,8 +148,8 @@
         }
     }
 
-    function refreshComponentChange(changedAppSiteVal, changedAppViewVal, changedPageName) {
-        refreshViewComponentHtml(gComponentChangeProgressElmId, gComponentChangeResponseElmId, changedAppSiteVal, changedAppViewVal, changedPageName, {}, false, '', '');
+    function refreshComponentChange(changedAppSiteVal, changedAppViewVal, changedAppFile) {
+        refreshViewComponentHtml(gComponentChangeProgressElmId, gComponentChangeResponseElmId, changedAppSiteVal, changedAppViewVal, changedAppFile, {}, false, '', '');
     }
 
     function resetComponentChangeTimestamp() {

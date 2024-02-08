@@ -1,0 +1,225 @@
+﻿
+
+<div style="margin: 5px 0px; " class="flex-input-wrap">
+    <button class="flex-item-stretch border" style="height:40px;" onclick="if (haveElm('appDeploy') == true) { hideElm('appDeploy'); }; if (haveElm('appSync') == true) { hideElm('appSync'); }; if (haveElm('appUpdate') == true) { hideElm('appUpdate'); }; clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); if (isHiddenElm('appClone') == true) { retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneAppName').value, 'cloneAppOrganization', 'cloneAppName', 'cloneImageName', 'cloneTagName', 'cloneReferenceRegionsTemplate', 'cloneReferenceRegionsDiv', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvAutoDestroyAfterXMin', 'cloneOptionsDiv', 'doCloneApp', function () { showElm('appClone'); getElm('deleteCloneApp').removeAttribute('disabled'); }); } else { hideElm('appClone'); }">
+        Clone App <div id="appCloneProgress"></div>
+    </button>
+</div>
+
+<div class="notification" id="appCloneResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+    <button class="delete" onclick="hideElm('appCloneResponseContainer')"></button>
+    <div id="appCloneResponse"></div>
+</div>
+
+<div id="appClone" class="border" style="margin: 5px 0px;padding: 5px; display: none;position:relative;">
+
+    <label style="position:absolute;left:3px;top:-6px; margin: 5px 0px; text-align: right">
+        <input id="cloneShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="hideElm('cloneRestrictionsDiv'); toggleElm('cloneReferenceRegionDiv'); toggleElm('cloneImageDiv'); toggleElm('cloneEnvironmentalVariableDiv'); toggleElm('orgNetworkDiv'); if (this.checked == true) { hideElm('cloneOptionsDiv') } else { if (getElm('cloneMaxMachinesPerRegion').value == 1) { hideElm('cloneOptionsDiv'); } }">
+    </label>
+
+    <fieldset class="border" style="margin-top:10px;display:none;">
+        <legend>User</legend>
+
+        <label style="width:100%;margin: 0px 5px;">
+            Email Address
+            <span style="color:orangered;font-size:small;">
+                Optional to restrict cloning or deletion of app to only email address which cloned the app
+            </span>
+        </label>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <input id="cloneEmailAddress" class="flex-item-stretch border-left" style="height: 38px;" autocomplete="none" type="text" placeholder="Your Email" value="" />
+            <button id="cloneSetUp2FA" class="border-right button" style="background-color: #209cee; width: 100px; height: 40px; font-size: medium; " onclick="">
+                Set up 2FA
+            </button>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <input id="cloneEmailAddressOTP" class="flex-item-stretch border-left" style="height: 38px;" autocomplete="none" type="text" placeholder="Your OTP/2FA" value="" />
+            <button id="cloneSendForOTP" class="border-right button" style="background-color: #209cee; width: 100px; height: 40px; font-size: medium; " onclick="">
+                Send for OTP
+            </button>
+        </div>
+
+    </fieldset>
+
+    <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <label style="width: 100%; margin: 5px 0px; cursor: pointer;" onclick="openAppUrl('cloneAppName')">Clone App Name</label>
+        <input id="cloneAppName" class="flex-item-stretch border-left" style="height: 38px; background-color: gray;" autocomplete="none" type="text" placeholder="Deploy App Name" readonly />
+        <button class="border-right button" style="background-color: #209cee; width:110px; height: 40px; " onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneAppName').value, 'cloneAppOrganization', 'cloneAppName', 'cloneImageName', 'cloneTagName', 'cloneReferenceRegionsTemplate', 'cloneReferenceRegionsDiv', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvAutoDestroyAfterXMin', 'cloneOptionsDiv', 'doCloneApp', function () { getElm('deleteCloneApp').removeAttribute('disabled'); } );">
+            Refresh
+        </button>
+    </div>
+
+    <fieldset id="cloneRestrictionsDiv" class="border" style="display:none;">
+        <legend>Deploy Restrictions</legend>
+
+        <div class="flex-content-spaced" style="margin: 0px;">
+            <label class="flex-item-stretch">Max Regions Per App</label>
+            <label class="flex-item-stretch">Max Machines Per App</label>
+        </div>
+        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="cloneMaxRegionsPerApp" class="border flex-item-stretch" style="width: 48%; height: 40px; margin: 0 0 0 5px; background-color: gray; " type="number" placeholder="Max Regions per App" value="1" readonly />
+            <input id="cloneMaxMachinesPerApp" class="border flex-item-stretch" style="width: 48%; height: 40px; background-color: gray; margin: 0 5px 0 0;" type="number" placeholder="Max Machine Count per App" value="1" readonly />
+        </div>
+
+    </fieldset>
+
+    <div id="cloneReferenceRegionsTemplate" style="display:none;">
+        <div style="min-width: 50px; margin: 5px 5px; cursor: pointer;" onclick="openAppRegionUrl('{AppName}', '{Region}');">
+            <label style="padding: 7px 0px 0 0px; ">
+                <input name="{RegionName}" value="{Region}" type="radio" checked="checked"> {RegionText}
+            </label>
+        </div>
+    </div>
+
+    <fieldset id="cloneReferenceRegionDiv" class="border" style="display:none;">
+        <legend>Clone Reference Region</legend>
+
+        <div id="cloneReferenceRegionsDiv" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
+        </div>
+
+    </fieldset>
+
+    <fieldset id="cloneImageDiv" class="border" style="display:none;">
+        <legend>Clone Image</legend>
+
+        <div class="flex-content-spaced" style="margin: 0px;">
+            <label class="flex-item-stretch">Image(s) Name</label>
+            <label class="flex-item-stretch">Tag Name</label>
+        </div>
+        <div class="flex-content-spaced" style="margin: 0px; max-width: 100%;">
+            <select id="cloneImageName" class="flex-item-stretch border" style="height: 30px; margin: 0 5px 0 0px; padding-left:5px;" title="Clone Docker Image">
+            </select>
+            <input id="cloneTagName" class="border" style="width: 48%; height: 40px; margin: 0 0 0 5px;" type="text" placeholder="Your Tag Name" value="latest" />
+        </div>
+
+    </fieldset>
+
+    <fieldset id="cloneEnvironmentalVariableDiv" class="border" style="display: none;">
+        <legend>Environmental Variables</legend>
+
+        <div class="flex-content-spaced" style="margin: 0px;">
+            <label class="flex-item-stretch">Initial Timeout (sec)</label>
+            <label class="flex-item-stretch">Idle Timeout (sec)</label>
+        </div>
+        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="cloneEnvInitialTimeout" class="border" style="width:48%;height: 40px; margin:0 5px 0 0;" type="number" placeholder="Your Initial Timeout" value="30" />
+            <input id="cloneEnvIdleTimeout" class="border" style="width: 48%; height: 40px; margin: 0 0 0 5px " type="number" placeholder="Your Idle Timeout" value="30" />
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 0px;">
+            <label class="flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Load AppData
+                <input id="cloneEnvLoadAppData" type="checkbox" title="Load App Data" style="margin-left: 5px;">
+            </label>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;margin: 5px 0px;">Auto Destroy After x Mins</label>
+            <span style="width:100%;font-size:xx-small;color:blue;">0 is skip Auto Destroy</span>
+            <input id="cloneEnvAutoDestroyAfterXMin" class="flex-item-stretch border-left" style="height: 38px;" type="number" placeholder="Auto Destroy after x Mins" value="0" />
+        </div>
+
+    </fieldset>
+
+    <div style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; color:orangered; font-size:x-small ">
+        <div>
+            Clone Per Team : <span id="clonePerTeam">0</span> (Max : <span id="maxClonePerTeam">0</span>)
+        </div>
+        <div>
+            Clone per Day : <span id="clonePerDay">0</span> (Max :<span id="maxClonePerDay">0</span>)
+        </div>
+        <div>
+            Clone per Hour : <span id="clonePerHour">0</span> (Max: <span id="maxClonePerHour">0</span>)
+        </div>
+    </div>
+
+    <div id="cloneRegionsTemplate" style="display:none;">
+        <div style="min-width:50px; margin: 5px 5px;">
+            <label style="padding: 7px 0px 0 0px;">
+                <input name="{RegionName}" value="{Region}" type="checkbox" checked="checked"> {RegionText}
+            </label>
+        </div>
+    </div>
+
+    <div class="flex-content-wrap" style="margin: 5px 0px;">
+        <label style="width: 50%; margin: 5px 0px; text-align: left;">
+            Clone Region(s)
+        </label>
+        <label style="width: 50%; margin: 5px 0px; text-align: right">
+            All
+            <input id="selectAllCloneRegion" type="checkbox" title="All Regions" onclick="appCloneSelectAll('cloneRegion', getElm('selectAllCloneRegion').checked)">
+        </label>
+        <div id="cloneRegions" class="border" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
+        </div>
+    </div>
+
+    <fieldset id="cloneOptionsDiv" class="border" style="display:none;">
+        <legend>Clone Options Per Region</legend>
+
+        <div class="flex-content-spaced" style="margin: 0px;">
+            <label style="width:100%;margin: 5px 0px;">Max Machine(s)</label>
+            <label style="width:100%;margin: 5px 0px;">Clone Machine Count</label>
+        </div>
+
+        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="cloneMaxMachinesPerRegion" class="flex-item-stretch border" style="width: 48%; height: 38px; background-color: gray;" autocomplete="none" type="number" placeholder="Max Machine Count per Region" value="1" readonly />
+            <input id="cloneMachineCountPerRegion" class="border flex-item-stretch" style="width: 48%; height: 38px; margin: 0 0 0 5px " type="number" placeholder="Clone Machine Count Per Region" value="1" />
+        </div>
+
+        <div style="display:none;">
+            <div class="flex-content-spaced" style="margin: 0px;">
+                <label class="flex-item-stretch">Destroy if not in Region</label>
+            </div>
+            <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
+                <input id="cloneDestroyIfNotInRegion" class="border flex-item-stretch" type="checkbox" title="Destroy if not in Clone region" style="margin-left: 5px; ">
+            </div>
+        </div>
+
+    </fieldset>
+
+
+    <fieldset id="orgNetworkDiv" class="border" style="display:none;">
+        <legend>App Info</legend>
+
+        <div class="flex-content-spaced" style="margin: 0px;">
+            <label class="flex-item-stretch">App Organisation</label>
+            <label class="flex-item-stretch">App Network</label>
+        </div>
+        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <select id="cloneAppOrganization" class="flex-item-stretch border" style="height: 30px; margin: 0 5px 0 0px; padding-left:5px;" title="User Org Slug Name">
+            </select>
+            <input id="cloneAppNetwork" class="border flex-item-stretch" style="width: 48%; height: 40px; margin: 0 5px 0 0;" type="number" placeholder="Optional App Network" value="" />
+        </div>
+
+    </fieldset>
+
+    <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <label style="width:100%;margin: 5px 0px;cursor: pointer;" onclick="openAppUrl('newAppName')">New App Name</label>
+        <input id="newAppName" class="flex-item-stretch border-left" style="height: 38px; " autocomplete="none" type="text" placeholder="Your Clone App Name" value="" />
+        <button id="deleteCloneApp" class="border-right button" style="background-color: #209cee; width: 110px; height: 40px; " onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); deleteCloneApp('doAppDeleteProgress', 'doAppCloneResponse', getElm('newAppName').value, 'deleteCloneApp');">
+            Delete <div id="doAppDeleteProgress"></div>
+        </button>
+    </div>
+
+    <div id="doAppCloneResponseContainer" class="notification" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="delete" onclick="hideElm('doAppCloneResponseContainer');hideElm('cloneDetailResponse')"></button>
+        <div id="doAppCloneResponse"></div>
+    </div>
+
+    <div id="cloneDetailResponse" style="font-size:x-small;text-align:center">
+
+    </div>
+
+    <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <button id="doCloneApp" class="button border" style="background-color: #209cee; width: 110px; height: 40px;" tabindex="4" disabled="disabled"
+                onclick="cloneApp('doAppCloneProgress', 'doAppCloneResponse', getElm('newAppName').value, getElm('cloneAppOrganization').value, getElm('cloneAppNetwork').value, getElm('cloneAppName').value, getElm('cloneImageName').value, getElm('cloneTagName').value, 'cloneReferenceRegion', 'cloneRegion', getElm('cloneEnvInitialTimeout').value, getElm('cloneEnvIdleTimeout').value, getElm('cloneEnvLoadAppData').checked, getElm('cloneEnvAutoDestroyAfterXMin').value, getElm('cloneMachineCountPerRegion').value, 'doCloneApp', 'cloneMaxMachinesPerRegion', 'cloneDetailResponse')">
+            Clone App <div id="doAppCloneProgress"></div>
+        </button>
+
+    </div>
+
+</div>
+
+{{AppCloneJs}}

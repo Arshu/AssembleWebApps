@@ -2,17 +2,16 @@
 
 <div class="container">
 
+    {{AppIdle}}
+
+    {{@ShowAppManage}}
+    {{AppManage}}
+    {{/ShowAppManage}}
+
     {{ServerMetrics}}
 
-    {{@ShowServerTool}}
-        {{AppDeploy}}
-        {{AppUpdate}}
-        {{AppList}}
-    {{/ShowServerTool}}
-
     {{@ShowCurlTool}}
-    {{CurlCmd}}
-    {{CurlMetrics}}
+    {{CurlTool}}
     {{/ShowCurlTool}}
 
 </div>

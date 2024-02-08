@@ -1,0 +1,41 @@
+﻿
+
+
+<div id="appOwner" class="border" style="margin: 5px 0px;padding: 5px; position:relative;">
+
+    <fieldset class="border" style="margin-top:10px;display:none;">
+        <legend>User</legend>
+
+        <label style="width:100%;margin: 0px 5px;">
+            Email Address
+            <span style="color:orangered;font-size:small;">
+                Optional to restrict cloning or deletion of app to only email address which cloned the app
+            </span>
+        </label>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <input id="cloneEmailAddress" class="flex-item-stretch border-left" style="height: 38px;" autocomplete="none" type="text" placeholder="Your Email" value="" />
+            <button id="cloneSetUp2FA" class="border-right button" style="background-color: #209cee; width: 100px; height: 40px; font-size: medium; " onclick="">
+                Set up 2FA
+            </button>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <input id="cloneEmailAddressOTP" class="flex-item-stretch border-left" style="height: 38px;" autocomplete="none" type="text" placeholder="Your OTP/2FA" value="" />
+            <button id="cloneSendForOTP" class="border-right button" style="background-color: #209cee; width: 100px; height: 40px; font-size: medium; " onclick="">
+                Send for OTP
+            </button>
+        </div>
+
+    </fieldset>
+
+
+    <div id="doAppOwnerResponseContainer" class="notification" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="delete" onclick="hideElm('doAppOwnerResponseContainer');hideElm('cloneDetailResponse')"></button>
+        <div id="doAppOwnerResponse"></div>
+    </div>
+
+
+</div>
+
+{{AppOwnerJs}}

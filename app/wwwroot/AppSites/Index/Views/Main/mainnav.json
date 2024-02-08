@@ -1,21 +1,21 @@
 {
-  "NAVList": [        
+  "NAVList": [
     {
       "NavTitle": "Contact Us",
-      "NavUrl": "#/Index/Contact",
+      "NavUrl": "#",
       "NavAppSite": "Index",
       "NavAppView": "Contact",
-      "NavAppViewIDs": "mainNav, mainContent",
+      "NavAppViewIDs": "Nav, Content",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []
     },
     {
-      "NavTitle": "What is this?",
-      "NavUrl": "/Arshu/Help",
-      "NavAppSite": "",
-      "NavAppView": "",
-      "NavAppViewIDs": "",
+      "NavTitle": "Help",
+      "NavUrl": "#/Arshu/Help",
+      "NavAppSite": "Arshu",
+      "NavAppView": "Help",
+      "NavAppViewIDs": "Nav, Content, Footer",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []
@@ -36,7 +36,7 @@
     "NavUrl": "/Index/Main",
     "NavAppSite": "Index",
     "NavAppView": "Main",
-    "NavAppViewIDs": "mainContent",
+    "NavAppViewIDs": "Content",
     "NavActive": "",
     "HaveSubMenu": false,
     "SubNAVList": []
@@ -46,7 +46,7 @@
     "NavUrl": "/Index/Main",
     "NavAppSite": "Index",
     "NavAppView": "Main",
-    "NavAppViewIDs": "mainContent",
+    "NavAppViewIDs": "Content",
     "NavActive": ""
   }
 }

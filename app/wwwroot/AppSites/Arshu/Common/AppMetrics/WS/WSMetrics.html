@@ -8,7 +8,7 @@
 </style>
 <div style="margin: 0 auto;position:relative; overflow:auto">
     <div class="flex-input-wrap border" style="margin: 5px 0px;">
-        <select class="flex-item-stretch border-left" style="height: 30px; padding: 0 0 0 10px; background-color: white;" id="wsMetricsInstance" onchange="fillWSMetricsServiceMethod('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsServiceMethod', function () { fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 1); }); })">
+        <select class="flex-item-stretch border-left" style="height: 30px; padding: 0 0 0 10px; background-color: white;" id="wsMetricsInstance" onchange="fillWSMetricsServiceMethod('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsServiceMethod', function () { fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 'metricsResponse', 1); }); })">
         </select>
         <span id="wsMetricsCached" class="border-right" style="background-color: white; padding-top: 5px; padding-right: 10px;">✓</span>
     </div>
@@ -23,38 +23,38 @@
         <div id="mergeWSResponse"></div>
     </div>
     <div class="flex-input-wrap" style="margin: 5px 0px;">
-        <div class="border-left" style="font-size: small; width: 60px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillWSMetricsServiceMethod('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsServiceMethod', function () { fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 1); }); })">
+        <div class="border-left" style="font-size: small; width: 60px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillWSMetricsServiceMethod('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsServiceMethod', function () { fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 'metricsResponse', 1); }); })">
             WS Mtd
             <div style="height:18px;padding-left:13px;">
                 <svg fill="none" stroke="currentColor" style="height:100%;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
             </div>
             <span id="wsMetricUrlProgress"></span>
         </div>
-        <select class="border-right flex-item-stretch" style="height: 30px; max-width: calc(100vw - 96px); padding: 0 0 0 10px; background-color: white;" id="wsMetricsServiceMethod" onchange="fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 1);  })">
+        <select class="border-right flex-item-stretch" style="height: 30px; max-width: calc(100vw - 96px); padding: 0 0 0 10px; background-color: white;" id="wsMetricsServiceMethod" onchange="fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 'metricsResponse', 1);  })">
         </select>
     </div>
 
     <div class="flex-input-wrap" style="margin: 5px 0px;">
-        <div class="border-left" style="font-size: small; width: 60px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 1);  })">
+        <div class="border-left" style="font-size: small; width: 60px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 'metricsResponse', 1);  })">
             Metrics
             <div style="height:18px;padding-left:13px;">
                 <svg fill="none" stroke="currentColor" style="height:100%;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
             </div>
         </div>
-        <select class="flex-item-stretch border-top-bottom" style="height: 30px; padding:0 0 0 10px; background-color: white;" id="wsMetricsType" onchange="refreshWSMetricsChart('previousWSMetricProgress', 1)">
+        <select class="flex-item-stretch border-top-bottom" style="height: 30px; padding:0 0 0 10px; background-color: white;" id="wsMetricsType" onchange="refreshWSMetricsChart('previousWSMetricProgress', 'metricsResponse', 1)">
         </select>
-        <select class="flex-item-stretch border-right" style="height: 30px; max-width:50px; padding:0 0 0 10px; background-color: white;" id="wsMetricsCount" onchange="refreshWSMetricsChart('nextWSMetricProgress', 1)">
+        <select class="flex-item-stretch border-right" style="height: 30px; max-width:50px; padding:0 0 0 10px; background-color: white;" id="wsMetricsCount" onchange="refreshWSMetricsChart('nextWSMetricProgress', 'metricsResponse', 1)">
             <option selected="selected">5</option>
             <option>10</option>
             <option>25</option>
             <option>50</option>
             <option>100</option>
         </select>
-        <button class="border" style="width:35px;height:38px" id="previousWSMetric" disabled="disabled" onclick="refreshWSMetricsChart('previousWSMetricProgress', getElm('previousWSMetric').getAttribute('data-previousws'))">
+        <button class="border" style="width:35px;height:38px" id="previousWSMetric" disabled="disabled" onclick="refreshWSMetricsChart('previousWSMetricProgress', 'metricsResponse', getElm('previousWSMetric').getAttribute('data-previousws'))">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path></svg>
             <span id="previousWSMetricProgress"></span>
         </button>
-        <button class="border" style="width:35px;height:38px" id="nextWSMetric" disabled="disabled" onclick="refreshWSMetricsChart('nextWSMetricProgress', getElm('nextWSMetric').getAttribute('data-nextws'))">
+        <button class="border" style="width:35px;height:38px" id="nextWSMetric" disabled="disabled" onclick="refreshWSMetricsChart('nextWSMetricProgress', 'metricsResponse', getElm('nextWSMetric').getAttribute('data-nextws'))">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <span id="nextWSMetricProgress"></span>
         </button>

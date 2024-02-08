@@ -42,9 +42,6 @@
             if (typeof successCallback === "function") {
                 successCallback();
             }
-            else if (window.hasOwnProperty(successCallback) == true) {
-                window[successCallback]();
-            }
         }
     }
 
@@ -112,9 +109,6 @@
 
                                 if (typeof successCallback === "function") {
                                     successCallback();
-                                }
-                                else if (window.hasOwnProperty(successCallback) == true) {
-                                    window[successCallback]();
                                 }
                             }
                         }
@@ -196,9 +190,6 @@
 
                                 if (typeof successCallback === "function") {
                                     successCallback();
-                                }
-                                else if (window.hasOwnProperty(successCallback) == true) {
-                                    window[successCallback]();
                                 }
                             }
                         }

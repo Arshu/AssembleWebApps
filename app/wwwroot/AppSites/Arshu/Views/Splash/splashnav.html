@@ -1,9 +1,7 @@
-<ul class="menu" id="navMenu" style="{{$NavBarBackgroundStyle}}">
-
+<ul class="menu" id="navMenu" style="{{$NavBarBackgroundStyle}}">   
     <li class="menulogo">
-        <a href="/" title="{{$ParentViewID}}">
+        <a href="/" {{$ParentViewID}} data-action="refreshViewPageHtml" data-progress="progress" data-response="response" data-appsite="{{$DefaultAppSite}}" data-appview="{{$DefaultAppView}}" data-component="mainNav, mainContent">
             {{$SiteTitle}}
         </a>
     </li>
-      
 </ul>

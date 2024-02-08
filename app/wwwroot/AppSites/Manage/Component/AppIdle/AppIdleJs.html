@@ -1,0 +1,50 @@
+﻿
+<script type="text/javascript">
+
+    window.ajaxid = 0;
+   
+    function setAppIdleShutdownTime(progressElmId, responseElmId, idleTimeVal, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid === true) {
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'SetIdleTimeout';
+
+            let apiParams = {
+                "idleTimeInSec": idleTimeVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green');
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                }                
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");            
+        }
+
+        return false;
+    }
+
+</script>
+

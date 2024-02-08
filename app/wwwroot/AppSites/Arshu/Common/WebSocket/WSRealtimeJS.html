@@ -7,6 +7,7 @@
     const url = new URL(document.location);
     const keepAliveInterval = 1000 * parseInt('{{$KeepAliveInterval}}'); // 15 Seconds
     const serverTimeout = 1000 * parseInt('{{$ServerTimeout}}'); // 60 Seconds
+
     let websocketPtotocol = "ws:";
     if (location.protocol === 'https:') { 
         websocketPtotocol = "wss:";
@@ -164,7 +165,10 @@
             if (location.protocol !== 'https:') {
                 isSecure = false;
             }
-            let requestToken = document.head.querySelector("[name=REQUESTTOKEN]").content;
+            let requestToken = "";
+            let requestTokenElm = document.head.querySelector("[name=REQUESTTOKEN]");
+            if (requestTokenElm) requestToken = requestTokenElm.content
+
             if (!clientRequestStartTimestamp) {
                 clientRequestStartTimestamp = Math.floor(new Date().getTime());
             }
@@ -220,7 +224,7 @@
             globalWebSocketConnection.send(messageText);
 
             if (refreshAppDomain != "") {
-                ajaxStop(returnJson, progressElmId, false);
+                ajaxStop(progressElmId);
             }
             var returnCallWSApiHandler = function (event) {
                 let returnMessage = JSON.parse(event.data);
@@ -236,8 +240,8 @@
                         let returnJson = returnMessage.arg1;
                         let connectionInfo = returnMessage.arg2;
 
-                        ajaxStop(returnJson, progressElmId, false);
-                        filterShowWSTime(returnJson, false);
+                        ajaxStop(progressElmId);
+                        filterShowWSTime(returnJson);
 
                         if (typeof successCallback === "function") {
                             successCallback(returnJson);
@@ -288,7 +292,7 @@
     }
     
     function onRefreshView(returnJson, connectionInfo) {
-        filterShowWSTime(returnJson, false);
+        filterShowWSTime(returnJson);
 
         let changedAppSite = "";
         if (returnJson.hasOwnProperty('ChangedAppSite') === true) {
@@ -298,9 +302,9 @@
         if (returnJson.hasOwnProperty('ChangedAppView') === true) {
             changedAppView = returnJson['ChangedAppView'];
         }
-        let changedPageNameOrPath = "";
-        if (returnJson.hasOwnProperty('ChangedPageNameOrPath') === true) {
-            changedPageNameOrPath = returnJson['ChangedPageNameOrPath'];
+        let changedAppFileOrPath = "";
+        if (returnJson.hasOwnProperty('ChangedAppFileOrPath') === true) {
+            changedAppFileOrPath = returnJson['ChangedAppFileOrPath'];
         }
        
         if (returnJson.hasOwnProperty('ChangedJson') == true) {
@@ -338,10 +342,10 @@
                 }
             }
         } else {
-            console.log(`WSRefreshView With AppSite ${currentAppSite}, AppView ${currentAppView} and PageNameOrPath ${changedPageNameOrPath}`);
+            console.log(`WSRefreshView With AppSite ${currentAppSite}, AppView ${currentAppView} and AppFileOrPath ${changedAppFileOrPath}`);
 
-            if ((currentAppSite.length > 0) && (currentAppView.length > 0) && (changedPageNameOrPath.length > 0)) {
-                refreshViewComponentHtml('progress', 'response', currentAppSite, currentAppView, changedPageNameOrPath, {}, false, false, '', '')
+            if ((currentAppSite.length > 0) && (currentAppView.length > 0) && (changedAppFileOrPath.length > 0)) {
+                refreshViewComponentHtml('progress', 'response', currentAppSite, currentAppView, changedAppFileOrPath, {}, false, false, '', '')
             }
         }
     }
@@ -353,8 +357,8 @@
 
     function filterShowWSTime(serverResponseJson) {
         if ((serverResponseJson) && (serverResponseJson.ServiceInfo)) {
-            if ((serverResponseJson.ServiceInfo.toUpperCase().indexOf("ServerApi".toUpperCase()) === -1)
-                && (serverResponseJson.ServiceInfo.toUpperCase().indexOf("CurlApi".toUpperCase()) === -1)
+            if ((serverResponseJson.ServiceInfo.toUpperCase().indexOf("MetricsApi".toUpperCase()) === -1)
+                //&& (serverResponseJson.ServiceInfo.toUpperCase().indexOf("CurlApi".toUpperCase()) === -1)
             ) {
                 recordWSTiming(serverResponseJson, false);
             }

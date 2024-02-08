@@ -1,0 +1,70 @@
+﻿
+
+<div style="margin: 5px 0px; " class="flex-input-wrap">
+    <button class="flex-item-stretch border" style="height:40px;" onclick="if (isHiddenElm('appUpload') == true) { retrieveAppUploadInfo('appUploadProgress', 'appUploadResponse', '', 'uploadAppName', 'serverFolders', 'doUploadApp', function () { showElm('appUpload'); }); } else { hideElm('appUpload'); }">
+        Upload App Zip File <div id="appUploadProgress"></div>
+    </button>
+</div>
+
+<div class="notification" id="appUploadResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+    <button class="delete" onclick="hideElm('appUploadResponseContainer')"></button>
+    <div id="appUploadResponse"></div>
+</div>
+
+<div id="appUpload" class="border" style="margin: 5px 0px;padding: 5px; display: none;">
+
+    <div style="margin: 0 auto;position:relative; overflow:auto">
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;margin: 5px 0px;">App Name</label>
+            <input id="uploadAppName" class="flex-item-stretch border-left" style="height: 38px; background-color: gray;" autocomplete="none" type="text" placeholder="Upload App Name" readonly />
+            <button class="button border-right" style="background-color: #209cee; width:100px; height: 40px; " onclick="retrieveAppUploadInfo('appUploadProgress', 'appUploadResponse', getElm('uploadAppName').value, 'uploadAppName', 'serverFolders', 'doUploadApp')">
+                Refresh
+            </button>
+        </div>
+
+        <input class="flex-item-stretch" style="display:none; width: 100%; outline: none; margin-left: -100px; padding-top: 7px; height: 38px; background-color:transparent;" type="file" name="addZipFile1" id="addZipFile1">
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <button class="border-left is-primary" style="width: 100px; height: 40px; z-index: 5;">
+                Zip File
+            </button>
+            <div class="flex-item-stretch border-right" style="height: 40px;">
+                <input id="addZipFile" name="addZipFile" class="flex-item-stretch" style="width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1;" type="file" onchange="if (this.files && this.files.length > 0) { let fileName = event.target.value.split('\\').pop(); getElm('zipFileLabel').innerHTML = fileName; } else { getElm('zipFileLabel').innerHTML = getElm('zipFileLabel').title; }">
+                <label id="zipFileLabel" title="Choose Zip file" for="addZipFile" style="font-size: 1.25em; font-weight: 700; color: black; display: inline-block;width:100%;padding-left:5px;">Choose Zip file</label>
+            </div>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <div class="border-left" style="width: 95px; height: 33px; padding:5px 0 0 5px; background-color: black; color: white;">
+                Folder
+            </div>
+            <select id="serverFolders" class="flex-item-stretch border-right" style="height: 38px; padding:0 0 0 10px; background-color:white;">
+                <option>wwwroot</option>
+            </select>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 0px;">
+            <label class="flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Overwrite AppData
+                <input id="overwriteAppData" type="checkbox" title="Overwrite AppData" style="margin-left: 5px;">
+            </label>
+        </div>
+
+        <div class="notification" id="doAppUploadResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+            <button class="delete" onclick="hideElm('doAppUploadResponseContainer')"></button>
+            <div id="doAppUploadResponse"></div>
+        </div>
+
+        <div class="flex-content-wrap" style="margin: 15px 0px;">
+            <button class="border button" id="doUploadApp" style="background-color:#209cee;" tabindex="4" disabled="disabled"
+                    onclick="uploadAppFolder('doAppUploadProgress', 'doAppUploadResponse', getElm('uploadAppName').value, 'addZipFile', getElm('serverFolders').value, getElm('overwriteAppData').checked, 'doUploadApp')">
+                Upload App Folder as Zip File <div id="doAppUploadProgress"></div>
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+{{AppUploadJs}}

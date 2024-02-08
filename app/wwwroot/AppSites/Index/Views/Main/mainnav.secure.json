@@ -5,7 +5,7 @@
       "NavUrl": "#/Arshu/Help",
       "NavAppSite": "Arshu",
       "NavAppView": "Help",
-      "NavAppViewIDs": "mainNav, mainContent, mainFooter",
+      "NavAppViewIDs": "Nav, Content, Footer",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []
@@ -13,7 +13,7 @@
   ],
   "NAVAccountList": [
     {
-      "NavTitle": "LogOff ({{$LOGINALIAS}})",
+      "NavTitle": "LogOff ({{$LoginUserID}})",
       "NavUrl": "#",
       "NavAppSite": "",
       "NavAppView": "",
@@ -26,7 +26,7 @@
     "NavUrl": "#/Index/Main",
     "NavAppSite": "Index",
     "NavAppView": "Main",
-    "NavAppViewIDs": "mainContent, mainNav, mainFooter",
+    "NavAppViewIDs": "Content, Nav, Footer",
     "NavActive": "",
     "HaveSubMenu": false,
     "SubNAVList": []
@@ -36,7 +36,7 @@
     "NavUrl": "#/Index/Main",
     "NavAppSite": "Index",
     "NavAppView": "Main",
-    "NavAppViewIDs": "mainContent, mainNav, mainFooter",
+    "NavAppViewIDs": "Content, Nav, Footer",
     "NavActive": ""
   },
   "NAVAccountListSchema": {
@@ -44,7 +44,7 @@
     "NavUrl": "#/Index/Main",
     "NavAppSite": "Index",
     "NavAppView": "Main",
-    "NavAppViewIDs": "mainContent, mainNav, mainFooter",
+    "NavAppViewIDs": "Content, Nav, Footer",
     "NavActive": ""
   }
 }

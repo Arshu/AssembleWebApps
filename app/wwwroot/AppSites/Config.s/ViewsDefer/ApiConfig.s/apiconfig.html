@@ -64,7 +64,7 @@
                                 let sel = getElm('{{$ViewID}}EditorJsonSource');
                                 let fileName = sel.options[sel.selectedIndex].text;
                                 let fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
-                                return getViewComponentFlatJson('{{$ViewID}}', fileNameWithoutExtension);
+                                return getFlatJson('{{$ViewID}}', fileNameWithoutExtension);
                             }, '',
                             function (message) {
                                 showText(getElm('{{$ViewID}}JsonEditorResponse'), message, 'green');

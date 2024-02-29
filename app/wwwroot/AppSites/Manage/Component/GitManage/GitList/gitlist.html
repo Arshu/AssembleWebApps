@@ -102,7 +102,7 @@
     <div class="flex-content-wrap">
         <label style="width:100%;margin: 5px auto;">Git Repository Samples</label>
         <button class="border-left" style="width:40px;height:40px;background-color:lightgray;"
-                onclick="refreshViewComponentHtml('{{$ViewID}}Progress', '{{$ViewID}}Response',
+                onclick="refreshComponentHtml('{{$ViewID}}Progress', '{{$ViewID}}Response',
             '{{$AppSite}}', '{{$AppView}}', '{{$ViewID}}',
             {}, false, false, '', '')">
             R
@@ -144,7 +144,7 @@
                         },
                         {},
                         function () {
-                            let jsonData = getViewComponentFlatJson('{{$ViewID}}NewSection', '{{$ViewID}}');
+                            let jsonData = getFlatJson('{{$ViewID}}NewSection', '{{$ViewID}}');
                             return jsonData;
                         },
                         '{{$ViewID}}',{}, false, '', '')">

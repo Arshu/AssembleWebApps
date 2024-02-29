@@ -16,7 +16,7 @@
     }
   },
   "RefreshView": {
-    "JsFunction": "refreshViewComponentHtml('{{$ProgressViewID}}', '{{$ResponseViewID}}', '{{$AppSite}}', '{{$AppView}}', '{{$ComponentName}}', {{$ContextJson}}, {{$RealtimeRefresh}}, {{$RefreshAppDomain}}, '{{$RemoteKey}}', {{$SuccessCallback}})",
+    "JsFunction": "refreshComponentHtml('{{$ProgressViewID}}', '{{$ResponseViewID}}', '{{$AppSite}}', '{{$AppView}}', '{{$ComponentName}}', {{$ContextJson}}, {{$RealtimeRefresh}}, {{$RefreshAppDomain}}, '{{$RemoteKey}}', {{$SuccessCallback}})",
     "JsParams": {
       "ProgressViewID": "progress",
       "ResponseViewID": "response",

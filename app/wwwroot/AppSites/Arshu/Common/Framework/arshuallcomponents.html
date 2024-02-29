@@ -30,7 +30,7 @@
                 configJson["DefaultRealtimeDomain"] = realtimeDomain;
             }
 
-            let pageInfo = {
+            let viewInfo = {
                 "appSite": appSite,
                 "appView": appView,
             }
@@ -45,7 +45,7 @@
             let apiUrl = '/AppApi/VueApi';
             let apiMethod = 'AddViewComponent';
             let apiParams = {
-                "pageInfo": pageInfo,
+                "viewInfo": viewInfo,
 
                 "appComponentName": appComponentName,
                 "subComponentName": subComponentName,
@@ -71,7 +71,7 @@
                     if (result.hasOwnProperty('json') === true) {
 
                         let jsonTagList = result.json;
-                        refreshViewComponentJson(jsonTagList, currentAppSite, currentAppView);
+                        refreshHtmlJson(jsonTagList, currentAppSite, currentAppView);
                     }
 
                     if (typeof successCallback === "function") {
@@ -105,7 +105,7 @@
                 configJson["DefaultRealtimeDomain"] = realtimeDomain;
             }
 
-            let pageInfo = {
+            let viewInfo = {
                 "appSite": appSite,
                 "appView": appView,
             }
@@ -120,7 +120,7 @@
             let apiUrl = '/AppApi/VueApi';
             let apiMethod = 'DeleteViewComponent';
             let apiParams = {
-                "pageInfo": pageInfo,
+                "viewInfo": viewInfo,
 
                 "appComponentName": appComponentName,
                 "subComponentName": subComponentName,
@@ -141,7 +141,7 @@
                     if (result.hasOwnProperty('json') === true) {
 
                         let jsonTagList = result.json;
-                        refreshViewComponentJson(jsonTagList, currentAppSite, currentAppView);
+                        refreshHtmlJson(jsonTagList, currentAppSite, currentAppView);
                     }
 
                     if (typeof successCallback === "function") {

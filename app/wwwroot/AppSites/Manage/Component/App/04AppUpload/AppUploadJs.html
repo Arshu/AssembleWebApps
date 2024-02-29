@@ -78,7 +78,9 @@
                                 }                                
                                 selectElm.options[selectElm.options.length] = new Option(selectText, selectText);
                                 if (selectText.indexOf("wwwroot") > -1) {
-                                    selectElm.selectedIndex = selectElm.options.length - 1;
+                                    if (selectText.endsWith("wwwroot") == true) {
+                                        selectElm.selectedIndex = selectElm.options.length - 1;
+                                    }
                                 }
                             }
                             getElm(doUploadBtnElmId).removeAttribute("disabled");

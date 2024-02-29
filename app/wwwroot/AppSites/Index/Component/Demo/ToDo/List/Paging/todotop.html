@@ -1,7 +1,7 @@
 <div class="flex-content-spaced" style="width:100%;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
     {{@HavePreviousPage}}
     <button class="border" style="width:40px;height:40px;"
-            data-action="filterViewComponentHtml" data-progress="firstToDoProgress" data-response="{{$ParentViewID}}Response"
+            data-action="filterComponentHtml" data-progress="firstToDoProgress" data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
             data-filter="todoGetFilter"
             data-component="{{$ParentViewID}}"
@@ -11,7 +11,7 @@
         <strong style="font-weight:bolder;"><<</strong> <span id="firstToDoProgress"></span>
     </button>
     <button class="border" style="width:40px;height:40px;"
-            data-action="filterViewComponentHtml" data-progress="previousToDoProgress" data-response="{{$ParentViewID}}Response"
+            data-action="filterComponentHtml" data-progress="previousToDoProgress" data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
             data-filter="todoGetFilter"
             data-component="{{$ParentViewID}}"
@@ -34,7 +34,7 @@
 
     {{@HaveNextPage}}
     <button class="border" style="width: 40px; height: 40px;"
-            data-action="filterViewComponentHtml" data-progress="nextToDoProgress" data-response="{{$ParentViewID}}Response"
+            data-action="filterComponentHtml" data-progress="nextToDoProgress" data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
             data-filter="todoGetFilter"
             data-component="{{$ParentViewID}}"
@@ -44,7 +44,7 @@
         <strong style="font-weight:bolder;">></strong><span id="nextToDoProgress"></span>
     </button>
     <button class="border" style="width: 40px; height: 40px;"
-            data-action="filterViewComponentHtml" data-progress="lastToDoProgress" data-response="{{$ParentViewID}}Response"
+            data-action="filterComponentHtml" data-progress="lastToDoProgress" data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
             data-filter="todoGetFilter"
             data-component="{{$ParentViewID}}"
@@ -64,7 +64,7 @@
     {{/HaveNextPage}}
 
     <button class="border" style="width:40px;height:40px;margin-left:5px;"
-            data-action="refreshViewComponentHtml" data-progress="refreshToDoProgress" data-response="{{$ParentViewID}}Response"
+            data-action="refreshComponentHtml" data-progress="refreshToDoProgress" data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" 
             data-component="{{$ParentViewID}}"
             data-config="{'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"

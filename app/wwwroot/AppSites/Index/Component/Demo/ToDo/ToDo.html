@@ -37,7 +37,7 @@
 
         if (haveElm(addViewElmId) == true) {
             showElm(addViewElmId)
-            clearViewComponentFlatJson(addViewElmId);
+            clearFlatJson(addViewElmId);
         }
     }
 
@@ -113,7 +113,7 @@
     }
 
     function todoGetFilter() {
-        return getViewComponentFlatJson('toDoFilterInput', '{{$ViewID}}');
+        return getFlatJson('toDoFilterInput', '{{$ViewID}}');
     }
 
     function todoGetRealtime() {

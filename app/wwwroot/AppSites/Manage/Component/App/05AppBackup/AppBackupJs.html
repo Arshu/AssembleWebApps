@@ -1,7 +1,7 @@
 ﻿
 <script type="text/javascript">
 
-    function retrieveAppBackupInfo(progressElmId, responseElmId, backupAppNameVal, appNameElmId, appImageElmId, appTagElmId, folderSelectElmId, doBackupBtnElmId, successCallback, failureCallback) {
+    function retrieveAppBackupInfo(progressElmId, responseElmId, backupAppNameVal, appNameElmId, appImageElmId, appTagElmId, sourceFolderSelectElmId, backupFolderSelectElmId, doBackupBtnElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -64,9 +64,32 @@
                     if (result.hasOwnProperty('BackupFolderList') === true) {
                         let folderListArray = result.BackupFolderList;
 
-                        let selectElm = getElm(folderSelectElmId);
-                        if (selectElm) {
-                            selectElm.options.length = 0;
+                        let sourceSelectElm = getElm(sourceFolderSelectElmId);
+                        if (sourceSelectElm) {
+                            sourceSelectElm.options.length = 0;
+                            for (let i = 0; i < folderListArray.length; i++) {
+                                let bakFolder = folderListArray[i];
+                                let selectText = "";
+                                if (bakFolder.hasOwnProperty('Name') === true) {
+                                    selectText = bakFolder.Name
+                                }
+                                let selectValue = "";
+                                if (bakFolder.hasOwnProperty('Path') === true) {
+                                    selectText = bakFolder.Path
+                                }
+                                sourceSelectElm.options[sourceSelectElm.options.length] = new Option(selectText, selectText);
+
+                                if (selectText.indexOf("wwwroot") > -1) {
+                                    if (selectText.endsWith("wwwroot") == true) {
+                                        sourceSelectElm.selectedIndex = sourceSelectElm.options.length - 1;
+                                    }
+                                }
+                            }
+                        }
+
+                        let backupSelectElm = getElm(backupFolderSelectElmId);
+                        if (backupSelectElm) {
+                            backupSelectElm.options.length = 0;
                             for (let i = 0; i < folderListArray.length; i++) {
                                 let bakFolder = folderListArray[i];
                                 let selectText = "";
@@ -77,18 +100,20 @@
                                 if (bakFolder.hasOwnProperty('Path') === true) {
                                     selectText = bakFolder.Path
                                 }                                
-                                selectElm.options[selectElm.options.length] = new Option(selectText, selectText);
+                                backupSelectElm.options[backupSelectElm.options.length] = new Option(selectText, selectText);
 
-                                if (selectText.endsWith("wwwroot")) {
-                                    selectElm.selectedIndex = selectElm.options.length - 1;
+                                if (selectText.indexOf("wwwroot") > -1) {
+                                    if (selectText.endsWith("wwwroot") == true) {
+                                        backupSelectElm.selectedIndex = backupSelectElm.options.length - 1;
+                                    }
                                 }
                             }
-                            getElm(doBackupBtnElmId).removeAttribute("disabled");
+                            getElm(doBackupBtnElmId).removeAttribute("disabled");   
 
                             if (typeof successCallback === "function") {
                                 successCallback();
                             }
-                        }
+                        }                        
                     }
                 }                
             };
@@ -99,7 +124,7 @@
         return false;
     }
 
-    function backupAppFolder(progressElmId, responseElmId, appNameVal, appImageVal, appTagVal, folderSelectVal, appDataOverwriteVal, skipAppDataBackupVal, doBackupBtnElmId, successCallback, failureCallback) {
+    function backupAppFolder(progressElmId, responseElmId, appNameVal, appImageVal, appTagVal, sourceFolderSelectVal, backupFolderSelectVal, clearBackupLayerVal, appDataOverwriteVal, skipAppDataBackupVal, doBackupBtnElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -129,8 +154,13 @@
             }
         }
 
-        if (folderSelectVal == "") {
-            showText(responseElm, 'Select the Server Folder to upload to', 'red');
+        if (sourceFolderSelectVal == "") {
+            showText(responseElm, 'Select the Source Folder', 'red');
+            valid = false;
+        }
+
+        if (backupFolderSelectVal == "") {
+            showText(responseElm, 'Select the Backup Folder', 'red');
             valid = false;
         }
 
@@ -156,11 +186,11 @@
             let apiParams = {
                 "apiToken": apiToken,
                 "appName": appNameVal,
-                "sourceImageName": appImageVal,
-                "sourceTagName": appTagVal,
                 "targetImageName": appImageVal,
                 "targetTagName": appTagVal,
-                "backupFolder": folderSelectVal,
+                "sourceFolder": sourceFolderSelectVal,
+                "backupFolder": backupFolderSelectVal,
+                "clearBackupLayer": clearBackupLayerVal,
                 "appDataOverwrite": appDataOverwriteVal,
                 "skipAppDataBackup": skipAppDataBackupVal
             };

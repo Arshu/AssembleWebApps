@@ -233,12 +233,12 @@ function saveEditorJson(viewId, progressElmId,  getUpdateJson, refreshComponentN
     let flatJsonDataText = JSON.stringify(flatJsonData);
 
     if (typeof successCallback === "function") {
-        saveViewComponentJson(progressElmId, responseElmId,
+        saveJson(progressElmId, responseElmId,
             jsonSourceAppSite, jsonSourceAppView, jsonSource,
             flatJsonDataText,
             refreshComponentName, {}, false, '', '', successCallback);
     } else {
-        saveViewComponentJson(progressElmId, responseElmId,
+        saveJson(progressElmId, responseElmId,
             jsonSourceAppSite, jsonSourceAppView, jsonSource,
             flatJsonDataText,
             refreshComponentName, {}, false, '', '', function () {
@@ -280,14 +280,14 @@ function cloneEditorJsonArray(viewId, progressElmId, pageNoCurrent, pageNoArray,
 
 
             if (typeof successCallback === "function") {
-                cloneViewComponentJsonArray(progressElmId, responseElmId,
+                cloneJsonInJsonArray(progressElmId, responseElmId,
                     jsonSourceAppSite, jsonSourceAppView, jsonSource,
                     { 'KeyPath': keyPath + arrayIndex },
                     refreshComponentName, {}, false, '', '',
                     successCallback);
             }
             else {
-                cloneViewComponentJsonArray(progressElmId, responseElmId,
+                cloneJsonInJsonArray(progressElmId, responseElmId,
                     jsonSourceAppSite, jsonSourceAppView, jsonSource,
                     { 'KeyPath': keyPath + arrayIndex },
                     refreshComponentName, {}, false, '', '', function () {
@@ -332,14 +332,14 @@ function deleteEditorJsonArray(viewId, progressElmId, pageNoCurrent, pageNoArray
             arrayIndex = parseInt(arrayIndexText);
 
             if (typeof successCallback === "function") {
-                deleteViewComponentJsonArray(progressElmId, responseElmId,
+                deleteJsonInJsonArray(progressElmId, responseElmId,
                     jsonSourceAppSite, jsonSourceAppView, jsonSource,
                     { 'KeyPath': keyPath + arrayIndex },
                     refreshComponentName, {},
                     false, '', '',
                     successCallback);
             } else {
-                deleteViewComponentJsonArray(progressElmId, responseElmId,
+                deleteJsonInJsonArray(progressElmId, responseElmId,
                     jsonSourceAppSite, jsonSourceAppView, jsonSource,
                     { 'KeyPath': keyPath + arrayIndex },
                     refreshComponentName, {},

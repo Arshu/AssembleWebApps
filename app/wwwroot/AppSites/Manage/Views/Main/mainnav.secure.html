@@ -1,5 +1,5 @@
 <ul class="menu" id="navMenu" style="{{$NavBarBackgroundStyle}}">
-    <li class="menulogo"><a href="#/" onclick="refreshViewPageHtml('progress', 'response', 'Index', 'Main', 'Content, Nav, Footer')">{{$SiteTitle}}</a></li>
+    <li class="menulogo"><a href="#/" onclick="refreshViewHtml('progress', 'response', 'Index', 'Main', 'Content, Nav, Footer')">{{$SiteTitle}}</a></li>
     {{@NAVList}}
 
     {{@HaveSubMenu}}
@@ -8,7 +8,7 @@
         <ul class="submenu">
             {{@SubNAVList}}
             <li class="submenuitem">
-                <a class="{{$SubNavActive}}" href="{{$SubNavUrl}}" data-action="refreshViewPageHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
+                <a class="{{$SubNavActive}}" href="{{$SubNavUrl}}" data-action="refreshViewHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
                     {{$SubNavTitle}}
                 </a>
             </li>
@@ -18,7 +18,7 @@
     {{/HaveSubMenu}}
     {{^HaveSubMenu}}
     <li class="menuitem">
-        <a class="{{$NavActive}}" href="{{$NavUrl}}" data-action="refreshViewPageHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
+        <a class="{{$NavActive}}" href="{{$NavUrl}}" data-action="refreshViewHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
             {{$NavTitle}}
         </a>
     </li>
@@ -51,7 +51,7 @@
             {{/HaveAdminRole}}
             {{@NAVAccountList}}
             <li class="submenuitem">
-                <a class="{{$NavActive}}" href="{{$NavUrl}}" data-action="refreshViewPageHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
+                <a class="{{$NavActive}}" href="{{$NavUrl}}" data-action="refreshViewHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
                     {{$NavTitle}}
                 </a>
             </li>

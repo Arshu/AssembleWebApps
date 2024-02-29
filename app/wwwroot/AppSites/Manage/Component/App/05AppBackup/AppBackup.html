@@ -1,7 +1,7 @@
 ﻿
 
 <div style="margin: 5px 0px; " class="flex-input-wrap">
-    <button class="flex-item-stretch border" style="height:40px;" onclick="if (isHiddenElm('appBackup') == true) { retrieveAppBackupInfo('appBackupProgress', 'appBackupResponse', '', 'backupAppName', 'backupImageName', 'backupTagName', 'backupFolders', 'doBackupApp', function () { showElm('appBackup'); }); } else { hideElm('appBackup'); }">
+    <button class="flex-item-stretch border" style="height:40px;" onclick="if (isHiddenElm('appBackup') == true) { retrieveAppBackupInfo('appBackupProgress', 'appBackupResponse', '', 'backupAppName', 'backupImageName', 'backupTagName', 'sourceFolders', 'backupFolders', 'doBackupApp', function () { showElm('appBackup'); }); } else { hideElm('appBackup'); }">
         Backup App <div id="appBackupProgress"></div>
     </button>
 </div>
@@ -18,14 +18,23 @@
         <div class="flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;margin: 5px 0px;">App Name</label>
             <input id="backupAppName" class="flex-item-stretch border-left" style="height: 38px; background-color: gray;" autocomplete="none" type="text" placeholder="Backup App Name" readonly />
-            <button class="button border-right" style="background-color: #209cee; width: 100px; height: 40px; " onclick="retrieveAppBackupInfo('appBackupProgress', 'appBackupResponse', getElm('backupAppName').value, 'backupAppName', 'backupImageName', 'backupTagName', 'backupFolders', 'doBackupApp');">
+            <button class="button border-right" style="background-color: #209cee; width: 100px; height: 40px; " onclick="retrieveAppBackupInfo('appBackupProgress', 'appBackupResponse', getElm('backupAppName').value, 'backupAppName', 'backupImageName', 'backupTagName', 'sourceFolders', 'backupFolders', 'doBackupApp');">
                 Refresh
             </button>
         </div>
 
         <div class="flex-input-wrap" style="margin: 5px 0px;">
             <div class="border-left" style="width: 95px; height: 33px; padding:5px 0 0 5px; background-color: black; color: white;">
-                Folder
+                Source
+            </div>
+            <select id="sourceFolders" class="flex-item-stretch border-right" style="height: 38px; padding:0 0 0 10px; background-color:white;">
+                <option>wwwroot</option>
+            </select>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <div class="border-left" style="width: 95px; height: 33px; padding:5px 0 0 5px; background-color: black; color: white;">
+                Backup
             </div>
             <select id="backupFolders" class="flex-item-stretch border-right" style="height: 38px; padding:0 0 0 10px; background-color:white;">
                 <option>wwwroot</option>
@@ -42,6 +51,11 @@
         </div>
 
         <div class="flex-content-wrap" style="margin: 0px;">
+
+            <label class="flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Clear Backup Layer
+                <input id="clearBackupLayer" type="checkbox" title="Clear Backup Layer" style="margin-left: 5px;" checked="checked">
+            </label>
 
             <label class="flex-item-stretch" style="margin: 5px 0px; text-align: center">
                 AppData Overwrite
@@ -62,7 +76,7 @@
 
         <div class="flex-content-wrap" style="margin: 15px 0px;">
             <button class="border button" id="doBackupApp" style="background-color:#209cee;" tabindex="4" disabled="disabled"
-                    onclick="backupAppFolder('doAppBackupProgress', 'doAppBackupResponse', getElm('backupAppName').value, getElm('backupImageName').value, getElm('backupTagName').value, getElm('backupFolders').value, getElm('appDataOverwrite').checked, getElm('skipAppDataBackup').checked, 'doBackupApp')">
+                    onclick="backupAppFolder('doAppBackupProgress', 'doAppBackupResponse', getElm('backupAppName').value, getElm('backupImageName').value, getElm('backupTagName').value, getElm('sourceFolders').value, getElm('backupFolders').value, getElm('clearBackupLayer').checked, getElm('appDataOverwrite').checked, getElm('skipAppDataBackup').checked, 'doBackupApp')">
                 Backup AppFolder <div id="doAppBackupProgress"></div>
             </button>
         </div>

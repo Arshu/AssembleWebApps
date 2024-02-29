@@ -15,7 +15,7 @@
         <button class="border button" style="margin:5px;background-color:green;width:60px;" onclick="hideElm('toDoFilterViewDiv')">Close</button>
 
         <button class="border button" style="margin:5px;background-color:lightblue;width:60px;"
-                data-action="filterViewComponentHtml" data-progress="toDoItemsPerPageProgress" data-response="{{$ParentViewID}}Response"
+                data-action="filterComponentHtml" data-progress="toDoItemsPerPageProgress" data-response="{{$ParentViewID}}Response"
                 data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" 
                 data-filter="todoFilterViewGetFilter"
                 data-component="{{$ParentViewID}}"
@@ -30,7 +30,7 @@
 <script>
 
     function todoFilterViewGetFilter() {
-        return getViewComponentFlatJson('toDoFilterInput', '{{$ParentViewID}}');
+        return getFlatJson('toDoFilterInput', '{{$ParentViewID}}');
     }
 
 </script>

@@ -21,7 +21,7 @@
         <button class="border button" style="margin:5px;background-color:green;width:60px;" onclick="hideElm('toDoDeleteViewDiv')">Close</button>
 
         <button class="border button" style="margin:5px;background-color:lightblue;width:60px;"
-                data-action="deleteViewComponentJsonArray" data-progress="{{$ParentViewID}}Progress" data-response="{{$ParentViewID}}Response"
+                data-action="deleteJsonInJsonArray" data-progress="{{$ParentViewID}}Progress" data-response="{{$ParentViewID}}Response"
                 data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" 
                 data-appcomponent="{{$ParentViewID}}"
                 data-keyinfo="todoDeleteViewGetKeyInfo"
@@ -37,7 +37,7 @@
 <script>
 
 function todoDeleteViewGetKeyInfo() {
-    return getViewComponentFlatJson('toDoDeleteKey', '{{$ParentViewID}}');
+    return getFlatJson('toDoDeleteKey', '{{$ParentViewID}}');
 }
 
 </script>

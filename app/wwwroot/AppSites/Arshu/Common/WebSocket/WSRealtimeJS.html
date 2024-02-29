@@ -333,7 +333,7 @@
             console.log('WSRefreshView [' + connectionInfo + '] With Changed Json [' + clientRequestTimestampDifference + 'ms][' + serverRequestTimestampDifference + 'ms]');
 
             let jsonTagList = returnJson.ChangedJson;
-            refreshViewComponentJson(jsonTagList);
+            refreshHtmlJson(jsonTagList);
             setApiMetrics(returnJson);
 
             if (typeof callChangeContextPage === "function") {
@@ -345,7 +345,7 @@
             console.log(`WSRefreshView With AppSite ${currentAppSite}, AppView ${currentAppView} and AppFileOrPath ${changedAppFileOrPath}`);
 
             if ((currentAppSite.length > 0) && (currentAppView.length > 0) && (changedAppFileOrPath.length > 0)) {
-                refreshViewComponentHtml('progress', 'response', currentAppSite, currentAppView, changedAppFileOrPath, {}, false, false, '', '')
+                refreshComponentHtml('progress', 'response', currentAppSite, currentAppView, changedAppFileOrPath, {}, false, false, '', '')
             }
         }
     }

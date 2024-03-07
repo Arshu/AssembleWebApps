@@ -1,0 +1,9 @@
+﻿{{@MachineList}}
+<div style="font-size:8px" title="{{$MachineID}}">
+    {{$RowNo}}(<span style="{{$RegionStyle}}" title="{{$RegionTitle}}">{{$MachineRegion}}</span>)
+    <a id="{{MachineElmID}}" style="{{$MachineStyle}}" href="{{$MachineLink}}">
+        {{$MachineName}}
+        <span id="{{$MachineStateElmID}}">{{$MachineState}}</span>
+    </a>
+</div>
+{{/MachineList}}

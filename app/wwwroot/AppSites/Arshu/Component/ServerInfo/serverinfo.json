@@ -1,0 +1,17 @@
+{
+  "MachineList": [
+    {
+      "RowNo": "01",
+      "MachineID": "e286112b157e86",
+      "RegionStyle": "color:springgreen;",
+      "RegionTitle": "Executing Region",
+      "MachineRegion": "sin",
+      "MachineElmID": "currentServerId",
+      "MachineStyle": "font-weight:bolder;color:springgreen;",
+      "MachineLink": "///localhost:7277?region=sin",
+      "MachineName": "appwebapi_sin_1",
+      "MachineStateElmID": "currentServerStateId",
+      "MachineState": "[✓]"
+    }
+  ]
+}

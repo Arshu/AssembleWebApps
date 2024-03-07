@@ -109,7 +109,7 @@
   "PackData": true,
   "PackTemplate": false,
   "PackAppSites": "Index",
-  "PackAppDatas": "Roles, Members",
+  "PackAppDatas": "App_Data, AppApi",
 
   "PackName": "Arshu.AppBaseWeb.1.0.pap",
   "PackDescription": "Arshu.AppBaseWeb for Managing AppWebs",
@@ -122,10 +122,10 @@
   "PackResourceSubFolderPath": "A0",
   "PackDataSubFolderPath": "A0",
 
-  "SkippedFileExtension": "dll, config, xml, exe, pap, so, map, txt",
+  "SkippedFileExtension": "dll, config, exe, pap, so, map, txt",
   "AllowedAppFileExtension": "Html, Json",
-  "AllowedResourceFileExtension": "Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Css, json",
-  "AllowedDataFileExtension": "json, dat, xlsx, db, sdf",
+  "AllowedResourceFileExtension": "Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Css, json, webmanifest",
+  "AllowedDataFileExtension": "dat, json, xml, pfx, db, sdf, xlsx",
   "AllowedTemplateFileExtension": "Html, Json, md, Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Css",
 
   "ResourceOptimizeMergeJs": true,

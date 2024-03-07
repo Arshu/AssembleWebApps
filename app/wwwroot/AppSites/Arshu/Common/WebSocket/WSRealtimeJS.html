@@ -62,6 +62,7 @@
                 globalWebSocketConnection = websocket;
                 //console.log('Socket Opened');
                 callChangeContextPage("{{$AppSite}}", "{{$AppView}}");
+                console.log('Socked Opened and Changed Page Context to {{$AppSite}} - {{$AppView}}');
             }
         };
 
@@ -75,7 +76,7 @@
         }
 
         websocket.onclose = function (event) {
-            //console.log('Socket is closed.', event.reason);
+            console.log('Socket is closed.', event.reason);
             globalWebSocketActive = false;
             globalWebSocketConnection = null;
             lastAppSite = "";
@@ -122,7 +123,7 @@
 
     function restartWebSocketConnection() {
         if ((globalWebSocketActive == false) || ((globalWebSocketConnection) && (globalWebSocketConnection.readyState == 3))) {
-            //console.log('Restarting WebSocket Connection');
+            console.log('Restarting WebSocket Connection');
             startWebSocketConnection(websocketUrl);
         }
     }

@@ -1,0 +1,7 @@
+{
+    "AllowedRoles" : "Guest",    
+    "Debug Editor" : "Editor False",    
+    "Debug Editor Inner" : "0",    
+    "Debug Editor 2" : "Editor True",    
+    "Debug Editor Inner 2" : 1
+}

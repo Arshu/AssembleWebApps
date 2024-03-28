@@ -10,11 +10,11 @@
   "AllowConfigUpdate": false,
 
   "ContextJson": {
-    "PageTitle": "Arshu AppWeb Data",
-    "ShowIntroTip": false,
+    "PageTitle": "Arshu AppWeb Viewer",
     "ShowManageLink": true,
     "ShowDocumentLink": true,
-    "EnableArshuFramework": true,
+    "EnableFrameworkView": true,
+    "EnableMetricsView": true,
     "DefaultRecordMetrics": true,
     "ShowRecordMetrics": true
   },
@@ -33,9 +33,9 @@
   "SearchAppSites": "Config, Account, Index",
 
   "LoadAppData": true,
-  "LoadAppFolders": false,
-  "LoadPapFiles": false,
-  "LoadFileChanges": false,
+  "LoadAppFolders": true,
+  "LoadPapFiles": true,
+  "LoadFileChanges": true,
   "UnPackAppSites": false,
 
   "AppAssets": [
@@ -93,7 +93,7 @@
   ],
 
   "PackWebRootName": "wwwroot",
-  "SkipSystemDirectories": "_Meta, .git, Log, bin, obj, _bin_deployableAssemblies, Bak, Backup, Repository, Cache, Inbox, InboxLocal, InboxRemote",
+  "SkipSystemDirectories": "_Meta, .git, Log, bin, obj, node_modules, _bin_deployableAssemblies, Metrics, Bak, Backup, Repository, Cache, Inbox, InboxLocal, InboxRemote",
   "SystemDirectories": "App_Config, App_Data, Db, Backup, Output, UndoRedo, Cache",
   "AllowDirectories": "",
   "SkipAppDirectories": "Arshu, Templates, Resource, Content, App_Config, App_Data, AppApi, Backup, Output, UndoRedo, Cache",
@@ -102,14 +102,14 @@
 
   "PackAppDirectories": "AppSites, AppApi",
   "PackResourcesDirectories": "Resource,Content",
-  "PackDataDirectories": "App_Data, Db, AppApi",
+  "PackDataDirectories": "AppApi, App_Data, Db",
 
   "PackApp": true,
   "PackResource": true,
   "PackData": true,
   "PackTemplate": false,
   "PackAppSites": "Index",
-  "PackAppDatas": "App_Data, AppApi",
+  "PackAppDatas": "Cert, Roles, Members",
 
   "PackName": "Arshu.AppBaseWeb.1.0.pap",
   "PackDescription": "Arshu.AppBaseWeb for Managing AppWebs",

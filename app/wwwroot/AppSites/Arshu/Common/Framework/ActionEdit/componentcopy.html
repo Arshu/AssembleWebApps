@@ -6,7 +6,7 @@
     function hideComponentSourceCopy() {
 
         let modal = document.querySelector('#copyComponentSource');
-        modal.classList.remove('is-active');
+        modal.classList.remove('viewmodal-active');
     }
 
     function showComponentSourceCopy(progressElmId, componentAppSite, componentAppView, sourceComponentId, reloadData) {
@@ -29,21 +29,21 @@
                             let fromComponentCategoryVal = getElm('selectNewComponentCategory').value;
                             getViewComponentList(progressElmId, 'copyComponentSourceResponse', fromComponentAppSiteVal, fromComponentCategoryVal, 'selectNewComponent', function () {
                                 let modal = document.querySelector('#copyComponentSource');
-                                modal.classList.add('is-active');
+                                modal.classList.add('viewmodal-active');
                             });
                         } else {
                             let modal = document.querySelector('#copyComponentSource');
-                            modal.classList.add('is-active');
+                            modal.classList.add('viewmodal-active');
                         }
                     });
                 } else {
                     let modal = document.querySelector('#copyComponentSource');
-                    modal.classList.add('is-active');
+                    modal.classList.add('viewmodal-active');
                 }
             });
         } else {
             let modal = document.querySelector('#copyComponentSource');
-            modal.classList.add('is-active');
+            modal.classList.add('viewmodal-active');
         }
     }
 
@@ -342,9 +342,9 @@
     <div id="copyComponentSourceResponse"></div>
 </div>
 
-<div class="modal" id="copyComponentSource">
-    <div class="modal-background"></div>
-    <div class="modal-content" style="background-color:#fff;">
+<div class="viewmodal" id="copyComponentSource">
+    <div class="viewmodal-background"></div>
+    <div class="viewmodal-content" style="background-color:#fff;">
 
         <div class="flex-content-wrap">
             <button class="flex-item-stretch">Copy Component to Hierarchy</button>

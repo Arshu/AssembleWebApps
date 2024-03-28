@@ -1,0 +1,168 @@
+﻿
+
+<div style="margin: 5px 0px; " class="flex-input-wrap">
+    <button class="flex-item-stretch border" style="height:40px;" onclick="if (isHiddenElm('appCert') == true) { clearAppCertInfo(); retrieveAppCertInfo('appCertProgress', 'appCertResponse', '', 'updateCertAppName', 'certDNSDomain', 'certDNSProviderName', 'doGetDNSChallenge', function () { showElm('appCert'); }); } else { hideElm('appCert'); }">
+        Update Certificate <div id="appCertProgress"></div>
+    </button>
+</div>
+
+<div class="notification" id="appCertResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+    <button class="delete" onclick="hideElm('appCertResponseContainer')"></button>
+    <div id="appCertResponse"></div>
+</div>
+
+<div id="appCert" class="border" style="margin: 5px 0px; padding: 5px; display: none; position: relative;">
+
+    <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
+        <input id="appCertShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="toggleElm('customCertRegistrationDiv'); toggleElm('certDomainSelectDiv'); toggleElm('certCustomDomainSelectDiv'); toggleElm('doUpdateDNSChallenge'); toggleElm('doUpdateCustomDNSChallenge'); ">
+    </label>
+
+    <div class="flex-input-wrap" style="margin: 10px 0px 5px 0px;">
+        <label style="width:100%;margin: 5px 0px;">App Name</label>
+        <input id="updateCertAppName" class="flex-item-stretch border-left" style="height: 38px; background-color: gray;" autocomplete="none" type="text" placeholder="Upload App Name" readonly />
+        <button class="button border-right" style="background-color: #209cee; width:100px; height: 38px; " onclick="clearAppCertInfo();retrieveAppCertInfo('appCertProgress', 'appCertResponse', getElm('updateCertAppName').value, 'updateCertAppName', 'certDNSDomain', 'certDNSProviderName', 'doGetDNSChallenge')">
+            Refresh
+        </button>
+    </div>
+
+    <div class="flex-input-wrap" style="margin: 5px 0px;" id="certDomainSelectDiv">
+        <button class="border-left" style="width: 100px; height: 38px; background-color: black; color: white;">
+            Domain Of
+        </button>
+        <select id="certDNSDomain" class="flex-item-stretch border-right" style="height: 38px; padding:0 0 0 10px; background-color:white;">
+            <option selected="selected">arshucs.com</option>
+        </select>
+    </div>
+
+    <div class="flex-input-wrap" style="margin: 5px 0px;display:none;" id="certCustomDomainSelectDiv">
+        <button class="border-left" style="width: 100px; height: 38px; background-color: black; color: white;">
+            Domain Of
+        </button>
+        <input class="flex-item-stretch border-right" id="certCustomDNSDomain" style="height:40px;" autocomplete="none" type="text" placeholder="Your Domain Name" value="{{$DNSHostName}}" />
+    </div>
+
+    <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <label style="width:100%;margin: 5px 5px;">
+            Email
+        </label>
+        <input class="flex-item-stretch border" id="certContactEmail" style="height:40px;" autocomplete="none" type="text" placeholder="Your Contact Email" value="{{$CertContactEmail}}" />
+    </div>
+
+    <div class="flex-content-wrap" style="margin:15px 0px 15px 0px;">
+        <label class="flex-item-stretch" style="text-align: center">
+            Get Wildcard Cert
+            <input id="getWildcardCert" type="checkbox" title="Get Wildcard Certificate" style="margin-left: 5px;" checked="checked">
+        </label>
+    </div>
+
+    <div class="flex-content-wrap" style="margin: 15px 0px;">
+        <button class="border button" id="doGetDNSChallenge" style="background-color:#209cee;" tabindex="4" disabled="disabled"
+                onclick="clearAppChallenge(); getDNSChallenge('doGetDNSChallengeProgress', 'doGetDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certContactEmail').value, getElm('certDNSDomain').value, getElm('getWildcardCert').checked, 'updateCertOrderLocation', 'updateCertChallengeUrl1', 'updateCertChallengeUrl2', 'updateCertChallengeDNSTxt1', 'updateCertChallengeDNSTxtValue1', 'updateCertChallengeDNSTxt2', 'updateCertChallengeDNSTxtValue2', 'doGetDNSChallenge', 'doUpdateDNSChallenge', 'doUpdateCustomDNSChallenge', 'doVerifyChallenges')">
+            Get Cert Challenge <div id="doGetDNSChallengeProgress"></div>
+        </button>
+    </div>
+
+    <div class="notification" id="doGetDNSChallengeResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="delete" onclick="hideElm('doGetDNSChallengeResponseContainer')"></button>
+        <div id="doGetDNSChallengeResponse"></div>
+    </div>
+
+    <fieldset id="updateCertChallenge" class="border" style="padding: 5px;">
+        <legend>Cert Challenge</legend>
+
+        <div class="flex-input-wrap" style="display:none;">
+            <input id="updateCertOrderLocation" class="border" type="hidden" value="" readonly />
+            <input id="updateCertChallengeUrl1" class="border" type="hidden" value="" readonly />
+            <input id="updateCertChallengeUrl2" class="border" type="hidden" value="" readonly />
+        </div>
+
+        <div class="flex-content-spaced" style="margin: 0px;">
+            <label class="flex-item-stretch">DNS Txt 1</label>
+            <label class="flex-item-stretch">DNS Txt Value 1</label>
+        </div>
+        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="updateCertChallengeDNSTxt1" class="border" style="width:48%;height: 40px; margin:0 5px 0 0;" type="text" placeholder="Your DNS Txt 1" value="" readonly />
+            <input id="updateCertChallengeDNSTxtValue1" class="border" style="width: 48%; height: 40px; margin: 0 0 0 5px " type="text" placeholder="Your DNS Txt Value 1" value="" readonly />
+        </div>
+
+        <div class="flex-content-spaced" style="margin: 0px;">
+            <label class="flex-item-stretch">DNS Txt 2</label>
+            <label class="flex-item-stretch">DNS Txt Value 2</label>
+        </div>
+        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="updateCertChallengeDNSTxt2" class="border" style="width:48%;height: 40px; margin:0 5px 0 0;" type="text" placeholder="Your DNS Txt 2" value="" readonly />
+            <input id="updateCertChallengeDNSTxtValue2" class="border" style="width: 48%; height: 40px; margin: 0 0 0 5px " type="text" placeholder="Your DNS Txt Value 2" value="" readonly />
+        </div>
+
+    </fieldset>
+
+    <fieldset id="customCertRegistrationDiv" class="border" style="display: none; padding: 5px;">
+        <legend>Custom Cert Registration</legend>
+
+        <div class="flex-input-wrap" style="margin: 15px 0px 0 0;">
+            <button class="border-left" style="width: 100px; height: 38px; background-color: black; color: white;">
+                Provider
+            </button>
+            <select id="certDNSProviderName" class="flex-item-stretch border-right" style="height: 38px; padding:0 0 0 10px; background-color:white;">
+                <option>porkbun.com</option>
+            </select>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;margin: 5px 5px;">
+                API Key
+            </label>
+            <input class="flex-item-stretch border" id="certDNSProviderKey" style="height:40px;" autocomplete="none" type="password" placeholder="Your Provider Key" value="{{$DNSProviderAPIKey}}" />
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;margin: 5px 5px;">
+                Secret Key
+            </label>
+            <input class="flex-item-stretch border" id="certDNSProviderSecret" style="height:40px;" autocomplete="none" type="password" placeholder="Your Provider Key" value="{{$DNSProviderSecretKey}}" />
+        </div>
+
+    </fieldset>
+
+    <div class="flex-content-wrap" style="margin: 15px 0px;">
+        <button class="border button" id="doUpdateDNSChallenge" style="background-color:#209cee;" tabindex="4" disabled="disabled"
+                onclick="updateDNSChallenge('doUpdateDNSChallengeProgress', 'doUpdateDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certDNSDomain').value, getElm('getWildcardCert').checked, getElm('updateCertChallengeDNSTxt1').value, getElm('updateCertChallengeDNSTxtValue1').value, getElm('updateCertChallengeDNSTxt2').value, getElm('updateCertChallengeDNSTxtValue2').value, 'doUpdateDNSChallenge', 'doVerifyChallenges')">
+            Update DNS Challenge <div id="doUpdateDNSChallengeProgress"></div>
+        </button>
+        <button class="border button" id="doUpdateCustomDNSChallenge" style="background-color:#209cee;display:none" tabindex="4" disabled="disabled"
+                onclick="updateCustomDNSChallenge('doUpdateDNSChallengeProgress', 'doUpdateDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certDNSProviderName').value, getElm('certDNSProviderKey').value, getElm('certDNSProviderSecret').value, getElm('certCustomDNSDomain').value, getElm('getWildcardCert').checked, getElm('updateCertChallengeDNSTxt1').value, getElm('updateCertChallengeDNSTxtValue1').value, getElm('updateCertChallengeDNSTxt2').value, getElm('updateCertChallengeDNSTxtValue2').value, 'doUpdateDNSChallenge', 'doVerifyChallenges')">
+            Update Custom DNS Challenge <div id="doUpdateDNSChallengeProgress"></div>
+        </button>
+    </div>
+
+    <div class="notification" id="doUpdateDNSChallengeResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="delete" onclick="hideElm('doUpdateDNSChallengeResponseContainer')"></button>
+        <div id="doUpdateDNSChallengeResponse"></div>
+    </div>
+
+    <div class="flex-content-wrap" style="margin: 15px 0px;">
+
+        <button class="border button" id="doVerifyChallenges" style="background-color:#209cee;" tabindex="4"
+                onclick="verifyDNSChallenges('doVerifyChallengeProgress', 'doUpdateDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certContactEmail').value, getElm('certDNSDomain').value, getElm('getWildcardCert').checked, getElm('updateCertChallengeDNSTxtValue1').value, getElm('updateCertChallengeUrl1').value, getElm('updateCertChallengeDNSTxtValue2').value, getElm('updateCertChallengeUrl2').value, 'doVerifyChallenges', 'doDownloadCert')">
+            Verify DNS Challenge <div id="doVerifyChallengeProgress"></div>
+        </button>
+    </div>
+
+    <div class="flex-content-wrap" style="margin: 15px 0px;">
+        <button class="border button" id="doDownloadCert" style="background-color:#209cee;" tabindex="4"
+                onclick="downloadDNSCertificate('doDownloadCertificateProgress', 'doUpdateDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certContactEmail').value, getElm('certDNSDomain').value, getElm('getWildcardCert').checked, getElm('updateCertOrderLocation').value, 'doDownloadCert')">
+            Download DNS Certificate<div id="doDownloadCertificateProgress"></div>
+        </button>
+
+    </div>
+
+    <div class="flex-content-wrap" style="margin: 15px 0px;display:none;">
+        <button class="border button" id="doVerifyDownloadCert" style="background-color:#209cee;" tabindex="4"
+                onclick="updateVerifyDNSChallengeDownloadCertificate('doVerifyDownloadProgress', 'doUpdateDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certContactEmail').value, getElm('certDNSDomain').value, getElm('getWildcardCert').checked, 'doVerifyDownloadCert')">
+            Update Verify DNS and Download Certificate<div id="doVerifyDownloadProgress"></div>
+        </button>
+    </div>
+
+</div>
+
+{{AppCertJs}}

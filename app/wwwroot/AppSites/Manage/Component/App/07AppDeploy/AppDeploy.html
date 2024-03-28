@@ -13,19 +13,19 @@
 
 <div id="appDeploy" class="border" style="margin: 5px 0px;padding: 5px; display: none;position:relative;">
 
-    <label style="position:absolute;left:3px;top:-6px; margin: 5px 0px; text-align: right">
+    <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
         <input id="deployShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="toggleElm('deployRestrictionsDiv'); toggleElm('deployReferenceRegionDiv'); toggleElm('deployImageDiv'); toggleElm('deployEnvironmentalVariableDiv'); if (this.checked == true) { showElm('deployOptionsDiv') } else { if (getElm('deployMaxMachinesPerRegion').value == 1) { hideElm('deployOptionsDiv'); } }">
     </label>
 
-    <div class="flex-input-wrap" style="margin: 5px 0px;">
+    <div class="flex-input-wrap" style="margin: 10px 0px 5px 0px;;">
         <label style="width: 100%; margin: 5px 0px; cursor: pointer;" onclick="openAppUrl('deployAppName')">Deploy App Name<span style="padding-left: 5px; font-size: xx-small; color: orangered;">(If empty enter API Token and Click Refresh)</span></label>
         <input id="deployAppName" class="flex-item-stretch border-left" style="height: 38px; background-color: gray;" autocomplete="none" type="text" placeholder="Deploy App Name" readonly />
-        <button class="border-right button" style="background-color: #209cee; height: 40px; " onclick="clearAppDeployMessage('appDeployResponse'); clearAppDeployMessage('doAppDeployResponse'); clearAppDeployDetailsMessage('deployDetailResponse'); retrieveAppDeployInfo('appDeployProgress', 'appDeployResponse', getElm('deployAppName').value, 'deployAppName', 'deployImageName', 'deployTagName', 'deployReferenceRegionsTemplate', 'deployReferenceRegionsDiv', 'deployRegionsTemplate', 'deployRegions', 'deployMaxRegionsPerApp', 'deployMaxMachinesPerApp', 'deployMaxMachinesPerRegion', 'deployEnvInitialTimeout', 'deployEnvIdleTimeout', 'deployEnvAutoDestroyAfterXMin', 'deployOptionsDiv', 'doDeployApp');">
+        <button class="border-right button" style="background-color: #209cee; height: 38px; " onclick="clearAppDeployMessage('appDeployResponse'); clearAppDeployMessage('doAppDeployResponse'); clearAppDeployDetailsMessage('deployDetailResponse'); retrieveAppDeployInfo('appDeployProgress', 'appDeployResponse', getElm('deployAppName').value, 'deployAppName', 'deployImageName', 'deployTagName', 'deployReferenceRegionsTemplate', 'deployReferenceRegionsDiv', 'deployRegionsTemplate', 'deployRegions', 'deployMaxRegionsPerApp', 'deployMaxMachinesPerApp', 'deployMaxMachinesPerRegion', 'deployEnvInitialTimeout', 'deployEnvIdleTimeout', 'deployEnvAutoDestroyAfterXMin', 'deployOptionsDiv', 'doDeployApp');">
             Refresh
         </button>
     </div>
 
-    <fieldset id="deployRestrictionsDiv" class="border" style="display:none;">
+    <fieldset id="deployRestrictionsDiv" class="border" style="display: none; padding: 5px;">
         <legend>Deploy Restrictions</legend>
 
         <div class="flex-content-spaced" style="margin: 0px;">
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <fieldset id="deployReferenceRegionDiv" class="border" style="display:none;">
+    <fieldset id="deployReferenceRegionDiv" class="border" style="display: none; padding: 5px;">
         <legend>Deploy Reference Region</legend>
 
         <div id="deployReferenceRegionsDiv" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
@@ -55,7 +55,7 @@
 
     </fieldset>
 
-    <fieldset id="deployImageDiv" class="border" style="display:none;">
+    <fieldset id="deployImageDiv" class="border" style="display: none; padding: 5px;">
         <legend>Deploy Image</legend>
 
         <div class="flex-content-spaced" style="margin: 0px;">
@@ -70,7 +70,7 @@
 
     </fieldset>
 
-    <fieldset id="deployEnvironmentalVariableDiv" class="border" style="display:none;">
+    <fieldset id="deployEnvironmentalVariableDiv" class="border" style="display: none; padding: 5px;">
         <legend>Environmental Variables</legend>
 
         <div class="flex-content-spaced" style="margin: 0px;">
@@ -117,7 +117,7 @@
         </div>
     </div>
 
-    <fieldset id="deployOptionsDiv" class="border" style="display:none;">
+    <fieldset id="deployOptionsDiv" class="border" style="display: none; padding: 5px;">
         <legend>Deploy Options Per Region</legend>
 
         <div class="flex-content-spaced" style="margin: 0px;">
@@ -130,16 +130,14 @@
             <input id="deployMachineCountPerRegion" class="border flex-item-stretch" style="width: 48%; height: 38px; margin: 0 0 0 5px " type="number" placeholder="Deploy Machine Count Per Region" value="1" />
         </div>
 
-        <div class="flex-content-spaced" style="margin: 0px;">
-            <label class="flex-item-stretch">Destroy if not in Region</label>
-        </div>
-        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
-            <input id="deployDestroyIfNotInRegion" class="border flex-item-stretch" type="checkbox" title="Destroy if not in Deploy region" style="margin-left: 5px; ">
-        </div>
-
     </fieldset>
-
    
+    <div class="flex-content-wrap" style="margin:15px 0px 15px 0px;">
+        <label class="flex-item-stretch" style="text-align: center">
+            Destroy if not in Region
+            <input id="deployDestroyIfNotInRegion" type="checkbox" title="Destroy if not in Deploy region" style="margin-left: 5px;">
+        </label>
+    </div>
 
     <div class="notification" id="doAppDeployResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
         <button class="delete" onclick="hideElm('doAppDeployResponseContainer');hideElm('deployDetailResponse')"></button>

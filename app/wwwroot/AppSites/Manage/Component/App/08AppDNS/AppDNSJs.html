@@ -1,0 +1,541 @@
+﻿
+<script type="text/javascript">
+
+    function retrieveAppDNSInfo(progressElmId, responseElmId, dnsAppNameVal, appNameElmId, ipV4AddressElmId, ipV6AddressElmId, publicIpV4AddressElmId, publicIpV6AddressElmId, domainNameSelectElmId, providerNameSelectElmId, doUpdateBtnElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        //if (apiToken.length == 0) {
+        //    showText(responseElm, 'Enter the API Token', 'red');
+        //    valid = false;
+        //}
+
+        if (valid === true) {
+
+            getElm(doUpdateBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RetrieveAppDNSInfo';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "dnsAppName": dnsAppNameVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    getElm(doUpdateBtnElmId).removeAttribute("disabled");
+
+                    if (typeof failureCallback === "function") {
+                        failureCallback();
+                    }
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+
+                //    if (typeof successCallback === "function") {
+                //        successCallback();
+                //    }
+                //}
+                else
+                {
+                    if (result.hasOwnProperty('AppName') === true) {
+                        getElm(appNameElmId).value = result.AppName;
+
+                        if (result.hasOwnProperty('IPv4AddressShared') === true) {
+                            getElm(ipV4AddressElmId).value = result.IPv4AddressShared
+                        } else {
+                            if (result.hasOwnProperty('IPv4Address') === true) {
+                                getElm(ipV4AddressElmId).value = result.IPv4Address
+                            } else {
+                                getElm(ipV4AddressElmId).value = ""
+                            }
+                        }
+                        
+                        if (result.hasOwnProperty('IPv6Address') === true) {
+                            getElm(ipV6AddressElmId).value = result.IPv6Address
+                        } else {
+                            getElm(ipV6AddressElmId).value = "";
+                        }
+
+                        if (result.hasOwnProperty('PublicIPv4') === true) {
+                            getElm(publicIpV4AddressElmId).value = result.PublicIPv4
+                        } else {
+                            getElm(publicIpV4AddressElmId).value = "";
+                        }
+
+                        if (result.hasOwnProperty('PublicIPv6') === true) {
+                            getElm(publicIpV6AddressElmId).value = result.PublicIPv6
+                        } else {
+                            getElm(publicIpV6AddressElmId).value = "";
+                        }
+
+                        if (result.hasOwnProperty('DNSList') === true) {
+                            let dnsListArray = result.DNSList;
+
+                            let selectElm = getElm(domainNameSelectElmId);
+                            if (selectElm) {
+                                selectElm.options.length = 0;
+                                for (let i = 0; i < dnsListArray.length; i++) {
+                                    let dnsInfo = dnsListArray[i];
+                                    let selectText = "";
+                                    if (dnsInfo.hasOwnProperty('DomainName') === true) {
+                                        selectText = dnsInfo.DomainName
+                                    }
+                                    let selectValue = "";
+                                    if (dnsInfo.hasOwnProperty('DomainName') === true) {
+                                        selectValue = dnsInfo.DomainName
+                                    }
+                                    selectElm.options[selectElm.options.length] = new Option(selectText, selectValue);
+                                    if (selectText.indexOf("arshucs") > -1) {
+                                        if (selectText.endsWith("arshucs") == true) {
+                                            selectElm.selectedIndex = selectElm.options.length - 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (result.hasOwnProperty('DNSProviderList') === true) {
+                            let dnsProviderListArray = result.DNSProviderList;
+
+                            let selectElm = getElm(providerNameSelectElmId);
+                            if (selectElm) {
+                                selectElm.options.length = 0;
+                                for (let i = 0; i < dnsProviderListArray.length; i++) {
+                                    let dnsProviderInfo = dnsProviderListArray[i];
+                                    let selectText = "";
+                                    if (dnsProviderInfo.hasOwnProperty('ProviderName') === true) {
+                                        selectText = dnsProviderInfo.ProviderName
+                                    }
+                                    let selectValue = "";
+                                    if (dnsProviderInfo.hasOwnProperty('ProviderName') === true) {
+                                        selectValue = dnsProviderInfo.ProviderName
+                                    }
+                                    selectElm.options[selectElm.options.length] = new Option(selectText, selectValue);
+                                    if (selectText.indexOf("porkbun") > -1) {
+                                        if (selectText.endsWith("porkbun") == true) {
+                                            selectElm.selectedIndex = selectElm.options.length - 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        getElm(doUpdateBtnElmId).removeAttribute("disabled");
+
+                        if (typeof successCallback === "function") {
+                                successCallback();
+                        }
+                    }
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+    function verifyDNSDomain(progressElmId, responseElmId, appNameVal, domainNameVal, dnsRootIPv4AddressElmId, dnsRootIPv6AddressElmId, dnsSubIPv4AddressElmId, dnsSubIPv6AddressElmId, dnsIPInfoDivElmId, verifyBtnElmId, successCallback, failureCallback)
+    {
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+
+        let valid = true
+
+        if (valid == true) {
+            if (appNameVal.length == 0) {
+                showText(responseElm, 'App Name Cannot be Empty', 'red')
+                valid = false
+            }
+        }
+
+        if (valid == true) {
+            if (domainNameVal.length == 0) {
+                showText(responseElm, 'Domain Name Cannot be Empty', 'red')
+                valid = false
+            }
+        }
+
+        if (valid === true) {
+
+            getElm(verifyBtnElmId).setAttribute("disabled", true)
+
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = '/AppApi/ServerApi'
+            let apiMethod = 'VerifyDNSDomain'
+
+            let apiParams = {
+                "appName": appNameVal,
+                "domainName": domainNameVal
+            }
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+
+                    if (typeof failureCallback === "function") {
+                        failureCallback()
+                    }
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    //showText(responseElm, result.message, 'green');
+
+                    if (result.hasOwnProperty('RootIPv4Address') === true) {
+                        getElm(dnsRootIPv4AddressElmId).value = result.RootIPv4Address
+                    } else {
+                        getElm(dnsRootIPv4AddressElmId).value = "";
+                    }
+                    if (result.hasOwnProperty('RootIPv6Address') === true) {
+                        getElm(dnsRootIPv6AddressElmId).value = result.RootIPv6Address
+                    } else {
+                        getElm(dnsRootIPv6AddressElmId).value = "";
+                    }
+                    if (result.hasOwnProperty('SubIPv4Address') === true) {
+                        getElm(dnsSubIPv4AddressElmId).value = result.SubIPv4Address
+                    } else {
+                        getElm(dnsSubIPv4AddressElmId).value = "";
+                    }
+                    if (result.hasOwnProperty('SubIPv6Address') === true) {
+                        getElm(dnsSubIPv6AddressElmId).value = result.SubIPv6Address
+                    } else {
+                        getElm(dnsSubIPv6AddressElmId).value = "";
+                    }
+                    showElm(dnsIPInfoDivElmId);
+
+                    getElm(verifyBtnElmId).removeAttribute("disabled")
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
+                    }
+                }
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+    function verifyDNSProvider(progressElmId, responseElmId, appNameVal, providerNameVal, providerKeyVal, providerSecretVal, domainNameVal, dnsRootIPv4AddressElmId, dnsRootIPv6AddressElmId, dnsSubIPv4AddressElmId, dnsSubIPv6AddressElmId, dnsIPInfoDivElmId, verifyBtnElmId, successCallback, failureCallback)
+    {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid == true) {
+            if (appNameVal.length == 0) {
+                showText(responseElm, 'App Name Cannot be Empty', 'red')
+                valid = false
+            }
+        }
+
+        if (valid == true) {
+            if (providerNameVal.length == 0) {
+                showText(responseElm, 'Provider Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (providerKeyVal.length == 0) {
+                showText(responseElm, 'Provider Key Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (providerSecretVal.length == 0) {
+                showText(responseElm, 'Provider Secret Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (domainNameVal.length == 0) {
+                showText(responseElm, 'Domain Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+
+            getElm(verifyBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'VerifyDNSProvider';
+
+            let apiParams = {
+                "appName": appNameVal,
+                "providerName": providerNameVal,
+                "providerKey": providerKeyVal,
+                "providerSecret": providerSecretVal,
+                "domainName": domainNameVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    if (typeof failureCallback === "function") {
+                        failureCallback();
+                    }
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    //showText(responseElm, result.message, 'green');
+
+                    if (result.hasOwnProperty('RootIPv4Address') === true) {
+                        getElm(dnsRootIPv4AddressElmId).value = result.RootIPv4Address
+                    } else {
+                        getElm(dnsRootIPv4AddressElmId).value = ""
+                    }
+                    if (result.hasOwnProperty('RootIPv6Address') === true) {
+                        getElm(dnsRootIPv6AddressElmId).value = result.RootIPv6Address
+                    } else {
+                        getElm(dnsRootIPv6AddressElmId).value = ""
+                    }
+                    if (result.hasOwnProperty('SubIPv4Address') === true) {
+                        getElm(dnsSubIPv4AddressElmId).value = result.SubIPv4Address
+                    } else {
+                        getElm(dnsSubIPv4AddressElmId).value = ""
+                    }
+                    if (result.hasOwnProperty('SubIPv6Address') === true) {
+                        getElm(dnsSubIPv6AddressElmId).value = result.SubIPv6Address
+                    } else {
+                        getElm(dnsSubIPv6AddressElmId).value = ""
+                    }
+                    showElm(dnsIPInfoDivElmId);
+
+                    getElm(verifyBtnElmId).removeAttribute("disabled");
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+        return false;
+    }
+
+    function updateAppDNS(progressElmId, responseElmId, appNameVal, domainNameVal, updateRootDNSVal, usePublicIPVal, updateBtnElmId, successCallback, failureCallback)
+    {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid == true) {
+            if (appNameVal.length == 0) {
+                showText(responseElm, 'App Name Cannot be Empty', 'red')
+                valid = false
+            }
+        }
+
+        if (valid == true) {
+            if (domainNameVal.length == 0) {
+                showText(responseElm, 'Domain Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        if (apiToken.length == 0) {
+            showText(responseElm, 'Enter the API Token', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            getElm(updateBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'UpdateAppDNS';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "appName": appNameVal,
+                "domainName": domainNameVal,
+                "updateRootDNS": updateRootDNSVal,
+                "usePublicIP": usePublicIPVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    getElm(updateBtnElmId).removeAttribute("disabled");
+
+                    if (typeof failureCallback === "function") {
+                        failureCallback();
+                    }
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green');
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+    function updateCustomAppDNS(progressElmId, responseElmId, appNameVal, providerNameVal, providerKeyVal, providerSecretVal, domainNameVal, updateRootDNSVal, usePublicIPVal, updateBtnElmId, successCallback, failureCallback)
+    {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid == true) {
+            if (appNameVal.length == 0) {
+                showText(responseElm, 'App Name Cannot be Empty', 'red')
+                valid = false
+            }
+        }
+
+        if (valid == true) {
+            if (providerNameVal.length == 0) {
+                showText(responseElm, 'Provider Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (providerKeyVal.length == 0) {
+                showText(responseElm, 'Provider Key Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (providerSecretVal.length == 0) {
+                showText(responseElm, 'Provider Secret Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (domainNameVal.length == 0) {
+                showText(responseElm, 'Domain Name Cannot be Empty', 'red')
+                valid = false
+            }
+        }
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        if (apiToken.length == 0) {
+            showText(responseElm, 'Enter the API Token', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            getElm(updateBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'UpdateCustomAppDNS';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "appName": appNameVal,
+                "providerName": providerNameVal,
+                "providerKey": providerKeyVal,
+                "providerSecret": providerSecretVal,
+                "domainName": domainNameVal,
+                "updateRootDNS": updateRootDNSVal,
+                "usePublicIP": usePublicIPVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    getElm(updateBtnElmId).removeAttribute("disabled");
+
+                    if (typeof failureCallback === "function") {
+                        failureCallback();
+                    }
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green');
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+</script>
+

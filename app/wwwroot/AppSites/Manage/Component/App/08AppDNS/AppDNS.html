@@ -1,0 +1,154 @@
+﻿
+
+<div style="margin: 5px 0px; " class="flex-input-wrap">
+    <button class="flex-item-stretch border" style="height:40px;" onclick="if (isHiddenElm('appDNS') == true) { retrieveAppDNSInfo('appDNSProgress', 'appDNSResponse', '', 'updateDNSAppName', 'updateIPv4Address', 'updateIPv6Address', 'publicIPv4Address', 'publicIPv6Address', 'dnsDomainName', 'dnsProviderName', 'doUpdateAppDNS', function () { showElm('appDNS'); }); } else { hideElm('appDNS'); }">
+        Update DNS <div id="appDNSProgress"></div>
+    </button>
+</div>
+
+<div class="notification" id="appDNSResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+    <button class="delete" onclick="hideElm('appDNSResponseContainer')"></button>
+    <div id="appDNSResponse"></div>
+</div>
+
+<div id="appDNS" class="border" style="margin: 5px 0px; padding: 5px; display: none; position: relative;">
+
+    <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
+        <input id="appDNSShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="toggleElm('customDNSRegistrationDiv'); toggleElm('domainSelectDiv'); toggleElm('customDomainSelectDiv'); toggleElm('doUpdateAppDNS'); toggleElm('doUpdateCustomAppDNS'); hideElm('dnsIPInfoDiv'); getElm('doUpdateCustomAppDNS').setAttribute('disabled', true)">
+    </label>
+
+    <div class="flex-input-wrap" style="margin: 10px 0px 5px 0px;">
+        <label style="width:100%;margin: 5px 0px;">App Name</label>
+        <input id="updateDNSAppName" class="flex-item-stretch border-left" style="height: 38px; background-color: gray;" autocomplete="none" type="text" placeholder="Upload App Name" readonly />
+        <button class="button border-right" style="background-color: #209cee; width:100px; height: 38px; " onclick="retrieveAppDNSInfo('appDNSProgress', 'appDNSResponse', getElm('updateDNSAppName').value, 'updateDNSAppName', 'updateIPv4Address', 'updateIPv6Address', 'publicIPv4Address', 'publicIPv6Address','dnsDomainName', 'dnsProviderName', 'doUpdateAppDNS')">
+            Refresh
+        </button>
+    </div>
+
+    <fieldset id="updateIPInfoDiv" class="border" style="padding: 5px;">
+        <legend>App IP Info</legend>
+
+        <div class="flex-content-spaced" style="margin: 0px;">
+            <label class="flex-item-stretch">IPv4 Address</label>
+            <label class="flex-item-stretch">IPv6 Address</label>
+        </div>
+        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="updateIPv4Address" class="border" style="width: 48%; height: 40px; margin: 0 5px 0 0; background-color: gray;" type="text" placeholder="Your IPv4 Address" value="" readonly />
+            <input id="updateIPv6Address" class="border" style="width: 48%; height: 40px; margin: 0 0 0 5px; background-color: gray;" type="text" placeholder="Your IPv6 Address" value="" readonly />
+        </div>
+
+        <div class="flex-content-spaced" style="margin: 0px;">
+            <label class="flex-item-stretch">Public IPv4</label>
+            <label class="flex-item-stretch">Public IPv6</label>
+        </div>
+        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="publicIPv4Address" class="border" style="width: 48%; height: 40px; margin: 0 5px 0 0; background-color: gray;" type="text" placeholder="Your IPv4 Address" value="" readonly />
+            <input id="publicIPv6Address" class="border" style="width: 48%; height: 40px; margin: 0 0 0 5px; background-color: gray;" type="text" placeholder="Your IPv6 Address" value="" readonly />
+        </div>
+
+    </fieldset>
+
+    <div class="flex-input-wrap" style="margin: 5px 0px;" id="domainSelectDiv">
+        <button class="border-left" style="width: 100px; height: 38px; background-color: black; color: white;">
+            Domain Of
+        </button>
+        <select id="dnsDomainName" class="flex-item-stretch border-top-bottom" style="height: 38px; padding:0 0 0 10px; background-color:white;">
+            <option selected="selected">arshucs.com</option>
+        </select>
+        <button class="button border-right" id="doVerifyAppDNSDomain" style="background-color: #209cee; width:100px; height: 38px;" onclick="verifyDNSDomain('doVerifyDNSDomainProgress', 'appDNSResponse', getElm('updateDNSAppName').value, getElm('dnsDomainName').value, 'dnsRootIPv4Address', 'dnsRootIPv6Address', 'dnsSubIPv4Address', 'dnsSubIPv6Address', 'dnsIPInfoDiv', 'doUpdateCustomAppDNS')">
+            Verify <div id="doVerifyDNSDomainProgress"></div>
+        </button>
+    </div>
+
+    <fieldset id="customDNSRegistrationDiv" class="border" style="display: none; padding: 5px;">
+        <legend>Custom DNS Registration</legend>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <button class="border-left" style="width: 100px; height: 38px; background-color: black; color: white;">
+                Provider
+            </button>
+            <select id="dnsProviderName" class="flex-item-stretch border-right" style="height: 38px; padding:0 0 0 10px; background-color:white;">
+                <option>porkbun.com</option>
+            </select>
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;margin: 5px 5px;">
+                Key
+            </label>
+            <input class="flex-item-stretch border" id="dnsProviderKey" style="height:40px;" autocomplete="none" type="password" placeholder="Your Provider Key" value="{{$DNSProviderAPIKey}}" />
+        </div>
+
+        <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;margin: 5px 5px;">
+                Secret
+            </label>
+            <input class="flex-item-stretch border" id="dnsProviderSecret" style="height:40px;" autocomplete="none" type="password" placeholder="Your Provider Key" value="{{$DNSProviderSecretKey}}" />
+        </div>
+
+    </fieldset>
+
+    <div class="flex-input-wrap" style="margin: 5px 0px;display:none;" id="customDomainSelectDiv">
+        <button class="border-left" style="width: 100px; height: 38px; background-color: black; color: white;">
+            Domain Of
+        </button>
+        <input class="flex-item-stretch border-left" id="dnsCustomDomainName" style="height:40px;" autocomplete="none" type="text" placeholder="Your Domain Name" value="{{$DNSHostName}}" />
+        <button class="button border-right" id="doVerifyAppDNSCustomDomain" style="background-color: #209cee; width:100px; height: 38px;" onclick="verifyDNSProvider('doVerifyDNSCustomDomainProgress', 'appDNSResponse', getElm('updateDNSAppName').value, getElm('dnsProviderName').value, getElm('dnsProviderKey').value, getElm('dnsProviderSecret').value,  getElm('dnsCustomDomainName').value, 'dnsRootIPv4Address', 'dnsRootIPv6Address', 'dnsSubIPv4Address', 'dnsSubIPv6Address', 'dnsIPInfoDiv', 'doUpdateCustomAppDNS')">
+            Verify <div id="doVerifyDNSCustomDomainProgress"></div>
+        </button>
+    </div>
+
+    <fieldset id="dnsIPInfoDiv" class="border" style="padding: 5px;display:none;">
+        <legend>DNS A & AAAA Info</legend>
+
+        <div class="flex-content-spaced" style="margin: 0px;">
+            <label class="flex-item-stretch">RootDomain IPv4</label>
+            <label class="flex-item-stretch">RootDomain IPv6</label>
+        </div>
+        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="dnsRootIPv4Address" class="border" style="width: 48%; height: 40px; margin: 0 5px 0 0; background-color: gray;" type="text" placeholder="Your IPv4 Address" value="" readonly />
+            <input id="dnsRootIPv6Address" class="border" style="width: 48%; height: 40px; margin: 0 0 0 5px; background-color: gray;" type="text" placeholder="Your IPv6 Address" value="" readonly />
+        </div>
+
+        <div class="flex-content-spaced" style="margin: 0px;">
+            <label class="flex-item-stretch">SubDomain IPv4</label>
+            <label class="flex-item-stretch">SubDomain IPv6</label>
+        </div>
+        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="dnsSubIPv4Address" class="border" style="width: 48%; height: 40px; margin: 0 5px 0 0; background-color: gray;" type="text" placeholder="Your IPv4 Address" value="" readonly />
+            <input id="dnsSubIPv6Address" class="border" style="width: 48%; height: 40px; margin: 0 0 0 5px; background-color: gray;" type="text" placeholder="Your IPv6 Address" value="" readonly />
+        </div>
+
+    </fieldset>
+
+    <div class="flex-content-wrap" style="margin:15px 0px 15px 0px;">
+        <label class="flex-item-stretch" style="text-align: center">
+            Update Root DNS
+            <input id="updateRootDNS" type="checkbox" title="Update Root DNS" style="margin-left: 5px;">
+        </label>
+        <label class="flex-item-stretch" style="text-align: center">
+            Use PublicIP
+            <input id="usePublicIP" type="checkbox" title="Use Public IP" style="margin-left: 5px;">
+        </label>
+    </div>
+
+    <div class="notification" id="doUpdateAppDNSResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="delete" onclick="hideElm('doUpdateAppDNSResponseContainer')"></button>
+        <div id="doUpdateAppDNSResponse"></div>
+    </div>
+
+    <div class="flex-content-wrap" style="margin: 15px 0px;">
+        <button class="border button" id="doUpdateAppDNS" style="background-color:#209cee;" tabindex="4" disabled="disabled"
+                onclick="hideElm('dnsIPInfoDiv');updateAppDNS('doUpdateAppDNSProgress', 'doUpdateAppDNSResponse', getElm('updateDNSAppName').value, getElm('dnsDomainName').value, getElm('updateRootDNS').checked, getElm('usePublicIP').checked, 'doUpdateAppDNS')">
+            Update DNS <div id="doUpdateAppDNSProgress"></div>
+        </button>
+        <button class="border button" id="doUpdateCustomAppDNS" style="display:none;background-color:#209cee;" tabindex="4" disabled="disabled"
+                onclick="hideElm('dnsIPInfoDiv');updateCustomAppDNS('doUpdateCustomDNSProgress', 'doUpdateAppDNSResponse', getElm('updateDNSAppName').value, getElm('dnsProviderName').value, getElm('dnsProviderKey').value, getElm('dnsProviderSecret').value, getElm('dnsCustomDomainName').value, getElm('updateRootDNS').checked, getElm('usePublicIP').checked, 'doUpdateAppDNS')">
+            Update Custom DNS <div id="doUpdateCustomDNSProgress"></div>
+        </button>
+
+    </div>
+
+</div>
+
+{{AppDNSJs}}

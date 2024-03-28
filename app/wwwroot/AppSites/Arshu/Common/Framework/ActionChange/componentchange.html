@@ -6,12 +6,12 @@
     function hideComponentChangeViewer() {
 
         let modal = document.querySelector('#viewComponentChange');
-        modal.classList.remove('is-active');
+        modal.classList.remove('viewmodal-active');
     }
 
     function showComponentChangeViewer(progressElmId, sourceComponentId, reloadData) {
         let modal = document.querySelector('#viewComponentChange');
-        modal.classList.add('is-active');
+        modal.classList.add('viewmodal-active');
     }
 
     let gComponentChangeProgressElmId = "componentChangeProgress";
@@ -210,9 +210,9 @@
 
 </script>
 
-<div class="modal" id="viewComponentChange">
-    <div class="modal-background"></div>
-    <div class="modal-content">
+<div class="viewmodal" id="viewComponentChange">
+    <div class="viewmodal-background"></div>
+    <div class="viewmodal-content">
 
         <div class="flex-content-wrap" style="padding:3px 10px;background-color:#fff;">
             <div class="flex-item-stretch"></div>

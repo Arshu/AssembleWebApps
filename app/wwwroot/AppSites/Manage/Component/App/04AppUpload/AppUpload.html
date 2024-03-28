@@ -2,7 +2,7 @@
 
 <div style="margin: 5px 0px; " class="flex-input-wrap">
     <button class="flex-item-stretch border" style="height:40px;" onclick="if (isHiddenElm('appUpload') == true) { retrieveAppUploadInfo('appUploadProgress', 'appUploadResponse', '', 'uploadAppName', 'serverFolders', 'doUploadApp', function () { showElm('appUpload'); }); } else { hideElm('appUpload'); }">
-        Upload App Zip File <div id="appUploadProgress"></div>
+        Upload App <div id="appUploadProgress"></div>
     </button>
 </div>
 
@@ -15,10 +15,10 @@
 
     <div style="margin: 0 auto;position:relative; overflow:auto">
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <div class="flex-input-wrap" style="margin: 10px 0px 5px 0px;">
             <label style="width:100%;margin: 5px 0px;">App Name</label>
             <input id="uploadAppName" class="flex-item-stretch border-left" style="height: 38px; background-color: gray;" autocomplete="none" type="text" placeholder="Upload App Name" readonly />
-            <button class="button border-right" style="background-color: #209cee; width:100px; height: 40px; " onclick="retrieveAppUploadInfo('appUploadProgress', 'appUploadResponse', getElm('uploadAppName').value, 'uploadAppName', 'serverFolders', 'doUploadApp')">
+            <button class="button border-right" style="background-color: #209cee; width:100px; height: 38px; " onclick="retrieveAppUploadInfo('appUploadProgress', 'appUploadResponse', getElm('uploadAppName').value, 'uploadAppName', 'serverFolders', 'doUploadApp')">
                 Refresh
             </button>
         </div>
@@ -36,9 +36,9 @@
         </div>
 
         <div class="flex-input-wrap" style="margin: 5px 0px;">
-            <div class="border-left" style="width: 95px; height: 33px; padding:5px 0 0 5px; background-color: black; color: white;">
-                Folder
-            </div>
+            <button class="border-left" style="width: 100px; height: 38px; background-color: black; color: white;">
+                Target
+            </button>
             <select id="serverFolders" class="flex-item-stretch border-right" style="height: 38px; padding:0 0 0 10px; background-color:white;">
                 <option>wwwroot</option>
             </select>

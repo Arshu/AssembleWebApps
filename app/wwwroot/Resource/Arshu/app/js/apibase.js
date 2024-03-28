@@ -1530,9 +1530,9 @@ function navBarClickEvent(el) {
     const targetElmId = el.dataset.target;
     const target = document.getElementById(targetElmId);
 
-    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-    el.classList.toggle('is-active');
-    target.classList.toggle('is-active');
+    // Toggle the "nav-active" class on both the "navbar-burger" and the "navbarmenu"
+    el.classList.toggle('nav-active');
+    target.classList.toggle('nav-active');
 }
 
 function initNavBarBurger() {
@@ -1576,27 +1576,27 @@ function navBarToggleClickEvent(targetMenu) {
 
 function navBarSubMenuClickEvent(targetMenu, subMenuItem) {
     event.stopPropagation();
-    if (subMenuItem.classList.contains("submenu-active")) {
-        subMenuItem.classList.remove("submenu-active");
-    } else if (targetMenu.querySelector(".submenu-active")) {
-        targetMenu.querySelector(".submenu-active").classList.remove("submenu-active");
-        subMenuItem.classList.add("submenu-active");
+    if (subMenuItem.classList.contains("subnavmenu-active")) {
+        subMenuItem.classList.remove("subnavmenu-active");
+    } else if (targetMenu.querySelector(".subnavmenu-active")) {
+        targetMenu.querySelector(".subnavmenu-active").classList.remove("subnavmenu-active");
+        subMenuItem.classList.add("subnavmenu-active");
     } else {
-        subMenuItem.classList.add("submenu-active");
+        subMenuItem.classList.add("subnavmenu-active");
     }
 }
 
 function navBarSubMenuCloseClickEvent(clickElm, targetMenu) {
     event.stopPropagation();
     let isClickInside = targetMenu.contains(clickElm.target);
-    if (!isClickInside && targetMenu.querySelector(".submenu-active")) {
-        targetMenu.querySelector(".submenu-active").classList.remove("submenu-active");
+    if (!isClickInside && targetMenu.querySelector(".subnavmenu-active")) {
+        targetMenu.querySelector(".subnavmenu-active").classList.remove("subnavmenu-active");
     }
 }
 
 function initNavBarToggle() {
-    // Get all ".menutoggle" elements
-    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.menutoggle'), 0);
+    // Get all ".navmenutoggle" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navmenutoggle'), 0);
 
     // Check if there are any navbar burgers
     if ($navbarBurgers.length > 0) {
@@ -1613,12 +1613,12 @@ function initNavBarToggle() {
 
                     addListener(toggleElm, 'click', () => { navBarToggleClickEvent(targetMenu); }, false)
 
-                    if (haveElms(".menuitem", targetElmId) == true) {
-                        const items = getElms(".menuitem", targetElmId);
+                    if (haveElms(".navmenuitem", targetElmId) == true) {
+                        const items = getElms(".navmenuitem", targetElmId);
                         if (items.length > 0) {
                             for (i = 0; i < items.length; ++i) {
                                 let subMenuItem = items[i]
-                                if (subMenuItem.querySelector(".submenu")) {
+                                if (subMenuItem.querySelector(".subnavmenu")) {
                                     addListener(subMenuItem, 'click', () => { navBarSubMenuClickEvent(targetMenu, subMenuItem); }, false)
                                 }
                             }
@@ -1633,8 +1633,8 @@ function initNavBarToggle() {
 }
 
 function removeNavBarToggleEvents() {
-    // Get all ".menutoggle" elements
-    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.menutoggle'), 0);
+    // Get all ".navmenutoggle" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navmenutoggle'), 0);
 
     // Check if there are any navbar burgers
     if ($navbarBurgers.length > 0) {
@@ -1651,12 +1651,12 @@ function removeNavBarToggleEvents() {
 
                     removeAllListeners(toggleElm, 'click')
 
-                    if (haveElms(".menuitem", targetElmId) == true) {
-                        const items = getElms(".menuitem", targetElmId);
+                    if (haveElms(".navmenuitem", targetElmId) == true) {
+                        const items = getElms(".navmenuitem", targetElmId);
                         if (items.length > 0) {
                             for (i = 0; i < items.length; ++i) {
                                 let subMenuItem = items[i]
-                                if (subMenuItem.querySelector(".submenu")) {
+                                if (subMenuItem.querySelector(".subnavmenu")) {
                                     removeAllListeners(subMenuItem, 'click')
                                 }
                             }

@@ -6,12 +6,12 @@
     function hideComponentSourceCloner() {
 
         let modal = document.querySelector('#cloneComponentSource');
-        modal.classList.remove('is-active');
+        modal.classList.remove('viewmodal-active');
     }
 
     function showComponentSourceCloner(progressElmId, componentAppSite, componentAppView, sourceComponentId) {
         let modal = document.querySelector('#cloneComponentSource');
-        modal.classList.add('is-active');
+        modal.classList.add('viewmodal-active');
     }
 
     function navigateToAppSiteView(appSite, appView) {
@@ -326,9 +326,9 @@
     <button class="delete" onclick="hideElm('cloneComponentSourceResponseContainer');"></button>
     <div id="cloneComponentSourceResponse"></div>
 </div>
-<div class="modal" id="cloneComponentSource">
-    <div class="modal-background"></div>
-    <div class="modal-content" style="background-color:#fff;">
+<div class="viewmodal" id="cloneComponentSource">
+    <div class="viewmodal-background"></div>
+    <div class="viewmodal-content" style="background-color:#fff;">
 
         <div class="flex-content-wrap">
             <button class="flex-item-stretch">Clone Component Hierarchy</button>

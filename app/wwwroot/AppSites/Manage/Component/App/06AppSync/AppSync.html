@@ -13,14 +13,14 @@
 
 <div id="appSync" class="border" style="margin: 5px 0px;padding: 10px 5px; display: none;position:relative">
 
-    <label style="position:absolute;left:3px;top:-6px; margin: 5px 0px; text-align: right">
+    <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
         <input type="checkbox" title="Show Advanced Options" onclick=" toggleElm('syncReferenceRegionDiv'); toggleElm('syncImageDiv'); toggleElm('syncEnvironmentalVariableDiv');">
     </label>
 
-    <div class="flex-input-wrap" style="margin: 5px 0px;">
+    <div class="flex-input-wrap" style="margin: 10px 0px 5px 0px;">
         <label style="width: 100%; margin: 5px 0px; cursor: pointer;" onclick="openAppUrl('syncAppName')">Sync App Name<span style="padding-left:5px; font-size:xx-small;color:orangered;">(If empty enter API Token and Click Refresh)</span></label>
         <input id="syncAppName" class="flex-item-stretch border-left" style="height: 38px; background-color: gray;" autocomplete="none" type="text" placeholder="Sync App Name" readonly />
-        <button class="button border-right" style="background-color: #209cee; height: 40px; " onclick="clearAppSyncMessage('appSyncResponse'); clearAppSyncMessage('doAppSyncResponse'); clearAppSyncDetailsMessage('syncDetailResponse'); retrieveAppSyncInfo('appSyncProgress', 'appSyncResponse', getElm('syncAppName').value, 'syncAppName', 'syncImageName', 'syncTagName', 'syncReferenceRegionsTemplate', 'syncReferenceRegionsDiv', 'syncRegionsTemplate', 'syncRegionsDiv', 'syncEnvInitialTimeout', 'syncEnvIdleTimeout', 'syncAutoDestroyAfterXMin','doSyncApp');">
+        <button class="button border-right" style="background-color: #209cee; height: 38px; " onclick="clearAppSyncMessage('appSyncResponse'); clearAppSyncMessage('doAppSyncResponse'); clearAppSyncDetailsMessage('syncDetailResponse'); retrieveAppSyncInfo('appSyncProgress', 'appSyncResponse', getElm('syncAppName').value, 'syncAppName', 'syncImageName', 'syncTagName', 'syncReferenceRegionsTemplate', 'syncReferenceRegionsDiv', 'syncRegionsTemplate', 'syncRegionsDiv', 'syncEnvInitialTimeout', 'syncEnvIdleTimeout', 'syncAutoDestroyAfterXMin','doSyncApp');">
             Refresh
         </button>
     </div>
@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <fieldset id="syncReferenceRegionDiv" class="border" style="display:none;">
+    <fieldset id="syncReferenceRegionDiv" class="border" style="display:none;padding:5px;">
         <legend>Sync Reference Region</legend>
 
         <div id="syncReferenceRegionsDiv" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
@@ -41,7 +41,7 @@
 
     </fieldset>
 
-    <fieldset id="syncImageDiv" class="border" style="display:none;">
+    <fieldset id="syncImageDiv" class="border" style="display: none; padding: 5px;">
         <legend>Sync Image</legend>
 
         <div class="flex-content-spaced" style="margin: 0px;">
@@ -56,7 +56,7 @@
 
     </fieldset>
 
-    <fieldset id="syncEnvironmentalVariableDiv" class="border" style="display:none;">
+    <fieldset id="syncEnvironmentalVariableDiv" class="border" style="display: none; padding: 5px;">
         <legend>Environmental Variables</legend>
 
         <div class="flex-content-spaced" style="margin: 0px;">
@@ -91,7 +91,7 @@
         </div>
     </div>
 
-    <fieldset class="border" style="position:relative;">
+    <fieldset class="border" style="position: relative; padding: 5px;">
         <legend>Sync Region(s)</legend>
 
         <label style="position:absolute;right:5px;top:-15px; margin: 5px 0px; text-align: right">

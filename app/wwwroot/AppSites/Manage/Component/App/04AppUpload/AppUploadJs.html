@@ -108,6 +108,13 @@
 
         let valid = true;
 
+        if (valid == true) {
+            if (appNameVal.length == 0) {
+                showText(responseElm, 'App Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
         var data = new FormData();
         var uploadFile = document.getElementById(fileElmId);
         if (uploadFile.files.length > 0) {

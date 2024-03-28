@@ -8,7 +8,7 @@
         clearResponse('{{$ViewID}}JsonEditorResponse');
         clearResponse('editComponentSourceResponse');
         let modal = document.querySelector('#editComponentSource');
-        modal.classList.remove('is-active');
+        modal.classList.remove('viewmodal-active');
     }
 
     function showComponentSourceEditor(progressElmId, componentAppSite, componentAppView, sourceComponentId, reloadData, successCallback) {
@@ -19,7 +19,7 @@
         if ((getElm('selectEditComponentSource').options.length <= 1) || (reloadData === true)) {
             getEditComponentSourceHierarchyForEditor(progressElmId, 'editComponentSourceResponse', componentAppSite, componentAppView, sourceComponentId, 'selectEditComponentSource', 'componentSourceEditor', function () {
                 let modal = document.querySelector('#editComponentSource');
-                modal.classList.add('is-active');
+                modal.classList.add('viewmodal-active');
 
                 if (typeof successCallback === "function") {
                     successCallback();
@@ -27,7 +27,7 @@
             })
         } else {
             let modal = document.querySelector('#editComponentSource');
-            modal.classList.add('is-active');
+            modal.classList.add('viewmodal-active');
 
             if (typeof successCallback === "function") {
                 successCallback();
@@ -189,9 +189,9 @@
     <div id="editComponentSourceResponse"></div>
 </div>
 
-<div class="modal" id="editComponentSource" style="padding:2%;">
-    <div class="modal-background"></div>
-    <div class="modal-content" style="background-color:#fff;">
+<div class="viewmodal" id="editComponentSource" style="padding:2%;">
+    <div class="viewmodal-background"></div>
+    <div class="viewmodal-content" style="background-color:#fff;">
 
         <div class="flex-content-wrap">
             <button class="flex-item-stretch">Edit Component Json</button>

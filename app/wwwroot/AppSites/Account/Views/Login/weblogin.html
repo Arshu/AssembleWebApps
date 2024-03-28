@@ -257,7 +257,7 @@
 
     <div class="flex-card card_border" style="text-align:center;width:80%;">
 
-        <figure class="avatar" style="text-align:center;">
+        <figure class="avatar" style="text-align:center;margin: 0 auto;">
             <img src="/Content/logos/logo_login.png" style="max-width:100%;" />
         </figure>
 
@@ -337,7 +337,7 @@
 
         <div class="flex-content-wrap" style="margin: 15px 0px;">
             <button class="border button" id="loginSubmit" style="background-color:#209cee;" tabindex="4"
-                    onclick="return webLoginUser('loginProgress', 'loginResponse', getElm('loginId').value, getElm('loginPwd').value, getElm('loginRemember').checked, '/');">
+                    onclick="return webLoginUser('loginProgress', 'loginResponse', getElm('loginId').value, getElm('loginPwd').value, getElm('loginRemember').checked, '');">
                 Login <div id="loginProgress"></div>
             </button>
         </div>

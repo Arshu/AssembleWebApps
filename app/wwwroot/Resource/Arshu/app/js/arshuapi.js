@@ -1269,13 +1269,13 @@ function getJsonValue(getDataJson) {
 }
 
 function getProgress(el) {
-    let dataProgressElmId = el.getAttribute('data-progress');
+    let dataProgressElmId = getAttributeValue(el, 'data-progress');    
     let dataProgress = getTextValue(dataProgressElmId, 'noprogress');
     return dataProgress;
 }
 
 function getResponse(el) {
-    let dataResponseElmId = el.getAttribute('data-response');
+    let dataResponseElmId = getAttributeValue(el, 'data-response');
     let dataResponse = getTextValue(dataResponseElmId, 'noresponse');
     return dataResponse;
 }
@@ -1287,7 +1287,7 @@ function getAppSite(el) {
         currentAppSite = getElm('dynamicAppSite').value;
     }
 
-    let dataAppSite = getTextValue(el.getAttribute('data-appsite'), currentAppSite);
+    let dataAppSite = getTextValue(getAttributeValue(el, 'data-appsite'), currentAppSite);
     return dataAppSite;
 }
 
@@ -1298,27 +1298,53 @@ function getAppView(el) {
         currentAppView = getElm('dynamicAppView').value;
     }
 
-    let dataAppView = getTextValue(el.getAttribute('data-appview'), currentAppView);
+    let dataAppView = getTextValue(getAttributeValue(el, 'data-appview'), currentAppView);
     return dataAppView;
 }
 
+function getAttributeValue(elm, attrName) {
+
+    let elmAttrVal = elm.getAttribute(attrName);
+
+    if (!elmAttrVal) {
+        let parentElm = elm.parentElement;
+        if (parentElm != null) {
+            elmAttrVal = parentElm.getAttribute(attrName);
+            if (!elmAttrVal) {
+                let parentParentElm = parentElm.parentElement
+                if (parentParentElm != null) {
+                    elmAttrVal = parentParentElm.getAttribute(attrName)
+                    if (!elmAttrVal) {
+                        let parentParentParentElm = parentParentElm.parentElement
+                        if (parentParentParentElm != null) {
+                            elmAttrVal = parentParentParentElm.getAttribute(attrName)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return elmAttrVal
+}
+
 function bindShowComponentSourceViewer(event) {
-    const el = event.target;
+    const el = event.target
 
     let dataProgress = getProgress(el);
     let dataResponse = getResponse(el);
     let dataAppSite = getAppSite(el);
     let dataAppView = getAppView(el);
 
-    let dataComponent = getTextValue(el.getAttribute('data-component'), "");
-    let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
-    let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-    let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
+    let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
+    let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
+    let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+    let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
 
-    let dataDelay = getIntValue(el.getAttribute('data-delay'), 25);
+    let dataDelay = getIntValue(getAttributeValue(el, 'data-delay'), 25);
 
-    let dataPreCall = el.getAttribute('data-precall');
-    let dataCallback = el.getAttribute('data-callback');
+    let dataPreCall = getAttributeValue(el, 'data-precall');
+    let dataCallback = getAttributeValue(el, 'data-callback');
 
     if (getType(dataConfigJson) == "Object") {
         dataConfigJson["DefaultRealtime"] = isRealtime;
@@ -1348,15 +1374,15 @@ function bindShowComponentSourceEditor(event) {
     let dataAppSite = getAppSite(el);
     let dataAppView = getAppView(el);
 
-    let dataComponent = getTextValue(el.getAttribute('data-component'), "");
-    let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
-    let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-    let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
+    let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
+    let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
+    let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+    let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
 
-    let dataDelay = getIntValue(el.getAttribute('data-delay'), 25);
+    let dataDelay = getIntValue(getAttributeValue(el, 'data-delay'), 25);
 
-    let dataPreCall = el.getAttribute('data-precall');
-    let dataCallback = el.getAttribute('data-callback');
+    let dataPreCall = getAttributeValue(el, 'data-precall');
+    let dataCallback = getAttributeValue(el, 'data-callback');
 
     if (getType(dataConfigJson) == "Object") {
         dataConfigJson["DefaultRealtime"] = isRealtime;
@@ -1386,19 +1412,19 @@ function bindRefreshViewHtml(event) {
     let dataAppSite = getAppSite(el);
     let dataAppView = getAppView(el);
 
-    let dataComponent = getTextValue(el.getAttribute('data-component'), "");
-    let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
-    let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-    let href = el.getAttribute('href');
+    let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
+    let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
+    let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+    let href = getAttributeValue(el, 'href');
     if (href.length == 1) {
         if (href[0] == "#") {
             isRealtime = true;
         }
     }    
 
-    let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
+    let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
 
-    let dataCallback = el.getAttribute('data-callback');
+    let dataCallback = getAttributeValue(el, 'data-callback');
 
     if (getType(dataConfigJson) == "Object") {
         dataConfigJson["DefaultRealtime"] = isRealtime;
@@ -1418,14 +1444,14 @@ function bindLoadComponentHtml(element) {
     let dataAppSite = getAppSite(el);
     let dataAppView = getAppView(el);
 
-    let dataComponent = getTextValue(el.getAttribute('data-component'), "");
-    let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
-    let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-    let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
+    let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
+    let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
+    let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+    let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
 
-    let dataDelay = getIntValue(el.getAttribute('data-delay'), 25);
+    let dataDelay = getIntValue(getAttributeValue(el, 'data-delay'), 25);
 
-    let dataCallback = el.getAttribute('data-callback');
+    let dataCallback = getAttributeValue(el, 'data-callback');
 
     if (getType(dataConfigJson) == "Object") {
         dataConfigJson["DefaultRealtime"] = isRealtime;
@@ -1448,12 +1474,12 @@ function bindRefreshComponentHtml(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataComponent = getTextValue(el.getAttribute('data-component'), "");
-        let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
-        let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-        let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
+        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
+        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
 
-        let dataCallback = el.getAttribute('data-callback');
+        let dataCallback = getAttributeValue(el, 'data-callback');
 
         if (getType(dataConfigJson) == "Object") {
             dataConfigJson["DefaultRealtime"] = isRealtime;
@@ -1477,14 +1503,14 @@ function bindFilterComponentHtml(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataFilterJson = getJsonValue(el.getAttribute('data-filter'));
+        let dataFilterJson = getJsonValue(getAttributeValue(el, 'data-filter'));
 
-        let dataComponent = getTextValue(el.getAttribute('data-component'), "");
-        let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
-        let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-        let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
+        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
+        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
 
-        let dataCallback = el.getAttribute('data-callback');
+        let dataCallback = getAttributeValue(el, 'data-callback');
 
         if (getType(dataConfigJson) == "Object") {
             dataConfigJson["DefaultRealtime"] = isRealtime;
@@ -1508,17 +1534,17 @@ function bindSaveJson(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataAppComponent = getTextValue(el.getAttribute('data-appcomponent'));
-        let getKeyInfo = el.getAttribute('data-keyinfo');
+        let dataAppComponent = getTextValue(getAttributeValue(el, 'data-appcomponent'));
+        let getKeyInfo = getAttributeValue(el, 'data-keyinfo');
 
-        let getSaveJson = el.getAttribute('data-datainfo');
+        let getSaveJson = getAttributeValue(el, 'data-datainfo');
 
-        let dataComponent = getTextValue(el.getAttribute('data-component'), "");
-        let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
-        let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-        let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
+        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
+        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
 
-        let dataCallback = el.getAttribute('data-callback');
+        let dataCallback = getAttributeValue(el, 'data-callback');
 
         if (getType(dataConfigJson) == "Object") {
             dataConfigJson["DefaultRealtime"] = isRealtime;
@@ -1542,19 +1568,19 @@ function bindAddJsonToJsonArray(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataAppComponent = getTextValue(el.getAttribute('data-appcomponent'));
-        let getKeyInfo = el.getAttribute('data-keyinfo');
+        let dataAppComponent = getTextValue(getAttributeValue(el, 'data-appcomponent'));
+        let getKeyInfo = getAttributeValue(el, 'data-keyinfo');
 
-        let getAddJson = el.getAttribute('data-datainfo');
-        let getValidKeyJson = el.getAttribute('data-validkeyinfo');
-        let getDuplicateKeyJson = el.getAttribute('data-duplicatekeyinfo');
+        let getAddJson = getAttributeValue(el, 'data-datainfo');
+        let getValidKeyJson = getAttributeValue(el, 'data-validkeyinfo');
+        let getDuplicateKeyJson = getAttributeValue(el, 'data-duplicatekeyinfo');
 
-        let dataComponent = getTextValue(el.getAttribute('data-component'), "");
-        let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
-        let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-        let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
+        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
+        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
 
-        let dataCallback = el.getAttribute('data-callback');
+        let dataCallback = getAttributeValue(el, 'data-callback');
 
         if (getType(dataConfigJson) == "Object") {
             dataConfigJson["DefaultRealtime"] = isRealtime;
@@ -1578,19 +1604,19 @@ function bindEditJsonInJsonArray(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataAppComponent = getTextValue(el.getAttribute('data-appcomponent'));
-        let getKeyInfo = el.getAttribute('data-keyinfo');
+        let dataAppComponent = getTextValue(getAttributeValue(el, 'data-appcomponent'));
+        let getKeyInfo = getAttributeValue(el, 'data-keyinfo');
 
-        let getEditJson = el.getAttribute('data-datainfo');
-        let getValidKeyJson = el.getAttribute('data-validkeyinfo');
-        let getDuplicateKeyJson = el.getAttribute('data-duplicatekeyinfo');
+        let getEditJson = getAttributeValue(el, 'data-datainfo');
+        let getValidKeyJson = getAttributeValue(el, 'data-validkeyinfo');
+        let getDuplicateKeyJson = getAttributeValue(el, 'data-duplicatekeyinfo');
 
-        let dataComponent = getTextValue(el.getAttribute('data-component'), "");
-        let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
-        let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-        let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
+        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
+        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
 
-        let dataCallback = el.getAttribute('data-callback');
+        let dataCallback = getAttributeValue(el, 'data-callback');
 
         if (getType(dataConfigJson) == "Object") {
             dataConfigJson["DefaultRealtime"] = isRealtime;
@@ -1614,15 +1640,15 @@ function bindDeleteJsonInJsonArray(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataAppComponent = getTextValue(el.getAttribute('data-appcomponent'));
-        let getKeyInfo = el.getAttribute('data-keyinfo');
+        let dataAppComponent = getTextValue(getAttributeValue(el, 'data-appcomponent'));
+        let getKeyInfo = getAttributeValue(el, 'data-keyinfo');
 
-        let dataComponent = getTextValue(el.getAttribute('data-component'), "");
-        let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
-        let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-        let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
+        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
+        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
 
-        let dataCallback = el.getAttribute('data-callback');
+        let dataCallback = getAttributeValue(el, 'data-callback');
 
         if (getType(dataConfigJson) == "Object") {
             dataConfigJson["DefaultRealtime"] = isRealtime;
@@ -1646,15 +1672,15 @@ function bindCloneJsonInJsonArray(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataAppComponent = getTextValue(el.getAttribute('data-appcomponent'));
-        let getKeyInfo = el.getAttribute('data-keyinfo');
+        let dataAppComponent = getTextValue(getAttributeValue(el, 'data-appcomponent'));
+        let getKeyInfo = getAttributeValue(el, 'data-keyinfo');
 
-        let dataComponent = getTextValue(el.getAttribute('data-component'), "");
-        let dataConfigJson = getJsonValue(el.getAttribute('data-config'));
-        let isRealtime = getBoolValue(el.getAttribute('data-isrealtime'), false);
-        let realtimeDomain = getTextValue(el.getAttribute('data-realtimedomain'), "");
+        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
+        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
 
-        let dataCallback = el.getAttribute('data-callback');
+        let dataCallback = getAttributeValue(el, 'data-callback');
 
         if (getType(dataConfigJson) == "Object") {
             dataConfigJson["DefaultRealtime"] = isRealtime;
@@ -1669,7 +1695,7 @@ function bindCloneJsonInJsonArray(event) {
 
 function bindArshuAction(scopeElement) {
     scopeElement.querySelectorAll('[data-action]').forEach(function (el) {
-        let dataAction = el.getAttribute('data-action');
+        let dataAction = getAttributeValue(el, 'data-action');
 
         if (el.nodeName == "DIV") {
             if (dataAction == "loadComponentHtml") {
@@ -1682,7 +1708,7 @@ function bindArshuAction(scopeElement) {
             else if (dataAction == "showComponentSourceEditor") {
                 el.removeEventListener("click", bindShowComponentSourceEditor)
                 el.addEventListener("click", bindShowComponentSourceEditor, false);
-            }
+            }            
         }
         else if (el.nodeName == "LI") {
             if (dataAction == "showComponentSourceViewer") {

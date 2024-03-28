@@ -23,25 +23,25 @@
         <div id="mergeAjaxResponse"></div>
     </div>
     <div class="flex-input-wrap" style="margin: 5px 0px;max-width:100%;">
-        <div class="border-left" style="font-size: small; width: 60px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillAjaxMetricsServiceMethod('ajaxMetricUrlProgress', 'metricsResponse', 'ajaxMetricsServiceMethod', function () { fillAjaxMetricsType('ajaxMetricUrlProgress', 'metricsResponse', 'ajaxMetricsType', function () { refreshAjaxMetricsChart('previousPageMetricProgress', 'metricsResponse', 1); }) })">
-            Ajax Mtd
+        <div class="border-left" style="font-size: small; width: 60px; height: 38px; text-align: center; background-color: black; color: white; padding-left: 5px;" onclick="fillAjaxMetricsServiceMethod('ajaxMetricUrlProgress', 'metricsResponse', 'ajaxMetricsServiceMethod', function () { fillAjaxMetricsType('ajaxMetricUrlProgress', 'metricsResponse', 'ajaxMetricsType', function () { refreshAjaxMetricsChart('previousPageMetricProgress', 'metricsResponse', 1); }) })">
+            Method
             <div style="height:18px;padding-left:13px;">
                 <svg fill="none" stroke="currentColor" style="height:100%;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
             </div>
             <span id="ajaxMetricUrlProgress"></span>
         </div>
-        <select class="border-right flex-item-stretch" style="height: 30px; max-width: calc(100vw - 96px); padding: 0 0 0 10px; background-color: white; " id="ajaxMetricsServiceMethod" onchange="fillAjaxMetricsType('ajaxMetricUrlProgress', 'metricsResponse', 'ajaxMetricsType', function () { refreshAjaxMetricsChart('previousPageMetricProgress', 'metricsResponse', 1);  })">
+        <select class="border-right flex-item-stretch" style="height: 30px; max-width: calc(100vw - 95px); padding: 0 0 0 10px; background-color: white; " id="ajaxMetricsServiceMethod" onchange="fillAjaxMetricsType('ajaxMetricUrlProgress', 'metricsResponse', 'ajaxMetricsType', function () { refreshAjaxMetricsChart('previousPageMetricProgress', 'metricsResponse', 1);  })">
         </select>
     </div>
 
     <div class="flex-input-wrap" style="margin: 5px 0px;">
-        <div class="border-left" style="font-size: small; width: 60px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillAjaxMetricsType('ajaxMetricUrlProgress', 'metricsResponse', 'ajaxMetricsType', function () { refreshAjaxMetricsChart('previousPageMetricProgress', 'metricsResponse', 1);  })">
+        <div class="border-left" style="font-size: small; width: 60px; height: 38px; text-align: center; background-color: black; color: white; padding-left: 5px;" onclick="fillAjaxMetricsType('ajaxMetricUrlProgress', 'metricsResponse', 'ajaxMetricsType', function () { refreshAjaxMetricsChart('previousPageMetricProgress', 'metricsResponse', 1);  })">
             Metrics
             <div style="height:18px;padding-left:13px;">
                 <svg fill="none" stroke="currentColor" style="height:100%;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
             </div>
         </div>
-        <select class="flex-item-stretch border-top-bottom" style="height: 30px; padding:0 0 0 10px; background-color: white;" id="ajaxMetricsType" onchange="refreshAjaxMetricsChart('previousAjaxMetricProgress', 'metricsResponse', 1)">
+        <select class="flex-item-stretch border-top-bottom" style="height: 30px; max-width: calc(100vw - 150px); padding: 0 0 0 10px; background-color: white;" id="ajaxMetricsType" onchange="refreshAjaxMetricsChart('previousAjaxMetricProgress', 'metricsResponse', 1)">
         </select>
         <select class="flex-item-stretch border-right" style="height: 30px; max-width:50px; padding:0 0 0 10px; background-color: white;" id="ajaxMetricsCount" onchange="refreshAjaxMetricsChart('nextAjaxMetricProgress', 'metricsResponse', 1)">
             <option selected="selected">5</option>

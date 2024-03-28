@@ -1,3 +1,4 @@
 {
-  "EnableArshuFramework$": true
+  "EnableFrameworkView$": false,
+  "IsLoggedIn$": false
 }

@@ -20,13 +20,6 @@
     margin: 0;
 }
 
-.container {
-    margin: 0 auto;
-    max-width: 112.0rem;
-    padding: 0 0.5rem;
-    position: relative;
-}
-
 .flex-content-center {
     display: flex;
     flex-direction: column;
@@ -37,8 +30,9 @@
 .flex-card {
     display: flex;
     flex-direction: column;
-    min-width:280px;
-    margin: 0 auto;    
+    min-width: 280px;
+    margin: 0 auto;
+    color: gray;
 }
 
 .flex-card-wide {
@@ -237,23 +231,6 @@ select {
         pointer-events: none;
     }
 
-input[type='text'],
-input[type='password'],
-input[type='hidden']
-input[type='color'],
-input[type='date'],
-input[type='datetime'],
-input[type='datetime-local'],
-input[type='email'],
-input[type='month'],
-input[type='number'],
-input[type='search'],
-input[type='tel'],
-input[type='url'],
-input[type='week'],
-input:not([type]) {
-    min-height: 38px;
-}
 
 textarea {
     min-height: 6.5rem;
@@ -263,47 +240,54 @@ textarea {
 /* Menu */
 /*=============================================================================================================================================*/
 
-.menu,
-.submenu {
+.nav-active {
+    display: block;
+}
+
+.navmenu,
+.subnavmenu {
     list-style-type: none;
 }
 
 /* Mobile menu */
-.menu {
+.navmenu {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     margin: 0px;
+    min-height:47.5px;
 }
 
-.menuimage {
+.navmenuimage {
     padding: 0;
 }
 
-.menuimage_right {
+.navmenuimage_right {
     order: 3;
     text-align: right;
     padding: 0px 0px 0px 5px;
 }
 
-.menulogo {
-    padding: 10px 10px 10px 5px;
+.navmenulogo {
+    margin-top: 5px;
+    padding: 5px 10px 5px 5px;
+    flex:1;
 }
 
-    .menulogo a {
+    .navmenulogo a {
         color: black;
         text-decoration: none;
     }
 
-.menutoggle {
+.navmenutoggle {
     order: 1;
     font-size: 20px;
     padding: 0px 10px;
     cursor: pointer;
 }
 
-.menuitem {
+.navmenuitem {
     order: 3;
     width: 100%;
     text-align: right;
@@ -311,30 +295,30 @@ textarea {
     padding: 10px 10px 12px 10px;
 }
 
-    .menuitem a {
+    .navmenuitem a {
         color: black;
         text-decoration: none;
     }
 
-.active .menuitem {
+.active .navmenuitem {
     display: block;
 }
 
 /* Submenu up from mobile screens */
-.submenu {
+.subnavmenu {
     display: none;
     margin:0px;
 }
 
-.submenu-active .submenu {
+.subnavmenu-active .subnavmenu {
     display: block;
 }
 
-.has-submenu i {
+.has-navsubmenu i {
     font-size: 12px;
 }
 
-.has-submenu > a::after {
+.has-subnavmenu > a::after {
     font-size: 12px;
     line-height: 16px;
     font-weight: 900;
@@ -343,25 +327,21 @@ textarea {
     padding-left: 5px;
 }
 
-.submenuitem {
+.subnavmenuitem {
     padding: 10px 5px;
 }
 
-.submenu-active {
+.subnavmenu-active {
     border-radius: 3px;
 }
 
 /* Tablet menu */
 @media all and (min-width: 700px) {
-    .menu {
+    .navmenu {
         justify-content: center;
     }
-
-    .menulogo {
-        flex: 1;
-    }
-
-    .menutoggle {
+   
+    .navmenutoggle {
         text-align: right;
         order: 2;
     }
@@ -369,28 +349,28 @@ textarea {
 
 /* Desktop menu */
 @media all and (min-width: 960px) {
-    .menu {
+    .navmenu {
         align-items: flex-start;
         flex-wrap: nowrap;
         background: none;
     }
 
-    .menulogo {
+    .navmenulogo {
         order: 0;
     }
 
-    .menuitem {
+    .navmenuitem {
         order: 1;
         position: relative;
         display: block;
         width: auto;
     }
 
-    .menutoggle {
+    .navmenutoggle {
         display: none;
     }
 
-    .submenu-active {
+    .navsubmenu-active {
         border-radius: 0;
     }
 }
@@ -623,7 +603,7 @@ striping:
 /* Modal */
 /*=============================================================================================================================================*/
 
-.modal {
+.viewmodal {
     align-items: center;
     display: none;
     flex-direction: column;
@@ -637,11 +617,11 @@ striping:
     top: 0;
 }
 
-    .modal.is-active {
+    .viewmodal.viewmodal-active {
         display: flex;
     }
 
-.modal-background {
+.viewmodal-background {
     background-color: rgba(10,10,10,.86);
     position: absolute;
     bottom: 0;
@@ -650,7 +630,7 @@ striping:
     top: 0;
 }
 
-.modal-content {
+.viewmodal-content {
     margin: 0 20px;
     max-height: calc(100vh - 160px);
     overflow: auto;
@@ -658,7 +638,7 @@ striping:
     width: 100%;
 }
 
-    .modal-content.card {
+    .viewmodal-content.card {
         background-color: #fff;
         box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
         color: #4a4a4a;

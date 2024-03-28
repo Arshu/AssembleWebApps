@@ -280,8 +280,10 @@
     }
 
     function onSetOnlineCount(onlineCount, connectionInfo) {
-        //console.log('WebSocket Count: [' + connectionInfo + "]" + onlineCount);
-        getElm('webSocketCount').textContent = onlineCount;
+        console.log('WebSocket Count: [' + connectionInfo + "]" + onlineCount);
+        if (haveElm('webSocketCount') == true) {
+            getElm('webSocketCount').textContent = onlineCount;
+        }
     }
 
     function onPageChanged(pageChangeInfo, connectionInfo) {

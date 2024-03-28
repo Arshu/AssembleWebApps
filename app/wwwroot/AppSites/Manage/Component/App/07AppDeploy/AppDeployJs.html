@@ -309,10 +309,11 @@
         let apiToken = "";
         if (haveElm('appAPIToken') == true) {
             apiToken = getElm('appAPIToken').value;
-        }        //if (apiToken.length == 0) {
-        //    showText(responseElm, 'Enter the API Token', 'red');
-        //    valid = false;
-        //}
+        }       
+        if (apiToken.length == 0) {
+            showText(responseElm, 'Enter the API Token', 'red');
+            valid = false;
+        }
 
         if (valid === true) {
 

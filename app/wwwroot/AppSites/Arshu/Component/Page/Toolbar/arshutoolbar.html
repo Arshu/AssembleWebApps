@@ -22,16 +22,21 @@
     <input type="hidden" id="dynamicAppFile" value="{{$AppFile}}" />
 </div>
 
-
-
-{{@EnableArshuFramework}}
+{{@EnableFrameworkView}}
     {{@IsLoggedIn}}
         {{ArshuMenuEdit("RootComponentID":"Index")}}
     {{/IsLoggedIn}}
     {{^IsLoggedIn}}
         {{ArshuMenuView("RootComponentID":"Index")}}
     {{/IsLoggedIn}}
-{{/EnableArshuFramework}}
+{{/EnableFrameworkView}}
 
-
+{{@EnableFrameworkView}}
+    {{@IsLoggedIn}}
+        {{ArshuEditComponents("RootComponentID":"Index")}}
+    {{/IsLoggedIn}}
+    {{^IsLoggedIn}}
+        {{ArshuViewComponents("RootComponentID":"Index")}}
+    {{/IsLoggedIn}}
+{{/EnableFrameworkView}}
 

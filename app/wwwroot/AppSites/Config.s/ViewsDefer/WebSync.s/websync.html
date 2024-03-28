@@ -11,10 +11,10 @@
         }
         tablinks = document.getElementsByClassName("tab");
         for (i = 0; i < x.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" is-active", "");
+            tablinks[i].className = tablinks[i].className.replace(" tab-active", "");
         }
         getElm(tabName).style.display = "block";
-        evt.currentTarget.className += " is-active";
+        evt.currentTarget.className += " tab-active";
     }
 
     let gPushAssetResponseElmId = "pushResponse";
@@ -1301,7 +1301,7 @@
 
 <style>
 
-    .is-active {
+    .tab-active {
         color: black;
         font-weight: bolder;
     }
@@ -1371,7 +1371,7 @@
                 <div class="container" style="border: 2px solid lightgray;border-radius:5px;">
 
                     <div class="flex-content-spaced" style="margin: 0px 10px;">
-                        <div class="flex-item tab is-active" onclick="openTab(event,'PackConfig')">AppSite</div>
+                        <div class="flex-item tab tab-active" onclick="openTab(event,'PackConfig')">AppSite</div>
                         <div class="flex-item tab " onclick="openTab(event,'PackResourceConfig')">Resource</div>
                         <div class="flex-item tab" onclick="openTab(event,'PackDataConfig')">Data</div>
                     </div>

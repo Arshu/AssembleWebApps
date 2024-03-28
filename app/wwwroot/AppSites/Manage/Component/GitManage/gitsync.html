@@ -4,13 +4,13 @@
     function hideGitViewer() {
 
         let modal = document.querySelector('#viewGit');
-        modal.classList.remove('is-active');
+        modal.classList.remove('viewmodal-active');
         setTimeout(function () { window.location.reload(true); }, 1000);
     }
 
     function showGitViewer(progressElmId) {
         let modal = document.querySelector('#viewGit');
-        modal.classList.add('is-active');
+        modal.classList.add('viewmodal-active');
     }
 
     function gitRefreshGitRepositoryList(progressElmId, responseElmId, targetElmId, successCallback) {
@@ -608,9 +608,9 @@
     <div id="gitViewResponse"></div>
 </div>
 
-<div class="modal" id="viewGit">
-    <div class="modal-background"></div>
-    <div class="modal-content" style="background-color:#fff;">
+<div class="viewmodal" id="viewGit">
+    <div class="viewmodal-background"></div>
+    <div class="viewmodal-content" style="background-color:#fff;">
 
         <div class="flex-content-wrap">
             <button class="flex-item-stretch">Git Sync</button>

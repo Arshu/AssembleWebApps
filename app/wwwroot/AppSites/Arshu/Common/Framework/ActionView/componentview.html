@@ -13,7 +13,7 @@
     function hideComponentSourceViewer() {
 
         let modal = document.querySelector('#viewComponentSource');
-        modal.classList.remove('is-active');
+        modal.classList.remove('viewmodal-active');
     }
 
     function showComponentSourceViewer(progressElmId, componentAppSite, componentAppView, sourceComponentId, reloadData, successCallback) {
@@ -25,7 +25,7 @@
         if ((getElm('selectViewComponentSource').options.length <= 1) || (reloadData ===true)) {
             getComponentSourceHierarchyForViewer(progressElmId, 'viewComponentSourceResponse', componentAppSite, componentAppView, sourceComponentId, 'selectViewComponentSource', 'componentSourceViewer', 'componentMetaDataViewer', function () {
                 let modal = document.querySelector('#viewComponentSource');
-                modal.classList.add('is-active');
+                modal.classList.add('viewmodal-active');
 
                 if (typeof successCallback === "function") {
                     successCallback();
@@ -37,7 +37,7 @@
             })
         } else {
             let modal = document.querySelector('#viewComponentSource');
-            modal.classList.add('is-active');
+            modal.classList.add('viewmodal-active');
 
             if (typeof successCallback === "function") {
                 successCallback();
@@ -239,9 +239,9 @@
     <div id="viewComponentSourceResponse"></div>
 </div>
 
-<div class="modal" id="viewComponentSource" style="padding:2%;">
-    <div class="modal-background"></div>
-    <div class="modal-content" style="background-color:#fff;">
+<div class="viewmodal" id="viewComponentSource" style="padding:2%;">
+    <div class="viewmodal-background"></div>
+    <div class="viewmodal-content" style="background-color:#fff;">
 
         <div class="flex-content-wrap">
             <button class="flex-item-stretch">View Component Source Hierarchy</button>

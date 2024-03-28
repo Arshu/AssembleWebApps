@@ -1,13 +1,13 @@
-<ul class="menu" id="navMenu" style="{{$NavBarBackgroundStyle}};">
-    <li class="menulogo"><a href="/">{{$SiteTitle}}</a></li>
+<ul class="navmenu" id="navMenu" style="{{$NavBarBackgroundStyle}};">
+    <li class="navmenulogo"><a href="/">{{$SiteTitle}}</a></li>
     {{@NAVList}}
 
     {{@HaveSubMenu}}
-    <li class="menuitem has-submenu">
+    <li class="navmenuitem has-subnavmenu">
         <a tabindex="0">{{$NavTitle}}</a>
-        <ul class="submenu">
+        <ul class="subnavmenu">
             {{@SubNAVList}}
-            <li class="submenuitem">
+            <li class="subnavmenuitem">
                 <a class="{{$SubNavActive}}" href="{{$SubNavUrl}}">
                     {{$SubNavTitle}}
                 </a>
@@ -17,7 +17,7 @@
     </li>
     {{/HaveSubMenu}}
     {{^HaveSubMenu}}
-    <li class="menuitem">
+    <li class="navmenuitem">
         <a class="{{$NavActive}}" href="{{$NavUrl}}">
             {{$NavTitle}}
         </a>
@@ -25,11 +25,11 @@
     {{/HaveSubMenu}}
 
     {{/NAVList}}
-    <li class="menuitem has-submenu">
+    <li class="navmenuitem has-subnavmenu">
         <a tabindex="0">Accounts</a>
-        <ul class="submenu">
+        <ul class="subnavmenu">
             {{@IsTempUser}}
-            <li class="submenuitem">
+            <li class="subnavmenuitem">
                 <a href="/Account/ClaimUser">
                     Claim User
                 </a>
@@ -39,21 +39,21 @@
             </li>
             {{/IsTempUser}}
             {{^IsTempUser}}
-            <li class="submenuitem">
+            <li class="subnavmenuitem">
                 <a href="/Account/ChangePassword">
                     ChangePassword
                 </a>
             </li>
             {{/IsTempUser}}
             {{@HaveAdminRole}}
-            <li class="submenuitem">
+            <li class="subnavmenuitem">
                 <a href="/Config/Menu">
                     Config Menu
                 </a>
             </li>
             {{/HaveAdminRole}}
             {{@NAVAccountList}}
-            <li class="submenuitem">
+            <li class="subnavmenuitem">
                 <a class="{{$NavActive}}" href="{{$NavUrl}}">
                     {{$NavTitle}}
                 </a>
@@ -61,7 +61,7 @@
             {{/NAVAccountList}}
         </ul>
     </li>
-    <li class="menutoggle" data-target="navMenu">
+    <li class="navmenutoggle" data-target="navMenu">
         <svg style="width:32px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
     </li>
 </ul>

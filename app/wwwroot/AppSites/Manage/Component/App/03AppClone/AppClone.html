@@ -13,11 +13,11 @@
 
 <div id="appClone" class="border" style="margin: 5px 0px;padding: 5px; display: none;position:relative;">
 
-    <label style="position:absolute;left:3px;top:-6px; margin: 5px 0px; text-align: right">
+    <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
         <input id="cloneShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="hideElm('cloneRestrictionsDiv'); toggleElm('cloneReferenceRegionDiv'); toggleElm('cloneImageDiv'); toggleElm('cloneEnvironmentalVariableDiv'); toggleElm('orgNetworkDiv'); if (this.checked == true) { hideElm('cloneOptionsDiv') } else { if (getElm('cloneMaxMachinesPerRegion').value == 1) { hideElm('cloneOptionsDiv'); } }">
     </label>
 
-    <fieldset class="border" style="margin-top:10px;display:none;">
+    <fieldset class="border" style="margin-top:10px;display:none;padding:5px;">
         <legend>User</legend>
 
         <label style="width:100%;margin: 0px 5px;">
@@ -43,15 +43,15 @@
 
     </fieldset>
 
-    <div class="flex-input-wrap" style="margin: 5px 0px;">
+    <div class="flex-input-wrap" style="margin: 10px 0 5px 0px;">
         <label style="width: 100%; margin: 5px 0px; cursor: pointer;" onclick="openAppUrl('cloneAppName')">Clone App Name</label>
         <input id="cloneAppName" class="flex-item-stretch border-left" style="height: 38px; background-color: gray;" autocomplete="none" type="text" placeholder="Deploy App Name" readonly />
-        <button class="border-right button" style="background-color: #209cee; width:110px; height: 40px; " onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneAppName').value, 'cloneAppOrganization', 'cloneAppName', 'cloneImageName', 'cloneTagName', 'cloneReferenceRegionsTemplate', 'cloneReferenceRegionsDiv', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvAutoDestroyAfterXMin', 'cloneOptionsDiv', 'doCloneApp', function () { getElm('deleteCloneApp').removeAttribute('disabled'); } );">
+        <button class="border-right button" style="background-color: #209cee; width:110px; height: 38px; " onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneAppName').value, 'cloneAppOrganization', 'cloneAppName', 'cloneImageName', 'cloneTagName', 'cloneReferenceRegionsTemplate', 'cloneReferenceRegionsDiv', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvAutoDestroyAfterXMin', 'cloneOptionsDiv', 'doCloneApp', function () { getElm('deleteCloneApp').removeAttribute('disabled'); } );">
             Refresh
         </button>
     </div>
 
-    <fieldset id="cloneRestrictionsDiv" class="border" style="display:none;">
+    <fieldset id="cloneRestrictionsDiv" class="border" style="display: none; padding: 5px;">
         <legend>Deploy Restrictions</legend>
 
         <div class="flex-content-spaced" style="margin: 0px;">
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <fieldset id="cloneReferenceRegionDiv" class="border" style="display:none;">
+    <fieldset id="cloneReferenceRegionDiv" class="border" style="display: none; padding: 5px;">
         <legend>Clone Reference Region</legend>
 
         <div id="cloneReferenceRegionsDiv" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
@@ -81,7 +81,7 @@
 
     </fieldset>
 
-    <fieldset id="cloneImageDiv" class="border" style="display:none;">
+    <fieldset id="cloneImageDiv" class="border" style="display: none; padding: 5px;">
         <legend>Clone Image</legend>
 
         <div class="flex-content-spaced" style="margin: 0px;">
@@ -96,7 +96,7 @@
 
     </fieldset>
 
-    <fieldset id="cloneEnvironmentalVariableDiv" class="border" style="display: none;">
+    <fieldset id="cloneEnvironmentalVariableDiv" class="border" style="display: none; padding: 5px;">
         <legend>Environmental Variables</legend>
 
         <div class="flex-content-spaced" style="margin: 0px;">
@@ -155,7 +155,7 @@
         </div>
     </div>
 
-    <fieldset id="cloneOptionsDiv" class="border" style="display:none;">
+    <fieldset id="cloneOptionsDiv" class="border" style="display: none; padding: 5px;">
         <legend>Clone Options Per Region</legend>
 
         <div class="flex-content-spaced" style="margin: 0px;">
@@ -180,7 +180,7 @@
     </fieldset>
 
 
-    <fieldset id="orgNetworkDiv" class="border" style="display:none;">
+    <fieldset id="orgNetworkDiv" class="border" style="display: none; padding: 5px;">
         <legend>App Info</legend>
 
         <div class="flex-content-spaced" style="margin: 0px;">
@@ -198,7 +198,7 @@
     <div class="flex-input-wrap" style="margin: 5px 0px;">
         <label style="width:100%;margin: 5px 0px;cursor: pointer;" onclick="openAppUrl('newAppName')">New App Name</label>
         <input id="newAppName" class="flex-item-stretch border-left" style="height: 38px; " autocomplete="none" type="text" placeholder="Your Clone App Name" value="" />
-        <button id="deleteCloneApp" class="border-right button" style="background-color: #209cee; width: 110px; height: 40px; " onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); deleteCloneApp('doAppDeleteProgress', 'doAppCloneResponse', getElm('newAppName').value, 'deleteCloneApp');">
+        <button id="deleteCloneApp" class="border-right button" style="background-color: #209cee; width: 110px; height: 38px; " onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); deleteCloneApp('doAppDeleteProgress', 'doAppCloneResponse', getElm('newAppName').value, 'deleteCloneApp');">
             Delete <div id="doAppDeleteProgress"></div>
         </button>
     </div>

@@ -1,0 +1,5 @@
+74bb9026cf6aa167de0a8f905d58a591291efddc,DELETE,regular-file,app/linux64/Arshu.AppBaseWeb,37599721,
+5fdc9d84112c7414c799e555bc276f18cbfa04a0,DELETE,regular-file,app/linux64_musl/Arshu.AppBaseWeb,15120756,
+5f38234fc0074c6359a4bc92672cb2761f64d18e,DELETE,regular-file,app/osx64/Arshu.AppBaseWeb,37204461,
+e52c6da28c685876f92a47e6ec553f131b6b183c,DELETE,regular-file,app/osxarm64/Arshu.AppBaseWeb,36474244,
+db444df3526df013c94d9f574f59683b895c3aa2,DELETE,regular-file,app/win64/Arshu.AppBaseWeb.exe,14100992,

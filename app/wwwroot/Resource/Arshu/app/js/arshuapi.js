@@ -1,4 +1,210 @@
 ﻿
+/******************************************************************************************************************/
+//Arshu Web Components
+/******************************************************************************************************************/
+
+class ArshuView extends HTMLElement {
+    constructor() {
+        super()
+        //const category = this.getAttribute("category")
+        //const message = this.getAttribute("message")
+        //this.innerHTML = `
+        //<div>You've got an interesting message, from ${category} category:</div>
+        //<div>${message}</div>`
+    }
+}
+
+customElements.define('arshu-view', ArshuView);
+
+////https://www.maxiferreira.com/blog/astro-page-transitions/
+//navigation.addEventListener('navigate', (navigateEvent) => {
+//    const url = new URL(navigateEvent.destination.url)
+
+//    //console.log('EventListener:navigate:' + url);
+//    //if (url.pathname.startsWith('/movies/')) {
+//    //    navigateEvent.intercept({
+//    //        async handler() {
+//    //            const html = await getHTMLFragment(url.pathname)
+//    //            updateTheDOMSomehow(html)
+//    //        },
+//    //    })
+//    //navigateEvent.intercept({
+//    //    async handler() {
+//    //        const html = await getHTMLFragment(url.pathname)
+
+//    //        // If the browser doesn't support this API, update the DOM as usual
+//    //        if (!document.createDocumentTransition) {
+//    //            updateTheDOMSomehow(html)
+//    //            return
+//    //        }
+
+//    //        // Otherwise, update the DOM within a transition
+//    //        const transition = document.createDocumentTransition()
+//    //        transition.start(() => updateTheDOMSomehow(html))
+//    //    },
+//    //})
+//    //}
+//})
+
+//async function getHTMLFragment(pathname) {
+//    const response = await fetch(`/fragment${pathname}`)
+//    return await response.text()
+//}
+
+//function updateTheDOMSomehow(html) {
+//    document.getElementById('content').innerHTML = html
+//}
+
+/******************************************************************************************************************/
+//Arshu Framework Base Utilities
+/******************************************************************************************************************/
+
+function setApiMetrics(result) {
+
+    if (result.hasOwnProperty('AppSite') === true) {
+        if (haveElm('dynamicAppSite') == true) {
+            getElm('dynamicAppSite').value = result.AppSite
+        }
+    }
+    if (result.hasOwnProperty('AppView') === true) {
+        if (haveElm('dynamicAppView') == true) {
+            getElm('dynamicAppView').value = result.AppView
+        }
+    }
+    if (result.hasOwnProperty('AppFile') === true) {
+        if (haveElm('dynamicAppFile') == true) {
+            getElm('dynamicAppFile').value = result.AppFile
+        }
+    }
+
+    if (result.hasOwnProperty('ConcurrentCount') === true) {
+        if (haveElm('concurrentCount') == true) {
+            getElm('concurrentCount').innerHTML = result.ConcurrentCount
+        }
+    }
+    if (result.hasOwnProperty('LoginCount') === true) {
+        if (haveElm('loginCount') == true) {
+            getElm('loginCount').innerHTML = result.LoginCount
+        }
+    }
+    if (result.hasOwnProperty('MemoryInfo') === true) {
+        if (haveElm('memoryInfo') == true) {
+            getElm('memoryInfo').innerHTML = result.MemoryInfo
+        }
+    }
+    if (result.hasOwnProperty('WorkingSet') === true) {
+        if (haveElm('workingSet') == true) {
+            getElm('workingSet').innerHTML = result.WorkingSet
+        }
+    }
+    if (result.hasOwnProperty('CPUTime') === true) {
+        if (haveElm('cpuTime') == true) {
+            getElm('cpuTime').innerHTML = result.CPUTime
+        }
+    }
+    if (result.hasOwnProperty('GCInfo') === true) {
+        if (haveElm('gcInfo') == true) {
+            getElm('gcInfo').innerHTML = result.GCInfo
+        }
+    }
+    if (haveElm('domCount') == true) {
+        let domCount = document.getElementsByTagName('*').length
+        getElm('domCount').innerHTML = domCount
+    }
+
+    if (haveElm('totalResources') == true) {
+        let totalNoOfResources = window.performance.getEntriesByType("resource").length
+        getElm('totalResources').innerHTML = totalNoOfResources
+    }
+
+    var debugInfo = ""
+    if (result.hasOwnProperty('DebugInfo') === true) {
+        window.debugInfo = JSON.stringify(result.DebugInfo)
+    }
+}
+
+function executeScriptElements(containerElement) {
+
+    if ((containerElement) && (containerElement.id != "")) {
+        const scriptElements = containerElement.querySelectorAll("script")
+        console.log('Found ' + scriptElements.length + ' scriptElements under container element [' + containerElement.id + ']')
+
+        Array.from(scriptElements).forEach((scriptElement) => {
+            const clonedElement = document.createElement("script")
+
+            Array.from(scriptElement.attributes).forEach((attribute) => {
+                clonedElement.setAttribute(attribute.name, attribute.value)
+            })
+
+            clonedElement.text = scriptElement.text
+
+            scriptElement.parentNode.replaceChild(clonedElement, scriptElement)
+            if (clonedElement.id != "") {
+                console.log('Replacing scriptElement [' + clonedElement.id + ']')
+            }
+
+            if (clonedElement.id.length > 0) {
+                let eventName = scriptElement.id + "Init"
+                document.dispatchEvent(new Event(eventName))
+                console.log('Triggering Event  [' + eventName + '] under scriptElement [' + scriptElement.id + '] for document Element')
+            }
+        })
+    }
+}
+
+window.addEventListener('popstate', function (event) {
+    if (clickRefresh == false) {
+        //alert("Not Click Refresh location: " + document.location + ", state: " + JSON.stringify(event.state));
+        let locationUrlHash = document.location.hash
+        let idxOfHash = locationUrlHash.indexOf("#")
+        if (idxOfHash > -1) {
+            let hashLocation = locationUrlHash.substring(idxOfHash + 1)
+            if (hashLocation.substring(0, 1) == "/") hashLocation = hashLocation.substring(1)
+            let idxOfFirstSlash = hashLocation.indexOf("/")
+
+            let newAppSite = "Index"
+            let newAppView = "Main"
+
+            if (idxOfFirstSlash > -1) {
+                newAppSite = hashLocation.substring(0, idxOfFirstSlash)
+                newAppView = hashLocation.substring(idxOfFirstSlash + 1)
+            }
+
+            let state = JSON.stringify(event.state)
+            if (!state) {
+                refreshViewHtml('progress', 'response', newAppSite, newAppView, '')
+            } else {
+                if ((state.hasOwnProperty("componentName") == true) && (state.hasOwnProperty("configJson") == true)) {
+                    newComponentName = state.componentName
+                    newConfigJson = state.configJson
+                    newRealtimeRefresh = false
+                    newRefreshAppDomain = ''
+                    newRemoteKey = ''
+                    if (state.hasOwnProperty("refreshAppDomain") == true) {
+                        newRefreshAppDomain = state.refreshAppDomain
+                    }
+                    if (state.hasOwnProperty("isRealtime") == true) {
+                        newRealtimeRefresh = state.isRealtime
+                    }
+                    if (state.hasOwnProperty("remoteKey") == true) {
+                        newRemoteKey = state.remoteKey
+                    }
+                    refreshComponentHtml('progress', 'response', newAppSite, newAppView, newComponentName, newConfigJson, newRealtimeRefresh, newRefreshAppDomain, newRemoteKey)
+                } else {
+                    refreshViewHtml('progress', 'response', newAppSite, newAppView, '')
+                }
+            }
+
+        } else {
+            document.location.reload()
+        }
+    }
+});
+
+/******************************************************************************************************************/
+//Arshu Framework Json Utilities
+/******************************************************************************************************************/
+
 let clickRefresh = true;
 let defaultDelayInterval = 5000;
 let globalWebSocketActive = false;
@@ -309,8 +515,9 @@ function refreshHtmlJson(jsonTagList, appSite, appView) {
     }
 }
 
-
-
+/******************************************************************************************************************/
+//Arshu Framework Component Utilities
+/******************************************************************************************************************/
 
 function clearResponse(responseElmId) {
 
@@ -708,9 +915,9 @@ function filterComponentHtml(progressElmId, responseElmId, appSite, appView, get
     return refreshComponentHtml(progressElmId, responseElmId, appSite, appView, componentName, filterConfigJson, isRealtime, realtimeDomain, successCallback)
 }
 
-
-
-
+/******************************************************************************************************************/
+//Arshu Framework Json Functions
+/******************************************************************************************************************/
 
 function saveJson(progressElmId, responseElmId, appSite, appView, appComponentName, getKeyJson, getSaveJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
@@ -1149,9 +1356,9 @@ function cloneJsonInJsonArray(progressElmId, responseElmId, appSite, appView, ap
     return false;
 }
 
-
-
-
+/******************************************************************************************************************/
+//Arshu Framework Bind Utilities
+/******************************************************************************************************************/
 
 var stringConstructor = "test".constructor;
 var arrayConstructor = [].constructor;
@@ -1327,6 +1534,10 @@ function getAttributeValue(elm, attrName) {
 
     return elmAttrVal
 }
+
+/******************************************************************************************************************/
+//Arshu Framework Bind Functions
+/******************************************************************************************************************/
 
 function bindShowComponentSourceViewer(event) {
     const el = event.target
@@ -1770,151 +1981,9 @@ function bindArshuAction(scopeElement) {
     });
 }
 
-
-
-
-
-function setApiMetrics(result) {
-
-    if (result.hasOwnProperty('AppSite') === true) {
-        if (haveElm('dynamicAppSite') == true) {
-            getElm('dynamicAppSite').value = result.AppSite;
-        }
-    }
-    if (result.hasOwnProperty('AppView') === true) {
-        if (haveElm('dynamicAppView') == true) {
-            getElm('dynamicAppView').value = result.AppView;
-        }
-    }
-    if (result.hasOwnProperty('AppFile') === true) {
-        if (haveElm('dynamicAppFile') == true) {
-            getElm('dynamicAppFile').value = result.AppFile;
-        }
-    }
-
-    if (result.hasOwnProperty('ConcurrentCount') === true) {
-        if (haveElm('concurrentCount') == true) {
-            getElm('concurrentCount').innerHTML = result.ConcurrentCount;
-        }
-    }
-    if (result.hasOwnProperty('LoginCount') === true) {
-        if (haveElm('loginCount') == true) {
-            getElm('loginCount').innerHTML = result.LoginCount;
-        }
-    }
-    if (result.hasOwnProperty('MemoryInfo') === true) {
-        if (haveElm('memoryInfo') == true) {
-            getElm('memoryInfo').innerHTML = result.MemoryInfo;
-        }
-    }
-    if (result.hasOwnProperty('WorkingSet') === true) {
-        if (haveElm('workingSet') == true) {
-            getElm('workingSet').innerHTML = result.WorkingSet;
-        }
-    }
-    if (result.hasOwnProperty('CPUTime') === true) {
-        if (haveElm('cpuTime') == true) {
-            getElm('cpuTime').innerHTML = result.CPUTime;
-        }
-    }
-    if (result.hasOwnProperty('GCInfo') === true) {
-        if (haveElm('gcInfo') == true) {
-            getElm('gcInfo').innerHTML = result.GCInfo;
-        }
-    }
-    if (haveElm('domCount') == true) {
-        let domCount = document.getElementsByTagName('*').length;
-        getElm('domCount').innerHTML = domCount;
-    }
-
-    if (haveElm('totalResources') == true) {
-        let totalNoOfResources = window.performance.getEntriesByType("resource").length;
-        getElm('totalResources').innerHTML = totalNoOfResources;
-    }
-
-    var debugInfo = "";
-    if (result.hasOwnProperty('DebugInfo') === true) {
-        window.debugInfo = JSON.stringify(result.DebugInfo);
-    }
-}
-
-function executeScriptElements(containerElement) {
-
-    if ((containerElement) && (containerElement.id != "")) {
-        const scriptElements = containerElement.querySelectorAll("script");
-        console.log('Found ' + scriptElements.length + ' scriptElements under container element [' + containerElement.id + ']');
-
-        Array.from(scriptElements).forEach((scriptElement) => {
-            const clonedElement = document.createElement("script");
-
-            Array.from(scriptElement.attributes).forEach((attribute) => {
-                clonedElement.setAttribute(attribute.name, attribute.value);
-            });
-
-            clonedElement.text = scriptElement.text;
-
-            scriptElement.parentNode.replaceChild(clonedElement, scriptElement);
-            if (clonedElement.id != "") {
-                console.log('Replacing scriptElement [' + clonedElement.id + ']');
-            }
-
-            if (clonedElement.id.length > 0) {
-                let eventName = scriptElement.id + "Init";
-                document.dispatchEvent(new Event(eventName));
-                console.log('Triggering Event  [' + eventName + '] under scriptElement [' + scriptElement.id + '] for document Element');
-            }
-        });
-    }
-}
-
-window.addEventListener('popstate', function (event) {
-    if (clickRefresh == false) {
-        //alert("Not Click Refresh location: " + document.location + ", state: " + JSON.stringify(event.state));
-        let locationUrlHash = document.location.hash;
-        let idxOfHash = locationUrlHash.indexOf("#");
-        if (idxOfHash > -1) {
-            let hashLocation = locationUrlHash.substring(idxOfHash + 1);
-            if (hashLocation.substring(0, 1) == "/") hashLocation = hashLocation.substring(1);
-            let idxOfFirstSlash = hashLocation.indexOf("/");
-
-            let newAppSite = "Index";
-            let newAppView = "Main";
-
-            if (idxOfFirstSlash > -1) {
-                newAppSite = hashLocation.substring(0, idxOfFirstSlash);
-                newAppView = hashLocation.substring(idxOfFirstSlash + 1);
-            }
-
-            let state = JSON.stringify(event.state);
-            if (!state) {
-                refreshViewHtml('progress', 'response', newAppSite, newAppView, '');
-            } else {
-                if ((state.hasOwnProperty("componentName") == true) && (state.hasOwnProperty("configJson") == true)) {
-                    newComponentName = state.componentName;
-                    newConfigJson = state.configJson;
-                    newRealtimeRefresh = false;
-                    newRefreshAppDomain = '';
-                    newRemoteKey = ''
-                    if (state.hasOwnProperty("refreshAppDomain") == true) {
-                        newRefreshAppDomain = state.refreshAppDomain;
-                    }
-                    if (state.hasOwnProperty("isRealtime") == true) {
-                        newRealtimeRefresh = state.isRealtime;
-                    }
-                    if (state.hasOwnProperty("remoteKey") == true) {
-                        newRemoteKey = state.remoteKey;
-                    }
-                    refreshComponentHtml('progress', 'response', newAppSite, newAppView, newComponentName, newConfigJson, newRealtimeRefresh, newRefreshAppDomain, newRemoteKey);
-                } else {
-                    refreshViewHtml('progress', 'response', newAppSite, newAppView, '');
-                }
-            }
-
-        } else {
-            document.location.reload();
-        }
-    }
-});
+/******************************************************************************************************************/
+//Arshu 
+/******************************************************************************************************************/
 
 
 

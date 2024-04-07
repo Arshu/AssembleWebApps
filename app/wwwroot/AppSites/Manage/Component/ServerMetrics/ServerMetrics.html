@@ -8,87 +8,86 @@
     }
 </style>
 
-<div style="margin: 5px 0px;" class="flex-input-wrap">
-    <button class="flex-item-stretch border" style="height:40px;" onclick=" if (isHiddenElm('serverMetrics') == true) { showServerMetrics('serverMetricProgress', 'serverMetricResponse', 'serverMetrics'); } else { hideElm('serverMetrics'); }">
+<div style="margin: 5px 5px;" class="ar-flex-input-wrap">
+    <button class="ar-button ar-flex-item-stretch ar-border" onclick=" if (isHiddenElm('serverMetrics') == true) { showServerMetrics('serverMetricProgress', 'serverMetricResponse', 'serverMetrics'); } else { hideElm('serverMetrics'); }">
         Server Metrics <div id="serverMetricProgress"></div>
     </button>
 </div>
 
-<div class="notification" id="serverMetricResponseContainer" style="margin:5px; padding:10px;display:none;">
-    <button class="delete" onclick="hideElm('serverMetricResponseContainer')"></button>
+<div class="ar-notification" id="serverMetricResponseContainer" style="margin:5px; padding:10px;display:none;">
+    <button class="ar-delete" onclick="hideElm('serverMetricResponseContainer')"></button>
     <div id="serverMetricResponse"></div>
 </div>
 
-<div id="serverMetrics" class="border" style="margin: 5px 0px;padding: 5px; display: none;">
+<div id="serverMetrics" class="ar-border" style="margin: 5px 5px;padding: 5px; display: none;">
 
-
-    <div class="notification" id="clearServerMetricResponseContainer" style="margin:5px; padding:10px;display:none;">
-        <button class="delete" onclick="hideElm('clearServerMetricResponseContainer')"></button>
+    <div class="ar-notification" id="clearServerMetricResponseContainer" style="margin:5px; padding:10px;display:none;">
+        <button class="ar-delete" onclick="hideElm('clearServerMetricResponseContainer')"></button>
         <div id="clearServerMetricResponse"></div>
     </div>
 
     <div style="margin: 0 auto;position:relative; overflow:auto">
-        <div class="flex-input-wrap border" style="margin: 5px 0px;">
-            <select class="flex-item-stretch border-left" style="height: 30px; padding: 0 0 0 10px; background-color: white;" id="serverMetricsInstance" onchange="fillServerMetricsPath('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsPath', function () { fillServerMetricsType('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsType', function () { refreshServerMetricsChart('previousPageMetricProgress', 'serverMetricResponse', 1); }); })">
+        <div class="ar-flex-input-wrap border" style="margin: 5px 0px;">
+            <select class="ar-select ar-flex-item-stretch ar-border-left" style="background-color: white;" id="serverMetricsInstance" onchange="fillServerMetricsPath('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsPath', function () { fillServerMetricsType('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsType', function () { refreshServerMetricsChart('previousPageMetricProgress', 'serverMetricResponse', 1); }); })">
             </select>
-            <span id="serverMetricsCached" class="border-right" style="background-color: white; padding-top: 5px; padding-right: 10px; ">✓</span>
-        </div>
-        <div class="flex-content-wrap" style="padding:3px 0px;background-color:#fff;display:none;" id="mergeServerAction">
-            <button class="border flex-item-stretch" style="margin: 2px 5px 0px 5px; height: 25px; background-color: lightgray;" onclick="mergeServerMetrics('mergeServerProgress', 'mergeServerResponse', (getElm('mergeServerStatus').checked))">
-                Merge Remote Server Metrics <div id="mergeServerProgress"></div>
-            </button>
-            <input type="checkbox" style="margin: 2px 5px 0px 0px;" id="mergeServerStatus" title="Reset the Merge Status" />
+            <span id="serverMetricsCached" class="ar-border-right" style="background-color: white; padding-top: 5px; padding-right: 10px; ">✓</span>
         </div>
 
-        <div class="notification" id="mergeServerResponseContainer" style="margin:5px; padding:10px;display:none;">
-            <button class="delete" onclick="hideElm('mergeServerResponseContainer')"></button>
+        <div class="ar-flex-content-wrap" style="padding:3px 0px;background-color:#fff;display:none;" id="mergeServerAction">
+            <button class="ar-button ar-border ar-flex-item-stretch" style="background-color: lightgray;" onclick="mergeServerMetrics('mergeServerProgress', 'mergeServerResponse', (getElm('mergeServerStatus').checked))">
+                Merge Remote Server Metrics <div id="mergeServerProgress"></div>
+            </button>
+            <input type="checkbox" style="margin: 2px 10px 0px 10px;" id="mergeServerStatus" title="Reset the Merge Status" />
+        </div>
+
+        <div class="ar-notification" id="mergeServerResponseContainer" style="margin:5px; padding:10px;display:none;">
+            <button class="ar-delete" onclick="hideElm('mergeServerResponseContainer')"></button>
             <div id="mergeServerResponse"></div>
         </div>
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
-            <div class="border-left" style="font-size: small; width: 70px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillServerMetricsPath('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsPath', function () { fillServerMetricsType('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsType', function () { refreshServerMetricsChart('previousPageMetricProgress', 'serverMetricResponse', 1); }); })">
+
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <div class="ar-border-left" style="text-align: center; font-size: small; width: 70px; background-color: black; color: white; padding-left: 5px;" onclick="fillServerMetricsPath('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsPath', function () { fillServerMetricsType('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsType', function () { refreshServerMetricsChart('previousPageMetricProgress', 'serverMetricResponse', 1); }); })">
                 Server Mtd
-                <div style="height:18px;padding-left:13px;">
+                <div style="height:18px;text-align:center;">
                     <svg fill="none" stroke="currentColor" style="height:100%;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                 </div>
                 <span id="serverMetricUrlProgress"></span>
             </div>
-            <select class="border-right flex-item-stretch" style="height: 30px; max-width: calc(100vw - 96px); padding: 0 0 0 10px; background-color: white;" id="serverMetricsPath" onchange="fillServerMetricsType('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsType', function () { refreshServerMetricsChart('previousPageMetricProgress', 'serverMetricResponse', 1);  })">
+            <select class="ar-select ar-border-right ar-flex-item-stretch" style="max-width: calc(100vw - 96px); background-color: white;" id="serverMetricsPath" onchange="fillServerMetricsType('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsType', function () { refreshServerMetricsChart('previousPageMetricProgress', 'serverMetricResponse', 1);  })">
             </select>
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
-            <div class="border-left" style="font-size: small; width: 70px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillServerMetricsType('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsType', function () { refreshServerMetricsChart('previousPageMetricProgress', 'serverMetricResponse', 1);  })">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <div class="ar-border-left" style="text-align:center; font-size: small; width: 70px; background-color: black; color: white; padding-left: 5px;" onclick="fillServerMetricsType('serverMetricUrlProgress', 'serverMetricResponse', 'serverMetricsType', function () { refreshServerMetricsChart('previousPageMetricProgress', 'serverMetricResponse', 1);  })">
                 Metrics
-                <div style="height:18px;padding-left:13px;">
+                <div style="height:18px;text-align:center;">
                     <svg fill="none" stroke="currentColor" style="height:100%;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                 </div>
             </div>
-            <select class="flex-item-stretch border-top-bottom" style="height: 30px; padding:0 0 0 10px; background-color: white;" id="serverMetricsType" onchange="refreshServerMetricsChart('previousServerMetricProgress', 'serverMetricResponse', 1)">
+            <select class="ar-select ar-flex-item-stretch ar-border-top-bottom" style=" background-color: white;" id="serverMetricsType" onchange="refreshServerMetricsChart('previousServerMetricProgress', 'serverMetricResponse', 1)">
             </select>
-            <select class="flex-item-stretch border-right" style="height: 30px; max-width:50px; padding:0 0 0 10px; background-color: white;" id="serverMetricsCount" onchange="refreshServerMetricsChart('nextServerMetricProgress', 'serverMetricResponse', 1)">
+            <select class="ar-select ar-border-right" style="background-color: white;" id="serverMetricsCount" onchange="refreshServerMetricsChart('nextServerMetricProgress', 'serverMetricResponse', 1)">
                 <option selected="selected">5</option>
                 <option>10</option>
                 <option>25</option>
                 <option>50</option>
                 <option>100</option>
             </select>
-            <button class="border" style="width:35px;height:38px" id="previousServerMetric" disabled="disabled" onclick="refreshServerMetricsChart('previousServerMetricProgress', 'serverMetricResponse', getElm('previousServerMetric').getAttribute('data-previousserver'))">
+            <button class="ar-iconbutton ar-border" style="width:35px;" id="previousServerMetric" disabled="disabled" onclick="refreshServerMetricsChart('previousServerMetricProgress', 'serverMetricResponse', getElm('previousServerMetric').getAttribute('data-previousserver'))">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path></svg>
                 <span id="previousServerMetricProgress"></span>
             </button>
-            <button class="border" style="width:35px;height:38px" id="nextServerMetric" disabled="disabled" onclick="refreshServerMetricsChart('nextServerMetricProgress', 'serverMetricResponse', getElm('nextServerMetric').getAttribute('data-nextserver'))">
+            <button class="ar-iconbutton ar-border" style="width:35px;" id="nextServerMetric" disabled="disabled" onclick="refreshServerMetricsChart('nextServerMetricProgress', 'serverMetricResponse', getElm('nextServerMetric').getAttribute('data-nextserver'))">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <span id="nextServerMetricProgress"></span>
             </button>
         </div>
 
-        <div class="flex-content-wrap" style="padding:3px 0px;background-color:#fff;">
-
-            <button class="border flex-item-stretch" style="margin: 2px 5px 0px 0px; height: 25px; background-color: lightgray;" onclick="clearAllMetrics('clearServerMetricProgress', 'clearServerMetricResponse')">
+        <div class="ar-flex-content-wrap" style="padding:3px 0px;background-color:#fff;">
+            <button class="ar-button ar-border-left ar-flex-item-stretch" style="background-color: lightgray;" onclick="clearAllMetrics('clearServerMetricProgress', 'clearServerMetricResponse')">
                 Clear All Metrics <div id="clearServerMetricProgress"></div>
             </button>
-
-            <button class="border" style="margin-top: 2px; width: 25px; height: 25px; text-align: center; position: relative;" onclick="showServerMetrics('serverMetricProgress', 'serverMetricResponse', 'serverMetrics');">
+            <button class="ar-iconbutton ar-border-right" style="width: 35px;" onclick="showServerMetrics('serverMetricProgress', 'serverMetricResponse', 'serverMetrics');">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>

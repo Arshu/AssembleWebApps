@@ -1,4 +1,4 @@
 {
   "ComponentCategory": "Declarative",
-  "ComponentTitle": "Compose !{{Html}} Data Components"
+  "ComponentTitle": "Compose !{{$Html}} Data Components"
 }

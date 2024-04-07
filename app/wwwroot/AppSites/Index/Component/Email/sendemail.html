@@ -81,34 +81,34 @@
 
 </script>
 
-<div class="flex-content-center">
+<div class="ar-flex-content-center">
 
-    <div class="flex-card card_border" style="text-align:center;width:90%;">
+    <div class="ar-flex-card ar-card-border" style="text-align:center;width:90%;">
         
-        <div class="flex-content-wrap flex-item-stretch">
-            <button class="button flex-item-stretch border" style="background-color:#209cee;">
+        <div class="ar-flex-content-wrap ar-flex-item-stretch">
+            <button class="ar-button ar-flex-item-stretch ar-border" style="background-color:#209cee;color:black;">
                 Send Email Message
             </button>
         </div>
 
-        <div class="flex-input-wrap" style="margin: 25px 0px;">
+        <div class="ar-flex-input-wrap" style="margin: 25px 0px;">
             <label style="width:100%;">Your Email</label>
-            <input class="flex-item-stretch border" style="height:39px;" id="userEmail" maxlength="50" autocomplete="none" type="email" placeholder="Your Email" autofocus="" tabindex="1" value="">
+            <input class="ar-input ar-flex-item-stretch ar-border" style="height:39px;" id="userEmail" maxlength="50" autocomplete="none" type="email" placeholder="Your Email" autofocus="" tabindex="1" value="">
         </div>
 
 
-        <div class="flex-input-wrap" style="margin: 25px 0px;">
+        <div class="ar-flex-input-wrap" style="margin: 25px 0px;">
             <label style="width:100%;">Your Message</label>
-            <textarea class="flex-item-stretch border" id="userMessage" placeholder="Your Message" tabindex="2" rows="5" maxlength="250"></textarea>
+            <textarea class="ar-input ar-flex-item-stretch ar-border" id="userMessage" placeholder="Your Message" tabindex="2" rows="5" maxlength="250"></textarea>
         </div>
 
-        <div class="notification" id="sendEmailResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
-            <button class="delete" onclick="hideElm('sendEmailResponseContainer')"></button>
+        <div class="ar-notification" id="sendEmailResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+            <button class="ar-delete" onclick="hideElm('sendEmailResponseContainer')"></button>
             <div id="sendEmailResponse"></div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 25px 0px;">
-            <button class="border button" id="sendEmailSubmit" style="background-color:#209cee;" tabindex="4"
+        <div class="ar-flex-content-wrap" style="margin: 25px 0px;">
+            <button class="ar-button ar-border" id="sendEmailSubmit" style="background-color:#209cee;color:black" tabindex="4"
                     onclick="return sendEmailMessage('sendEmailProgress', 'sendEmailResponse', getElm('userEmail').value, getElm('userMessage').value);">
                 Send Message <div id="sendEmailProgress"></div>
             </button>

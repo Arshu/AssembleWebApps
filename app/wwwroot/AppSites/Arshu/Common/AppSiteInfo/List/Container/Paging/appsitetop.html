@@ -1,30 +1,30 @@
-<div class="flex-content-spaced" style="width:100%;">
+<div class="ar-flex-content-spaced" style="width:100%;">
     {{@HavePreviousPage}}
-    <button class="border" style="width:40px;height:40px;" onclick="return refreshAppSiteList('previousAppSiteProgress', '{{$PreviousPage}}');">
-        <strong style="font-weight:bolder;"><</strong> <span id="previousAppSiteProgress"></span>
+    <button class="ar-button ar-border" style="width:40px;height:40px;" onclick="return refreshAppSiteList('previousAppSiteProgress', '{{$PreviousPage}}');">
+        <strong style="font-weight:bolder;">&lt;</strong> <span id="previousAppSiteProgress"></span>
     </button>
     {{/HavePreviousPage}}
     {{^HavePreviousPage}}
-    <button class="border" style="width:40px;height:40px;" disabled>
-        <strong style="font-weight:bolder;"><</strong>
+    <button class="ar-button ar-border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">&lt;</strong>
     </button>
     {{/HavePreviousPage}}
 
-    <div class="flex-item-stretch"></div>
+    <div class="ar-flex-item-stretch"></div>
 
     {{@HaveNextPage}}
-    <button class="border" style="width:40px;height:40px;" onclick="return refreshAppSiteList('nextAppSiteProgress', '{{$NextPage}}')">
-        <strong style="font-weight:bolder;">></strong><span id="nextAppSiteProgress"></span>
+    <button class="ar-button ar-border" style="width:40px;height:40px;" onclick="return refreshAppSiteList('nextAppSiteProgress', '{{$NextPage}}')">
+        <strong style="font-weight:bolder;">&gt;</strong><span id="nextAppSiteProgress"></span>
     </button>
     {{/HaveNextPage}}
     {{^HaveNextPage}}
-    <button class="border" style="width:40px;height:40px;" disabled>
-        <strong style="font-weight:bolder;">></strong>
+    <button class="ar-button ar-border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">&gt;</strong>
     </button>
     {{/HaveNextPage}}
 
 
-    <button class="border" style="width:40px;height:40px;margin-left:5px;" onclick="return refreshAppSiteList('refreshAppSiteProgress', '{{$PageNo}}')">
+    <button class="ar-button ar-border" style="width:40px;height:40px;margin-left:5px;" onclick="return refreshAppSiteList('refreshAppSiteProgress', '{{$PageNo}}')">
         &#x2714;<span id="refreshAppSiteProgress"></span>
     </button>
 </div>

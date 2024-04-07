@@ -1,23 +1,23 @@
 ﻿
 
-<div style="margin: 5px 0px;display:none;" class="flex-input-wrap">
-    <button class="flex-item-stretch border" style="height:40px;" onclick="toggleElm('appKey'); if (haveElm('appManage') == true) { hideElm('appManage'); }; if (haveElm('appUpdate') == true) { hideElm('appUpdate'); };  if (haveElm('appCreate') == true) { hideElm('appCreate'); }">
+<div style="margin: 5px 0px;display:none;" class="ar-flex-input-wrap">
+    <button class="ar-flex-item-stretch ar-border" onclick="toggleElm('appKey'); if (haveElm('appManage') == true) { hideElm('appManage'); }; if (haveElm('appUpdate') == true) { hideElm('appUpdate'); };  if (haveElm('appCreate') == true) { hideElm('appCreate'); }">
         App Key
     </button>
 </div>
 
-<div id="appKey" class="border" style="margin: 5px 0px;padding: 5px; ">
+<div id="appKey" class="ar-border" style="margin: 5px 0px;padding: 5px; ">
 
     <div style="margin: 0 auto;position:relative; overflow:auto">
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;margin: 5px 5px;">
                 API Token
                 <span style="color:orangered;font-size:small;">
                     <a href="https://fly.io/app/sign-up" target="_blank">Sign up</a> or <a href="https://fly.io/app/sign-in" target="_blank">Sign in</a> to fly.io and create a new auth token in the <a href="https://fly.io/user/personal_access_tokens">personal access token section of the fly.io dashboard.</a>
                 </span>
             </label>
-            <input class="flex-item-stretch border" id="appAPIToken" style="height:40px;" autocomplete="none" type="password" placeholder="Your API Token" value="{{$APIToken}}" />
+            <input class="ar-flex-item-stretch ar-border" id="appAPIToken" autocomplete="none" type="password" placeholder="Your API Token" value="{{$APIToken}}" />
         </div>
 
     </div>

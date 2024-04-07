@@ -6,12 +6,12 @@
     function hideComponentChangeViewer() {
 
         let modal = document.querySelector('#viewComponentChange');
-        modal.classList.remove('viewmodal-active');
+        modal.classList.remove('ar-modal-active');
     }
 
     function showComponentChangeViewer(progressElmId, sourceComponentId, reloadData) {
         let modal = document.querySelector('#viewComponentChange');
-        modal.classList.add('viewmodal-active');
+        modal.classList.add('ar-modal-active');
     }
 
     let gComponentChangeProgressElmId = "componentChangeProgress";
@@ -210,53 +210,53 @@
 
 </script>
 
-<div class="viewmodal" id="viewComponentChange">
-    <div class="viewmodal-background"></div>
-    <div class="viewmodal-content">
+<div class="ar-modal" id="viewComponentChange">
+    <div class="ar-modal-background"></div>
+    <div class="ar-modal-content">
 
-        <div class="flex-content-wrap" style="padding:3px 10px;background-color:#fff;">
-            <div class="flex-item-stretch"></div>
-            <button class="border" style="margin-top:7px;width:25px;height:25px;background-color: lightgray;" onclick="hideComponentChangeViewer()">
+        <div class="ar-flex-content-wrap" style="padding:3px 10px;background-color:#fff;">
+            <div class="ar-flex-item-stretch"></div>
+            <button class="ar-border" style="margin-top:7px;width:25px;height:25px;background-color: lightgray;" onclick="hideComponentChangeViewer()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
             </button>
         </div>
 
-        <div class="notification" id="componentChangeResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('componentChangeResponseContainer')"></button>
+        <div class="ar-notification" id="componentChangeResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('componentChangeResponseContainer')"></button>
             <div id="componentChangeResponse"></div>
         </div>
         <div style="position:relative;text-align:center;height:0px;">
             <div id="componentChangeProgress"></div>
         </div>
-        <div class="flex-content-wrap" style="padding:3px 10px;background-color:#fff;">
-            <button class="button_small border" style="margin: 0 0px 0px 0px;width:50px;height:40px;background-color: lightgray;" id="changeAutoRefreshView" onclick="toggleElm('changeAutoRefreshSetting');">
+        <div class="ar-flex-content-wrap" style="padding:3px 10px;background-color:#fff;">
+            <button class="ar-button ar-border" style="margin: 0 0px 0px 0px;width:50px;height:40px;background-color: lightgray;" id="changeAutoRefreshView" onclick="toggleElm('changeAutoRefreshSetting');">
                 Auto
             </button>
-            <div class="flex-item-stretch"></div>
-            <button class="border" style="margin-top:7px;width:25px;height:25px;background-color: lightgray;" onclick="hideComponentChangeViewer()">
+            <div class="ar-flex-item-stretch"></div>
+            <button class="ar-border" style="margin-top:7px;width:25px;height:25px;background-color: lightgray;" onclick="hideComponentChangeViewer()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
             </button>
         </div>
-        <div class="flex-content-wrap" id="changeAutoRefreshSetting" style="padding:3px 10px;background-color:#fff;display:none;">
-            <label class="flex-item-stretch" id="changeAutoRefreshLabel">Auto Refresh Timing (ms)-<span style="" id="changeAutoRefreshCount">0</span></label>
-            <div class="flex-content-wrap" style="width:100%">
-                <button class="border-left" style="width:50px;height:40px;background-color: lightgray;" onclick="getElm('changeAutoRefreshCount').textContent = '0'; stopChangeAutoRefresh(); ">
+        <div class="ar-flex-content-wrap" id="changeAutoRefreshSetting" style="padding:3px 10px;background-color:#fff;display:none;">
+            <label class="ar-flex-item-stretch" id="changeAutoRefreshLabel">Auto Refresh Timing (ms)-<span style="" id="changeAutoRefreshCount">0</span></label>
+            <div class="ar-flex-content-wrap" style="width:100%">
+                <button class="ar-border-left" style="width:50px;height:40px;background-color: lightgray;" onclick="getElm('changeAutoRefreshCount').textContent = '0'; stopChangeAutoRefresh(); ">
                     Stop
                 </button>
-                <div class="flex-item-stretch border-top-bottom" style="height: 40px;">
+                <div class="ar-flex-item-stretch ar-border-top-bottom" style="height: 40px;">
                     <input style="width:100%;border:none;" id="changeAutoRefreshInput" type="number" placeholder="New Timing Interval in Millseconds" value="1000" />
                 </div>
-                <button class="border-right" style="width:50px;height:40px;background-color: lightgray;" onclick="enableChangeAutoRefresh('componentChangeProgress', 'componentChangeResponse', 'changeAutoRefreshInput', 'changeAutoRefreshCount');">
+                <button class="ar-border-right" style="width:50px;height:40px;background-color: lightgray;" onclick="enableChangeAutoRefresh('componentChangeProgress', 'componentChangeResponse', 'changeAutoRefreshInput', 'changeAutoRefreshCount');">
                     Start
                 </button>
             </div>
         </div>
         <input type="hidden" id="lastUnixTimeStamp" value="0" />
-        <div class="flex-content-wrap" style="padding:3px 10px;background-color:#fff;" id="componentChangeList">
+        <div class="ar-flex-content-wrap" style="padding:3px 10px;background-color:#fff;" id="componentChangeList">
             {{
                 VIEW_ComponentChangeList("ComponentChangeList",
                     "htmlTableEmpty":"ComponentChangeEmpty",

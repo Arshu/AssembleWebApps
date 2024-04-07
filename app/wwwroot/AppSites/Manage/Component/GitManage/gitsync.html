@@ -4,13 +4,13 @@
     function hideGitViewer() {
 
         let modal = document.querySelector('#viewGit');
-        modal.classList.remove('viewmodal-active');
+        modal.classList.remove('ar-modal-active');
         setTimeout(function () { window.location.reload(true); }, 1000);
     }
 
     function showGitViewer(progressElmId) {
         let modal = document.querySelector('#viewGit');
-        modal.classList.add('viewmodal-active');
+        modal.classList.add('ar-modal-active');
     }
 
     function gitRefreshGitRepositoryList(progressElmId, responseElmId, targetElmId, successCallback) {
@@ -603,18 +603,18 @@
     <div id="gitViewProgress"></div>
 </div>
 
-<div class="notification is-marginless" id="gitViewResponseContainer" style="display:none;">
-    <button class="delete" onclick="hideElm('gitViewResponseContainer');"></button>
+<div class="ar-notification is-marginless" id="gitViewResponseContainer" style="display:none;">
+    <button class="ar-delete" onclick="hideElm('gitViewResponseContainer');"></button>
     <div id="gitViewResponse"></div>
 </div>
 
-<div class="viewmodal" id="viewGit">
-    <div class="viewmodal-background"></div>
-    <div class="viewmodal-content" style="background-color:#fff;">
+<div class="ar-modal" id="viewGit">
+    <div class="ar-modal-background"></div>
+    <div class="ar-modal-content" style="background-color:#fff;">
 
-        <div class="flex-content-wrap">
-            <button class="flex-item-stretch">Git Sync</button>
-            <button class="border" style="margin-top:7px;width:25px;height:25px;background-color: lightgray;" onclick="hideGitViewer()">
+        <div class="ar-flex-content-wrap">
+            <button class="ar-flex-item-stretch">Git Sync</button>
+            <button class="ar-border" style="margin-top:7px;width:25px;height:25px;background-color: lightgray;" onclick="hideGitViewer()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
@@ -623,12 +623,12 @@
 
         <div id="gitPullClone">
             {{GitList}}
-            <div class="flex-card card_border" id="gitPullCloneAction">
-                <div class="flex-content-wrap" style="width:100%;text-align: center;margin: 0px 10px;">
+            <div class="ar-flex-card ar-card-border" id="gitPullCloneAction">
+                <div class="ar-flex-content-wrap" style="width:100%;text-align: center;margin: 0px 10px;">
                     <span style="color:blue;font-size:xx-small;">Reposiory Size Cannot Exceed 10 MB and should have only html/json/txt/md and image files</span>
                 </div>
-                <div class="flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
-                    <button class="border" style="min-width:100px;height:40px;background-color:lightgray;" onclick="gitClonePullRepository('gitProgress', 'gitResponse', getElm('gitUrl').value, getElm('gitUserName').value, getElm('gitUserEmail').value, getElm('gitAccessToken').value, function () { triggerEvent('gitRepositoryRefreshBtn', 'click'); })">
+                <div class="ar-flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
+                    <button class="ar-border" style="min-width:100px;height:40px;background-color:lightgray;" onclick="gitClonePullRepository('gitProgress', 'gitResponse', getElm('gitUrl').value, getElm('gitUserName').value, getElm('gitUserEmail').value, getElm('gitAccessToken').value, function () { triggerEvent('gitRepositoryRefreshBtn', 'click'); })">
                         Clone/Pull <div id="gitProgress"></div>
                     </button>
                     <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:lightgray;" onclick="gitRefreshGitRemoteBranchList('gitPushProgress', 'gitResponse', getElm('gitSampleRepository').value, 'gitRemoteBranches', function () { showElm('authenticationInfo'); showElm('pushInfo'); hideElm('copyInfo'); })">
@@ -638,61 +638,61 @@
             </div>
         </div>
 
-        <div class="flex-card card_border" style="display:none;" id="authenticationInfo">
+        <div class="ar-flex-card ar-card-border" style="display:none;" id="authenticationInfo">
 
-            <div class="flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
-                <div class="flex-item-stretch" style="margin-top: -10px;text-align:center;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
+                <div class="ar-flex-item-stretch" style="margin-top: -10px;text-align:center;">
                     <strong>Git Authentication Info</strong>
                 </div>
             </div>
 
-            <div class="flex-content-wrap">
+            <div class="ar-flex-content-wrap">
                 <label style="width:100%;margin: 5px auto;">Git User Name</label>
-                <div class="flex-item-stretch border" style="height: 40px;">
+                <div class="ar-flex-item-stretch ar-border" style="height: 40px;">
                     <input style="width:100%;border:none;" id="gitUserName" type="text" placeholder="Git User Name" value="{{$GitDefaultUserName}}" onfocus="this.select()" />
                 </div>
             </div>
 
-            <div class="flex-content-wrap">
+            <div class="ar-flex-content-wrap">
                 <label style="width:100%;margin: 5px auto;">Git User Email</label>
-                <div class="flex-item-stretch border" style="height: 40px;">
+                <div class="ar-flex-item-stretch ar-border" style="height: 40px;">
                     <input style="width:100%;border:none;" id="gitUserEmail" type="text" placeholder="Git User Email" value="{{$GitDefaultUserEmail}}" onfocus="this.select()" />
                 </div>
             </div>
 
-            <div class="flex-content-wrap">
+            <div class="ar-flex-content-wrap">
                 <label style="width:100%;margin: 5px auto;">Git Access Token</label>
-                <div class="flex-item-stretch border" style="height: 40px;">
+                <div class="ar-flex-item-stretch ar-border" style="height: 40px;">
                     <input style="width:100%;border:none;" id="gitAccessToken" type="password" placeholder="Git Access Token" value="{{$GitDefaultUserToken}}" onfocus="this.select()" />
                 </div>
             </div>
 
         </div>
 
-        <div class="flex-card card_border" style="display:none;" id="pushInfo">
+        <div class="ar-flex-card ar-card-border" style="display:none;" id="pushInfo">
 
-            <div class="flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
-                <div class="flex-item-stretch" style="margin-top: -10px;text-align:center;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
+                <div class="ar-flex-item-stretch" style="margin-top: -10px;text-align:center;">
                     <strong>Git Push/Commit Info</strong>
                 </div>
             </div>
 
-            <div class="flex-content-wrap">
+            <div class="ar-flex-content-wrap">
                 <label style="width:100%;margin: 5px auto;">Remote Branch</label>
-                <button class="border-left" style="height:40px;width:40px;background-color:lightgray;" id="gitBranchRefreshBtn" onclick="gitRefreshGitRemoteBranchList('gitBranchRefreshProgress', 'gitActionResponse', getElm('gitRepository').value, 'gitRemoteBranches')">
+                <button class="ar-border-left" style="height:40px;width:40px;background-color:lightgray;" id="gitBranchRefreshBtn" onclick="gitRefreshGitRemoteBranchList('gitBranchRefreshProgress', 'gitActionResponse', getElm('gitRepository').value, 'gitRemoteBranches')">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     <div id="gitBranchRefreshProgress"></div>
                 </button>
-                <div class="flex-item-stretch border-right" style="height: 40px;">
+                <div class="ar-flex-item-stretch ar-border-right" style="height: 40px;">
                     <select id="gitRemoteBranches" style="width:100%;border:none;">
                     </select>
                 </div>
             </div>
-            <div class="flex-content-wrap">
+            <div class="ar-flex-content-wrap">
                 <label style="width:100%;margin: 5px auto;">Git Commit Message</label>
-                <div class="flex-item-stretch border" style="height: 40px;">
+                <div class="ar-flex-item-stretch ar-border" style="height: 40px;">
                     <input style="width:100%;border:none;" id="gitCommitMessage" type="text" placeholder="Git Commit Message" value="" />
                 </div>
             </div>
@@ -708,7 +708,7 @@
                 </label>
             </div>
 
-            <div class="flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
+            <div class="ar-flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
                 <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:lightgray;" onclick="hideElm('pushInfo'); hideElm('copyInfo'); hideElm('authenticationInfo'); showElm('gitPullClone'); showElm('gitAction');">
                     Close
                 </button>
@@ -719,26 +719,26 @@
 
         </div>
 
-        <div class="notification" id="gitResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('gitResponseContainer')"></button>
+        <div class="ar-notification" id="gitResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('gitResponseContainer')"></button>
             <div id="gitResponse"></div>
         </div>
 
-        <div class="flex-card card_border">
-            <div class="flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
-                <div class="flex-item-stretch" style="margin-top: -10px;text-align:center;">
+        <div class="ar-flex-card ar-card-border">
+            <div class="ar-flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
+                <div class="ar-flex-item-stretch" style="margin-top: -10px;text-align:center;">
                     <strong style="color:blue">Synced Git Repository's</strong>
                 </div>
             </div>
-            <div class="flex-content-wrap">
+            <div class="ar-flex-content-wrap">
                 <label style="width:100%;margin: 5px auto;">Git Repository(s) in App</label>
-                <button class="border-left" style="height:40px;width:40px;background-color:lightgray;" id="gitRepositoryRefreshBtn" onclick="gitRefreshGitRepositoryList('gitRepositoryRefreshProgress', 'gitResponse', 'gitRepository')">
+                <button class="ar-border-left" style="height:40px;width:40px;background-color:lightgray;" id="gitRepositoryRefreshBtn" onclick="gitRefreshGitRepositoryList('gitRepositoryRefreshProgress', 'gitResponse', 'gitRepository')">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     <div id="gitRepositoryRefreshProgress"></div>
                 </button>
-                <div class="flex-item-stretch border-top-bottom" style="height: 40px;">
+                <div class="ar-flex-item-stretch ar-border-top-bottom" style="height: 40px;">
                     <select id="gitRepository" style="width:100%;border:none;">
                         {{
                             VIEW_GitRepositorySelect(
@@ -748,15 +748,15 @@
                         }}
                     </select>
                 </div>
-                <button class="border-right" style="width:40px;height:40px;background-color:lightgray;" onclick="toggleElm('authenticationInfo')">
+                <button class="ar-border-right" style="width:40px;height:40px;background-color:lightgray;" onclick="toggleElm('authenticationInfo')">
                     A
                 </button>
             </div>
         </div>
 
-        <div class="flex-card card_border" id="gitAction">
+        <div class="ar-flex-card ar-card-border" id="gitAction">
 
-            <div class="flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
+            <div class="ar-flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
                 <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:orangered;" onclick="gitDeleteRepository('gitDeleteProgress', 'gitActionResponse', getElm('gitRepository').value, function () { triggerEvent('gitRepositoryRefreshBtn', 'click'); hideElm('pushInfo'); hideElm('copyInfo'); showElm('gitPullClone');  })">
                     Delete <div id="gitDeleteProgress"></div>
                 </button>
@@ -770,29 +770,29 @@
 
         </div>
 
-        <div class="notification" id="gitActionResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('gitActionResponseContainer')"></button>
+        <div class="ar-notification" id="gitActionResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('gitActionResponseContainer')"></button>
             <div id="gitActionResponse"></div>
         </div>
 
 
-        <div class="flex-card card_border" style="display:none;" id="clearInfo">
+        <div class="ar-flex-card ar-card-border" style="display:none;" id="clearInfo">
 
-            <div class="flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
-                <div class="flex-item-stretch" style="margin-top: -10px;text-align:center;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
+                <div class="ar-flex-item-stretch" style="margin-top: -10px;text-align:center;">
                     <strong>Clear WebSite Folder</strong>
                 </div>
             </div>
 
-            <div class="flex-content-wrap">
+            <div class="ar-flex-content-wrap">
                 <label style="width:100%;margin: 5px auto;">WebSite Folder's</label>
-                <button class="border-left" style="height:40px;width:40px;background-color:lightgray;" id="clearWebFolderRefreshBtn" onclick="gitRefreshWebFolderList('clearWebFolderRefreshProgress', 'gitActionResponse', 'clearWebFolders', getElm('clearWebFolders').value)">
+                <button class="ar-border-left" style="height:40px;width:40px;background-color:lightgray;" id="clearWebFolderRefreshBtn" onclick="gitRefreshWebFolderList('clearWebFolderRefreshProgress', 'gitActionResponse', 'clearWebFolders', getElm('clearWebFolders').value)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     <div id="clearWebFolderRefreshProgress"></div>
                 </button>
-                <div class="flex-item-stretch border-right" style="height: 40px;">
+                <div class="ar-flex-item-stretch ar-border-right" style="height: 40px;">
                     <select id="clearWebFolders" style="width:100%;border:none;">
                         {{
                             VIEW_GitWebFolderSelect("FolderSelect",
@@ -811,7 +811,7 @@
                 </label>
             </div>
 
-            <div class="flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
+            <div class="ar-flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
                 <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:orangered;" onclick="gitClearWebRepository('gitClearConfirmProgress', 'gitActionResponse', getElm('webFolders').value, getElm('clearWebSite').checked, null)">
                     Clear<div id="gitClearConfirmProgress"></div>
                 </button>
@@ -821,37 +821,37 @@
             </div>
         </div>
 
-        <div class="flex-card card_border" style="display:none;" id="copyInfo">
+        <div class="ar-flex-card ar-card-border" style="display:none;" id="copyInfo">
 
-            <div class="flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
-                <div class="flex-item-stretch" style="margin-top: -10px;text-align:center;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
+                <div class="ar-flex-item-stretch" style="margin-top: -10px;text-align:center;">
                     <strong>Copy Git Folder to WebSite Folder</strong>
                 </div>
             </div>
 
-            <div class="flex-content-wrap">
+            <div class="ar-flex-content-wrap">
                 <label style="width:100%;margin: 5px auto;">Git Folder's</label>
-                <button class="border-left" style="height:40px;width:40px;background-color:lightgray;" id="gitFolderRefreshBtn" onclick="gitRefreshGitFolderList('gitFolderRefreshProgress', 'gitActionResponse', getElm('gitRepository').value, 'gitFolders')">
+                <button class="ar-border-left" style="height:40px;width:40px;background-color:lightgray;" id="gitFolderRefreshBtn" onclick="gitRefreshGitFolderList('gitFolderRefreshProgress', 'gitActionResponse', getElm('gitRepository').value, 'gitFolders')">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     <div id="gitFolderRefreshProgress"></div>
                 </button>
-                <div class="flex-item-stretch border-right" style="height: 40px;">
+                <div class="ar-flex-item-stretch ar-border-right" style="height: 40px;">
                     <select id="gitFolders" style="width:100%;border:none;">
                     </select>
                 </div>
             </div>
 
-            <div class="flex-content-wrap">
+            <div class="ar-flex-content-wrap">
                 <label style="width:100%;margin: 5px auto;">WebSite Folder's</label>
-                <button class="border-left" style="height:40px;width:40px;background-color:lightgray;" id="webFolderRefreshBtn" onclick="gitRefreshWebFolderList('webFolderRefreshProgress', 'gitActionResponse', 'webFolders', getElm('webFolders').value)">
+                <button class="ar-border-left" style="height:40px;width:40px;background-color:lightgray;" id="webFolderRefreshBtn" onclick="gitRefreshWebFolderList('webFolderRefreshProgress', 'gitActionResponse', 'webFolders', getElm('webFolders').value)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     <div id="webFolderRefreshProgress"></div>
                 </button>
-                <div class="flex-item-stretch border-right" style="height: 40px;">
+                <div class="ar-flex-item-stretch ar-border-right" style="height: 40px;">
                     <select id="webFolders" style="width:100%;border:none;">
                         {{
                             VIEW_GitWebFolderSelect("FolderSelect",
@@ -874,7 +874,7 @@
                 </label>
             </div>
 
-            <div class="flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
+            <div class="ar-flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
                 <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:lightgray;" onclick="hideElm('pushInfo'); hideElm('copyInfo'); hideElm('clearInfo'); showElm('gitPullClone'); showElm('gitAction');">
                     Close
                 </button>

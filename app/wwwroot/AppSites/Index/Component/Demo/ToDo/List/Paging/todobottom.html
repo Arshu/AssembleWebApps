@@ -1,5 +1,5 @@
-<div class="flex-content-spaced" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
-    <select class="border" style="margin: 0px;" id="toDoItemsPerPage"
+<div class="ar-flex-content-spaced" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+    <select class="ar-input ar-border" style="margin: 0px;" id="toDoItemsPerPage"
             data-action="filterComponentHtml" data-progress="toDoItemsPerPageProgress" data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
             data-filter="todoGetFilter"
@@ -15,7 +15,7 @@
     <div style="padding:12px 0px 0px 0px;font-size:small;text-align:left;">
         &nbsp;Items/Page,  <div id="toDoItemsPerPageProgress"></div>
     </div>
-    <div class="flex-item-stretch"></div>
+    <div class="ar-flex-item-stretch"></div>
     <div style="padding:4px 0px 0px 5px;font-size:small;text-align:right;">
         {{@MaxNoOfPages('MaxNoOfPages':'> 1')}}
         Page {{$PageNo}} / {{$MaxNoOfPages}} <br />of {{$RecordCount}} Items

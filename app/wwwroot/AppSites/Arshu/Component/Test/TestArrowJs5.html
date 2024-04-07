@@ -1,0 +1,61 @@
+﻿
+<script type="module">
+    import { reactive, html } from '/Resource/Arshu/arrowjs/index.min.mjs'
+
+    const data = reactive({
+        items: [
+            { id: 17, task: 'Check email' },
+            { id: 21, task: 'Get groceries' },
+            { id: 44, task: 'Make dinner' },
+        ]
+    })
+
+    function addItem(e) {
+        e.preventDefault()
+        const input = document.getElementById('new-item')
+        data.items.push({
+            id: Math.random(),
+            task: input.value,
+        })
+        input.value = ''
+    }
+
+    const template1 = html`
+        <ul>
+          ${() => data.items.map(
+        item => html`<li>${item.task}</li>`.key(item.id)
+    )}
+        </ul>
+
+        <form @submit="${addItem}">
+          <input type="text" id="new-item">
+          <button>Add</button>
+        </form>`
+
+    const appElement = document.getElementById('app')
+
+    //template1(appElement)
+
+    const data1 = reactive({
+        value: ''
+    })
+
+    const template2 = html`
+        <input type="text" @input="${e => { data1.value = e.target.value }}">
+        <br>
+        <em>${() => data1.value}</em>`
+
+    //template2(appElement)
+
+    const data3 = reactive({
+        clicks: 0
+    })
+
+    const template3 = html`
+      <button @click="${() => data3.clicks++}">
+        Fired ${() => data3.clicks} arrows
+      </button>`
+
+    //template3(appElement)
+
+</script>

@@ -37,28 +37,29 @@
 
     <style>
 
-        .Site {
+        .ar-Site {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            margin:0px;
         }
 
-        .SiteToolbar {
+        .ar-SiteToolbar {
             flex-shrink: 0; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
             width: 100%;
         }
 
-        .SiteNav {
+        .ar-SiteNav {
             flex-shrink: 0; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
             width: 100%;
         }
 
-        .SiteContent {
+        .ar-SiteContent {
             flex: 1;
             padding-bottom: 50px;
         }
 
-        .SiteFooter {
+        .ar-SiteFooter {
             flex-shrink: 0; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
             width: 100%;
             bottom: 0px;
@@ -67,14 +68,14 @@
     </style>
     {{MainHeader}}
 </head>
-<body class="Site">
-    <nav class="SiteNav" id="mainNav">
+<body class="ar-Site">
+    <nav class="ar-SiteNav" id="mainNav">
         {{ MainNav() }}
     </nav>
-    <main class="SiteContent" id="mainContent">
+    <main class="ar-SiteContent" id="mainContent">
         {{ MainContent }}
     </main>
-    <footer class="SiteFooter" id="mainFooter">
+    <footer class="ar-SiteFooter" id="mainFooter">
         {{ MainFooter}}
     </footer>
     {{MainAction}}

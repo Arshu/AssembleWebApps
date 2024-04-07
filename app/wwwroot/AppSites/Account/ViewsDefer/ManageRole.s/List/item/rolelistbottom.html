@@ -1,6 +1,6 @@
 
-<div class="flex-content-spaced">
-    <select class="border" style="width:60px;margin: 0px;padding:0px 5px;" id="roleListItemsPerPage" 
+<div class="ar-flex-content-spaced">
+    <select class="ar-select ar-border" style="max-width:60px;" id="roleListItemsPerPage" 
             onchange="return refreshRoleList('roleListItemsPerPageProgress', 1)">
         <option value="2" {{@ItemsPerPage2}} selected="selected" {{/ItemsPerPage2}}>2</option>
         <option value="5" {{@ItemsPerPage5}} selected="selected" {{/ItemsPerPage5}}>5</option>
@@ -9,8 +9,8 @@
         <option value="100" {{@ItemsPerPage100}} selected="selected" {{/ItemsPerPage100}}>100</option>
     </select>    
     <div style="padding:12px 0px 0px 0px;font-size:small;">
-        Items Per Page,<div id="roleListItemsPerPageProgress"></div>
+        Items Per Page, <div id="roleListItemsPerPageProgress"></div>
     </div>
-    <div class="flex-item-stretch"></div>
+    <div class="ar-flex-item-stretch"></div>
     <p style="padding:12px 0px 0px 5px;font-size:small;">Page {{$PageNo}} / {{$MaxNoOfPages}} of {{$RecordCount}} Items</p>
 </div>

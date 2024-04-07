@@ -107,61 +107,61 @@
         }
 </style>
 
-<div class="flex-content-center" style="min-height:calc(100vh - 110px);">
+<div class="ar-flex-content-center" style="min-height:calc(100vh - 110px);">
 
-    <div class="flex-card card_border" style="text-align:center;">
+    <div class="ar-flex-card ar-card-border" style="text-align:center;">
 
         <figure class="avatar" style="text-align:center;">
             <img src="/Content/logos/logo_login.png" />
         </figure>
 
-        <div class="flex-input-wrap border" style="margin: 5px 0px;background-color:#209cee;">
+        <div class="ar-flex-input-wrap border" style="margin: 5px 0px;background-color:#209cee;">
             <div style="padding:10px 5px;">
                 <div>Claim Temp User</div>
             </div>
-            <input class="flex-item-stretch" id="loginId" type="text" value="{{$LOGINUSERID}}" placeholder="Login ID" readonly style="text-align:center;border:none;">
+            <input class="ar-flex-item-stretch" id="loginId" type="text" value="{{$LOGINUSERID}}" placeholder="Login ID" readonly style="text-align:center;border:none;">
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;">User Email</label>
-            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('claimNewUserId'); elm.value = ''; elm.focus();">
+            <div class="ar-border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('claimNewUserId'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="flex-item-stretch border-right" id="claimNewUserId" autocomplete="none" type="email" placeholder="Your New User Id" autofocus="" tabindex="1">
+            <input class="ar-flex-item-stretch ar-border-right" id="claimNewUserId" autocomplete="none" type="email" placeholder="Your New User Id" autofocus="" tabindex="1">
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;">User Alias</label>
-            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('claimNewUserAlias'); elm.value = ''; elm.focus();">
+            <div class="ar-border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('claimNewUserAlias'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="flex-item-stretch border-right" id="claimNewUserAlias" autocomplete="none" type="text" placeholder="Your New User Alias" autofocus="" tabindex="1">
+            <input class="ar-flex-item-stretch ar-border-right" id="claimNewUserAlias" autocomplete="none" type="text" placeholder="Your New User Alias" autofocus="" tabindex="1">
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;">User Password</label>
-            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('claimUserPwd'); elm.value = ''; elm.focus();">
+            <div class="ar-border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('claimUserPwd'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="flex-item-stretch border-right" id="claimUserPwd" style="border-radius: 0rem .4rem .4rem 0rem;" autocomplete="none" type="password" placeholder="Your Password" tabindex="2">
+            <input class="ar-flex-item-stretch ar-border-right" id="claimUserPwd" style="border-radius: 0rem .4rem .4rem 0rem;" autocomplete="none" type="password" placeholder="Your Password" tabindex="2">
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;">Confirm Password</label>
-            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('claimUserConfirmPwd'); elm.value = ''; elm.focus();">
+            <div class="ar-border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('claimUserConfirmPwd'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="flex-item-stretch border-right" id="claimUserConfirmPwd" style="border-radius: 0rem .4rem .4rem 0rem;" autocomplete="none" type="password" placeholder="Confirm Password" tabindex="2">
+            <input class="ar-flex-item-stretch ar-border-right" id="claimUserConfirmPwd" style="border-radius: 0rem .4rem .4rem 0rem;" autocomplete="none" type="password" placeholder="Confirm Password" tabindex="2">
         </div>
 
 
-        <div class="notification" id="claimUserResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('claimUserResponseContainer')"></button>
+        <div class="ar-notification" id="claimUserResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('claimUserResponseContainer')"></button>
             <div id="claimUserResponse"></div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 0px;">
-            <button class="border button" id="registerSubmit" style="background-color:#209cee;" tabindex="4"
+        <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
+            <button class="ar-button ar-border" id="registerSubmit" style="background-color:#209cee;" tabindex="4"
                     onclick="return claimUser('claimUserProgress', 'claimUserResponse', getElm('claimNewUserId').value, getElm('claimNewUserAlias').value, getElm('claimUserPwd').value, getElm('claimUserConfirmPwd').value, '/');">
                 Claim User <div id="claimUserProgress"></div>
             </button>

@@ -522,19 +522,19 @@
 </script>
 
 
-<div class="container">
+<div class="ar-container">
 
-    <div class="flex-card card_border" style="text-align:center;">
+    <div class="ar-flex-card ar-card-border" style="text-align:center;">
 
         <div style="text-align:right;">
             {{$LoginUserID}}
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 0px;">
-            <button class="border-left" style="width:60px">
+        <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
+            <button class="ar-button ar-border-left" style="width:60px">
                 Role Name
             </button>
-            <select class="flex-item-stretch border-right" id="roleList" name="roleList" onchange="fillRoleUserList('rolesUserListProgress', 'roleResponse', 'rolesUserList',getElm('roleList').value)">
+            <select class="ar-select ar-border-right ar-flex-item-stretch" id="roleList" name="roleList" onchange="fillRoleUserList('rolesUserListProgress', 'roleResponse', 'rolesUserList',getElm('roleList').value)">
                 <option>Please wait...</option>
             </select>
         </div>
@@ -544,43 +544,43 @@
             <div id="buttonsHolder"></div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 0px;" id="userSearch">
-            <button class="border-left" style="width:60px" onclick="showElm('keyboard'); showFlex('userFilter'); hideFlex('userSearch'); resetUserList('userList'); ">
+        <div class="ar-flex-content-wrap" style="margin: 5px 0px;" id="userSearch">
+            <button class="ar-button ar-border-left" style="width:60px" onclick="showElm('keyboard'); showFlex('userFilter'); hideFlex('userSearch'); resetUserList('userList'); ">
                 <div>Filter</div>
             </button>
-            <input class="flex-item-stretch border-right" id="userId" name="userId" type="text" autocomplete="none" value="" placeholder="Search User Id" tabindex="1">
+            <input class="ar-input ar-flex-item-stretch ar-border-right" id="userId" name="userId" type="text" autocomplete="none" value="" placeholder="Search User Id" tabindex="1">
         </div>
 
         <div id="userIdAutoComplete" style="position:relative;text-align:left;"></div>
 
-        <div class="flex-content-wrap" style="margin: 5px 0px;display:none;" id="userFilter">
-            <button class="border-left" style="width:60px" onclick="hideElm('keyboard'); hideFlex('userFilter'); showFlex('userSearch'); getElm('userId').value = ''; getElm('userId').focus();">
+        <div class="ar-flex-content-wrap" style="margin: 5px 0px;display:none;" id="userFilter">
+            <button class="ar-button ar-border-left" style="width:60px" onclick="hideElm('keyboard'); hideFlex('userFilter'); showFlex('userSearch'); getElm('userId').value = ''; getElm('userId').focus();">
                 <div>Search</div>
             </button>
-            <select class="flex-item-stretch border-right" id="userList" tabindex="2">
+            <select class="ar-select ar-border-right ar-flex-item-stretch" id="userList" tabindex="2">
                 <option>Select Filter...</option>
             </select>
         </div>
 
-        <div class="notification" id="roleResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('roleResponseContainer')"></button>
+        <div class="ar-notification" id="roleResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('roleResponseContainer')"></button>
             <div id="roleResponse"></div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
 
-            <button class="border button" style="background-color:#209cee;margin-right:5px;"
+            <button class="ar-button ar-border" style="background-color:#209cee;color:black;margin-right:5px;"
                     onclick="return addUserToRole('roleProgress', 'roleResponse',getElm('roleList').value,getElm('userId').value,getElm('userList').value);">
                 Assign Role
             </button>
 
-            <button class="border button"
+            <button class="ar-button ar-border" style="color:black;"
                     onclick="return removeUserFromRole('roleProgress', 'roleResponse',document.getElementById('roleList').value,getElm('userId').value,getElm('userList').value);">
                 Remove Assigned Role
             </button>
         </div>
 
-        <div class="column is-fullwidth" style="position:relative;">
+        <div class="ar-column" style="position:relative;">
             <div id="rolesUserListProgress"></div><div id="roleProgress"></div>
             <div id="rolesUserList">
                 Please wait...

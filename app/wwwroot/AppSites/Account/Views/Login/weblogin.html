@@ -253,9 +253,9 @@
         }
 </style>
 
-<div class="flex-content-center" style="min-height:calc(100vh - 110px);">
+<div class="ar-flex-content-center" style="min-height:calc(100vh - 110px);">
 
-    <div class="flex-card card_border" style="text-align:center;width:80%;">
+    <div class="ar-flex-card ar-card-border" style="text-align:center;width:80%;">
 
         <figure class="avatar" style="text-align:center;margin: 0 auto;">
             <img src="/Content/logos/logo_login.png" style="max-width:100%;" />
@@ -263,64 +263,57 @@
 
         <div style="text-align:center;display:none;" id="autoLoginBtnDiv">
             <div id="autoLoginProgress"></div>
-            <button id="autoLoginBtn" disabled="disabled" onclick="return autoLogin('autoLoginProgress', 'loginResponse', '/');" class="button border" style="background-color:#209cee;">Auto Login</button>
+            <button class="ar-button" id="autoLoginBtn" disabled="disabled" onclick="return autoLogin('autoLoginProgress', 'loginResponse', '/');" class="button border" style="background-color:#209cee;">Auto Login</button>
         </div>
 
-        <div class="flex-item-stretch" id="haveUserInfo" style="text-align:center;display:none;">
+        <div class="ar-flex-item-stretch" id="haveUserInfo" style="text-align:center;display:none;">
             No login user found, the first user will become the admin user
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;display:none;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;display:none;">
             <input id="scanInputVal" type="hidden" />
-            <input class="flex-item-stretch border" id="scanInput" autocomplete="none" type="text" placeholder="Your Scan Input" autofocus="">
+            <input class="ar-flex-item-stretch ar-border" id="scanInput" autocomplete="none" type="text" placeholder="Your Scan Input" autofocus="">
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;">User Id</label>
-            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('loginId'); elm.value = ''; elm.focus();">
+            <div class="ar-border-left" style="width: 25px; height: 40px; background-color: gray;" onclick="let elm = getElm('loginId'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="flex-item-stretch border-top-bottom" style="height:39px;" id="loginId" autocomplete="none" type="email" placeholder="Your User Id" autofocus="" tabindex="1">
-            <button class="border-right" disabled="disabled" style="width:25px;height:40px;background-color:blue;" id="linkLoginBtn" onclick="toggleElm('linkLoginBtnDiv'); ">
+            <input class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="height:39px;" id="loginId" autocomplete="none" type="email" placeholder="Your User Id" autofocus="" tabindex="1">
+            <button class="ar-border-right ar-button" disabled="disabled" style="width:25px;height:40px;background-color:gray;" id="linkLoginBtn" onclick="toggleElm('linkLoginBtnDiv'); ">
                 &nbsp;
             </button>
         </div>
 
-        <div class="border" style="display:none;padding:10px 5px;" id="linkLoginBtnDiv">
+        <div class="ar-border" style="display:none;padding:10px 5px;" id="linkLoginBtnDiv">
 
             <div style="text-align:center;">
                 <div id="sendLinkLoginProgress"></div>
-                <button onclick="return sendLinkLogin('sendLinkLoginProgress', 'loginResponse', getElm('loginId').value, 'linkLoginUserBtn');" class="button border" style="background-color:#209cee;">Send Link Info</button>
+                <button class="ar-button ar-border" onclick="return sendLinkLogin('sendLinkLoginProgress', 'loginResponse', getElm('loginId').value, 'linkLoginUserBtn');" style="background-color:#209cee;">Send Link Info</button>
             </div>
 
-            <div class="flex-input-wrap" style="margin: 5px 0px;">
+            <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
                 <label style="width:100%;">Link Code</label>
-                <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('linkCode'); elm.value = ''; elm.focus();">
+                <div class="ar-border-left" style="width:25px;height:40px;background-color:gray;" onclick="let elm = getElm('linkCode'); elm.value = ''; elm.focus();">
                     <div>&nbsp;</div>
                 </div>
-                <input class="flex-item-stretch border-right" style="height:39px;" id="linkCode" autocomplete="none" type="password" placeholder="Your Link Code">
+                <input class="ar-input ar-flex-item-stretch ar-border-right" style="height:39px;" id="linkCode" autocomplete="none" type="password" placeholder="Your Link Code">
             </div>
 
             <div style="text-align:center;">
                 <div id="linkLoginProgress"></div>
-                <button id="linkLoginUserBtn" disabled="disabled" onclick="return linkLoginUser('linkLoginProgress', 'loginResponse', getElm('loginId').value, getElm('linkCode').value, '/');" class="button border" style="background-color:#209cee;">Link Login</button>
+                <button class="ar-button ar-border" id="linkLoginUserBtn" disabled="disabled" onclick="return linkLoginUser('linkLoginProgress', 'loginResponse', getElm('loginId').value, getElm('linkCode').value, '/');" style="background-color:#209cee;">Link Login</button>
             </div>
 
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;">Password</label>
-            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('loginPwd'); elm.value = ''; elm.focus();">
+            <div class="ar-border-left" style="width:25px;height:40px;background-color:gray;" onclick="let elm = getElm('loginPwd'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="flex-item-stretch border-right" style="height:39px;" id="loginPwd" autocomplete="none" type="password" placeholder="Your Password" tabindex="2">
-        </div>
-
-        <div style="text-align:right;margin-right:10px;">
-            <button class="border button" style="" tabindex="5"
-                    onclick="return webForgotPassword('forgotPasswordProgress', 'loginResponse', getElm('loginId').value);">
-                Forgot Password? <div id="forgotPasswordProgress"></div>
-            </button>
+            <input class="ar-input ar-flex-item-stretch ar-border-right" style="height:39px;" id="loginPwd" autocomplete="none" type="password" placeholder="Your Password" tabindex="2">
         </div>
 
         <div style="text-align:center;margin-top:10px;display:none;">
@@ -330,13 +323,20 @@
             </label>
         </div>
 
-        <div class="notification" id="loginResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
-            <button class="delete" onclick="hideElm('loginResponseContainer')"></button>
+        <div style="text-align:right;margin-right:10px;">
+            <button class="ar-button ar-border" style="background-color:lightgray" tabindex="5"
+                    onclick="return webForgotPassword('forgotPasswordProgress', 'loginResponse', getElm('loginId').value);">
+                Forgot Password? <div id="forgotPasswordProgress"></div>
+            </button>
+        </div>
+
+        <div class="ar-notification" id="loginResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+            <button class="ar-delete" onclick="hideElm('loginResponseContainer')"></button>
             <div id="loginResponse"></div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 15px 0px;">
-            <button class="border button" id="loginSubmit" style="background-color:#209cee;" tabindex="4"
+        <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
+            <button class="ar-button ar-border" id="loginSubmit" style="background-color:#209cee; color:black; width:100px;" tabindex="4"
                     onclick="return webLoginUser('loginProgress', 'loginResponse', getElm('loginId').value, getElm('loginPwd').value, getElm('loginRemember').checked, '');">
                 Login <div id="loginProgress"></div>
             </button>

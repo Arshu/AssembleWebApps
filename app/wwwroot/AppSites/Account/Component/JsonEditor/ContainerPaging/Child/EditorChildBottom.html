@@ -1,5 +1,5 @@
-<div class="flex-content-spaced" style="{{@ChildBottomHidden}}display:none;{{/ChildBottomHidden}}width:100%;">
-    <select class="border" style="width:60px;height:30px;margin: 0px;padding:0px 5px;" id="{{$ViewID}}{{$KeyPath}}jsonChildEditorItemsPerPage" 
+<div class="ar-flex-content-spaced" style="{{@ChildBottomHidden}}display:none;{{/ChildBottomHidden}}width:100%;">
+    <select class="ar-border" style="width:60px;height:30px;margin: 0px;padding:0px 5px;" id="{{$ViewID}}{{$KeyPath}}jsonChildEditorItemsPerPage" 
             onchange="return refreshEditorJsonArray('{{$ViewID}}', '{{$ViewID}}{{$FilterKeyPath}}ItemsPerPageJsonChildEditorProgress',
             '{{$PageNo}}', '{{$PageNoArray}}', '{{$PageNoArrayItem}}', '{{$FilterKeyPath}}')">
         <option value="1" {{@ItemsPerPage1}} selected="selected" {{/ItemsPerPage1}}>1</option>
@@ -12,6 +12,6 @@
     <div style="padding:12px 0px 0px 0px;font-size:small;display:none;">
         &nbsp; &nbsp;Items Per Page,  <div id="{{$ViewID}}{{$FilterKeyPath}}ItemsPerPageJsonChildEditorProgress"></div>
     </div>
-    <div class="flex-item-stretch"></div>
+    <div class="ar-flex-item-stretch"></div>
     <p style="padding:12px 0px 0px 5px;font-size:small;">Page {{$PageNo}} / {{$MaxNoOfPages}} of {{$RecordCount}} Items</p>
 </div>

@@ -6,7 +6,7 @@
     function hideComponentSourceCopy() {
 
         let modal = document.querySelector('#copyComponentSource');
-        modal.classList.remove('viewmodal-active');
+        modal.classList.remove('ar-modal-active');
     }
 
     function showComponentSourceCopy(progressElmId, componentAppSite, componentAppView, sourceComponentId, reloadData) {
@@ -29,21 +29,21 @@
                             let fromComponentCategoryVal = getElm('selectNewComponentCategory').value;
                             getViewComponentList(progressElmId, 'copyComponentSourceResponse', fromComponentAppSiteVal, fromComponentCategoryVal, 'selectNewComponent', function () {
                                 let modal = document.querySelector('#copyComponentSource');
-                                modal.classList.add('viewmodal-active');
+                                modal.classList.add('ar-modal-active');
                             });
                         } else {
                             let modal = document.querySelector('#copyComponentSource');
-                            modal.classList.add('viewmodal-active');
+                            modal.classList.add('ar-modal-active');
                         }
                     });
                 } else {
                     let modal = document.querySelector('#copyComponentSource');
-                    modal.classList.add('viewmodal-active');
+                    modal.classList.add('ar-modal-active');
                 }
             });
         } else {
             let modal = document.querySelector('#copyComponentSource');
-            modal.classList.add('viewmodal-active');
+            modal.classList.add('ar-modal-active');
         }
     }
 
@@ -331,52 +331,52 @@
 
 </script>
 
-<input type="hidden" class="border" style="width:100%;" id="copyComponentAppSite" value="{{$AppSite}}" />
-<input type="hidden" class="border" style="width:100%;" id="copyComponentAppView" value="{{$AppView}}" />
+<input type="hidden" class="ar-border" style="width:100%;" id="copyComponentAppSite" value="{{$AppSite}}" />
+<input type="hidden" class="ar-border" style="width:100%;" id="copyComponentAppView" value="{{$AppView}}" />
 
 <div style="position:relative;text-align:center;height:0px;">
     <div id="copyComponentSourceProgress"></div>
 </div>
-<div class="notification is-marginless" id="copyComponentSourceResponseContainer" style="display:none;">
-    <button class="delete" onclick="hideElm('copyComponentSourceResponseContainer');"></button>
+<div class="ar-notification is-marginless" id="copyComponentSourceResponseContainer" style="display:none;">
+    <button class="ar-delete" onclick="hideElm('copyComponentSourceResponseContainer');"></button>
     <div id="copyComponentSourceResponse"></div>
 </div>
 
-<div class="viewmodal" id="copyComponentSource">
-    <div class="viewmodal-background"></div>
-    <div class="viewmodal-content" style="background-color:#fff;">
+<div class="ar-modal" id="copyComponentSource">
+    <div class="ar-modal-background"></div>
+    <div class="ar-modal-content" style="background-color:#fff;">
 
-        <div class="flex-content-wrap">
-            <button class="flex-item-stretch">Copy Component to Hierarchy</button>
-            <button class="border" style="margin-top: 7px; width: 25px; height: 25px;" onclick="hideComponentSourceCopy()">
+        <div class="ar-flex-content-wrap">
+            <button class="ar-button ar-flex-item-stretch">Copy Component to Hierarchy</button>
+            <button class="ar-iconbutton" style="width: 25px; height: 25px;" onclick="hideComponentSourceCopy()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
             </button>
         </div>
 
-        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="border">
+        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="ar-border">
 
-            <div class="flex-content-wrap" style="padding:3px 10px;display:none;">
-                <div class="flex-item-stretch border" style="height:40px;">
-                    <input type="text" class="flex-item-stretch" style="width:100%;border:none;" id="sourceComponentId" readonly />
+            <div class="ar-flex-content-wrap" style="padding:3px 10px;display:none;">
+                <div class="ar-flex-item-stretch ar-border" style="height:40px;">
+                    <input type="text" class="ar-flex-item-stretch" style="width:100%;border:none;" id="sourceComponentId" readonly />
                 </div>
             </div>
 
-            <div class="flex-content-wrap" style="padding:3px 10px;">
+            <div class="ar-flex-content-wrap" style="padding:3px 10px;">
                 <label style="width:100%;" id="sourceComponentTitle">Components</label>
-                <div class="flex-item-stretch border-left" style="height:40px;">
-                    <select id="selectMainComponent" style="width:100%;" placeholder="Select Component" onchange="fillSubComponentList('selectMainComponent', 'selectSubComponent');">
+                <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
+                    <select class="ar-select" id="selectMainComponent" style="width:100%;" placeholder="Select Component" onchange="fillSubComponentList('selectMainComponent', 'selectSubComponent');">
                         <option value="0">Select Main Component</option>
                     </select>
                 </div>
-                <button class="border-right" style="width:40px;height:40px;" id="refreshMainComponentListBtn" onclick="refreshViewComponentHierarchy('copyMainComponentListProgress', getElm('sourceComponentId').value, 'selectMainComponent');">
+                <button class="ar-border-right" style="width:40px;height:40px;" id="refreshMainComponentListBtn" onclick="refreshViewComponentHierarchy('copyMainComponentListProgress', getElm('sourceComponentId').value, 'selectMainComponent');">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     <div id="copyMainComponentListProgress"></div>
                 </button>
             </div>
 
-            <div class="flex-content-wrap" style="padding:3px 10px;">
+            <div class="ar-flex-content-wrap" style="padding:3px 10px;">
                 <div style="width:100%;text-align:center;">
                     <label style="text-align:center;display:inline-block;">
                         <input type="radio"
@@ -391,7 +391,7 @@
                     </label>
                     <label>Sub Component</label>
                 </div>
-                <select id="selectSubComponent" class="border flex-item-stretch" style="width:100%;" placeholder="Select Component">
+                <select class="ar-select" id="selectSubComponent" class="border ar-flex-item-stretch" style="width:100%;" placeholder="Select Component">
                     <option>Select Sub Component</option>
                 </select>
                 <label style="width:100%;font-size:xx-small;color:red;">Select Placeholder to add or Component to replace</label>
@@ -399,11 +399,11 @@
 
         </div>
 
-        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="border">
+        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="ar-border">
 
-            <div class="flex-content-wrap" style="padding:0px 10px;">
+            <div class="ar-flex-content-wrap" style="padding:0px 10px;">
                 <label style="width:100%;">Component App Site</label>
-                <div class="flex-item-stretch border-left" style="height:40px;">
+                <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
                     <select style="width:100%;border:none;" id="selectNewComponentAppSite" onchange="getViewComponentCategoryList('copyComponentListProgress', 'copyResponse', getElm('selectNewComponentAppSite').value, 'selectNewComponentCategory');">
                         {{
                             VIEW_AppSiteSelect(
@@ -418,15 +418,15 @@
                         }}
                     </select>
                 </div>
-                <button class="border-right" style="width:40px;height:40px;" id="refreshComponentCategoryListBtn" onclick="getViewComponentCategoryList('copyComponentListProgress', 'copyResponse', getElm('selectNewComponentAppSite').value, 'selectNewComponentCategory');">
+                <button class="ar-border-right" style="width:40px;height:40px;" id="refreshComponentCategoryListBtn" onclick="getViewComponentCategoryList('copyComponentListProgress', 'copyResponse', getElm('selectNewComponentAppSite').value, 'selectNewComponentCategory');">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     <div id="copyComponentListProgress"></div>
                 </button>
             </div>
 
-            <div class="flex-content-wrap" style="padding:0px 10px;">
+            <div class="ar-flex-content-wrap" style="padding:0px 10px;">
                 <label style="width:100%;">Component Category</label>
-                <div class="flex-item-stretch border-left" style="height:40px;">
+                <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
                     <select style="width:100%;border:none;" id="selectNewComponentCategory" onchange="getViewComponentList('copyComponentCategoryListProgress', 'copyResponse', getElm('selectNewComponentAppSite').value, getElm('selectNewComponentCategory').value, 'selectNewComponent');">
                         {{
                             VIEW_ComponentCategorySelect(
@@ -440,15 +440,15 @@
                         }}
                     </select>
                 </div>
-                <button class="border-right" style="width:40px;height:40px;" id="refreshComponentListBtn" onclick="getViewComponentList('copyComponentCategoryListProgress', 'copyResponse', getElm('selectNewComponentAppSite').value, getElm('selectNewComponentCategory').value, 'selectNewComponent');">
+                <button class="ar-border-right" style="width:40px;height:40px;" id="refreshComponentListBtn" onclick="getViewComponentList('copyComponentCategoryListProgress', 'copyResponse', getElm('selectNewComponentAppSite').value, getElm('selectNewComponentCategory').value, 'selectNewComponent');">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     <div id="copyComponentCategoryListProgress"></div>
                 </button>
             </div>
 
-            <div class="flex-content-wrap" style="padding:0px 10px;">
+            <div class="ar-flex-content-wrap" style="padding:0px 10px;">
                 <label style="width:100%;">New Component</label>
-                <div class="flex-item-stretch border" style="height:40px;">
+                <div class="ar-flex-item-stretch ar-border" style="height:40px;">
                     <select id="selectNewComponent" style="width:100%;" placeholder="Select New Component">
                         <option>Select New Component</option>
                     </select>
@@ -457,9 +457,9 @@
 
         </div>
 
-        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="border">
+        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="ar-border">
 
-            <div class="flex-content-wrap" style="margin: 3px 5px;">
+            <div class="ar-flex-content-wrap" style="margin: 3px 5px;">
                 <label style="margin: 0px 5px;">
                     <input type="checkbox" id="addAsCopyComponent" checked="checked">&nbsp;Add As Copy Component
                 </label>
@@ -475,9 +475,9 @@
             </div>
 
 
-            <div class="flex-content-wrap" style="margin: 3px 0px;">
+            <div class="ar-flex-content-wrap" style="margin: 3px 0px;">
 
-                <button class="border button" style="background-color:#209cee;margin-right:5px;"
+                <button class="ar-button ar-border" style="background-color:#209cee;margin-right:5px;"
                         onclick="addViewComponent('copyAddComponentProgress', 'copyResponse',
                             getElm('copyComponentAppSite').value, getElm('copyComponentAppView').value, getElm('selectMainComponent').value, getElm('selectSubComponent').value,
                             getElm('selectNewComponentAppSite').value, getElm('selectNewComponent').value, getCheckedElmByName('addBeforeComponent').value, getElm('addAsCopyComponent').checked, getElm('replaceComponent').checked, {},
@@ -485,7 +485,7 @@
                     Add Component <div id="copyAddComponentProgress"></div>
                 </button>
 
-                <button class="border button" style="background-color:red;margin-right:5px;"
+                <button class="ar-button ar-border" style="background-color:red;margin-right:5px;"
                         onclick="deleteViewComponent('copyDeleteComponentProgress', 'copyResponse',
                         getElm('copyComponentAppSite').value, getElm('copyComponentAppView').value, getElm('selectMainComponent').value,
                         getElm('selectSubComponent').value, {},
@@ -495,8 +495,8 @@
 
             </div>
 
-            <div class="notification" id="copyResponseContainer" style="margin:3px; padding:5px 10px;text-align:justify;display:none;width:100%;">
-                <button class="delete" onclick="hideElm('copyResponseContainer')"></button>
+            <div class="ar-notification" id="copyResponseContainer" style="margin:3px; padding:5px 10px;text-align:justify;display:none;width:100%;">
+                <button class="ar-delete" onclick="hideElm('copyResponseContainer')"></button>
                 <div id="copyResponse"></div>
             </div>
 

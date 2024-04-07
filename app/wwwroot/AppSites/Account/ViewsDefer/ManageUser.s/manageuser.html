@@ -418,72 +418,71 @@
 
 </style>
 
-<div class="container">
+<div class="ar-container">
 
+    <div class="ar-flex-card ar-card-border" id="addUserDiv" style="display:none;">
 
-    <div class="flex-card card_border" id="addUserDiv" style="display:none;">
-
-        <div class="flex-content-wrap" style="margin: 5px 5px;">
-            <button class="border-left" style="width:70px" onclick="getElm('userId').value = ''; getElm('userId').focus();">
+        <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
+            <button class="ar-button ar-border-left" style="width:70px" onclick="getElm('userId').value = ''; getElm('userId').focus();">
                 User Id<span style="color:red;">*</span>
             </button>
-            <div class="flex-item-stretch border-right">
-                <input style="width:100%;height:40px;border:none;" id="userId" type="text" tabindex="1" placeholder="Enter User Name">
+            <div class="ar-flex-item-stretch ar-border-right">
+                <input class="ar-input" style="width:100%;height:40px;border:none;" id="userId" type="text" tabindex="1" placeholder="Enter User Name">
             </div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 5px;">
-            <button class="border-left" style="width:70px" onclick="getElm('userAlias').value = ''; getElm('userAlias').focus();">
+        <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
+            <button class="ar-button ar-border-left" style="width:70px" onclick="getElm('userAlias').value = ''; getElm('userAlias').focus();">
                 User Alias
             </button>
-            <div class="flex-item-stretch border-right">
-                <input style="width:100%;height:40px;border:none;" id="userAlias" type="text" tabindex="2" placeholder="Enter User Alias">
+            <div class="ar-flex-item-stretch ar-border-right">
+                <input class="ar-input" style="width:100%;height:40px;border:none;" id="userAlias" type="text" tabindex="2" placeholder="Enter User Alias">
             </div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 5px;">
-            <button class="border-left" style="width:70px" onclick="getElm('userEmail').value = ''; getElm('userAlias').focus();">
+        <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
+            <button class="ar-button ar-border-left" style="width:70px" onclick="getElm('userEmail').value = ''; getElm('userAlias').focus();">
                 User Email
             </button>
-            <div class="flex-item-stretch border-right">
-                <input style="width:100%;height:40px;border:none;" id="userEmail" type="text" tabindex="2" placeholder="Enter User Email">
+            <div class="ar-flex-item-stretch ar-border-right">
+                <input class="ar-input" style="width:100%;height:40px;border:none;" id="userEmail" type="text" tabindex="2" placeholder="Enter User Email">
             </div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 5px;">
-            <button class="border-left" style="width:70px" onclick="getElm('userPassword').value = ''; getElm('userPassword').focus();">
+        <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
+            <button class="ar-button ar-border-left" style="width:70px" onclick="getElm('userPassword').value = ''; getElm('userPassword').focus();">
                 Password<span style="color:red;">*</span>
             </button>
-            <div class="flex-item-stretch border-right">
-                <input style="width:100%;height:40px;border:none;" id="userPassword" type="password" tabindex="3" placeholder="Enter User Password">
+            <div class="ar-flex-item-stretch ar-border-right">
+                <input class="ar-input" style="width:100%;height:40px;border:none;" id="userPassword" type="password" tabindex="3" placeholder="Enter User Password">
             </div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 5px;">
+        <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
             <label class="checkbox">
                 Change Password On First Logon
-                <input id="changePasswordOnFirstLogon" type="checkbox" alt="Change Password On First Logon">
+                <input class="ar-input" id="changePasswordOnFirstLogon" type="checkbox" alt="Change Password On First Logon">
             </label>
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;width:100%;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;width:100%;">
 
-            <button class="border button" style="background-color:#209cee;margin-right:5px;" id="addUserConfirm"
+            <button class="ar-button ar-border" style="background-color:#209cee;color:black;margin-right:5px;" id="addUserConfirm"
                     onclick="addUser('addUserProgress', 'userListResponse', getElm('userId').value, getElm('userAlias').value, getElm('userEmail').value, getElm('userPassword').value, getElm('changePasswordOnFirstLogon').checked, function () { refreshUserList('addUserProgress', 1); clearUserInput(); })">
                 Add <div id="addUserProgress"></div>
             </button>
 
-            <button class="border button" onclick="clearUserInput()">
+            <button class="ar-button ar-border" style="color:black;" onclick="clearUserInput()">
                 Clear
             </button>
         </div>
 
     </div>
 
-    <div class="flex-card card_border">
+    <div class="ar-flex-card ar-card-border">
 
-        <div class="notification" id="userListResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('userListResponseContainer')"></button>
+        <div class="ar-notification" id="userListResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('userListResponseContainer')"></button>
             <div id="userListResponse"></div>
         </div>
 

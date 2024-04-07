@@ -1,35 +1,6 @@
 ﻿<!--PageTitle = Arshu Realtime -->
 {{HTMLPLACEHOLDER}}
 
-<div class="flex-item-stretch" style="margin: 10px 10px;text-align:center;">
-    <h2>{{$HotReloadTitle}}</h2>
-</div>
+{{TestViewRealtime}}
 
-<div style="margin: 10px 10px;text-align:center;">
 
-    {{RealtimeAction}}
-
-    <script type="text/javascript">
-        function getRealtime() {
-            return getElm('{{$ParentViewID}}RealtimeRefresh').checked;
-        }
-
-        function getRealtimeDomain() {
-            return getElm('{{$ParentViewID}}RealtimeRefreshDomain').value;
-        }
-    </script>
-</div>
-
-{{refresh_componentrootwithoutid}}
-
-<hr class="flex-item-stretch" style="background-color:black;margin: 10px 10px" />
-
-<div class="flex-item-stretch" style="margin: 10px 10px;text-align:center;">
-    <h2>Data (Html + Json) ViewID Components with Nested ViewPlaceHolder for Testing Hot Reload</h2>
-</div>
-
-{{refresh_componentrootwithid}}
-
-<hr class="flex-item-stretch" style="background-color:black;margin: 10px 10px" />
-
-{{refresh_subsubcomponentwithid}}

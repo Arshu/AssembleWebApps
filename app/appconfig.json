@@ -126,12 +126,11 @@
   "AllowedAppFileExtension": "Html, Json",
   "AllowedResourceFileExtension": "Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Css, json, webmanifest",
   "AllowedDataFileExtension": "dat, json, xml, pfx, db, sdf, xlsx",
-  "AllowedTemplateFileExtension": "Html, Json, md, Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Css",
 
   "ResourceOptimizeMergeJs": true,
-  "ResourceOptimizeMergeJsPattern": "base, arshu, main, highlight, chart, htmx",
+  "ResourceOptimizeMergeJsPattern": "arshu; highlight, chart, main",
   "ResourceOptimizeMergeJsSkipPattern": "",
   "ResourceOptimizeMergeCss": true,
-  "ResourceOptimizeMergeCssPattern": "base, arshu, normalize, animate, main, highlight, chart",
+  "ResourceOptimizeMergeCssPattern": "normalize, arshu, animate, highlight, chart, main;",
   "ResourceOptimizeMergeCssSkipPattern": ""
 }

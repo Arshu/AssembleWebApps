@@ -344,15 +344,16 @@
     }
 </style>
 {{VIEWPLACEHOLDER}}
-<div class="container" style="text-align:center;">
-    <div class="flex-card card_border" style="display:none;">
 
-        <div class="notification" id="initAppViewsAsRoleResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('initAppViewsAsRoleResponseContainer')"></button>
+<div class="ar-container" style="text-align:center;">
+    <div class="ar-flex-card ar-card-border" style="display:none;">
+
+        <div class="ar-notification" id="initAppViewsAsRoleResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('initAppViewsAsRoleResponseContainer')"></button>
             <div id="initAppViewsAsRoleResponse"></div>
         </div>
 
-        <div class="flex-content-wrap border" style="margin: 5px 0px;">
+        <div class="ar-flex-content-wrap border" style="margin: 5px 0px;">
             <label style="width:100%;">App Sites</label>
             <div>
                 {{
@@ -375,9 +376,9 @@
             </div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
 
-            <button class="border button" style="background-color:#209cee;"
+            <button class="ar-button ar-border" style="background-color:#209cee;"
                     onclick="initAppViewsAsRole('initAppViewsAsRoleProgress', 'initAppViewsAsRoleResponse',  function () { refreshRoleList('initAppViewsAsRoleProgress', 1); })">
                 Init AppViews As Roles <div id="initAppViewsAsRoleProgress"></div>
             </button>
@@ -386,25 +387,25 @@
 
     </div>
 
-    <div class="flex-card card_border" id="addRoleDiv" style="display:none;">
+    <div class="ar-flex-card ar-card-border" id="addRoleDiv" style="display:none;">
 
-        <div class="flex-content-wrap" style="margin: 5px 5px;">
-            <button class="border-left" style="width:70px" onclick="getElm('roleName').value = ''; getElm('roleName').focus();">
+        <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
+            <button class="ar-button ar-border-left" style="width:70px" onclick="getElm('roleName').value = ''; getElm('roleName').focus();">
                 Role Name<span style="color:red;">*</span>
             </button>
-            <div class="flex-item-stretch border-right">
-                <input style="width:100%;height:38px;border:none;" id="roleName" type="text" placeholder="Enter Role Name">
+            <div class="ar-flex-item-stretch ar-border-right">
+                <input class="ar-input" style="width:100%;height:38px;border:none;" id="roleName" type="text" placeholder="Enter Role Name">
             </div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 0px;width:100%;">
+        <div class="ar-flex-content-wrap" style="margin: 5px 0px;width:100%;">
 
-            <button class="border button" id="addRoleConfirm" style="background-color:#209cee;margin-right:5px;"
+            <button class="ar-button ar-border" id="addRoleConfirm" style="background-color:#209cee;color:black; margin-right:5px;"
                     onclick="addRole('addRoleProgress', 'roleListResponse', getElm('roleName').value, function () { refreshRoleList('addRoleProgress', 1); clearRoleInput(); })">
                 Add <div id="addRoleProgress"></div>
             </button>
 
-            <button class="border button" onclick="clearRoleInput();">
+            <button class="ar-button ar-border" style="color:black;" onclick="clearRoleInput();">
                 Clear
             </button>
 
@@ -412,10 +413,10 @@
 
     </div>
 
-    <div class="flex-card card_border">
+    <div class="ar-flex-card ar-card-border">
 
-        <div class="notification" id="roleListResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('roleListResponseContainer')"></button>
+        <div class="ar-notification" id="roleListResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('roleListResponseContainer')"></button>
             <div id="roleListResponse"></div>
         </div>
 

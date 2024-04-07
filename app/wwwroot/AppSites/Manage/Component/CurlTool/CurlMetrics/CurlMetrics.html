@@ -8,81 +8,81 @@
     }
 </style>
 
-<div style="margin: 5px 0px;" class="flex-input-wrap">
-    <button class="flex-item-stretch border" style="height:40px;padding-left:40px;" onclick="toggleElm('curlMetrics'); if (isHiddenElm('curlMetrics') == false) { showCurlMetrics();  }">
+<div style="margin: 5px 0px;" class="ar-flex-input-wrap">
+    <button class="ar-flex-item-stretch ar-border" style="height:40px;padding-left:40px;" onclick="toggleElm('curlMetrics'); if (isHiddenElm('curlMetrics') == false) { showCurlMetrics();  }">
         Curl Metrics
     </button>    
 </div>
 
-<div id="curlMetrics" class="border" style="margin: 5px 0px;padding: 5px; display: none;">
+<div id="curlMetrics" class="ar-border" style="margin: 5px 0px;padding: 5px; display: none;">
 
-    <div class="flex-content-wrap" style="padding:3px 0px;background-color:#fff;">
+    <div class="ar-flex-content-wrap" style="padding:3px 0px;background-color:#fff;">
 
-        <button class="border flex-item-stretch" style="margin: 2px 5px 0px 0px; height: 25px; background-color: lightgray;" onclick="clearCurlMetrics('clearCurlMetricProgress', 'clearCurlMetricResponse')">
+        <button class="border ar-flex-item-stretch" style="margin: 2px 5px 0px 0px; height: 25px; background-color: lightgray;" onclick="clearCurlMetrics('clearCurlMetricProgress', 'clearCurlMetricResponse')">
             Clear Curl Metrics <div id="clearCurlMetricProgress"></div>
         </button>
 
-        <button class="border" style="margin-top: 2px; width: 25px; height: 25px; text-align: center; position: relative;" onclick="showCurlMetrics();">
+        <button class="ar-border" style="margin-top: 2px; width: 25px; height: 25px; text-align: center; position: relative;" onclick="showCurlMetrics();">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
         </button>
     </div>
 
-    <div class="notification" id="clearCurlMetricResponseContainer" style="margin:5px; padding:10px;display:none;">
-        <button class="delete" onclick="hideElm('clearCurlMetricResponseContainer')"></button>
+    <div class="ar-notification" id="clearCurlMetricResponseContainer" style="margin:5px; padding:10px;display:none;">
+        <button class="ar-delete" onclick="hideElm('clearCurlMetricResponseContainer')"></button>
         <div id="clearCurlMetricResponse"></div>
     </div>
 
     <div style="margin: 0 auto;position:relative; overflow:auto">
-        <div class="flex-input-wrap border" style="margin: 5px 0px;">
-            <select class="flex-item-stretch border-left" style="height: 30px; padding: 0 0 0 10px; background-color: white;" id="curlMetricsInstance" onchange="fillCurlMetricsPath('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsPath', function () { fillCurlMetricsType('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsType', function () { refreshCurlMetricsChart('previousPageMetricProgress', 1); }); })">
+        <div class="ar-flex-input-wrap border" style="margin: 5px 0px;">
+            <select class="ar-flex-item-stretch ar-border-left" style="height: 30px; padding: 0 0 0 10px; background-color: white;" id="curlMetricsInstance" onchange="fillCurlMetricsPath('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsPath', function () { fillCurlMetricsType('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsType', function () { refreshCurlMetricsChart('previousPageMetricProgress', 1); }); })">
             </select>
-            <span id="curlMetricsCached" class="border-right" style="background-color: white; padding-top: 5px; padding-right: 10px; ">✓</span>
+            <span id="curlMetricsCached" class="ar-border-right" style="background-color: white; padding-top: 5px; padding-right: 10px; ">✓</span>
         </div>
-        <div class="flex-content-wrap" style="padding:3px 0px;background-color:#fff;display:none;" id="mergeCurlAction">
-            <button class="border flex-item-stretch" style="margin: 2px 5px 0px 5px; height: 25px; background-color: lightgray;" onclick="mergeCurlMetrics('mergeCurlProgress', 'mergeCurlResponse', (getElm('mergeCurlStatus').checked))">
+        <div class="ar-flex-content-wrap" style="padding:3px 0px;background-color:#fff;display:none;" id="mergeCurlAction">
+            <button class="border ar-flex-item-stretch" style="margin: 2px 5px 0px 5px; height: 25px; background-color: lightgray;" onclick="mergeCurlMetrics('mergeCurlProgress', 'mergeCurlResponse', (getElm('mergeCurlStatus').checked))">
                 Merge Remote Curl Metrics <div id="mergeCurlProgress"></div>
             </button>
             <input type="checkbox" style="margin: 2px 5px 0px 0px;" id="mergeCurlStatus" title="Reset the Merge Status" />
         </div>
-        <div class="notification" id="mergeCurlResponseContainer" style="margin:5px; padding:10px;display:none;">
-            <button class="delete" onclick="hideElm('mergeCurlResponseContainer')"></button>
+        <div class="ar-notification" id="mergeCurlResponseContainer" style="margin:5px; padding:10px;display:none;">
+            <button class="ar-delete" onclick="hideElm('mergeCurlResponseContainer')"></button>
             <div id="mergeCurlResponse"></div>
         </div>
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
-            <div class="border-left" style="font-size: small; width: 70px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillCurlMetricsPath('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsPath', function () { fillCurlMetricsType('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsType', function () { refreshCurlMetricsChart('previousPageMetricProgress', 1); }); })">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <div class="ar-border-left" style="font-size: small; width: 70px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillCurlMetricsPath('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsPath', function () { fillCurlMetricsType('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsType', function () { refreshCurlMetricsChart('previousPageMetricProgress', 1); }); })">
                 Curl Mtd
                 <div style="height:18px;padding-left:13px;">
                     <svg fill="none" stroke="currentColor" style="height:100%;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                 </div>
                 <span id="curlMetricUrlProgress"></span>
             </div>
-            <select class="border-right flex-item-stretch" style="height: 30px; max-width: calc(100vw - 96px); padding: 0 0 0 10px; background-color: white;" id="curlMetricsPath" onchange="fillCurlMetricsType('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsType', function () { refreshCurlMetricsChart('previousPageMetricProgress', 1);  })">
+            <select class="ar-border-right ar-flex-item-stretch" style="height: 30px; max-width: calc(100vw - 96px); padding: 0 0 0 10px; background-color: white;" id="curlMetricsPath" onchange="fillCurlMetricsType('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsType', function () { refreshCurlMetricsChart('previousPageMetricProgress', 1);  })">
             </select>
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
-            <div class="border-left" style="font-size: small; width: 70px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillCurlMetricsType('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsType', function () { refreshCurlMetricsChart('previousPageMetricProgress', 1);  })">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <div class="ar-border-left" style="font-size: small; width: 70px; height: 38px; background-color: black; color: white; padding-left: 5px;" onclick="fillCurlMetricsType('curlMetricUrlProgress', 'metricsResponse', 'curlMetricsType', function () { refreshCurlMetricsChart('previousPageMetricProgress', 1);  })">
                 Metrics
                 <div style="height:18px;padding-left:13px;">
                     <svg fill="none" stroke="currentColor" style="height:100%;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                 </div>
             </div>
-            <select class="flex-item-stretch border-top-bottom" style="height: 30px; padding:0 0 0 10px; background-color: white;" id="curlMetricsType" onchange="refreshCurlMetricsChart('previousCurlMetricProgress', 1)">
+            <select class="ar-flex-item-stretch ar-border-top-bottom" style="height: 30px; padding:0 0 0 10px; background-color: white;" id="curlMetricsType" onchange="refreshCurlMetricsChart('previousCurlMetricProgress', 1)">
             </select>
-            <select class="flex-item-stretch border-right" style="height: 30px; max-width:50px; padding:0 0 0 10px; background-color: white;" id="curlMetricsCount" onchange="refreshCurlMetricsChart('nextCurlMetricProgress', 1)">
+            <select class="ar-flex-item-stretch ar-border-right" style="height: 30px; max-width:50px; padding:0 0 0 10px; background-color: white;" id="curlMetricsCount" onchange="refreshCurlMetricsChart('nextCurlMetricProgress', 1)">
                 <option selected="selected">5</option>
                 <option>10</option>
                 <option>25</option>
                 <option>50</option>
                 <option>100</option>
             </select>
-            <button class="border" style="width:35px;height:38px" id="previousCurlMetric" disabled="disabled" onclick="refreshCurlMetricsChart('previousCurlMetricProgress', getElm('previousCurlMetric').getAttribute('data-previouscurl'))">
+            <button class="ar-border" style="width:35px;height:38px" id="previousCurlMetric" disabled="disabled" onclick="refreshCurlMetricsChart('previousCurlMetricProgress', getElm('previousCurlMetric').getAttribute('data-previouscurl'))">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path></svg>
                 <span id="previousCurlMetricProgress"></span>
             </button>
-            <button class="border" style="width:35px;height:38px" id="nextCurlMetric" disabled="disabled" onclick="refreshCurlMetricsChart('nextCurlMetricProgress', getElm('nextCurlMetric').getAttribute('data-nextcurl'))">
+            <button class="ar-border" style="width:35px;height:38px" id="nextCurlMetric" disabled="disabled" onclick="refreshCurlMetricsChart('nextCurlMetricProgress', getElm('nextCurlMetric').getAttribute('data-nextcurl'))">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <span id="nextCurlMetricProgress"></span>
             </button>

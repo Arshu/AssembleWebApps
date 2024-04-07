@@ -1,19 +1,19 @@
 {{RealtimeAction}}
 
-<div class="flex-content-wrap" style="margin:5px;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+<div class="ar-flex-content-wrap" style="margin:5px;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
     {{VIEWPLACEHOLDER}}
 
     <div style="text-align:center;">
         <div id="{{$ViewID}}Progress"></div>
-        <div style="margin:5px; padding:10px;text-align:center;display:none;" class="notification" id="{{$ViewID}}ResponseContainer">
-            <button class="delete" onclick="hideElm('{{$ViewID}}ResponseContainer')"></button>
+        <div style="margin:5px; padding:10px;text-align:center;display:none;" class="ar-notification" id="{{$ViewID}}ResponseContainer">
+            <button class="ar-delete" onclick="hideElm('{{$ViewID}}ResponseContainer')"></button>
             <div id="{{$ViewID}}Response"></div>
         </div>
     </div>
 
-    <div class="flex-item-stretch" style="text-align:center;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
-        <button class="border button" style="margin:5px;background-color:lightblue;width:60px;margin: 0 5px 0 0" onclick="toDoShowAddView('toDoAddViewDiv')">Add</button>
-        <button class="border button" style="margin: 5px; background-color: lightblue; width: 60px; margin: 0 0 0 5px" onclick="toDoShowFilterView('toDoFilterViewDiv')">Filter</button>
+    <div class="ar-flex-item-stretch" style="text-align:center;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+        <button class="ar-button ar-border" style="margin:5px;background-color:lightblue;width:60px;margin: 0 5px 0 0" onclick="toDoShowAddView('toDoAddViewDiv')">Add</button>
+        <button class="ar-button ar-border" style="margin: 5px; background-color: lightblue; width: 60px; margin: 0 0 0 5px" onclick="toDoShowFilterView('toDoFilterViewDiv')">Filter</button>
     </div>
 
     {{ToDoAddView}}

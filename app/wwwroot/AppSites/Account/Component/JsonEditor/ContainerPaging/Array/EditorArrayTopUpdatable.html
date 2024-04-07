@@ -1,16 +1,16 @@
-﻿<div class="flex-content-spaced" style="{{@ArrayTopHidden}}display:none;{{/ArrayTopHidden}}width:100%;">
+﻿<div class="ar-flex-content-spaced" style="{{@ArrayTopHidden}}display:none;{{/ArrayTopHidden}}width:100%;">
     {{@HavePreviousPage}}
-    <button class="border flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" title="{{$PageNo}}, {{$PreviousPage}}, {{$FilterKeyPath}}"
+    <button class="border ar-flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" title="{{$PageNo}}, {{$PreviousPage}}, {{$FilterKeyPath}}"
             onclick="return refreshEditorJsonArray('{{$ViewID}}', '{{$ViewID}}{{$FilterKeyPath}}PreviousJsonArrayEditorProgress',
                 '{{$PageNo}}', '{{$PreviousPage}}', '{{$PageNoArrayItem}}', '{{$FilterKeyPath}}');">
         < <span id="{{$ViewID}}{{$FilterKeyPath}}PreviousJsonArrayEditorProgress"></span>
     </button>
     {{/HavePreviousPage}}
     {{^HavePreviousPage}}
-    <button class="border flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" disabled><</button>
+    <button class="border ar-flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" disabled><</button>
     <span id="{{$ViewID}}{{$FilterKeyPath}}PreviousJsonArrayEditorProgress"></span>
     {{/HavePreviousPage}}
-    <button class="border" style="min-width:25px;height:30px;margin-left:5px;color:black;font-weight:bolder;" title="{{$KeyPath}}"
+    <button class="ar-border" style="min-width:25px;height:30px;margin-left:5px;color:black;font-weight:bolder;" title="{{$KeyPath}}"
             onclick="deleteEditorJsonArray('{{$ViewID}}','{{$ViewID}}{{$FilterKeyPath}}DeleteJsonArrayEditorProgress',
                 '{{$PageNo}}', '{{$PageNoArray}}', '{{$PageNoArrayItem}}',
                 { 'KeyPath': '{{$FilterKeyPath}}' }, '',
@@ -24,11 +24,11 @@
         </svg>
     </button>
 
-    <div class="flex-item-stretch">
+    <div class="ar-flex-item-stretch">
         {{$Title}}
     </div>
 
-    <button class="border" style="min-width:25px;height:30px;margin-right:5px;color:black;font-weight:bolder;" title="{{$KeyPath}}"
+    <button class="ar-border" style="min-width:25px;height:30px;margin-right:5px;color:black;font-weight:bolder;" title="{{$KeyPath}}"
             onclick="cloneEditorJsonArray('{{$ViewID}}','{{$ViewID}}{{$FilterKeyPath}}CloneJsonArrayEditorProgress',
                 '{{$PageNo}}', '{{$PageNoArray}}', '{{$PageNoArrayItem}}',
                 { 'KeyPath': '{{$FilterKeyPath}}' }, '',
@@ -42,21 +42,21 @@
         </svg>
     </button>
     {{@HaveNextPage}}
-    <button class="border flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" title="{{$PageNo}}, {{$NextPage}}, {{$KeyPath}}"
+    <button class="border ar-flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" title="{{$PageNo}}, {{$NextPage}}, {{$KeyPath}}"
             onclick="return refreshEditorJsonArray('{{$ViewID}}', '{{$ViewID}}{{$FilterKeyPath}}NextJsonArrayEditorProgress',
                 '{{$PageNo}}', '{{$NextPage}}', '{{$PageNoArrayItem}}', '{{$FilterKeyPath}}')">
         > <span id="{{$ViewID}}{{$FilterKeyPath}}NextJsonArrayEditorProgress"></span>
     </button>
     {{/HaveNextPage}}
     {{^HaveNextPage}}
-    <button class="border flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" disabled>></button>
+    <button class="border ar-flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" disabled>></button>
     <span id="{{$ViewID}}{{$FilterKeyPath}}NextJsonArrayEditorProgress"></span>
     {{/HaveNextPage}}
-    <button class="border flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;display:none;"
+    <button class="border ar-flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;display:none;"
             onclick="return refreshEditorJsonArray('{{$ViewID}}', '{{$ViewID}}{{$FilterKeyPath}}RefreshJsonArrayEditorProgress',
             '{{$PageNo}}', '{{$PageNoArray}}', '{{$PageNoArrayItem}}', '{{$FilterKeyPath}}')">
         &#x2714;<span id="{{$ViewID}}{{$FilterKeyPath}}RefreshJsonArrayEditorProgress"></span>
     </button>
 </div>
 
-<hr class="flex-item-stretch" style="{{@ArrayTopHidden}}display:none;{{/ArrayTopHidden}}background-color:black;margin: -1px 4px" />
+<hr class="ar-flex-item-stretch" style="{{@ArrayTopHidden}}display:none;{{/ArrayTopHidden}}background-color:black;margin: -1px 4px" />

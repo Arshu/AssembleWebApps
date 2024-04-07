@@ -1,25 +1,25 @@
-<div class="border" style="text-align: center; margin: 10px; padding: 10px; border-color: red; border-width: 5px; ">
+<div class="ar-border" style="text-align: center; margin: 10px; padding: 10px; border-color: red; border-width: 5px; ">
     {{ViewPlaceHolder}}
     <div style="position:relative;">
-        <button style="position:absolute; right:-10px;margin-top:-10px;width:25px;height:25px;background-color: transparent;text-align:center;vertical-align:middle;" 
+        <button class="ar-iconbutton" style="position:absolute; right:-10px;margin-top:-10px;width:25px;height:25px;background-color: transparent;text-align:center;vertical-align:middle;" 
                 data-action="showComponentSourceViewer" data-progress="componentrootwithidShowProgress" data-response="response" data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" data-component="{{$ViewID}}">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
             </svg><div id="componentrootwithidShowProgress"></div>
         </button>
     </div>
-    <div class="flex-item-stretch" style="width: 100%; text-align:center; font: italic 12px bold verdana; color: red;">
+    <div class="ar-flex-item-stretch" style="width: 100%; text-align:center; font: italic 12px bold verdana; color: red;">
         Refreshes the Current Component having the View ID
     </div>
-    <div class="flex-item-stretch" style="width: 100%;">
+    <div class="ar-flex-item-stretch" style="width: 100%;">
         <span style="font-size:xx-small">ViewID:[{{$ViewID}}] ParentViewID:[{{$ParentViewID}}] NextParentViewID:[{{$NextParentViewID}}]</span>
     </div>
-    <div class="flex-item-stretch" style="width:100%;">
+    <div class="ar-flex-item-stretch" style="width:100%;">
         <p>Refresh Html Root Component with ID at <br/><span style="color: green">{{$DateTimeUTC}}</span></p> 
         
     </div>
     <div style="text-align:center;">
-        <button class="border" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}" style="width:40px;height:40px;"
+        <button class="ar-border" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}" style="width:40px;height:40px;"
                  data-action="refreshComponentHtml" data-progress="progress" data-response="response"
                  data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" 
                  data-component="{{$ViewID}}"
@@ -30,17 +30,17 @@
         </button>
     </div>
 
-    <div class="flex-item-stretch" style="width:100%;">
+    <div class="ar-flex-item-stretch" style="width:100%;">
         <p>{{$JsonComponentText}} for <span style="color:blue">{{$ViewName}}</span></p>
     </div>
 
-    <div class="flex-item-stretch" style="width:100%;">
+    <div class="ar-flex-item-stretch" style="width:100%;">
         {{Refresh_SubComponentWithID}}
     </div>
-    <div class="flex-item-stretch" style="width:100%;">
+    <div class="ar-flex-item-stretch" style="width:100%;">
         {{Refresh_SubComponentWithoutID}}
     </div>
-    <div class="flex-item-stretch" style="width:100%;">
+    <div class="ar-flex-item-stretch" style="width:100%;">
         {{Refresh_SubComponentWithID}}
     </div>
 </div>

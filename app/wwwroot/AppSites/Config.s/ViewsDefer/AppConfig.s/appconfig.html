@@ -533,16 +533,16 @@
 
 <div class="container" style="text-align:center;">
 
-    <div class="flex-card card_border">
+    <div class="ar-flex-card ar-card-border">
 
-        <div class="notification" id="appShutdownResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('appShutdownResponseContainer')"></button>
+        <div class="ar-notification" id="appShutdownResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('appShutdownResponseContainer')"></button>
             <div id="appShutdownResponse"></div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
 
-            <button class="border button" style="background-color:red;"
+            <button class="ar-button ar-border" style="background-color:red;"
                     onclick="triggerAppShutdown('appShutdownProgress', 'appShutdownResponse', null)">
                 Trigger App Shutdown <div id="appShutdownProgress"></div>
             </button>
@@ -551,15 +551,15 @@
 
     </div>
 
-    <div class="flex-card card_border">
+    <div class="ar-flex-card ar-card-border">
 
-        <div class="flex-content-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
             <label style="width:100%;">WebRootName</label>
-            <button class="border-left" style="width:40px;height:40px;" id="refreshAppConfigBtn" onclick="retrieveAppConfig('appConfigProgress', 'appConfigResponse', function () { hideElm('appAssetsView');hideElm('appServicesView');hideElm('appProvidersView'); });">
+            <button class="ar-border-left" style="width:40px;height:40px;" id="refreshAppConfigBtn" onclick="retrieveAppConfig('appConfigProgress', 'appConfigResponse', function () { hideElm('appAssetsView');hideElm('appServicesView');hideElm('appProvidersView'); });">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
             </button>
-            <div class="flex-item-stretch border-top-bottom" style="height:40px;">
-                <select style="width:100%;border:none;" id="webRootName" disabled>
+            <div class="ar-flex-item-stretch ar-border-top-bottom" style="height:40px;">
+                <select style="width:100%;ar-border:none;" id="webRootName" disabled>
                     {{
                         VIEW_AppDomainSelect(
                         "AppSiteList",
@@ -573,7 +573,7 @@
                 </select>
                 <div id="appConfigProgress"></div>
             </div>
-            <button class="border-right" style="width:40px;height:40px;" onclick="toggleElm('appConfigView');">
+            <button class="ar-border-right" style="width:40px;height:40px;" onclick="toggleElm('appConfigView');">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
                 </svg>
@@ -582,14 +582,14 @@
 
     </div>
 
-    <div class="flex-card card_border" id="appConfigView" style="display:none;">
+    <div class="ar-flex-card ar-card-border" id="appConfigView" style="display:none;">
 
-        <div class="notification" id="appConfigResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('appConfigResponseContainer')"></button>
+        <div class="ar-notification" id="appConfigResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('appConfigResponseContainer')"></button>
             <div id="appConfigResponse"></div>
         </div>
 
-        <div class="flex-content-wrap border" style="margin: 5px 0px;">
+        <div class="ar-flex-content-wrap ar-border" style="margin: 5px 0px;">
             <label style="width:100%;">Log Level</label>
             <div>
                 <label for="criticalLogLevel" style="padding:7px 5px 0 0px;display:inline-block;">
@@ -611,7 +611,7 @@
             </div>
         </div>
 
-        <div class="flex-content-wrap border" style="margin: 5px 0px;">
+        <div class="ar-flex-content-wrap ar-border" style="margin: 5px 0px;">
             <label for="apiConfigWrite" style="padding:7px 5px 0 0px;display:inline-block;">
                 <input readonly type="checkbox" id="apiConfigWrite" name="configOption" title="Enable Api Config Write" value="ApiConfigWrite">
                 ApiConfigWrite
@@ -630,7 +630,7 @@
             </label>
         </div>
 
-        <div class="border" style="margin: 10px 0px;">
+        <div class="ar-border" style="margin: 10px 0px;">
             <div>
                 Static App Sites With Order Sequence
             </div>
@@ -653,7 +653,7 @@
             }}
         </div>
 
-        <div class="border" style="margin: 10px 0px;">
+        <div class="ar-border" style="margin: 10px 0px;">
             <div>
                 Search App Sites With Order Sequence
             </div>
@@ -676,9 +676,9 @@
             }}
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
 
-            <button class="border button" style="background-color:#209cee"
+            <button class="ar-border button" style="background-color:#209cee"
                     onclick="saveAppConfig('appConfigProgress', 'appConfigResponse', getAppConfigJson, function () { retrieveAppConfig('appConfigProgress', 'appConfigResponse', null); } )">
                 Save AppConfig <div id="shutdownProgress"></div>
             </button>
@@ -687,28 +687,28 @@
 
     </div>
 
-    <div class="flex-card card_border">
+    <div class="ar-flex-card ar-card-border">
 
-        <div class="flex-content-wrap" style="margin: 5px 5px;">
+        <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
             <label style="width:100%;">App Assets</label>
-            <div class="flex-item-stretch border-left" style="height:40px;">
+            <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
                 <select style="width:100%;border:none;" id="appAssets" onchange="updateAppSelect('appAssets', 'selectedAppAssets', 'Asset', '', 'app', 'appAsset', function () { fillSelectValue('appAssets', getElm('appAssets').value, 'Asset', '', 'app', 'appAsset', 'selectedAppAssets'); })">
                 </select>
             </div>
-            <button class="border-right" style="width:40px;height:40px;" onclick="fillSelectValue('appAssets', getElm('appAssets').value, 'Asset', '', 'app', 'appAsset', 'selectedAppAssets'); toggleElm('appAssetsView'); hideElm('appServicesView'); hideElm('appProvidersView')">
+            <button class="ar-border-right" style="width:40px;height:40px;" onclick="fillSelectValue('appAssets', getElm('appAssets').value, 'Asset', '', 'app', 'appAsset', 'selectedAppAssets'); toggleElm('appAssetsView'); hideElm('appServicesView'); hideElm('appProvidersView')">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             </button>
             <input type="hidden" id="selectedAppAssets" style="width:100%;" />
         </div>
 
-        <div class="card_border" id="appAssetsView" style="display:none;">
+        <div class="ar-card-border" id="appAssetsView" style="display:none;">
 
             <div style="margin: 5px 0px;">
                 <div style="padding: 0px 5px;">
                     AssetDll
                 </div>
-                <div class="flex-item-stretch">
-                    <input class="border" style="width:100%;height:40px;" id="appAssetDll" name="appAssetDll" type="text" value="" placeholder="Enter Asset Dll Name">
+                <div class="ar-flex-item-stretch">
+                    <input class="ar-border" style="width:100%;height:40px;" id="appAssetDll" name="appAssetDll" type="text" value="" placeholder="Enter Asset Dll Name">
                 </div>
             </div>
 
@@ -716,8 +716,8 @@
                 <div style="padding: 0px 5px;">
                     AssetTypeName
                 </div>
-                <div class="flex-item-stretch">
-                    <input class="border" style="width:100%;height:40px;" id="appAssetTypeName" name="appAssetTypeName" type="text" value="" placeholder="Enter Asset Type Name">
+                <div class="ar-flex-item-stretch">
+                    <input class="ar-border" style="width:100%;height:40px;" id="appAssetTypeName" name="appAssetTypeName" type="text" value="" placeholder="Enter Asset Type Name">
                 </div>
             </div>
 
@@ -728,19 +728,19 @@
                 </label>
             </div>
 
-            <div class="notification" id="appAssetsResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-                <button class="delete" onclick="hideElm('appAssetsResponseContainer')"></button>
+            <div class="ar-notification" id="appAssetsResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+                <button class="ar-delete" onclick="hideElm('appAssetsResponseContainer')"></button>
                 <div id="appAssetsResponse"></div>
             </div>
 
-            <div class="flex-content-wrap" style="margin: 5px 0px;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
 
-                <button class="border button" style="background-color:#209cee;display:none;"
+                <button class="ar-border button" style="background-color:#209cee;display:none;"
                         onclick="updateAppSelect('appAssets', 'selectedAppAssets', 'Asset', '', '', 'app', 'appAsset')">
                     Update AppAsset
                 </button>
 
-                <button class="border button" style="background-color:#209cee"
+                <button class="ar-border button" style="background-color:#209cee"
                         onclick="updateAppSelect('appAssets', 'selectedAppAssets', 'Asset', '', '', 'app', 'appAsset', function () {
                                 saveAppConfig('appAssetProgress', 'appAssetsResponse', function () {
                                    return getAppSelectJson('appAssets', 'AppAssets', 'Asset', '', 'app', 'appAsset')
@@ -755,26 +755,26 @@
 
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 5px;">
+        <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
             <label style="width:100%;">App Services</label>
-            <div class="flex-item-stretch border-left" style="height:40px;">
+            <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
                 <select style="width:100%;border:none;" id="appServices" onchange="updateAppSelect('appServices', 'selectedAppServices', 'Register', '', 'appService', 'appServiceRegister', function () { fillSelectValue('appServices', getElm('appServices').value, 'Register', '', 'appService', 'appServiceRegister', 'selectedAppServices'); })">
                 </select>
             </div>
-            <button class="border-right" style="width:40px;height:40px;" onclick="fillSelectValue('appServices', getElm('appServices').value, 'Register', '', 'appService', 'appServiceRegister', 'selectedAppServices'); toggleElm('appServicesView'); hideElm('appAssetsView');hideElm('appProvidersView')">
+            <button class="ar-border-right" style="width:40px;height:40px;" onclick="fillSelectValue('appServices', getElm('appServices').value, 'Register', '', 'appService', 'appServiceRegister', 'selectedAppServices'); toggleElm('appServicesView'); hideElm('appAssetsView');hideElm('appProvidersView')">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             </button>
             <input type="hidden" id="selectedAppServices" style="width:100%;" />
         </div>
 
-        <div class="card_border" id="appServicesView" style="display:none;">
+        <div class="ar-card-border" id="appServicesView" style="display:none;">
 
             <div style="margin: 5px 0px;">
                 <div style="padding: 0px 5px;">
                     RegisterDll
                 </div>
-                <div class="flex-item-stretch">
-                    <input class="border" style="width:100%;height:40px;" id="appServiceRegisterDll" name="appServiceRegisterDll" type="text" value="" placeholder="Enter Register Dll Name">
+                <div class="ar-flex-item-stretch">
+                    <input class="ar-border" style="width:100%;height:40px;" id="appServiceRegisterDll" name="appServiceRegisterDll" type="text" value="" placeholder="Enter Register Dll Name">
                 </div>
             </div>
 
@@ -782,8 +782,8 @@
                 <div style="padding: 0px 5px;">
                     RegisterTypeName
                 </div>
-                <div class="flex-item-stretch">
-                    <input class="border" style="width:100%;height:40px;" id="appServiceRegisterTypeName" name="appServiceRegisterTypeName" type="text" value="" placeholder="Enter Register Type Name">
+                <div class="ar-flex-item-stretch">
+                    <input class="ar-border" style="width:100%;height:40px;" id="appServiceRegisterTypeName" name="appServiceRegisterTypeName" type="text" value="" placeholder="Enter Register Type Name">
                 </div>
             </div>
 
@@ -794,19 +794,19 @@
                 </label>
             </div>
 
-            <div class="notification" id="appServiceResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-                <button class="delete" onclick="hideElm('appServiceResponseContainer')"></button>
+            <div class="ar-notification" id="appServiceResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+                <button class="ar-delete" onclick="hideElm('appServiceResponseContainer')"></button>
                 <div id="appServiceResponse"></div>
             </div>
 
-            <div class="flex-content-wrap" style="margin: 5px 0px;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
 
-                <button class="border button" style="background-color:#209cee;display:none;"
+                <button class="ar-border button" style="background-color:#209cee;display:none;"
                         onclick="updateAppSelect('appServices', 'selectedAppServices', 'Register', '', 'appService', 'appServiceRegister')">
                     Update AppService
                 </button>
 
-                <button class="border button" style="background-color:#209cee"
+                <button class="ar-border button" style="background-color:#209cee"
                         onclick="updateAppSelect('appServices', 'selectedAppServices', 'Register', '', 'appService', 'appServiceRegister', function () {
                             saveAppConfig('appServiceProgress', 'appServiceResponse', function () {
                                 return getAppSelectJson('appServices', 'AppServices', 'Register', '', 'appService', 'appServiceRegister')
@@ -821,26 +821,26 @@
 
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 5px;">
+        <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
             <label style="width:100%;">App Providers</label>
-            <div class="flex-item-stretch border-left" style="height:40px;">
+            <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
                 <select style="width:100%;border:none;" id="appProviders" onchange="updateAppSelect(getAppSelectJson('appProviders', 'selectedAppProviders', 'Provider', 'Register', 'app', 'appProvider', function () { fillSelectValue('appProviders', getElm('appProviders').value, 'Provider', 'Register', 'app', 'appProvider', 'selectedAppProviders'); })">
                 </select>
             </div>
-            <button class="border-right" style="width:40px;height:40px;" onclick="fillSelectValue('appProviders', getElm('appProviders').value, 'Provider', 'Register', 'app', 'appProvider', 'selectedAppProviders'); toggleElm('appProvidersView');hideElm('appAssetsView');hideElm('appServicesView');">
+            <button class="ar-border-right" style="width:40px;height:40px;" onclick="fillSelectValue('appProviders', getElm('appProviders').value, 'Provider', 'Register', 'app', 'appProvider', 'selectedAppProviders'); toggleElm('appProvidersView');hideElm('appAssetsView');hideElm('appServicesView');">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             </button>
             <input type="hidden" id="selectedAppProviders" style="width:100%;" />
         </div>
 
-        <div class="card_border" id="appProvidersView" style="display:none;">
+        <div class="ar-card-border" id="appProvidersView" style="display:none;">
 
             <div style="margin: 5px 0px;">
                 <div style="padding: 0px 5px;">
                     ProviderTypeName
                 </div>
-                <div class="flex-item-stretch">
-                    <input class="border" style="width:100%;height:40px;" id="appProviderTypeName" name="appProviderTypeName" type="text" value="" placeholder="Enter Provider Type Name">
+                <div class="ar-flex-item-stretch">
+                    <input class="ar-border" style="width:100%;height:40px;" id="appProviderTypeName" name="appProviderTypeName" type="text" value="" placeholder="Enter Provider Type Name">
                 </div>
             </div>
 
@@ -848,8 +848,8 @@
                 <div style="padding: 0px 5px;">
                     ProviderDll
                 </div>
-                <div class="flex-item-stretch">
-                    <input class="border" style="width:100%;height:40px;" id="appProviderDll" name="appProviderDll" type="text" value="" placeholder="Enter Provider Dll Name">
+                <div class="ar-flex-item-stretch">
+                    <input class="ar-border" style="width:100%;height:40px;" id="appProviderDll" name="appProviderDll" type="text" value="" placeholder="Enter Provider Dll Name">
                 </div>
             </div>
 
@@ -857,8 +857,8 @@
                 <div style="padding: 0px 5px;">
                     RegisterTypeName
                 </div>
-                <div class="flex-item-stretch">
-                    <input class="border" style="width:100%;height:40px;" id="appRegisterTypeName" name="appRegisterTypeName" type="text" value="" placeholder="Enter Register Type Name">
+                <div class="ar-flex-item-stretch">
+                    <input class="ar-border" style="width:100%;height:40px;" id="appRegisterTypeName" name="appRegisterTypeName" type="text" value="" placeholder="Enter Register Type Name">
                 </div>
             </div>
 
@@ -866,8 +866,8 @@
                 <div style="padding: 0px 5px;">
                     RegisterDll
                 </div>
-                <div class="flex-item-stretch">
-                    <input class="border" style="width:100%;height:40px;" id="appRegisterDll" name="appRegisterDll" type="text" value="" placeholder="Enter Register Dll Name">
+                <div class="ar-flex-item-stretch">
+                    <input class="ar-border" style="width:100%;height:40px;" id="appRegisterDll" name="appRegisterDll" type="text" value="" placeholder="Enter Register Dll Name">
                 </div>
             </div>
 
@@ -878,19 +878,19 @@
                 </label>
             </div>
 
-            <div class="notification" id="appProviderResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-                <button class="delete" onclick="hideElm('appProviderResponseContainer')"></button>
+            <div class="ar-notification" id="appProviderResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+                <button class="ar-delete" onclick="hideElm('appProviderResponseContainer')"></button>
                 <div id="appProviderResponse"></div>
             </div>
 
-            <div class="flex-content-wrap" style="margin: 5px 0px;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
 
-                <button class="border button" style="background-color:#209cee;display:none;"
+                <button class="ar-border button" style="background-color:#209cee;display:none;"
                         onclick="updateAppSelect(getAppSelectJson('appProviders', 'selectedAppProviders', 'Provider', 'Register', 'app', 'appProvider')">
                     Update AppProvider
                 </button>
 
-                <button class="border button" style="background-color:#209cee"
+                <button class="ar-border button" style="background-color:#209cee"
                         onclick="updateAppSelect(getAppSelectJson('appProviders', 'selectedAppProviders', 'Provider', 'Register', 'app', 'appProvider', function () {
                             saveAppConfig('appProviderProgress', 'appProviderResponse', function () {
                                 return getAppSelectJson('appProviders', 'AppProviders', 'Provider', 'Register', 'app', 'appProvider')

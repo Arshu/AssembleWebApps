@@ -3,13 +3,13 @@
 <div style="position:relative;text-align:center;height:0px;">
     <div id="progress"></div>
 </div>
-<div class="notification" id="responseContainer" style="text-align:center;display:none;margin:5px 10px;">
-    <button class="delete" onclick="hideElm('responseContainer')"></button>
+<div class="ar-notification" id="responseContainer" style="text-align:center;display:none;margin:5px 10px;">
+    <button class="ar-delete" onclick="hideElm('responseContainer')"></button>
     <div id="response"></div>
 </div>
 <div style="display:none">
     <div id="noprogress"></div>
-    <div class="notification" id="noresponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+    <div class="ar-notification" id="noresponseContainer" style="text-align:center;display:none;margin:5px 10px;">
         <div id="noresponse" style="display:none"></div>
     </div>
 
@@ -40,3 +40,7 @@
     {{/IsLoggedIn}}
 {{/EnableFrameworkView}}
 
+{{@EnableFrameworkView}}
+    <link rel="stylesheet" href="/Resource/Arshu/highlight/highlight.min.css" defer>
+    <script src="/Resource/Arshu/highlight/highlight.pack.min.js" defer></script>
+{{/EnableFrameworkView}}

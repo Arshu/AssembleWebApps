@@ -6,12 +6,12 @@
     function hideComponentSourceCloner() {
 
         let modal = document.querySelector('#cloneComponentSource');
-        modal.classList.remove('viewmodal-active');
+        modal.classList.remove('ar-modal-active');
     }
 
     function showComponentSourceCloner(progressElmId, componentAppSite, componentAppView, sourceComponentId) {
         let modal = document.querySelector('#cloneComponentSource');
-        modal.classList.add('viewmodal-active');
+        modal.classList.add('ar-modal-active');
     }
 
     function navigateToAppSiteView(appSite, appView) {
@@ -322,34 +322,34 @@
 <div style="position:relative;text-align:center;height:0px;">
     <div id="cloneComponentSourceProgress"></div>
 </div>
-<div class="notification is-marginless" id="cloneComponentSourceResponseContainer" style="display:none;">
-    <button class="delete" onclick="hideElm('cloneComponentSourceResponseContainer');"></button>
+<div class="ar-notification is-marginless" id="cloneComponentSourceResponseContainer" style="display:none;">
+    <button class="ar-delete" onclick="hideElm('cloneComponentSourceResponseContainer');"></button>
     <div id="cloneComponentSourceResponse"></div>
 </div>
-<div class="viewmodal" id="cloneComponentSource">
-    <div class="viewmodal-background"></div>
-    <div class="viewmodal-content" style="background-color:#fff;">
+<div class="ar-modal" id="cloneComponentSource">
+    <div class="ar-modal-background"></div>
+    <div class="ar-modal-content" style="background-color:#fff;">
 
-        <div class="flex-content-wrap">
-            <button class="flex-item-stretch">Clone Component Hierarchy</button>
-            <button class="border" style="margin-top: 7px; width: 25px; height: 25px; background-color: lightgray;" onclick="hideComponentSourceCloner()">
+        <div class="ar-flex-content-wrap">
+            <button class="ar-button ar-flex-item-stretch">Clone Component Hierarchy</button>
+            <button class="ar-iconbutton" style="width: 25px; height: 25px; background-color: lightgray;" onclick="hideComponentSourceCloner()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
             </button>
         </div>
 
-        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="border">
+        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="ar-border">
 
-            <div class="notification" id="refreshResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-                <button class="delete" onclick="hideElm('refreshResponseContainer')"></button>
+            <div class="ar-notification" id="refreshResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+                <button class="ar-delete" onclick="hideElm('refreshResponseContainer')"></button>
                 <div id="refreshResponse"></div>
             </div>
 
-            <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
                 <label style="width:100%;">Copy From App Site</label>
-                <div class="flex-item-stretch border-left" style="height:40px;">
-                    <select style="width:100%;border:none;" id="cloneFromAppSiteList" onchange="cloneRefreshAppViewList('cloneFromAppSiteListProgress', 'refreshResponse', getElm('cloneFromAppSiteList').value, 'cloneFromAppViewList', getSelectedOption('cloneFromAppViewList').value, null);">
+                <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
+                    <select class="ar-select" style="width:100%;border:none;" id="cloneFromAppSiteList" onchange="cloneRefreshAppViewList('cloneFromAppSiteListProgress', 'refreshResponse', getElm('cloneFromAppSiteList').value, 'cloneFromAppViewList', getSelectedOption('cloneFromAppViewList').value, null);">
                         {{
                             VIEW_AppSiteSelect(
                             "AppSiteList",
@@ -363,16 +363,16 @@
                         }}
                     </select>
                 </div>
-                <button class="border-right" style="width:40px;height:40px;" id="refreshFromAppSiteListBtn" onclick="cloneRefreshAppSiteList('cloneFromAppSiteListProgress', 'refreshResponse', 'cloneFromAppSiteList', getElm('cloneFromAppSiteList').value, function () { triggerEvent('cloneFromAppSiteList', 'change'); triggerEvent('cloneToAppSiteList', 'change'); });">
+                <button class="ar-border-right" style="width:40px;height:40px;" id="refreshFromAppSiteListBtn" onclick="cloneRefreshAppSiteList('cloneFromAppSiteListProgress', 'refreshResponse', 'cloneFromAppSiteList', getElm('cloneFromAppSiteList').value, function () { triggerEvent('cloneFromAppSiteList', 'change'); triggerEvent('cloneToAppSiteList', 'change'); });">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     <div id="cloneFromAppSiteListProgress"></div>
                 </button>
             </div>
 
-            <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
                 <label style="width:100%;">Copy From App View</label>
-                <div class="flex-item-stretch border-left" style="height:40px;">
-                    <select style="width:100%;border:none;" id="cloneFromAppViewList">
+                <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
+                    <select class="ar-select" style="width:100%;border:none;" id="cloneFromAppViewList">
                         {{
                             VIEW_AppViewSelect(
                             "AppViewList",
@@ -387,22 +387,22 @@
                         }}
                     </select>
                 </div>
-                <button class="border-right" style="width:40px;height:40px;" id="showAppSiteViewBtn" onclick="navigateToAppSiteView(getElm('cloneFromAppSiteList').value, getSelectedOption('cloneFromAppViewList').text);">
+                <button class="ar-border-right" style="width:40px;height:40px;" id="showAppSiteViewBtn" onclick="navigateToAppSiteView(getElm('cloneFromAppSiteList').value, getSelectedOption('cloneFromAppViewList').text);">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                 </button>
             </div>
 
         </div>
-        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="border">
+        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="ar-border">
 
 
-            <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
                 <label style="width:100%;">Copy To App Site</label>
-                <button class="border-left" style="width:40px;height:40px;" onclick="showNewAppSiteOrAppViewInput('newAppSiteOrAppViewSection', 'newAppSiteOrAppViewLabel', 'newAppSiteOrAppViewInput', 'New App Site Name',  'newAppSiteOnAppViewConfirmBtn', 'newAppSiteOrAppViewSelectTarget', 'cloneToAppSiteList', 'newAppSiteOrAppViewClearTarget', 'cloneToAppViewList');">
+                <button class="ar-border-left" style="width:40px;height:40px;" onclick="showNewAppSiteOrAppViewInput('newAppSiteOrAppViewSection', 'newAppSiteOrAppViewLabel', 'newAppSiteOrAppViewInput', 'New App Site Name',  'newAppSiteOnAppViewConfirmBtn', 'newAppSiteOrAppViewSelectTarget', 'cloneToAppSiteList', 'newAppSiteOrAppViewClearTarget', 'cloneToAppViewList');">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 </button>
-                <div class="flex-item-stretch border-top-bottom" style="height:40px;">
-                    <select style="width:100%;border:none;" id="cloneToAppSiteList" onchange="cloneRefreshAppViewList('cloneToAppSiteListProgress', 'refreshResponse', getElm('cloneToAppSiteList').value, 'cloneToAppViewList', getSelectedOption('cloneToAppViewList').value, null);">
+                <div class="ar-flex-item-stretch ar-border-top-bottom" style="height:40px;">
+                    <select class="ar-select" style="width:100%;border:none;" id="cloneToAppSiteList" onchange="cloneRefreshAppViewList('cloneToAppSiteListProgress', 'refreshResponse', getElm('cloneToAppSiteList').value, 'cloneToAppViewList', getSelectedOption('cloneToAppViewList').value, null);">
                         {{
                             VIEW_AppSiteSelect(
                             "AppSiteList",
@@ -416,19 +416,19 @@
                         }}
                     </select>
                 </div>
-                <button class="border-right" style="width:40px;height:40px;" id="refreshToAppSiteListBtn" onclick="cloneRefreshAppSiteList('cloneToAppSiteListProgress', 'refreshResponse', 'cloneToAppSiteList', getElm('cloneToAppSiteList').value, function () { triggerEvent('cloneToAppSiteList', 'change'); triggerEvent('cloneToAppSiteList', 'change'); });">
+                <button class="ar-border-right" style="width:40px;height:40px;" id="refreshToAppSiteListBtn" onclick="cloneRefreshAppSiteList('cloneToAppSiteListProgress', 'refreshResponse', 'cloneToAppSiteList', getElm('cloneToAppSiteList').value, function () { triggerEvent('cloneToAppSiteList', 'change'); triggerEvent('cloneToAppSiteList', 'change'); });">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     <div id="cloneToAppSiteListProgress"></div>
                 </button>
             </div>
 
-            <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
                 <label style="width:100%;">Copy To App View</label>
-                <button class="border-left" style="width:40px;height:40px;" onclick="showNewAppSiteOrAppViewInput('newAppSiteOrAppViewSection', 'newAppSiteOrAppViewLabel', 'newAppSiteOrAppViewInput', 'New App View Name', 'newAppSiteOnAppViewConfirmBtn', 'newAppSiteOrAppViewSelectTarget', 'cloneToAppViewList',  'newAppSiteOrAppViewClearTarget', '');">
+                <button class="ar-border-left" style="width:40px;height:40px;" onclick="showNewAppSiteOrAppViewInput('newAppSiteOrAppViewSection', 'newAppSiteOrAppViewLabel', 'newAppSiteOrAppViewInput', 'New App View Name', 'newAppSiteOnAppViewConfirmBtn', 'newAppSiteOrAppViewSelectTarget', 'cloneToAppViewList',  'newAppSiteOrAppViewClearTarget', '');">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 </button>
-                <div class="flex-item-stretch border-top-bottom" style="height:40px;">
-                    <select style="width:100%;border:none;" id="cloneToAppViewList">
+                <div class="ar-flex-item-stretch ar-border-top-bottom" style="height:40px;">
+                    <select class="ar-select" style="width:100%;border:none;" id="cloneToAppViewList">
                         {{
                             VIEW_AppViewSelect(
                             "AppViewList",
@@ -443,25 +443,25 @@
                         }}
                     </select>
                 </div>
-                <button class="border-right" style="width:40px;height:40px;" id="showAppSiteViewBtn" onclick="navigateToAppSiteView(getElm('cloneToAppSiteList').value, getSelectedOption('cloneToAppViewList').text);">
+                <button class="ar-border-right" style="width:40px;height:40px;" id="showAppSiteViewBtn" onclick="navigateToAppSiteView(getElm('cloneToAppSiteList').value, getSelectedOption('cloneToAppViewList').text);">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                 </button>
             </div>
 
         </div>
-        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="border">
+        <div style="padding:3px 10px;text-align:center;margin:5px 10px;" class="ar-border">
 
-            <div class="flex-content-wrap" style="margin: 5px 5px;display:none;" id="newAppSiteOrAppViewSection">
+            <div class="ar-flex-content-wrap" style="margin: 5px 5px;display:none;" id="newAppSiteOrAppViewSection">
                 <label style="width:100%;" id="newAppSiteOrAppViewLabel">New App Site/App View</label>
-                <input class="flex-item-stretch border-left" id="newAppSiteOrAppViewInput" type="text" placeholder="New Value" />
-                <button class="button border-right" id="newAppSiteOnAppViewConfirmBtn" onclick="updateAppSiteOrAppViewSelect('cloneResponse', 'newAppSiteOrAppViewSection', 'newAppSiteOrAppViewInput', 'newAppSiteOrAppViewSelectTarget', 'newAppSiteOrAppViewClearTarget')">
+                <input class="ar-flex-item-stretch ar-border-left" id="newAppSiteOrAppViewInput" type="text" placeholder="New Value" />
+                <button class="ar-button ar-border-right" id="newAppSiteOnAppViewConfirmBtn" onclick="updateAppSiteOrAppViewSelect('cloneResponse', 'newAppSiteOrAppViewSection', 'newAppSiteOrAppViewInput', 'newAppSiteOrAppViewSelectTarget', 'newAppSiteOrAppViewClearTarget')">
                     Confirm
                 </button>
                 <input id="newAppSiteOrAppViewSelectTarget" type="hidden" />
                 <input id="newAppSiteOrAppViewClearTarget" type="hidden" />
             </div>
 
-            <div class="flex-content-wrap" style="margin: 5px 5px;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 5px;">
                 <label style="margin: 0px 5px;">
                     <input type="checkbox" id="cloneGlobalJson">&nbsp;Copy Global Json
                 </label>
@@ -476,19 +476,19 @@
                 </label>
             </div>
 
-            <div class="notification" id="cloneResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-                <button class="delete" onclick="hideElm('cloneResponseContainer')"></button>
+            <div class="ar-notification" id="cloneResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+                <button class="ar-delete" onclick="hideElm('cloneResponseContainer')"></button>
                 <div id="cloneResponse"></div>
             </div>
 
-            <div class="flex-content-wrap" style="margin: 5px 0px;">
+            <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
 
-                <button class="border button" style="background-color:#209cee;margin-right:5px;"
+                <button class="ar-button ar-border" style="background-color:#209cee;margin-right:5px;"
                         onclick="cloneAppView('cloneFromProgress', 'cloneResponse', getElm('cloneFromAppSiteList').value, getSelectedOption('cloneFromAppViewList').value, getElm('cloneToAppSiteList').value, getSelectedOption('cloneToAppViewList').value, getElm('cloneGlobalJson').checked, getElm('cloneIsSecureAppView').checked, getElm('cloneIsDeferAppView').checked, getElm('cloneOverwriteAppView').checked, function () { triggerEvent('refreshFromAppSiteListBtn', 'click'); });">
                     Copy View <div id="cloneFromProgress"></div>
                 </button>
 
-                <button class="border button" style="background-color:red;margin-right:5px;"
+                <button class="ar-button ar-border" style="background-color:red;margin-right:5px;"
                         onclick="deleteAppView('deleteViewProgress', 'cloneResponse', getElm('cloneToAppSiteList').value, getElm('cloneToAppViewList').value, function () { triggerEvent('refreshToAppSiteListBtn', 'click'); triggerEvent('refreshFromAppSiteListBtn', 'click'); });">
                     Delete View <div id="deleteViewProgress"></div>
                 </button>

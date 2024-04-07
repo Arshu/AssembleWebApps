@@ -1,26 +1,26 @@
 ﻿
 
-<div style="margin: 5px 0px; " class="flex-input-wrap">
-    <button class="flex-item-stretch border" style="height:40px;" onclick="if (haveElm('appDeploy') == true) { hideElm('appDeploy'); }; if (haveElm('appClone') == true) { hideElm('appClone'); }; clearAppSyncMessage('appSyncResponse'); clearAppSyncMessage('doAppSyncResponse'); clearAppSyncDetailsMessage('syncDetailResponse'); if (isHiddenElm('appSync') == true) { retrieveAppSyncInfo('appSyncProgress', 'appSyncResponse', '', 'syncAppName', 'syncImageName', 'syncTagName', 'syncReferenceRegionsTemplate', 'syncReferenceRegionsDiv', 'syncRegionsTemplate', 'syncRegionsDiv', 'syncEnvInitialTimeout', 'syncEnvIdleTimeout', 'syncAutoDestroyAfterXMin', 'doSyncApp', function () { showElm('appSync'); }); } else { hideElm('appSync');}">
+<div style="margin: 5px 0px; " class="ar-flex-input-wrap">
+    <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (haveElm('appDeploy') == true) { hideElm('appDeploy'); }; if (haveElm('appClone') == true) { hideElm('appClone'); }; clearAppSyncMessage('appSyncResponse'); clearAppSyncMessage('doAppSyncResponse'); clearAppSyncDetailsMessage('syncDetailResponse'); if (isHiddenElm('appSync') == true) { retrieveAppSyncInfo('appSyncProgress', 'appSyncResponse', '', 'syncAppName', 'syncImageName', 'syncTagName', 'syncReferenceRegionsTemplate', 'syncReferenceRegionsDiv', 'syncRegionsTemplate', 'syncRegionsDiv', 'syncEnvInitialTimeout', 'syncEnvIdleTimeout', 'syncAutoDestroyAfterXMin', 'doSyncApp', function () { showElm('appSync'); }); } else { hideElm('appSync');}">
         Sync App <div id="appSyncProgress"></div>
     </button>
 </div>
 
-<div class="notification" id="appSyncResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
-    <button class="delete" onclick="hideElm('appSyncResponseContainer')"></button>
+<div class="ar-notification" id="appSyncResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+    <button class="ar-delete" onclick="hideElm('appSyncResponseContainer')"></button>
     <div id="appSyncResponse"></div>
 </div>
 
-<div id="appSync" class="border" style="margin: 5px 0px;padding: 10px 5px; display: none;position:relative">
+<div id="appSync" class="ar-border" style="margin: 5px 0px;padding: 10px 5px; display: none;position:relative">
 
     <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
         <input type="checkbox" title="Show Advanced Options" onclick=" toggleElm('syncReferenceRegionDiv'); toggleElm('syncImageDiv'); toggleElm('syncEnvironmentalVariableDiv');">
     </label>
 
-    <div class="flex-input-wrap" style="margin: 10px 0px 5px 0px;">
+    <div class="ar-flex-input-wrap" style="margin: 10px 0px 5px 0px;">
         <label style="width: 100%; margin: 5px 0px; cursor: pointer;" onclick="openAppUrl('syncAppName')">Sync App Name<span style="padding-left:5px; font-size:xx-small;color:orangered;">(If empty enter API Token and Click Refresh)</span></label>
-        <input id="syncAppName" class="flex-item-stretch border-left" style="height: 38px; background-color: gray;" autocomplete="none" type="text" placeholder="Sync App Name" readonly />
-        <button class="button border-right" style="background-color: #209cee; height: 38px; " onclick="clearAppSyncMessage('appSyncResponse'); clearAppSyncMessage('doAppSyncResponse'); clearAppSyncDetailsMessage('syncDetailResponse'); retrieveAppSyncInfo('appSyncProgress', 'appSyncResponse', getElm('syncAppName').value, 'syncAppName', 'syncImageName', 'syncTagName', 'syncReferenceRegionsTemplate', 'syncReferenceRegionsDiv', 'syncRegionsTemplate', 'syncRegionsDiv', 'syncEnvInitialTimeout', 'syncEnvIdleTimeout', 'syncAutoDestroyAfterXMin','doSyncApp');">
+        <input id="syncAppName" class="ar-input ar-flex-item-stretch ar-border-left" style="background-color: gray;" autocomplete="none" type="text" placeholder="Sync App Name" readonly />
+        <button class="ar-button ar-border-right" style="background-color: #209cee; " onclick="clearAppSyncMessage('appSyncResponse'); clearAppSyncMessage('doAppSyncResponse'); clearAppSyncDetailsMessage('syncDetailResponse'); retrieveAppSyncInfo('appSyncProgress', 'appSyncResponse', getElm('syncAppName').value, 'syncAppName', 'syncImageName', 'syncTagName', 'syncReferenceRegionsTemplate', 'syncReferenceRegionsDiv', 'syncRegionsTemplate', 'syncRegionsDiv', 'syncEnvInitialTimeout', 'syncEnvIdleTimeout', 'syncAutoDestroyAfterXMin','doSyncApp');">
             Refresh
         </button>
     </div>
@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <fieldset id="syncReferenceRegionDiv" class="border" style="display:none;padding:5px;">
+    <fieldset id="syncReferenceRegionDiv" class="ar-border" style="display:none;padding:5px;">
         <legend>Sync Reference Region</legend>
 
         <div id="syncReferenceRegionsDiv" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
@@ -41,44 +41,44 @@
 
     </fieldset>
 
-    <fieldset id="syncImageDiv" class="border" style="display: none; padding: 5px;">
+    <fieldset id="syncImageDiv" class="ar-border" style="display: none; padding: 5px;">
         <legend>Sync Image</legend>
 
-        <div class="flex-content-spaced" style="margin: 0px;">
-            <label class="flex-item-stretch">Image Name</label>
-            <label class="flex-item-stretch">Tag Name</label>
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Image Name</label>
+            <label class="ar-flex-item-stretch">Tag Name</label>
         </div>
-        <div class="flex-content-spaced" style="margin: 0px; max-width: 100%;">
-            <select id="syncImageName" class="flex-item-stretch border" style="height: 30px; margin: 0 5px 0 0px; padding-left:5px;" title="Sync Docker Image">
+        <div class="ar-flex-content-spaced" style="margin: 0px; max-width: 100%;">
+            <select id="syncImageName" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Sync Docker Image">
             </select>
-            <input id="syncTagName" class="border" style="width: 48%; height: 40px; margin: 0 0 0 5px; " type="text" placeholder="Your Tag Name" value="latest" />
+            <input id="syncTagName" class="ar-input ar-border" style="width: 48%; margin: 0 0 0 5px; " type="text" placeholder="Your Tag Name" value="latest" />
         </div>
 
     </fieldset>
 
-    <fieldset id="syncEnvironmentalVariableDiv" class="border" style="display: none; padding: 5px;">
+    <fieldset id="syncEnvironmentalVariableDiv" class="ar-border" style="display: none; padding: 5px;">
         <legend>Environmental Variables</legend>
 
-        <div class="flex-content-spaced" style="margin: 0px;">
-            <label class="flex-item-stretch">Initial Timeout (sec)</label>
-            <label class="flex-item-stretch">Idle Timeout (sec)</label>
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Initial Timeout (sec)</label>
+            <label class="ar-flex-item-stretch">Idle Timeout (sec)</label>
         </div>
-        <div class="flex-content-spaced" style="margin: 0px; padding: 0px;">
-            <input id="syncEnvInitialTimeout" class="border" style="width:48%;height: 40px; margin:0 5px 0 0;" type="number" placeholder="Your Initial Timeout" value="30" />
-            <input id="syncEnvIdleTimeout" class="border" style="width: 48%; height: 40px; margin: 0 0 0 5px " type="number" placeholder="Your Idle Timeout" value="30" />
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="syncEnvInitialTimeout" class="ar-input ar-border" style="width:48%;margin:0 5px 0 0;" type="number" placeholder="Your Initial Timeout" value="30" />
+            <input id="syncEnvIdleTimeout" class="ar-input ar-border" style="width: 48%; margin: 0 0 0 5px " type="number" placeholder="Your Idle Timeout" value="30" />
         </div>
 
-        <div class="flex-content-wrap" style="margin: 0px;">
-            <label class="flex-item-stretch" style="margin: 5px 0px; text-align: center">
+        <div class="ar-flex-content-wrap" style="margin: 0px;">
+            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
                 Load AppData
                 <input id="syncEnvLoadAppData" type="checkbox" title="Load App Data" style="margin-left: 5px;" checked="checked">
             </label>
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;margin: 5px 0px;">Auto Destroy After x Mins</label>
             <span style="width:100%;font-size:xx-small;color:blue;">0 is skip Auto Destroy</span>
-            <input id="syncAutoDestroyAfterXMin" class="flex-item-stretch border-left" style="height: 38px;" type="number" placeholder="Auto Destroy after x Mins" value="0" />
+            <input id="syncAutoDestroyAfterXMin" class="ar-flex-item-stretch ar-border-left" style="height: 38px;" type="number" placeholder="Auto Destroy after x Mins" value="0" />
         </div>
 
     </fieldset>
@@ -91,7 +91,7 @@
         </div>
     </div>
 
-    <fieldset class="border" style="position: relative; padding: 5px;">
+    <fieldset class="ar-border" style="position: relative; padding: 5px;">
         <legend>Sync Region(s)</legend>
 
         <label style="position:absolute;right:5px;top:-15px; margin: 5px 0px; text-align: right">
@@ -104,15 +104,15 @@
 
     </fieldset>
 
-    <div class="flex-content-wrap" style="margin: 0px;">
-        <label class="flex-item-stretch" style="margin: 5px 0px; text-align: center">
+    <div class="ar-flex-content-wrap" style="margin: 0px;">
+        <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
             Restart on Sync
             <input id="syncConfigRestartOnSync" type="checkbox" title="Load App Data" style="margin-left:5px;" checked="checked">
         </label>
     </div>
 
-    <div id="doAppSyncResponseContainer" class="notification" style="text-align:center;display:none;margin:5px 10px;">
-        <button class="delete" onclick="hideElm('doAppSyncResponseContainer');hideElm('syncDetailResponse')"></button>
+    <div id="doAppSyncResponseContainer" class="ar-notification" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="ar-delete" onclick="hideElm('doAppSyncResponseContainer');hideElm('syncDetailResponse')"></button>
         <div id="doAppSyncResponse"></div>
     </div>
 
@@ -120,8 +120,8 @@
 
     </div>
 
-    <div class="flex-content-wrap" style="margin: 15px 0px;">
-        <button id="doSyncApp" class="border button" style="background-color:#209cee;" disabled="disabled"
+    <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
+        <button id="doSyncApp" class="ar-button ar-border" style="background-color:#209cee;" disabled="disabled"
                 onclick="syncApp('doAppSyncProgress', 'doAppSyncResponse', getElm('syncAppName').value, getElm('syncImageName').value, getElm('syncTagName').value, 'syncReferenceRegion', 'syncRegion', getElm('syncEnvInitialTimeout').value, getElm('syncEnvIdleTimeout').value, getElm('syncEnvLoadAppData').checked, getElm('syncConfigRestartOnSync').checked, 'doSyncApp', 'syncDetailResponse')">
             Sync Machine(s) in Selected Regions <div id="doAppSyncProgress"></div>
         </button>

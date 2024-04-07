@@ -93,21 +93,21 @@
 
 {{VIEWPLACEHOLDER}}
 
-<div class="flex-card card_border">
-    <div class="flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
-        <div class="flex-item-stretch" style="margin-top: -10px;text-align:center;">
+<div class="ar-flex-card ar-card-border">
+    <div class="ar-flex-content-wrap" style="margin: 5px 5px;width:100%;min-height:0px;">
+        <div class="ar-flex-item-stretch" style="margin-top: -10px;text-align:center;">
             <strong style="color:blue">Sync Repository from Git</strong>
         </div>
     </div>
-    <div class="flex-content-wrap">
+    <div class="ar-flex-content-wrap">
         <label style="width:100%;margin: 5px auto;">Git Repository Samples</label>
-        <button class="border-left" style="width:40px;height:40px;background-color:lightgray;"
+        <button class="ar-border-left" style="width:40px;height:40px;background-color:lightgray;"
                 onclick="refreshComponentHtml('{{$ViewID}}Progress', '{{$ViewID}}Response',
             '{{$AppSite}}', '{{$AppView}}', '{{$ViewID}}',
             {}, false, false, '', '')">
             R
         </button>
-        <div class="flex-item-stretch border-top-bottom" style="height: 40px;">
+        <div class="ar-flex-item-stretch ar-border-top-bottom" style="height: 40px;">
             <select id="gitSampleRepository" data-key="GitList.GitList~0.GitLink" style="width:100%;border:none;" onchange="if (getElm('gitSampleRepository').value != '0') { getElm('gitUrl').value = getElm('gitSampleRepository').value } else {  getElm('gitUrl').value = ''} ">
                 <option value="">Select Git Repository Url</option>
                 {{@GitList}}
@@ -117,7 +117,7 @@
                 {{/GitList}}
             </select>
         </div>        
-        <button class="border-right" style="width:40px;height:40px;background-color:lightgray;" {{@HaveAdminRole}}onclick="toggleElm('newGitRepositorySection');getElm('gitUrl').value = getElm('gitSampleRepository').value"{{/HaveAdminRole}}>
+        <button class="ar-border-right" style="width:40px;height:40px;background-color:lightgray;" {{@HaveAdminRole}}onclick="toggleElm('newGitRepositorySection');getElm('gitUrl').value = getElm('gitSampleRepository').value"{{/HaveAdminRole}}>
             S
         </button>        
     </div>
@@ -125,15 +125,15 @@
         {{^IsSubDomain}}
         {{@HaveAdminRole}}
         <div id="newGitRepositorySection" style="margin: 5px 5px;display:none;">
-            <div class="flex-content-wrap">
+            <div class="ar-flex-content-wrap">
                 <label style="width:100%;" for="newGitRepositoryInput">New Git Repository Name</label>
-                <input class="flex-item-stretch border-left" id="newGitRepositoryInput" data-key="GitList.GitList~0.GitName" type="text" placeholder="New Value" />
+                <input class="ar-flex-item-stretch ar-border-left" id="newGitRepositoryInput" data-key="GitList.GitList~0.GitName" type="text" placeholder="New Value" />
             </div>
-            <div class="flex-content-wrap">
-                <button class="border" style="margin: 0 5px; min-width: 100px; height: 40px; background-color: lightgray;" onclick="hideElm('newGitRepositorySection')">
+            <div class="ar-flex-content-wrap">
+                <button class="ar-border" style="margin: 0 5px; min-width: 100px; height: 40px; background-color: lightgray;" onclick="hideElm('newGitRepositorySection')">
                     Close
                 </button>
-                <button class="border" style="margin: 0 5px; min-width: 100px; height: 40px; background-color: lightgray;"
+                <button class="ar-border" style="margin: 0 5px; min-width: 100px; height: 40px; background-color: lightgray;"
                         onclick="addViewComponentJsonArray('{{$ViewID}}Progress', '{{$ViewID}}Response',
                         '{{$AppSite}}', '{{$AppView}}', '{{$ViewID}}',
                         function () {
@@ -150,7 +150,7 @@
                         '{{$ViewID}}',{}, false, '', '')">
                     Save
                 </button>
-                <button class="border" style="margin: 0 5px; min-width: 100px; height: 40px; background-color: lightgray;"
+                <button class="ar-border" style="margin: 0 5px; min-width: 100px; height: 40px; background-color: lightgray;"
                         onclick="deleteViewComponentJsonArray('{{$ViewID}}Progress', '{{$ViewID}}Response',
                     '{{$AppSite}}', '{{$AppView}}', '{{$ViewID}}',
                     function () {
@@ -170,20 +170,20 @@
         </div>
         {{/HaveAdminRole}}
         {{/IsSubDomain}}
-        <div class="flex-content-wrap">
+        <div class="ar-flex-content-wrap">
             <label style="width:100%;margin: 5px auto;">Git Url to Clone/Pull</label>
-            <div class="flex-item-stretch border-left" style="height: 40px;">
+            <div class="ar-flex-item-stretch ar-border-left" style="height: 40px;">
                 <input style="width:100%;border:none;" id="gitUrl" readonly data-key="GitList.GitList~0.GitLink" type="text" placeholder="Git Url eg https://github.com/Arshu/Landing-Page.git" value="" />
             </div>
-            <button class="border-right" style="width:40px;height:40px;background-color:lightgray;" onclick="toggleElm('authenticationInfo')">
+            <button class="ar-border-right" style="width:40px;height:40px;background-color:lightgray;" onclick="toggleElm('authenticationInfo')">
                 A
             </button>
         </div>
     </div>
     <div style="text-align:center;">
         <div id="{{$ViewID}}Progress"></div>
-        <div style="margin:5px; padding:10px;text-align:center;display:none;" class="notification" id="{{$ViewID}}ResponseContainer">
-            <button class="delete" onclick="hideElm('{{$ViewID}}ResponseContainer')"></button>
+        <div style="margin:5px; padding:10px;text-align:center;display:none;" class="ar-notification" id="{{$ViewID}}ResponseContainer">
+            <button class="ar-delete" onclick="hideElm('{{$ViewID}}ResponseContainer')"></button>
             <div id="{{$ViewID}}Response"></div>
         </div>
     </div>

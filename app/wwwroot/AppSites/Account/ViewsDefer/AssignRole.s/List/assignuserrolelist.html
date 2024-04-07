@@ -1,17 +1,17 @@
-<table class="pure-table pure-table-horizontal">
+<table class="ar-table ar-table-horizontal">
     <thead >
         <tr>
-            <th style="width:30%;">Role Name</th>
-            <th>User Name List</th>
+            <th style="width:30%;text-align:center;">Role Name</th>
+            <th style="text-align:center;">User Name List</th>
         </tr>
     </thead>
     <tbody>
         {{@RolesUserList("PageNo":1, "ItemsPerPage":3)}}
         <tr>
-            <td>
+            <td style="text-align: center;">
                 {{$Name}}
             </td>
-            <td>
+            <td style="text-align: center;">
                 {{$Value}}
             </td>
         </tr>

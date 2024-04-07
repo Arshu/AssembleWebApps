@@ -111,9 +111,9 @@
         }
 </style>
 
-<div class="flex-content-center" style="min-height:calc(100vh - 110px);">
+<div class="ar-flex-content-center" style="min-height:calc(100vh - 110px);">
 
-    <div class="flex-card card_border" style="text-align:center;">
+    <div class="ar-flex-card ar-card-border" style="text-align:center;">
 
         <figure class="avatar" style="text-align:center;">
             <img src="/Content/logos/logo_register.png" />
@@ -121,50 +121,50 @@
 
         <div style="text-align:center;display:none;" id="autoLoginBtnDiv">
             <div id="autoLoginProgress"></div>
-            <button id="autoLoginBtn" disabled="disabled" onclick="return autoLogin('autoLoginProgress', 'registerResponse', '/');" class="border button" style="background-color:#209cee;">Auto Login</button>
+            <button class="ar-button ar-border" style="background-color:#209cee;" id="autoLoginBtn" disabled="disabled" onclick="return autoLogin('autoLoginProgress', 'registerResponse', '/');">Auto Login</button>
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
-            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerId'); elm.value = ''; elm.focus();">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <div class="ar-border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerId'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="flex-item-stretch border-right" id="registerId" autocomplete="none" type="email" placeholder="Your User Id" autofocus="" tabindex="1">
+            <input class="ar-flex-item-stretch ar-border-right" id="registerId" autocomplete="none" type="email" placeholder="Your User Id" autofocus="" tabindex="1">
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
-            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerAlias'); elm.value = ''; elm.focus();">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <div class="ar-border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerAlias'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="flex-item-stretch border-right" id="registerAlias" autocomplete="none" type="text" placeholder="Your User Alias" autofocus="" tabindex="1">
+            <input class="ar-flex-item-stretch ar-border-right" id="registerAlias" autocomplete="none" type="text" placeholder="Your User Alias" autofocus="" tabindex="1">
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
-            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerPwd'); elm.value = ''; elm.focus();">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <div class="ar-border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerPwd'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="flex-item-stretch border-right" id="registerPwd" style="border-radius: 0rem .4rem .4rem 0rem;" autocomplete="none" type="password" placeholder="Your Password" tabindex="2">
+            <input class="ar-flex-item-stretch ar-border-right" id="registerPwd" style="border-radius: 0rem .4rem .4rem 0rem;" autocomplete="none" type="password" placeholder="Your Password" tabindex="2">
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;">
-            <div class="border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerConfirmPwd'); elm.value = ''; elm.focus();">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <div class="ar-border-left" style="width:25px;height:40px;background-color:blue;" onclick="let elm = getElm('registerConfirmPwd'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="flex-item-stretch border-right" id="registerConfirmPwd" style="border-radius: 0rem .4rem .4rem 0rem;" autocomplete="none" type="password" placeholder="Confirm Password" tabindex="2">
+            <input class="ar-flex-item-stretch ar-border-right" id="registerConfirmPwd" style="border-radius: 0rem .4rem .4rem 0rem;" autocomplete="none" type="password" placeholder="Confirm Password" tabindex="2">
         </div>
 
-        <div class="notification" id="registerResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('registerResponseContainer')"></button>
+        <div class="ar-notification" id="registerResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('registerResponseContainer')"></button>
             <div id="registerResponse"></div>
         </div>
 
-        <div class="flex-content-wrap" style="margin: 5px 0px;">
-            <button class="border button" id="registerSubmit" style="background-color:#209cee;" tabindex="4"
+        <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
+            <button class="ar-button ar-border" id="registerSubmit" style="background-color:#209cee;" tabindex="4"
                     onclick="return registerUser('registerProgress', 'registerResponse',  getElm('registerId').value, getElm('registerAlias').value, getElm('registerPwd').value, getElm('registerConfirmPwd').value, '/Account/Login');">
                 Register <div id="registerProgress"></div>
             </button>
         </div>
 
-        <p class="flex-content-wrap" style="margin: 5px 0px;">
+        <p class="ar-flex-content-wrap" style="margin: 5px 0px;">
             <a href="/Account/Login">Sign In</a>
         </p>
 

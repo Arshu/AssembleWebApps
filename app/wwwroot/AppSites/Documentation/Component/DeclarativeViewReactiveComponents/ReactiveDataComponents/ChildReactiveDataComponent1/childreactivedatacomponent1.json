@@ -1,0 +1,65 @@
+{
+  "Array1Data": [
+    {
+      "Array1Item1Text1": "Array1Item1Text1",
+      "Array1Item1Text2": "Array1Item1Text2"
+    },
+    {
+      "Array1Item2Text1": "Array1Item2Text1",
+      "Array1Item2Text2": "Array1Item2Text2"
+    },
+    {
+      "Array1Item3Text1": "Array1Item3Text1",
+      "Array1Item3Text2": "Array1Item3Text2"
+    }
+  ],
+  "Array2Data": [
+    {
+      "Array2Item1Text1": "Array2Item1Text1",
+      "Array2Item1Text2": "Array2Item1Text2"
+    },
+    {
+      "Array2Item2Text1": "Array2Item2Text1",
+      "Array2Item2Text2": "Array2Item2Text2"
+    }    
+  ],
+
+  "Array3Data": [
+    {
+      "Array3Item1Text1": "Array3Item1Text1",
+      "Array3Item1Text2": [
+        {
+          "Array3Item1Sub1Text1": "Array3Item1Sub1Text1",
+          "Array3Item1Sub1Text2": "Array3Item1Sub1Text2"
+        },
+        {
+          "Array3Item1Sub2Text1": "Array2Item3Text1",
+          "Array3Item1Sub2Text2": "Array2Item3Text2"
+        }
+      ]
+    },
+    {
+      "Array3Item2Text1": "Array3Item2Text1",
+      "Array3Item2Text2": [
+
+      ]
+    },
+    {
+      "Array3Item3Text1": "Array3Item3Text1",
+      "Array3Item3Text2": [
+        {
+          "Array3Item1Sub1Text1": "Array3Item1Sub1Text1",
+          "Array3Item1Sub1Text2": "Array3Item1Sub1Text2"
+        },
+        {
+          "Array3Item1Sub2Text1": "Array2Item3Text1",
+          "Array3Item1Sub2Text2": "Array2Item3Text2"
+        },
+        {
+          "Array3Item1Sub3Text1": "Array2Item3Text1",
+          "Array3Item1Sub3Text2": "Array2Item3Text2"
+        }
+      ]
+    }
+  ]
+}

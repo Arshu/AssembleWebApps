@@ -5,14 +5,14 @@
         color: white;
     }
 </style>
-<script src="/Content/Arshu/chart/chart.umd.min.js"></script>
+<script src="/Resource/Arshu/chart/chart.umd.min.js"></script>
 
 <script type="text/javascript">
 
     function hideAppMetricsViewer() {
 
         let modal = getElm('viewAppMetrics');
-        modal.classList.remove('viewmodal-active');
+        modal.classList.remove('ar-modal-active');
     }
 
     function showAppMetricsViewer(progressElmId, responseElmId, successCallback) {
@@ -27,7 +27,7 @@
 
                     refreshPageMetricsChart(progressElmId, responseElmId, 1, function () {
 
-                        viewAppMetricsModal.classList.add('viewmodal-active');
+                        viewAppMetricsModal.classList.add('ar-modal-active');
 
                         getElm("pageMetricsTab").classList.add("metricTabActive");
                         getElm("ajaxMetricsTab").classList.remove("metricTabActive");
@@ -131,34 +131,34 @@
 
 </script>
 
-<div class="viewmodal" id="viewAppMetrics">
-    <div class="viewmodal-background"></div>
-    <div class="viewmodal-content border" style="width:98%; margin: 0 auto;background-color:gray;">
+<div class="ar-modal" id="viewAppMetrics">
+    <div class="ar-modal-background"></div>
+    <div class="ar-modal-content ar-border" style="width:98%; margin: 0 auto;background-color:gray;">
 
-        <div class="flex-content-wrap border" style="padding:3px 0px;background-color:#fff;">
-            <div class="flex-item-stretch" style="margin: 2px 25px 0px 5px; height: 25px;">
+        <div class="ar-flex-content-wrap ar-border" style="padding:3px 0px;background-color:#fff;">
+            <div class="ar-flex-item-stretch" style="margin: 2px 25px 0px 5px; height: 25px;">
                 Performance Metrics <div id="metricsProgress"></div>
             </div>
-            <button class="border" style="margin-top:2px;width:25px;height:25px;background-color: lightgray;" onclick="hideAppMetricsViewer()">
+            <button class="ar-border" style="margin-top:2px;width:25px;height:25px;background-color: lightgray;" onclick="hideAppMetricsViewer()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
             </button>
         </div>
 
-        <div class="notification" id="metricsResponseContainer" style="margin:5px; padding:10px;display:none;">
-            <button class="delete" onclick="hideElm('metricsResponseContainer')"></button>
+        <div class="ar-notification" id="metricsResponseContainer" style="margin:5px; padding:10px;display:none;">
+            <button class="ar-delete" onclick="hideElm('metricsResponseContainer')"></button>
             <div id="metricsResponse"></div>
         </div>
 
-        <div class="flex-input-wrap" style="margin: 5px 0px;width:100%;">
-            <button class="flex-item-stretch border" id="pageMetricsTab" style="font-size: small; height: 38px; text-align: center; background-color: lightgray;" onclick="showPageMetrics('metricsProgress', 'metricsResponse')">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;width:100%;">
+            <button class="ar-flex-item-stretch ar-border" id="pageMetricsTab" style="font-size: small; height: 38px; text-align: center; background-color: lightgray;" onclick="showPageMetrics('metricsProgress', 'metricsResponse')">
                 Page Metrics
             </button>
-            <button class="flex-item-stretch border" id="ajaxMetricsTab" style="font-size: small; height: 38px; text-align: center; background-color: lightgray;" onclick="showAjaxMetrics('metricsProgress', 'metricsResponse')">
+            <button class="ar-flex-item-stretch ar-border" id="ajaxMetricsTab" style="font-size: small; height: 38px; text-align: center; background-color: lightgray;" onclick="showAjaxMetrics('metricsProgress', 'metricsResponse')">
                 AJAX Metrics
             </button>
-            <button class="flex-item-stretch border" id="wsMetricsTab" style="font-size: small; height: 38px; text-align: center; background-color: lightgray;" onclick="showWSMetrics('metricsProgress', 'metricsResponse')">
+            <button class="ar-flex-item-stretch ar-border" id="wsMetricsTab" style="font-size: small; height: 38px; text-align: center; background-color: lightgray;" onclick="showWSMetrics('metricsProgress', 'metricsResponse')">
                 Websocket Metrics
             </button>
         </div>

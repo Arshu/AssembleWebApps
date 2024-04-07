@@ -1,6 +1,6 @@
-<div class="flex-content-spaced" style="width:100%;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+<div class="ar-flex-content-spaced" style="width:100%;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
     {{@HavePreviousPage}}
-    <button class="border" style="width:40px;height:40px;"
+    <button class="ar-button ar-border" style="width:40px;height:40px;"
             data-action="filterComponentHtml" data-progress="firstToDoProgress" data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
             data-filter="todoGetFilter"
@@ -8,9 +8,9 @@
             data-config="{'PageNo': '1', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
             data-isrealtime="todoGetRealtime" ,
             data-realtimedomain="todoGetRealtimeDomain">
-        <strong style="font-weight:bolder;"><<</strong> <span id="firstToDoProgress"></span>
+        <strong style="font-weight:bolder;">&lt;&lt;</strong> <span id="firstToDoProgress"></span>
     </button>
-    <button class="border" style="width:40px;height:40px;"
+    <button class="ar-button ar-border" style="width:40px;height:40px;"
             data-action="filterComponentHtml" data-progress="previousToDoProgress" data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
             data-filter="todoGetFilter"
@@ -18,22 +18,22 @@
             data-config="{'PageNo': '{{$PreviousPage}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
             data-isrealtime="todoGetRealtime" ,
             data-realtimedomain="todoGetRealtimeDomain">
-        <strong style="font-weight:bolder;"><</strong> <span id="previousToDoProgress"></span>
+        <strong style="font-weight:bolder;">&lt;</strong> <span id="previousToDoProgress"></span>
     </button>
     {{/HavePreviousPage}}
     {{^HavePreviousPage}}
-    <button class="border" style="width:40px;height:40px;" disabled>
-        <strong style="font-weight:bolder;"><<</strong> <span id="firstToDoProgress"></span>
+    <button class="ar-button ar-border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">&lt;&lt;</strong> <span id="firstToDoProgress"></span>
     </button>
-    <button class="border" style="width:40px;height:40px;" disabled>
-        <strong style="font-weight:bolder;"><</strong> <span id="previousToDoProgress"></span>
+    <button class="ar-button ar-border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">&lt;</strong> <span id="previousToDoProgress"></span>
     </button>
     {{/HavePreviousPage}}
 
-    <div class="flex-item-stretch"></div>
+    <div class="ar-flex-item-stretch"></div>
 
     {{@HaveNextPage}}
-    <button class="border" style="width: 40px; height: 40px;"
+    <button class="ar-button ar-border" style="width: 40px; height: 40px;"
             data-action="filterComponentHtml" data-progress="nextToDoProgress" data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
             data-filter="todoGetFilter"
@@ -41,9 +41,9 @@
             data-config="{'PageNo': '{{$NextPage}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
             data-isrealtime="todoGetRealtime" ,
             data-realtimedomain="todoGetRealtimeDomain">
-        <strong style="font-weight:bolder;">></strong><span id="nextToDoProgress"></span>
+        <strong style="font-weight:bolder;">&gt;</strong><span id="nextToDoProgress"></span>
     </button>
-    <button class="border" style="width: 40px; height: 40px;"
+    <button class="ar-button ar-border" style="width: 40px; height: 40px;"
             data-action="filterComponentHtml" data-progress="lastToDoProgress" data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
             data-filter="todoGetFilter"
@@ -51,19 +51,19 @@
             data-config="{'PageNo': '999999', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
             data-isrealtime="todoGetRealtime" ,
             data-realtimedomain="todoGetRealtimeDomain">
-        <strong style="font-weight:bolder;">>></strong><span id="lastToDoProgress"></span>
+        <strong style="font-weight:bolder;">&gt;&gt;</strong><span id="lastToDoProgress"></span>
     </button>
     {{/HaveNextPage}}
     {{^HaveNextPage}}
-    <button class="border" style="width:40px;height:40px;" disabled>
-        <strong style="font-weight:bolder;">></strong> <span id="nextToDoProgress"></span>
+    <button class="ar-button ar-border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">&gt;</strong> <span id="nextToDoProgress"></span>
     </button>
-    <button class="border" style="width:40px;height:40px;" disabled>
-        <strong style="font-weight:bolder;">>></strong> <span id="lastToDoProgress"></span>
+    <button class="ar-button ar-border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">&gt;&gt;</strong> <span id="lastToDoProgress"></span>
     </button>
     {{/HaveNextPage}}
 
-    <button class="border" style="width:40px;height:40px;margin-left:5px;"
+    <button class="ar-button ar-border" style="width:40px;height:40px;margin-left:5px;"
             data-action="refreshComponentHtml" data-progress="refreshToDoProgress" data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" 
             data-component="{{$ParentViewID}}"

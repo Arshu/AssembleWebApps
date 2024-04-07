@@ -1,10 +1,10 @@
 <div class="container" style="text-align:center;">
     
-    <div class="flex-card card_border">
+    <div class="ar-flex-card ar-card-border">
 
-        <div class="flex-content-wrap">
+        <div class="ar-flex-content-wrap">
 
-            <div class="border-left" style="height: 40px;width: 75px;text-align:center; background-color:#efefef;display:none;">
+            <div class="ar-border-left" style="height: 40px;width: 75px;text-align:center; background-color:#efefef;display:none;">
                 <select id="{{$ViewID}}EditorViewMode" style="font-size:x-small;" 
                         onchange="refreshEditorJson('{{$ViewID}}', '{{$ViewID}}JsonEditorProgress', 0)">
                     <option value="ReadOnly">Readonly</option>
@@ -14,11 +14,11 @@
                 </select>
             </div>
 
-            <div class="flex-item-stretch border-left" style="background-color:#efefef;">
+            <div class="ar-flex-item-stretch ar-border-left" style="background-color:#efefef;">
                 &nbsp;
             </div>
 
-            <div class="border-top-bottom" style="height: 40px;background-color:#efefef;">
+            <div class="ar-border-top-bottom" style="height: 40px;background-color:#efefef;">
                 <input type="hidden" id="{{$ViewID}}EditorJsonSourceAppSite" value="{{$AppSite}}" />
                 <input type="hidden" id="{{$ViewID}}EditorJsonSourceAppView" value="{{$AppView}}" />
                 <select id="{{$ViewID}}EditorJsonSource" style="width: 90px;border:none;" 
@@ -29,19 +29,19 @@
                 </select>
             </div>
 
-            <div class="flex-item-stretch border-top-bottom" style="background-color:#efefef;">
+            <div class="ar-flex-item-stretch ar-border-top-bottom" style="background-color:#efefef;">
                 &nbsp;
             </div>
 
-            <button class="border-right" style="height: 40px; width: 40px;text-align:center;background-color:#efefef;" id="{{$ViewID}}RefreshEditorJsonBtn" 
+            <button class="ar-border-right" style="height: 40px; width: 40px;text-align:center;background-color:#efefef;" id="{{$ViewID}}RefreshEditorJsonBtn" 
                     onclick="refreshEditorJson('{{$ViewID}}', '{{$ViewID}}JsonEditorProgress', 1, 1, 1)">
                 <svg style="width: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                 <div id="{{$ViewID}}JsonEditorProgress"></div>
             </button>
         </div>
 
-        <div class="notification" id="{{$ViewID}}JsonEditorResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
-            <button class="delete" onclick="hideElm('{{$ViewID}}JsonEditorResponseContainer')"></button>
+        <div class="ar-notification" id="{{$ViewID}}JsonEditorResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+            <button class="ar-delete" onclick="hideElm('{{$ViewID}}JsonEditorResponseContainer')"></button>
             <div id="{{$ViewID}}JsonEditorResponse"></div>
         </div>
 
@@ -57,8 +57,8 @@
             </div>
             <div>{{VIEWPLACEHOLDER$}}</div>
 
-            <div class="flex-content-wrap" style="margin: 5px 0px;">
-                <button class="border button" id="saveJson" style="background-color:#209cee;"
+            <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
+                <button class="ar-button ar-border" id="saveJson" style="background-color:#209cee;"
                         onclick="saveEditorJson('{{$ViewID}}', '{{$ViewID}}SaveJsonProgress', 
                             function () {
                                 let sel = getElm('{{$ViewID}}EditorJsonSource');

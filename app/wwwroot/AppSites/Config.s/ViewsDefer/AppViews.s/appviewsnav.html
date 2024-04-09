@@ -3,15 +3,20 @@
 
     <li class="ar-menuitem">
         {{@AppSitesPageNo}}
-        <a class="navbar-item" href="/Index/AppSites/AppSitesPageNo/{{$AppSitesPageNo}}">
+        <a class="navbar-item" href="/Config/AppSites/AppSitesPageNo/{{$AppSitesPageNo}}">
             AppSites
         </a>
         {{/AppSitesPageNo}}
         {{^AppSitesPageNo}}
-        <a class="navbar-item" href="/Index/AppSites">
+        <a class="navbar-item" href="/Config/AppSites">
             AppSites
         </a>
         {{/AppSitesPageNo}}
+    </li>
+    <li class="ar-menuitem">
+        <a href="/Config/Menu">
+            Config
+        </a>
     </li>
 
     <li class="ar-menutoggle" data-target="navMenu">

@@ -109,3 +109,7 @@ a.ar-button {
         color: #606c76;
     }
 
+.ar-h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}

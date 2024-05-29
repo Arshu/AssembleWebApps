@@ -18,8 +18,14 @@
     </label>
 
     <div class="ar-flex-input-wrap" style="margin: 10px 0px 5px 0px;">
-        <label style="width:100%;margin: 5px 0px;">App Name</label>
-        <input id="updateCertAppName" class="ar-select ar-flex-item-stretch ar-border-left" style="background-color: gray;" autocomplete="none" type="text" placeholder="Upload App Name" readonly />
+        <label style="width:100%;margin: 5px 0px;">App Name <span style="padding-left:5px; font-size:xx-small;color:orangered;">(If empty set FLY_APP_NAME environment variable and restart)</span></label>
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-left" onclick="openFlyUrl('updateCertAppName')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+        <input id="updateCertAppName" class="ar-select ar-flex-item-stretch ar-border-top-bottom" style="background-color: gray;" autocomplete="off" type="text" placeholder="Upload App Name" readonly />
         <button class="ar-button ar-border-right" style="background-color: #209cee; width:100px; " onclick="clearAppCertInfo();retrieveAppCertInfo('appCertProgress', 'appCertResponse', getElm('updateCertAppName').value, 'updateCertAppName', 'certDNSDomain', 'certDNSProviderName', 'doGetDNSChallenge')">
             Refresh
         </button>
@@ -38,14 +44,14 @@
         <button class="ar-button ar-border-left" style="width: 100px; background-color: black; color: white; font-size:small;">
             Domain Of
         </button>
-        <input class="ar-input ar-flex-item-stretch ar-border-right" id="certCustomDNSDomain" autocomplete="none" type="text" placeholder="Your Domain Name" value="{{$DNSHostName}}" />
+        <input class="ar-input ar-flex-item-stretch ar-border-right" id="certCustomDNSDomain" autocomplete="off" type="text" placeholder="Your Domain Name" value="{{$DNSHostName}}" />
     </div>
 
     <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
         <label style="width:100%;margin: 5px 5px;">
             Email
         </label>
-        <input class="ar-input ar-flex-item-stretch ar-border" id="certContactEmail" autocomplete="none" type="text" placeholder="Your Contact Email" value="{{$CertContactEmail}}" />
+        <input class="ar-input ar-flex-item-stretch ar-border" id="certContactEmail" autocomplete="off" type="text" placeholder="Your Contact Email" value="{{$CertContactEmail}}" />
     </div>
 
     <div class="ar-flex-content-wrap" style="margin:15px 0px 15px 0px;">
@@ -112,14 +118,14 @@
             <label style="width:100%;margin: 5px 5px;">
                 API Key
             </label>
-            <input class="ar-input ar-flex-item-stretch ar-border" id="certDNSProviderKey" autocomplete="none" type="password" placeholder="Your Provider Key" value="{{$DNSProviderAPIKey}}" />
+            <input class="ar-input ar-flex-item-stretch ar-border" id="certDNSProviderKey" autocomplete="off" type="password" placeholder="Your Provider Key" value="{{$DNSProviderAPIKey}}" />
         </div>
 
         <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;margin: 5px 5px;">
                 Secret Key
             </label>
-            <input class="ar-input ar-flex-item-stretch ar-border" id="certDNSProviderSecret" autocomplete="none" type="password" placeholder="Your Provider Key" value="{{$DNSProviderSecretKey}}" />
+            <input class="ar-input ar-flex-item-stretch ar-border" id="certDNSProviderSecret" autocomplete="off" type="password" placeholder="Your Provider Key" value="{{$DNSProviderSecretKey}}" />
         </div>
 
     </fieldset>

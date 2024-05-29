@@ -1,4 +1,23 @@
 ﻿
+function openFlyUrl(appNameElmId) {
+    if (haveElm(appNameElmId) == true) {
+        let appName = getElm(appNameElmId).value;
+        if (appName != "") {
+            let url = 'https://' + appName + ".fly.dev";
+            window.open(url, '_blank').focus();
+        }
+    }
+}
+
+function openFlyRegionUrl(appName, appRegion) {
+    if ((appName != "") && (appRegion != "")) {
+        let url = 'https://' + appName + ".fly.dev/?region=" + appRegion;
+        window.open(url, '_blank').focus();
+    }
+}
+
+/******************************************************************************************************************/
+
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2 - lat1);  // deg2rad below
@@ -80,6 +99,17 @@ function getCoords() {
 //getCoords().then(coords => console.log(coords))
 
 /******************************************************************************************************************/
+
+function setElmHilightStyle(elmId, isBorderNotBackground, elmStyle) {
+    if (haveElm(elmId) == true) {
+        let elm = getElm(elmId);
+        if (isBorderNotBackground == true) {
+            elm.style.border = elmStyle;
+        } else {
+            elm.style.background = elmStyle;
+        }
+    }
+}
 
 function setFocus(targetInput, intervalToFocus) {
 
@@ -313,15 +343,6 @@ function getCheckedElmByName(elmName, scopeElmId) {
         alert('Scope Elm Id [' + scopeElmId + '] not found for getElmBySel');
         console.log('Scope Elm Id [' + scopeElmId + '] not found for getElmBySel');
     }
-}
-
-function isDisplayNoneElm(elm) {
-    let style = window.getComputedStyle(elm);
-    let isHidden = (elm.offsetParent === null)
-    if (isHidden == false) {
-        isHidden = (style.display === 'none');
-    }
-    return isHidden;
 }
 
 function disableElm(elmId, scopeElmId) {

@@ -21,7 +21,7 @@
         <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <input id="appName" type="hidden" value="https://appweb.fly.dev"/>
             <label style="width:100%;margin: 5px 0px;" onclick="let urlElm = getElm('curlUrl'); if (urlElm.value == '') { urlElm.value = getElm('appName').value; } else { urlElm.value = ''; } ">Curl Test Url</label>
-            <input class="ar-flex-item-stretch ar-border" id="curlUrl" style="height:40px;" autocomplete="none" type="text" placeholder="Your Curl Url" autofocus="" value="" />
+            <input class="ar-flex-item-stretch ar-border" id="curlUrl" style="height:40px;" autocomplete="off" type="text" placeholder="Your Curl Url" autofocus="" value="" />
         </div>
 
         <div class="ar-notification" id="curlMetricResponseContainer" style="text-align:center;display:none;margin:5px 10px;">

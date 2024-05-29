@@ -1,7 +1,11 @@
 {
+  "InspectBarBackgroundStyle$": "background-color:transparent",
+  "NavBarBackgroundStyle$": "background-color:#209dee",
   "ShowIntroTip$": false,
+  "ShowLaunchLink$": false,
+  "ShowInitLink$": false,
   "ShowManageLink$": false,
-  "ShowDocumentLink$": false,
-  "NavBarBackgroundStyle$": "background-color:#209dee;",
+  "ShowTestLink$": false,
+  "ShowEditorLink$": false,
   "SignInLink$": "/Account/Login"
 }

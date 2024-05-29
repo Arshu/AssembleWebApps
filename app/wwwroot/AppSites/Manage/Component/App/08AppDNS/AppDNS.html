@@ -6,20 +6,27 @@
     </button>
 </div>
 
-<div class="ar-notification" id="appDNSResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
-    <button class="ar-delete" onclick="hideElm('appDNSResponseContainer')"></button>
-    <div id="appDNSResponse"></div>
-</div>
 
 <div id="appDNS" class="ar-border" style="margin: 5px 0px; padding: 5px; display: none; position: relative;">
+
+    <div class="ar-notification" id="appDNSResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="ar-delete" onclick="hideElm('appDNSResponseContainer')"></button>
+        <div id="appDNSResponse"></div>
+    </div>
 
     <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
         <input id="appDNSShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="toggleElm('customDNSRegistrationDiv'); toggleElm('domainSelectDiv'); toggleElm('customDomainSelectDiv'); toggleElm('doUpdateAppDNS'); toggleElm('doUpdateCustomAppDNS'); hideElm('dnsIPInfoDiv'); getElm('doUpdateCustomAppDNS').setAttribute('disabled', true)">
     </label>
 
     <div class="ar-flex-input-wrap" style="margin: 10px 0px 5px 0px;">
-        <label style="width:100%;margin: 5px 0px;">App Name</label>
-        <input id="updateDNSAppName" class="ar-input ar-flex-item-stretch ar-border-left" style="background-color: gray;" autocomplete="none" type="text" placeholder="Upload App Name" readonly />
+        <label style="width:100%;margin: 5px 0px;">App Name <span style="padding-left:5px; font-size:xx-small;color:orangered;">(If empty set FLY_APP_NAME environment variable and restart)</span></label>
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-left" onclick="openFlyUrl('updateDNSAppName')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+        <input id="updateDNSAppName" class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="background-color: gray;" autocomplete="off" type="text" placeholder="Upload App Name" readonly />
         <button class="ar-button ar-border-right" style="background-color: #209cee; width:100px;" onclick="retrieveAppDNSInfo('appDNSProgress', 'appDNSResponse', getElm('updateDNSAppName').value, 'updateDNSAppName', 'updateIPv4Address', 'updateIPv6Address', 'publicIPv4Address', 'publicIPv6Address','dnsDomainName', 'dnsProviderName', 'doUpdateAppDNS')">
             Refresh
         </button>
@@ -76,14 +83,14 @@
             <label style="width:100%;margin: 5px 5px;">
                 Key
             </label>
-            <input class="ar-input ar-flex-item-stretch ar-border" id="dnsProviderKey" autocomplete="none" type="password" placeholder="Your Provider Key" value="{{$DNSProviderAPIKey}}" />
+            <input class="ar-input ar-flex-item-stretch ar-border" id="dnsProviderKey" autocomplete="off" type="password" placeholder="Your Provider Key" value="{{$DNSProviderAPIKey}}" />
         </div>
 
         <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;margin: 5px 5px;">
                 Secret
             </label>
-            <input class="ar-input ar-flex-item-stretch ar-border" id="dnsProviderSecret" autocomplete="none" type="password" placeholder="Your Provider Key" value="{{$DNSProviderSecretKey}}" />
+            <input class="ar-input ar-flex-item-stretch ar-border" id="dnsProviderSecret" autocomplete="off" type="password" placeholder="Your Provider Key" value="{{$DNSProviderSecretKey}}" />
         </div>
 
     </fieldset>
@@ -92,7 +99,7 @@
         <button class="ar-button ar-border-left" style="width: 100px; background-color: black; color: white; font-size:small; ">
             Domain Of
         </button>
-        <input class="ar-input ar-flex-item-stretch ar-border-top-bottom" id="dnsCustomDomainName" autocomplete="none" type="text" placeholder="Your Domain Name" value="{{$DNSHostName}}" />
+        <input class="ar-input ar-flex-item-stretch ar-border-top-bottom" id="dnsCustomDomainName" autocomplete="off" type="text" placeholder="Your Domain Name" value="{{$DNSHostName}}" />
         <button class="ar-button ar-border-right" id="doVerifyAppDNSCustomDomain" style="background-color: #209cee; width:100px;" onclick="verifyDNSProvider('doVerifyDNSCustomDomainProgress', 'appDNSResponse', getElm('updateDNSAppName').value, getElm('dnsProviderName').value, getElm('dnsProviderKey').value, getElm('dnsProviderSecret').value,  getElm('dnsCustomDomainName').value, 'dnsRootIPv4Address', 'dnsRootIPv6Address', 'dnsSubIPv4Address', 'dnsSubIPv6Address', 'dnsIPInfoDiv', 'doUpdateCustomAppDNS')">
             Verify <div id="doVerifyDNSCustomDomainProgress"></div>
         </button>

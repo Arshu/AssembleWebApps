@@ -1,0 +1,13 @@
+{
+   "config": {
+      "image": "registry.fly.io\/guiapp1",
+      "init": {
+         "cmd": "",
+         "entrypoint": "",
+         "exec": "",
+         "tty": false
+      },
+      "metadata": ""
+   },
+   "id": "21781121f45989-1"
+}

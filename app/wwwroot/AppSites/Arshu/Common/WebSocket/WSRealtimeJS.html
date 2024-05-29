@@ -58,6 +58,7 @@
         const websocket = new WebSocket(websocketUrl);
 
         websocket.onopen = function (event) {
+            console.log('Socket event: ', event, 'OnOpen socket');
             if (websocket.readyState == 1) {
                 globalWebSocketConnection = websocket;
                 //console.log('Socket Opened');
@@ -67,7 +68,7 @@
         };
 
         websocket.onerror = function (event) {
-            console.error('Socket encountered error: ', event, 'Closing socket');
+            console.log('Socket encountered error: ', event, 'Closing socket');
             globalWebSocketActive = false;
             globalWebSocketConnection = null;
             websocket.close();

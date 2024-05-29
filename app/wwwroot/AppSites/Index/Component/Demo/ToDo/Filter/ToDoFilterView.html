@@ -15,8 +15,11 @@
         <button class="ar-button ar-border" style="margin:5px;background-color:green;width:75px;" onclick="hideElm('toDoFilterViewDiv')">Close</button>
 
         <button class="ar-button ar-border" style="margin:5px;background-color:lightblue;width:75px;"
-                data-action="filterComponentHtml" data-progress="toDoItemsPerPageProgress" data-response="{{$ParentViewID}}Response"
-                data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" 
+                data-action="filterComponentHtml" 
+                data-progress="toDoItemsPerPageProgress" 
+                data-response="{{$ParentViewID}}Response"
+                data-appsite="{{$AppSite}}" 
+                data-appview="{{$AppView}}" 
                 data-filter="todoFilterViewGetFilter"
                 data-component="{{$ParentViewID}}"
                 data-config="{'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"

@@ -10,7 +10,7 @@
   ],
   "NAVAccountList": [
     {
-      "NavTitle": "LogOff ({{LoginUserID}})",
+      "NavTitle": "LogOff ({{$LoginUserID}})",
       "NavUrl": "#",
       "NavAppSite": "Account",
       "NavAppView": "Login",

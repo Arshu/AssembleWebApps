@@ -1,0 +1,39 @@
+{
+    "NAVList" : [
+        
+        {
+            "NavTitle" : "AppSites",            
+            "NavUrl" : "/Config/AppSites",            
+            "NavActive" : "",            
+            "HaveSubMenu" : "False",            
+            "SubNAVList" : [
+                
+            ]
+        },
+        {
+            "NavTitle" : "AppViews",            
+            "NavUrl" : "/Config/AppViews",            
+            "NavActive" : "",            
+            "HaveSubMenu" : "False",            
+            "SubNAVList" : [
+                
+            ]
+        }
+    ],    
+    "NAVListSchema" : 
+    {
+        "NavTitle" : "Index",        
+        "NavUrl" : "/Index/Main",        
+        "NavActive" : "",        
+        "HaveSubMenu" : false,        
+        "SubNAVList" : [
+            
+        ]
+    },    
+    "SubNAVListSchema" : 
+    {
+        "NavTitle" : "Index",        
+        "NavUrl" : "/Index/Main",        
+        "NavActive" : ""
+    }
+}

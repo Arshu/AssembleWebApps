@@ -24,25 +24,25 @@
 <div style="display:none;" class="ar-flex-content-wrap" id="configViewData">
 
     <div style="margin: 5px 5px;width:100%;" class="ar-flex-input-wrap">
-        <button style="height:40px; width: 125px; text-align:center;" class="ar-border-left is-primary" onclick="loadView(document.getElementById('selectInitView').value)">
+        <button style="width: 125px; text-align:center;" class="ar-button ar-border-left is-primary" onclick="loadView(document.getElementById('selectInitView').value)">
             Init View
         </button>
-        <div style="height:40px;" class="ar-flex-item-stretch ar-border-top-bottom">
-            <select style="width:100%;border:none;padding:0 0 0 5px" id="selectInitView" placeholder="Select Start View" disabled="disabled">
+        <div style="height:38px;" class="ar-flex-item-stretch ar-border-top-bottom">
+            <select class="ar-select" style="width:100%;border:none;padding:0 0 0 5px" id="selectInitView" placeholder="Select Start View">
                 {{
-                        VIEW_AppViewPathSelect(
-                        "InitViewList",
-                        "SelectEmptyText":"No Init View Found",
-                        "SelectedKey":"",
-                        "AppendOptionText": "",
-                        "AppendOptionValue": "",
-                        "SkipValue": "",
-                         "ItemsPerPage": "100")
+                    VIEW_AppViewPathSelect(
+                    "InitViewList",
+                    "SelectEmptyText":"No Init View Found",
+                    "SelectedKey":"",
+                    "AppendOptionText": "",
+                    "AppendOptionValue": "",
+                    "SkipValue": "",
+                        "ItemsPerPage": "100")
                 }}
             </select>
         </div>
-        <button style="height:40px; width: 40px; text-align:center;" class="ar-border-right" onclick="loadView(document.getElementById('selectStartView').value)">
-            <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;" viewBox="0 0 20 20" fill="currentColor">
+        <button style=" width: 40px; text-align:center;" class="ar-button ar-border-right" onclick="loadView(document.getElementById('selectStartView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
                 <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
             </svg>
@@ -50,11 +50,11 @@
     </div>
 
     <div style="margin: 5px 5px;width:100%;" class="ar-flex-input-wrap">
-        <button style="height:40px; width: 125px; text-align:center;" class="ar-border-left is-primary" onclick="loadView(document.getElementById('selectStartView').value)">
+        <button style="width: 125px; text-align:center;" class="ar-button ar-border-left is-primary" onclick="loadView(document.getElementById('selectStartView').value)">
             Start View
         </button>
-        <div style="height:40px;" class="ar-flex-item-stretch ar-border-top-bottom">
-            <select style="width: 100%; border: none; padding: 0 0 0 5px" id="selectStartView" placeholder="Select Start View">
+        <div style="height:38px;" class="ar-flex-item-stretch ar-border-top-bottom">
+            <select class="ar-select" style="width: 100%; border: none; padding: 0 0 0 5px" id="selectStartView" placeholder="Select Start View">
                 {{
                         VIEW_AppViewPathSelect(
                         "StartViewList",
@@ -67,8 +67,8 @@
                 }}
             </select>
         </div>
-        <button style="height:40px; width: 40px; text-align:center;" class="ar-border-right" onclick="loadView(document.getElementById('selectStartView').value)">
-            <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;" viewBox="0 0 20 20" fill="currentColor">
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-right" onclick="loadView(document.getElementById('selectStartView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
                 <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
             </svg>
@@ -76,11 +76,11 @@
     </div>
 
     <div style="margin: 5px 5px;width:100%;" class="ar-flex-input-wrap">
-        <button style="height:40px; width: 125px; text-align:center;" class="ar-border-left is-primary" onclick="loadView(document.getElementById('selectLoginView').value)">
+        <button style="width: 125px; text-align:center;" class="ar-button ar-border-left is-primary" onclick="loadView(document.getElementById('selectLoginView').value)">
             Login View
         </button>
-        <div style="height:40px;" class="ar-flex-item-stretch ar-border-top-bottom">
-            <select style="width: 100%; border: none; padding: 0 0 0 5px" id="selectLoginView" placeholder="Select Login View">
+        <div style="height:38px;" class="ar-flex-item-stretch ar-border-top-bottom">
+            <select class="ar-select" style="width: 100%; border: none; padding: 0 0 0 5px" id="selectLoginView" placeholder="Select Login View">
                 {{
                         VIEW_AppViewPathSelect(
                         "LoginViewList",
@@ -93,8 +93,8 @@
                 }}
             </select>
         </div>
-        <button style="height:40px; width: 40px; text-align:center;" class="ar-border-right" onclick="loadView(document.getElementById('selectLoginView').value)">
-            <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;" viewBox="0 0 20 20" fill="currentColor">
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-right" onclick="loadView(document.getElementById('selectLoginView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
                 <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
             </svg>
@@ -102,11 +102,11 @@
     </div>
 
     <div style="margin: 5px 5px;width:100%;" class="ar-flex-input-wrap">
-        <button style="height:40px; width: 125px; text-align:center;" class="ar-border-left is-primary" onclick="loadView(document.getElementById('selectLoginAfterView').value)">
+        <button style="width: 125px; text-align:center;" class="ar-button ar-border-left is-primary" onclick="loadView(document.getElementById('selectLoginAfterView').value)">
             Login After
         </button>
-        <div style="height:40px;" class="ar-flex-item-stretch ar-border-top-bottom">
-            <select style="width: 100%; border: none; padding: 0 0 0 5px" id="selectLoginAfterView" placeholder="Select Login After View">
+        <div style="height:38px;" class="ar-flex-item-stretch ar-border-top-bottom">
+            <select class="ar-select" style="width: 100%; border: none; padding: 0 0 0 5px" id="selectLoginAfterView" placeholder="Select Login After View">
                 {{
                         VIEW_AppViewPathSelect(
                         "LoginAfterViewList",
@@ -119,8 +119,8 @@
                 }}
             </select>
         </div>
-        <button style="height:40px; width: 40px; text-align:center;" class="ar-border-right" onclick="loadView(document.getElementById('selectLoginAfterView').value)">
-            <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;" viewBox="0 0 20 20" fill="currentColor">
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-right" onclick="loadView(document.getElementById('selectLoginAfterView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
                 <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
             </svg>
@@ -128,11 +128,11 @@
     </div>
 
     <div style="margin: 5px 5px;width:100%;" class="ar-flex-input-wrap">
-        <button style="height:40px; width: 125px; text-align:center;" class="ar-border-left is-primary" onclick="loadView(document.getElementById('selectChangePwdView').value)">
+        <button style="width: 125px; text-align:center;" class="ar-button ar-border-left is-primary" onclick="loadView(document.getElementById('selectChangePwdView').value)">
             Change Pwd
         </button>
-        <div style="height:40px;" class="ar-flex-item-stretch ar-border-top-bottom">
-            <select style="width: 100%; border: none; padding: 0 0 0 5px" id="selectChangePwdView" placeholder="Select Change Pwd View">
+        <div style="height:38px;" class="ar-flex-item-stretch ar-border-top-bottom">
+            <select class="ar-select" style="width: 100%; border: none; padding: 0 0 0 5px" id="selectChangePwdView" placeholder="Select Change Pwd View">
                 {{
                         VIEW_AppViewPathSelect(
                         "ChangePwdViewList",
@@ -145,8 +145,8 @@
                 }}
             </select>
         </div>
-        <button style="height:40px; width: 40px; text-align:center;" class="ar-border-right" onclick="loadView(document.getElementById('selectChangePwdView').value)">
-            <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;" viewBox="0 0 20 20" fill="currentColor">
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-right" onclick="loadView(document.getElementById('selectChangePwdView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
                 <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
             </svg>

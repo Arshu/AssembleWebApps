@@ -1,0 +1,82 @@
+﻿
+
+<div style="margin: 5px 0px; " class="ar-flex-input-wrap">
+    <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (isHiddenElm('appBackup') == true) { retrieveAppBackupInfo('appBackupProgress', 'appBackupResponse', '', 'backupAppName', 'backupDockerImagePath', 'backupDockerImageTagName', 'backupFolders', 'doBackupApp', function () { showElm('appBackup'); }); } else { hideElm('appBackup'); }">
+        Backup App <div id="appBackupProgress"></div>
+    </button>
+</div>
+
+<div id="appBackup" class="ar-border" style="margin: 5px 0px;padding: 5px; display: none;">
+
+    <div class="ar-notification" id="appBackupResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="ar-delete" onclick="hideElm('appBackupResponseContainer')"></button>
+        <div id="appBackupResponse"></div>
+    </div>
+
+    <div style="margin: 0 auto;position:relative; overflow:auto">
+
+        <div class="ar-flex-input-wrap" style="margin: 10px 0px 5px 0px;">
+            <label style="width: 100%; margin: 5px 0px; cursor: pointer;">Backup App Name <span style="padding-left:5px; font-size:xx-small;color:orangered;">(If empty set FLY_APP_NAME environment variable and restart)</span></label>
+            <button style="width: 40px; text-align:center;" class="ar-button ar-border-left" onclick="openFlyUrl('backupAppName')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                    <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                </svg>
+            </button>
+            <input id="backupAppName" class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="background-color: gray;" autocomplete="off" type="text" placeholder="Backup App Name" readonly />
+            <button class="ar-button ar-border-right" style="background-color: #209cee; width: 100px;" onclick="retrieveAppBackupInfo('appBackupProgress', 'appBackupResponse', getElm('backupAppName').value, 'backupAppName', 'backupDockerImagePath', 'backupDockerImageTagName', 'backupFolders', 'doBackupApp');">
+                Refresh
+            </button>
+        </div>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Source Image Path</label>
+            <label class="ar-flex-item-stretch">Target Tag Name(<span style="font-size:xx-small;color:orangered;">yyMMddhh</span>)</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <select id="backupDockerImagePath" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Sync Docker Image">
+            </select>
+            <input id="backupDockerImageTagName" class="ar-input ar-border-left" style="width: 48%; margin: 0 0 0 5px;" type="text" placeholder="Your Tag Name" value="latest" />
+            <button class="ar-button ar-border-right" style="min-width:40px;" onclick="var tagElm = getElm('backupDockerImageTagName'); if (tagElm.value == tagElm.original) { tagElm.value = tagElm.TimeID; } else { tagElm.value = tagElm.original; } "></button>
+        </div>
+
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <button class="ar-border-left" style="width: 95px; padding:0px 0 0 5px; background-color: black; color: white;">
+                Backup
+            </button>
+            <select id="backupFolders" class="ar-select ar-flex-item-stretch ar-border-right" style="background-color:white;">
+                <option>wwwroot</option>
+            </select>
+        </div>
+
+        <div class="ar-flex-content-wrap" style="margin: 0px;">
+
+            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Clear Download Layer
+                <input id="clearDownloadLayer" type="checkbox" title="Clear Backup Layer" style="margin-left: 5px;" checked="checked">
+            </label>
+           
+            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Backup AppData
+                <input id="backupAppData" type="checkbox" title="Skip AppData Backup" style="margin-left: 5px;" checked="checked">
+            </label>
+
+        </div>
+
+        <div class="ar-notification" id="doAppBackupResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+            <button class="ar-delete" onclick="hideElm('doAppBackupResponseContainer')"></button>
+            <div id="doAppBackupResponse"></div>
+        </div>
+
+        <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
+            <button class="ar-button ar-border" id="doBackupApp" style="background-color:#209cee;" tabindex="4" disabled="disabled"
+                    onclick="backupAppFolder('doAppBackupProgress', 'doAppBackupResponse', getElm('backupAppName').value, getElm('backupDockerImagePath').value, getElm('backupDockerImageTagName').value, getElm('backupFolders').value, getElm('clearDownloadLayer').checked, getElm('backupAppData').checked, 'doBackupApp')">
+                Backup AppFolder <div id="doAppBackupProgress"></div>
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+{{AppBackupJs}}

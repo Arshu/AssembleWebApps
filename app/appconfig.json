@@ -3,7 +3,8 @@
   "ConfigType": "Base",
   "ConfigLogLevel": "Critical,Error,Warn",
   "CreateWebConfig": false,
-  "CreateApiConfig": false,
+  "ReadApiConfigList": "",
+  "CreateApiConfigList": "",
   "SaveJsCssResource": false,
   "PersistMetricLog": true,
   "AllowReload": true,
@@ -29,9 +30,10 @@
   "MMFUrlPatterns": "*",
 
   "RealtimeAppSites": "",
-  "StaticAppSites": "Index, Config, Account, Documentation, Manage",
-  "SearchAppSites": "Config, Account, Index",
+  "StaticAppSites": "Index, Config, Account, Editor, Manage, Test",
+  "SearchAppSites": "Config, Account, Editor, Index",
 
+  "LoadAppConfig": true,
   "LoadAppData": true,
   "LoadAppFolders": true,
   "LoadPapFiles": true,
@@ -106,31 +108,36 @@
 
   "PackApp": true,
   "PackResource": true,
+  "PackConfig": true,
   "PackData": true,
-  "PackTemplate": false,
   "PackAppSites": "Index",
+  "PackAppConfigs": "AppApi",
   "PackAppDatas": "Cert, Roles, Members",
 
   "PackName": "Arshu.AppBaseWeb.1.0.pap",
   "PackDescription": "Arshu.AppBaseWeb for Managing AppWebs",
   "PackResourceName": "Arshu.AppBaseWeb.Resource.1.0.pap",
   "PackResourceDescription": "Resource of Arshu,AppBaseWeb for Managing AppWebs",
+  "PackConfigName": "Arshu.AppBaseWeb.Data.1.0.pap",
+  "PackConfigDescription": "Data of Arshu.AppBaseWeb for Managing AppWebs",
   "PackDataName": "Arshu.AppBaseWeb.Data.1.0.pap",
   "PackDataDescription": "Data of Arshu.AppBaseWeb for Managing AppWebs",
 
   "PackAppSubFolderPath": "A0",
   "PackResourceSubFolderPath": "A0",
+  "PackConfigSubFolderPath": "A0",
   "PackDataSubFolderPath": "A0",
 
   "SkippedFileExtension": "dll, config, exe, pap, so, map, txt",
   "AllowedAppFileExtension": "Html, Json",
-  "AllowedResourceFileExtension": "Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Css, json, webmanifest",
+  "AllowedResourceFileExtension": "Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Mjs, Css, json, webmanifest",
+  "AllowedConfigFileExtension": "json",
   "AllowedDataFileExtension": "dat, json, xml, pfx, db, sdf, xlsx",
 
   "ResourceOptimizeMergeJs": true,
   "ResourceOptimizeMergeJsPattern": "arshu; highlight, chart, main",
   "ResourceOptimizeMergeJsSkipPattern": "",
   "ResourceOptimizeMergeCss": true,
-  "ResourceOptimizeMergeCssPattern": "normalize, arshu, animate, highlight, chart, main;",
+  "ResourceOptimizeMergeCssPattern": "normalize, arshu, animate, highlight, chart, main; ",
   "ResourceOptimizeMergeCssSkipPattern": ""
 }

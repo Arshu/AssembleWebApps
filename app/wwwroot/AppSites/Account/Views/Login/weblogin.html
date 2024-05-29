@@ -242,7 +242,6 @@
     .avatar {
         padding-bottom: 10px;
     }
-
         .avatar img {
             padding: 0px;
             background: #fff;
@@ -272,7 +271,7 @@
 
         <div class="ar-flex-input-wrap" style="margin: 5px 0px;display:none;">
             <input id="scanInputVal" type="hidden" />
-            <input class="ar-flex-item-stretch ar-border" id="scanInput" autocomplete="none" type="text" placeholder="Your Scan Input" autofocus="">
+            <input class="ar-flex-item-stretch ar-border" id="scanInput" autocomplete="off" type="text" placeholder="Your Scan Input" autofocus="">
         </div>
 
         <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
@@ -280,7 +279,7 @@
             <div class="ar-border-left" style="width: 25px; height: 40px; background-color: gray;" onclick="let elm = getElm('loginId'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="height:39px;" id="loginId" autocomplete="none" type="email" placeholder="Your User Id" autofocus="" tabindex="1">
+            <input class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="height:39px;" id="loginId" autocomplete="off" type="email" placeholder="Your User Id" autofocus="" tabindex="1">
             <button class="ar-border-right ar-button" disabled="disabled" style="width:25px;height:40px;background-color:gray;" id="linkLoginBtn" onclick="toggleElm('linkLoginBtnDiv'); ">
                 &nbsp;
             </button>
@@ -298,7 +297,7 @@
                 <div class="ar-border-left" style="width:25px;height:40px;background-color:gray;" onclick="let elm = getElm('linkCode'); elm.value = ''; elm.focus();">
                     <div>&nbsp;</div>
                 </div>
-                <input class="ar-input ar-flex-item-stretch ar-border-right" style="height:39px;" id="linkCode" autocomplete="none" type="password" placeholder="Your Link Code">
+                <input class="ar-input ar-flex-item-stretch ar-border-right" style="height:39px;" id="linkCode" autocomplete="off" type="password" placeholder="Your Link Code">
             </div>
 
             <div style="text-align:center;">
@@ -313,7 +312,7 @@
             <div class="ar-border-left" style="width:25px;height:40px;background-color:gray;" onclick="let elm = getElm('loginPwd'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="ar-input ar-flex-item-stretch ar-border-right" style="height:39px;" id="loginPwd" autocomplete="none" type="password" placeholder="Your Password" tabindex="2">
+            <input class="ar-input ar-flex-item-stretch ar-border-right" style="height:39px;" id="loginPwd" autocomplete="off" type="password" placeholder="Your Password" tabindex="2">
         </div>
 
         <div style="text-align:center;margin-top:10px;display:none;">

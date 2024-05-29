@@ -1,10 +1,14 @@
 <div class="ar-flex-content-spaced" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
-    <select class="ar-input ar-border" style="margin: 0px;" id="toDoItemsPerPage"
-            data-action="filterComponentHtml" data-progress="toDoItemsPerPageProgress" data-response="{{$ParentViewID}}Response"
-            data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
+    <select class="ar-input ar-border" style="margin: 0px;" id="{{$ParentViewID}}ItemsPerPage"
+            data-action="filterComponentHtml" 
+            data-progress="toDoItemsPerPageProgress" 
+            data-response="{{$ParentViewID}}Response"
+            data-appsite="{{$AppSite}}" 
+            data-appview="{{$AppView}}"
             data-filter="todoGetFilter"
             data-component="{{$ParentViewID}}"
-            data-config="{'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
+            data-config="todoGetPager",
+            data-current="{'PageNo': '1', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
             data-isrealtime="todoGetRealtime">
         <option value="2" {{@ItemsPerPage2}} selected="selected" {{/ItemsPerPage2}}>2</option>
         <option value="5" {{@ItemsPerPage5}} selected="selected" {{/ItemsPerPage5}}>5</option>
@@ -25,3 +29,28 @@
         {{/MaxNoOfPages}}
     </div>
 </div>
+
+<script>
+
+    function todoGetPager() {
+        let selectElm = getElm('{{$ParentViewID}}ItemsPerPage');
+        let pageJson = {};
+        pageJson["PageNo"] = '{{$PageNo}}';
+
+        let selectedItemsPerPage = parseInt(selectElm.value);
+        let recordCount = parseInt('{{$RecordCount}}');
+
+        if (parseInt(pageJson["PageNo"]) == 1) {
+            if (selectedItemsPerPage <= recordCount) {
+                pageJson["ItemsPerPage"] = selectElm.value;
+            } else {
+                pageJson["ItemsPerPage"] = recordCount;
+            }
+        }
+        else {
+            pageJson["ItemsPerPage"] = selectElm.value;
+        }
+        return pageJson;
+    }
+
+</script>

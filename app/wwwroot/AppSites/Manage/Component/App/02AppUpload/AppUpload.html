@@ -1,0 +1,79 @@
+﻿
+
+<div style="margin: 5px 0px; " class="ar-flex-input-wrap">
+    <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (isHiddenElm('appUpload') == true) { retrieveAppUploadInfo('appUploadProgress', 'appUploadResponse', 'uploadAppName', 'uploadFolders', 'doUploadAppBtn', 'doUploadClearBtn', function () { showElm('appUpload'); }); } else { hideElm('appUpload'); }">
+        Upload App <div id="appUploadProgress"></div>
+    </button>
+</div>
+
+<div id="appUpload" class="ar-border" style="margin: 5px 0px;padding: 5px; display: none;">
+
+    <div class="ar-notification" id="appUploadResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="ar-delete" onclick="hideElm('appUploadResponseContainer')"></button>
+        <div id="appUploadResponse"></div>
+    </div>
+
+    <div style="margin: 0 auto;position:relative; overflow:auto">
+
+        <div class="ar-flex-input-wrap" style="margin: 10px 0px 5px 0px;">
+            <label style="width: 100%; margin: 5px 0px; cursor: pointer;">App Name <span style="padding-left:5px; font-size:xx-small;color:orangered;">(If empty set FLY_APP_NAME environment variable and restart)</span></label>
+            <button style="width: 40px; text-align:center;" class="ar-button ar-border-left" onclick="openFlyUrl('uploadAppName')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                    <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                </svg>
+            </button>
+            <input id="uploadAppName" class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="background-color: gray;" autocomplete="off" type="text" placeholder="Upload App Name" readonly />
+            <button class="ar-button ar-border-right" style="background-color: #209cee; width:100px; " onclick="retrieveAppUploadInfo('appUploadProgress', 'appUploadResponse', 'uploadAppName', 'uploadFolders', 'doUploadAppBtn', 'doUploadClearBtn')">
+                Refresh
+            </button>
+        </div>
+
+        <input class="ar-flex-item-stretch" style="display:none; width: 100%; outline: none; margin-left: -100px; padding-top: 7px; height: 38px; background-color:transparent;" type="file" name="addZipFile1" id="addZipFile1">
+
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <button class="ar-border-left is-primary" style="width: 100px; height: 40px;">
+                Zip File
+            </button>
+            <div class="ar-flex-item-stretch ar-border-right" style="height: 38px;">
+                <input id="addZipFile" name="addZipFile" class="ar-flex-item-stretch" style="width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1;" type="file" onchange="if (this.files && this.files.length > 0) { let fileName = event.target.value.split('\\').pop(); getElm('zipFileLabel').innerHTML = fileName; } else { getElm('zipFileLabel').innerHTML = getElm('zipFileLabel').title; }">
+                <label id="zipFileLabel" title="Choose Zip file" for="addZipFile" style="font-size: 1.25em; font-weight: 700; color: black; display: inline-block;width:100%;padding-left:5px;">Choose Zip file</label>
+            </div>
+        </div>
+
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <button class="ar-border-left" style="width: 100px; background-color: black; color: white;">
+                Target
+            </button>
+            <select id="uploadFolders" class="ar-select ar-flex-item-stretch ar-border-top-bottom" style="padding:0 0 0 10px; background-color:white;">
+                <option>wwwroot</option>
+            </select>
+            <button id="doUploadClearBtn" class="ar-button ar-border-right" style="background-color: #209cee; width:100px; "onclick="clearAppFolder('doAppClearProgress', 'doAppUploadResponse', getElm('uploadAppName').value, getElm('uploadFolders').value, getElm('uploadOverwriteAppData').checked, 'doUploadAppBtn', 'doUploadClearBtn')" disabled="disabled">
+                Clear <div id="doAppClearProgress"></div>
+            </button>
+        </div>
+
+        <div class="ar-flex-content-wrap" style="margin: 0px;">
+            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Overwrite AppData
+                <input id="uploadOverwriteAppData" type="checkbox" title="Overwrite AppData" style="margin-left: 5px;">
+            </label>
+        </div>
+
+        <div class="ar-notification" id="doAppUploadResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+            <button class="ar-delete" onclick="hideElm('doAppUploadResponseContainer')"></button>
+            <div id="doAppUploadResponse"></div>
+        </div>
+
+        <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
+            <button class="ar-button ar-border" id="doUploadAppBtn" style="background-color:#209cee;" tabindex="4" disabled="disabled"
+                    onclick="uploadAppFolder('doAppUploadProgress', 'doAppUploadResponse', getElm('uploadAppName').value, 'addZipFile', getElm('uploadFolders').value, getElm('uploadOverwriteAppData').checked, 'doUploadAppBtn', 'doUploadClearBtn')">
+                Upload App Folder as Zip File <div id="doAppUploadProgress"></div>
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+{{AppUploadJs}}

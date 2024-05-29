@@ -1,17 +1,17 @@
 {
-  "OGTitle": "Arshu StaticWeb",
-  "OGType": "StaticWeb",
+  "OGTitle": "Arshu AppWeb",
+  "OGType": "AppWeb",
   "OGUrl": "https://arshucs.com",
   "OGImageUrl": "https://arshucs.com/Resource/Arshu/logos/apple-touch-icon.png",
-  "IOSTitle": "StaticWeb",
+  "IOSTitle": "AppWeb",
   "IOSIconUrl": "/Resource/Arshu/logos/apple-touch-icon.png",
   "AndroidIconUrl": "/Resource/Arshu/logos/android-chrome-192x192.png",
   "FaviconUrl": "/Resource/Arshu/logos/favicon.png",
-  "SiteTitle": "StaticWeb",
-  "SiteDescription": "Arshu StaticWeb",
+  "SiteTitle": "AppWeb",
+  "SiteDescription": "Arshu AppWeb",
   "SiteAuthor": "Arshu Team",
-  "SiteName": "StaticWeb",
+  "SiteName": "AppWeb",
   "FooterText": "&copy;2024 Arshu Consultancy",
   "FooterLink": "https://www.arshucs.com",
-  "NavBarBackgroundStyle": "background-color:#209dee;"  
+  "NavBarBackgroundStyle": "background-color:#209dee;"
 }

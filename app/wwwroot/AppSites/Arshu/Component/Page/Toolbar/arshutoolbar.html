@@ -31,16 +31,3 @@
     {{/IsLoggedIn}}
 {{/EnableFrameworkView}}
 
-{{@EnableFrameworkView}}
-    {{@IsLoggedIn}}
-        {{ArshuEditComponents("RootComponentID":"Index")}}
-    {{/IsLoggedIn}}
-    {{^IsLoggedIn}}
-        {{ArshuViewComponents("RootComponentID":"Index")}}
-    {{/IsLoggedIn}}
-{{/EnableFrameworkView}}
-
-{{@EnableFrameworkView}}
-    <link rel="stylesheet" href="/Resource/Arshu/highlight/highlight.min.css" defer>
-    <script src="/Resource/Arshu/highlight/highlight.pack.min.js" defer></script>
-{{/EnableFrameworkView}}

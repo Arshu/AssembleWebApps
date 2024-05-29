@@ -4,6 +4,7 @@
         background-color: black;
         color: white;
     }
+
 </style>
 <script src="/Resource/Arshu/chart/chart.umd.min.js"></script>
 
@@ -131,7 +132,7 @@
 
 </script>
 
-<div class="ar-modal" id="viewAppMetrics">
+<div class="ar-modal" id="viewAppMetrics" style="color: gray;">
     <div class="ar-modal-background"></div>
     <div class="ar-modal-content ar-border" style="width:98%; margin: 0 auto;background-color:gray;">
 
@@ -151,14 +152,14 @@
             <div id="metricsResponse"></div>
         </div>
 
-        <div class="ar-flex-input-wrap" style="margin: 5px 0px;width:100%;">
-            <button class="ar-flex-item-stretch ar-border" id="pageMetricsTab" style="font-size: small; height: 38px; text-align: center; background-color: lightgray;" onclick="showPageMetrics('metricsProgress', 'metricsResponse')">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px 0px 0px; width: 100%; color: gray;">
+            <button class="ar-flex-item-stretch" id="pageMetricsTab" style="font-size: small; height: 38px; text-align: center;" onclick="showPageMetrics('metricsProgress', 'metricsResponse')">
                 Page Metrics
             </button>
-            <button class="ar-flex-item-stretch ar-border" id="ajaxMetricsTab" style="font-size: small; height: 38px; text-align: center; background-color: lightgray;" onclick="showAjaxMetrics('metricsProgress', 'metricsResponse')">
+            <button class="ar-flex-item-stretch" id="ajaxMetricsTab" style="font-size: small; height: 38px; text-align: center; " onclick="showAjaxMetrics('metricsProgress', 'metricsResponse')">
                 AJAX Metrics
             </button>
-            <button class="ar-flex-item-stretch ar-border" id="wsMetricsTab" style="font-size: small; height: 38px; text-align: center; background-color: lightgray;" onclick="showWSMetrics('metricsProgress', 'metricsResponse')">
+            <button class="ar-flex-item-stretch" id="wsMetricsTab" style="font-size: small; height: 38px; text-align: center;" onclick="showWSMetrics('metricsProgress', 'metricsResponse')">
                 Websocket Metrics
             </button>
         </div>

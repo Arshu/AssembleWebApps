@@ -1,0 +1,14 @@
+<div class="ar-flex-input-wrap" style="margin: 5px 0px;width:100%;">
+    <div class="ar-border" style="width:100%;">
+        <h5 style="margin-top:8px; display:inline-block;">{{$EditorItemName}}</h5>
+        {{@EditorItemList}}
+        <label style="text-align:center;margin:10px 5px 0px 5px;display:inline-block;">
+            <input name="{{$EditorItemName}}"
+                   data-key="{{$EditorItemKey}}"
+                   data-value="{{$EditorListItemMatchValue}}"
+                   value="{{$EditorListItemValue}}"
+                   {{@EditorListItemMatchName}} checked="checked" {{/EditorListItemMatchName}} type="radio">{{$EditorListItemText}}
+        </label>
+        {{/EditorItemList}}
+    </div>
+</div>

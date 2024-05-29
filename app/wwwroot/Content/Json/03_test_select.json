@@ -1,7 +1,0 @@
-{
-    "AllowedRoles" : "Guest",    
-    "Debug Data Editor" : "Data Editor Select False",    
-    "Debug Data Editor Inner" : "Data Editor Inner Select False",    
-    "Debug Data Editor 2" : "Data Editor Select True",    
-    "Debug Data Editor Inner 2" : "Data Editor Inner Select True"
-}

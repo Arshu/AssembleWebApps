@@ -1,0 +1,13 @@
+<div class="ar-flex-input-wrap" style="margin: 5px 0px;width:100%;">
+    <label for="{{$EditorItemID}}" style="width:100%;">{{$EditorItemName}}</label>
+    <div class="ar-flex-item-stretch ar-border">
+        <textarea class="ar-flex-item-stretch" style="width:100%;border:none;min-height:75px;padding:8px;background-color:#efefef;" 
+            id="{{$EditorItemKey}}"
+            placeholder="{{$EditorItemInfo}}"
+            maxlength="{{$ConfigValueInt}}" 
+            data-key="{{$EditorItemKey}}" 
+            data-value="{{$EditorItemValue}}" 
+            disabled="disabled">{{$EditorItemValue}}
+        </textarea>
+    </div>
+</div>

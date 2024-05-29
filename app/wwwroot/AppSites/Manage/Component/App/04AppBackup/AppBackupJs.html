@@ -1,0 +1,242 @@
+﻿
+<script type="text/javascript">
+
+    function retrieveAppBackupInfo(progressElmId, responseElmId, backupAppNameVal, appNameElmId, dockerImagePathSelectElmId, dockerImageTagNameElmId, backupFolderSelectElmId, doBackupBtnElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        //if (apiToken.length == 0) {
+        //    showText(responseElm, 'Enter the API Token', 'red');
+        //    valid = false;
+        //}
+
+        if (valid === true) {
+
+            getElm(doBackupBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RetrieveBackupInfo';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "backupAppName": backupAppNameVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    if (typeof failureCallback === "function") {
+                        failureCallback();
+                    }
+                }
+                    //else if (result.hasOwnProperty('message') === true) {
+                    //    showText(responseElm, result.message, 'green');
+
+                    //    if (typeof successCallback === "function") {
+                    //        successCallback();
+                    //    }
+                    //}
+                else
+                {
+                    if (result.hasOwnProperty('AppName') === true) {
+                        getElm(appNameElmId).value = result.AppName;
+                    }
+
+                    getElm(dockerImageTagNameElmId).TimeID = "v" + getElm('appAPIToken').TimeID;
+
+                    if (result.hasOwnProperty("DockerImageList") === true) {
+                        let dockerImageList = result.DockerImageList;
+
+                        let selectElm = getElm(dockerImagePathSelectElmId);
+                        if (selectElm) {
+                            selectElm.options.length = 0;
+
+                            for (var i = 0; i < dockerImageList.length; i++) {
+                                let dockerImageInfo = dockerImageList[i];
+
+                                let dockerImageName = "";
+                                if (dockerImageInfo.hasOwnProperty('DockerImageName') === true) {
+                                    dockerImageName = dockerImageInfo.DockerImageName
+                                }
+                                let dockerImageTag = "";
+                                if (dockerImageInfo.hasOwnProperty('DockerImageTag') === true) {
+                                    dockerImageTag = dockerImageInfo.DockerImageTag
+                                }
+                                let dockerImagePath = "";
+                                if (dockerImageInfo.hasOwnProperty('DockerImagePath') === true) {
+                                    dockerImagePath = dockerImageInfo.DockerImagePath
+                                }
+                                let isAppImage = false;
+                                if (dockerImageInfo.hasOwnProperty('IsAppImage') === true) {
+                                    isAppImage = dockerImageInfo.IsAppImage
+                                }
+
+                                if ((i == 0) && (dockerImageTag.trim().length == 0)) {
+                                    getElm(dockerImageTagNameElmId).value = getElm(dockerImageTagNameElmId).TimeID;
+                                    getElm(dockerImageTagNameElmId).original = dockerImageTag;
+                                } else {
+                                    getElm(dockerImageTagNameElmId).value = getElm(dockerImageTagNameElmId).TimeID;
+                                    getElm(dockerImageTagNameElmId).original = 'latest';
+                                }
+
+                                if (isAppImage == true) {
+                                    selectElm.options[selectElm.options.length] = new Option(dockerImageName, dockerImagePath, true, true);
+                                } else {
+                                    selectElm.options[selectElm.options.length] = new Option(dockerImageName, dockerImagePath, false, false);
+                                }
+                            }
+                        }
+                    }
+
+                    if (result.hasOwnProperty('BackupFolderList') === true) {
+                        let folderListArray = result.BackupFolderList;
+                       
+                        let backupSelectElm = getElm(backupFolderSelectElmId);
+                        if (backupSelectElm) {
+                            backupSelectElm.options.length = 0;
+                            for (let i = 0; i < folderListArray.length; i++) {
+                                let bakFolder = folderListArray[i];
+                                let selectText = "";
+                                if (bakFolder.hasOwnProperty('Name') === true) {
+                                    selectText = bakFolder.Name
+                                }
+                                let selectValue = "";
+                                if (bakFolder.hasOwnProperty('Path') === true) {
+                                    selectText = bakFolder.Path
+                                }                                
+                                backupSelectElm.options[backupSelectElm.options.length] = new Option(selectText, selectText);
+
+                                if (selectText.indexOf("wwwroot") > -1) {
+                                    if (selectText.endsWith("wwwroot") == true) {
+                                        backupSelectElm.selectedIndex = backupSelectElm.options.length - 1;
+                                    }
+                                }
+                            }
+                            getElm(doBackupBtnElmId).removeAttribute("disabled");   
+
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }                        
+                    }
+                }                
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+    function backupAppFolder(progressElmId, responseElmId, appNameVal, dockerImagePathVal, dockerImageTagNameVal, backupFolderSelectVal, clearDownloadLayerVal, backupAppDataVal, doBackupBtnElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+        
+        if (valid == true) {
+            if (appNameVal.length == 0) {
+                showText(responseElm, 'App Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (dockerImagePathVal.length == 0) {
+                showText(responseElm, 'Backup App Docker Image Path Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (dockerImageTagNameVal.length == 0) {
+                showText(responseElm, 'Backup App Docker Image Tag Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (backupFolderSelectVal == "") {
+            showText(responseElm, 'Select the Backup Folder', 'red');
+            valid = false;
+        }
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        if (apiToken.length == 0) {
+            showText(responseElm, 'Enter the API Token', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            getElm(doBackupBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'BackupAppFolder';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "appName": appNameVal,
+                "sourceDockerImagePath": dockerImagePathVal,
+                "targetDockerImageTagName": dockerImageTagNameVal,
+                "backupFolder": backupFolderSelectVal,
+                "clearDownloadLayer": clearDownloadLayerVal,
+                "backupAppData": backupAppDataVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    getElm(doBackupBtnElmId).removeAttribute("disabled");
+
+                    if (typeof failureCallback === "function") {
+                        failureCallback();
+                    }
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green');
+
+                    getElm(doBackupBtnElmId).removeAttribute("disabled");
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+</script>
+

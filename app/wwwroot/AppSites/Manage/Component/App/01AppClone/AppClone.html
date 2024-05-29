@@ -1,0 +1,179 @@
+﻿
+
+<div style="margin: 5px 0px; " class="ar-flex-input-wrap">
+    <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (haveElm('appDeploy') == true) { hideElm('appDeploy'); }; if (haveElm('appSync') == true) { hideElm('appSync'); }; if (haveElm('appUpdate') == true) { hideElm('appUpdate'); }; clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); if (isHiddenElm('appClone') == true) { retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneNewAppName').value, 'cloneAppOrganization', 'cloneExistingAppName', 'cloneDockerImagePathName', 'cloneDockerImageTagName', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvLoadAppData', 'cloneEnvAutoDestroyAfterXMin', 'doCloneApp', function () { showElm('appClone'); getElm('deleteCloneApp').removeAttribute('disabled'); }); } else { hideElm('appClone'); }">
+        Clone App <div id="appCloneProgress"></div>
+    </button>
+</div>
+
+<div class="ar-notification" id="appCloneResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+    <button class="ar-delete" onclick="hideElm('appCloneResponseContainer')"></button>
+    <div id="appCloneResponse"></div>
+</div>
+
+<div id="appClone" class="ar-border" style="margin: 5px 0px;padding: 5px; display: none;position:relative;">
+
+    <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
+        <input id="cloneShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="toggleElm('cloneRestrictionsDiv');  toggleElm('cloneImageDiv'); toggleElm('cloneEnvironmentalVariableDiv'); toggleElm('orgNetworkDiv');">
+    </label>
+
+    <div class="ar-flex-input-wrap" style="margin: 10px 0 5px 0px;">
+        <label style="width: 100%; margin: 5px 0px; cursor: pointer;">Clone App Name<span style="padding-left:5px; font-size:xx-small;color:orangered;">(If empty set FLY_APP_NAME environment variable and restart)</span></label>
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-left" onclick="openFlyUrl('cloneExistingAppName')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+        <input id="cloneExistingAppName" class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="background-color: gray;" autocomplete="off" type="text" placeholder="Clone App Name" readonly />
+        <button class="ar-button ar-border-right" style="background-color: #209cee; width:110px;" onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneExistingAppName').value, 'cloneAppOrganization', 'cloneExistingAppName', 'cloneDockerImagePathName', 'cloneDockerImageTagName', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvLoadAppData', 'cloneEnvAutoDestroyAfterXMin', 'doCloneApp', function () { getElm('deleteCloneApp').removeAttribute('disabled'); } );">
+            Refresh
+        </button>
+    </div>
+
+    <fieldset id="cloneImageDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Clone Image</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Image(s) Name</label>
+            <label class="ar-flex-item-stretch">Tag Name</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <select id="cloneDockerImagePathName" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Clone Docker Image"
+                    onchange="let imagepath = getElm('cloneDockerImagePathName').value; getElm('cloneDockerImageTagName').value = imagepath.substr(imagepath.indexOf(':') + 1);">
+            </select>
+            <input id="cloneDockerImageTagName" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px;" type="text" placeholder="Your Tag Name" value="latest" />
+        </div>
+
+    </fieldset>
+
+    <fieldset id="cloneEnvironmentalVariableDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Environmental Variables</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Initial Timeout (sec)</label>
+            <label class="ar-flex-item-stretch">Idle Timeout (sec)</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="cloneEnvInitialTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin:0 5px 0 0;" type="number" placeholder="Your Initial Timeout" value="30" />
+            <input id="cloneEnvIdleTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px " type="number" placeholder="Your Idle Timeout" value="30" />
+        </div>
+
+        <div class="ar-flex-content-wrap" style="margin: 0px;">
+            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Load AppData
+                <input id="cloneEnvLoadAppData" type="checkbox" title="Load App Data" style="margin-left: 5px;">
+            </label>
+        </div>
+
+        <div class="ar-flex-input-wrap" style="margin: 0px;">
+            <label style="width:100%;">Auto Destroy After x Mins</label>
+            <input id="cloneEnvAutoDestroyAfterXMin" class="ar-input ar-flex-item-stretch ar-border" type="number" placeholder="Auto Destroy after x Mins" value="0" />
+            <span style="width:100%;font-size:xx-small;color:blue;">0 is skip Auto Destroy</span>
+        </div>
+
+    </fieldset>
+
+    <div id="cloneRegionsTemplate" style="display:none;">
+        <div style="min-width:50px; margin: 5px 5px;">
+            <label style="padding: 7px 0px 0 0px;">
+                <input name="{RegionName}" value="{Region}" type="checkbox" checked="checked"> {RegionText}
+            </label>
+        </div>
+    </div>
+
+    <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
+        <label style="width: 50%; margin: 5px 0px; text-align: left;">
+            Clone Region(s)
+        </label>
+        <label style="width: 50%; margin: 5px 0px; text-align: right;display:none;">
+            All
+            <input id="selectAllCloneRegion" type="checkbox" title="All Regions" onclick="appCloneSelectAll('cloneRegion', getElm('selectAllCloneRegion').checked)">
+        </label>
+        <div id="cloneRegions" class="ar-border" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
+        </div>
+        <div style="text-align:center;font-size:xx-small;color:orangered;">Select only one Region to Launch App</div>
+    </div>
+
+    <fieldset id="orgNetworkDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>App Info</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">App Organisation</label>
+            <label class="ar-flex-item-stretch">App Network</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <select id="cloneAppOrganization" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="User Org Slug Name">
+            </select>
+            <input id="cloneAppNetwork" class="ar-button ar-border ar-flex-item-stretch" style="width: 48%; margin: 0 5px 0 0;" type="number" placeholder="Optional App Network" value="" />
+        </div>
+
+    </fieldset>
+
+    <fieldset id="cloneRestrictionsDiv" class="ar-border" style="flex:auto; display: none; padding: 5px;">
+        <legend>Deploy Restrictions</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch" style="text-align: center;">Max Regions&nbsp; Per App</label>
+            <label class="ar-flex-item-stretch" style="text-align: center;">Max Machines Per App</label>
+            <label class="ar-flex-item-stretch" style="text-align: center;">Max Machine&nbsp; Per Region</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="cloneMaxRegionsPerApp" class="ar-input ar-border" style="max-width:75px; margin: 0 0 0 5px; background-color: gray; " type="number" placeholder="Max Regions per App" value="1" readonly />
+            <input id="cloneMaxMachinesPerApp" class="ar-input ar-border" style="max-width: 75px; margin: 0 0 0 5px; background-color: gray;" type="number" placeholder="Max Machine Count per App" value="1" readonly />
+            <input id="cloneMaxMachinesPerRegion" class="ar-input ar-border" style="max-width: 75px; margin: 0 0 0 5px; background-color: gray;" type="number" placeholder="Max Machine Count per Region" value="1" readonly />
+        </div>
+
+    </fieldset>
+
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+        <label style="width:100%;margin: 5px 0px;cursor: pointer;">App Owner Email</label>
+        <input id="appOwnerID" class="ar-input ar-flex-item-stretch ar-border" autocomplete="off" type="email" placeholder="Your App Owner Email" value="" />
+    </div>
+
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+        <label style="width:100%;margin: 5px 0px;cursor: pointer;" onclick="openFlyUrl('cloneNewAppName')">New App Name</label>
+        <input id="cloneNewAppName" class="ar-input ar-flex-item-stretch ar-border-left" autocomplete="off" type="text" placeholder="Your Clone App Name" value="" />
+        <button id="deleteCloneApp" class="ar-button ar-border-right" style="background-color: #209cee; width: 110px;" onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); deleteCloneApp('doAppDeleteProgress', 'doAppCloneResponse', getElm('cloneNewAppName').value, getElm('appOwnerID').value, 'deleteCloneApp');">
+            Delete <div id="doAppDeleteProgress"></div>
+        </button>
+    </div>
+
+    <div id="doAppCloneResponseContainer" class="ar-notification" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="ar-delete" onclick="hideElm('doAppCloneResponseContainer');hideElm('cloneDetailResponse');hideElm('cloneLinkDiv')"></button>
+        <div id="doAppCloneResponse"></div>
+    </div>
+
+    <div id="cloneDetailResponse" style="font-size:x-small;text-align:center">
+
+    </div>
+
+    <div id="cloneLinkDiv" class="ar-flex-content-spaced" style="display:none;text-align:center;">
+        <div class="ar-border" style="margin: 10px auto;">
+            <a id="cloneLink" style="text-decoration: none;margin:10px 5px" href="#" target="_blank">Https://arshuhost.fly.dev</a>
+        </div>
+    </div>
+
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+        <button id="doCloneApp" class="ar-button ar-border" style="background-color: #209cee; width: 110px; height: 40px;" tabindex="4" disabled="disabled"
+                onclick="cloneApp('doAppCloneProgress', 'doAppCloneResponse', getElm('cloneNewAppName').value, getElm('cloneAppOrganization').value, getElm('cloneAppNetwork').value, getElm('cloneExistingAppName').value, getElm('cloneDockerImagePathName').value, getElm('cloneDockerImageTagName').value, 'cloneRegion', getElm('cloneEnvInitialTimeout').value, getElm('cloneEnvIdleTimeout').value, getElm('cloneEnvLoadAppData').checked, getElm('cloneEnvAutoDestroyAfterXMin').value, getElm('appOwnerID').value, 'doCloneApp', 'cloneDetailResponse')">
+            Clone App <div id="doAppCloneProgress"></div>
+        </button>
+
+    </div>
+
+    <div style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; color:orangered; font-size:x-small ">
+        <div>
+            Clone Per Team : <span id="clonePerTeam">0</span> (Max : <span id="maxClonePerTeam">0</span>)
+        </div>
+        <div>
+            Clone per Day : <span id="clonePerDay">0</span> (Max :<span id="maxClonePerDay">0</span>)
+        </div>
+        <div>
+            Clone per Hour : <span id="clonePerHour">0</span> (Max: <span id="maxClonePerHour">0</span>)
+        </div>
+    </div>
+
+</div>
+
+{{AppCloneJs}}

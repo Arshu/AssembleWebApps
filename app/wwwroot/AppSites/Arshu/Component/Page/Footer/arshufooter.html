@@ -46,17 +46,9 @@
         <div title="Last 10 Ajax [Client|Server] Time in millsec" style="cursor:pointer;" id="ajaxTime" onclick="clearAjaxTiming(); clear_resource_timings();"></div>
         <div title="Last 10 WS [Client|Server] Time in millsec" style="cursor:pointer;" id="wsTime" onclick="clearWSTiming(); clear_resource_timings();"></div>
 
-        <div style="margin-top: 5px; color: white">
-            {{@IsLoggedIn}}
-            &copy;2024
-            {{/IsLoggedIn}}
-            {{^IsLoggedIn}}
-            <a href="/Account/Login" style="display: inline-block; color: white; ">
-                &copy;2024
-            </a>
-            {{/IsLoggedIn}}
+        <div style="margin-top: 5px; color: white">            
             <a href="https://www.arshucs.com" style="display: inline-block; color: gray; text-decoration: none; ">
-                Arshu
+                &copy;2024 Arshu
             </a>
             <a href="/" style="display: inline-block; color: gray">
                 <span class="isANDROIDShow isIOSHide isWINHide isWEBHide">Android</span>
@@ -69,18 +61,22 @@
     </div>
 </div>
 
-<div id="serverInfoDiv" title="Server Info" style="{{^ShowServerInfo}}display:none;{{/ShowServerInfo}}position:fixed; border:solid 1px rgba(0,0,0,0.05); min-width:40px;min-height:40px;bottom:0px;right:0px;z-index:99999;"     
-     onmouseover="setElmHilightStyle('serverInfoDiv', true, '1px solid lightgray')" 
-     onmouseout="setElmHilightStyle('serverInfoDiv', true, 'transparent')"
-     onclick="showServerInfo();">
+<div id="serverInfoDiv" title="Server Info" style="{{^ShowServerInfo}}display:none;{{/ShowServerInfo}}position:fixed; border:solid 1px rgba(0,0,0,0.05); min-width:40px;min-height:40px;bottom:0px;right:0px;z-index:99999;"
+    onmouseover="setElmHilightStyle('serverInfoDiv', true, '1px solid lightgray')"
+    onmouseout="setElmHilightStyle('serverInfoDiv', true, 'transparent')"
+    onclick="showServerInfo()">
+
     <div id="serverInfoProgress"></div>
 
     <div id="serverFooterInfo" style="font-family: Courier New, Courier, monospace; font-size: 8px; z-index: 99999; display: none;  color: white; background-color: black; position: fixed; padding-bottom: 5px; min-height: 40px; right: 0px; bottom: 0px; text-align: left;"
          onmouseover="setElmHilightStyle('serverInfoDiv', true, 'transparent')">
         <div style="position:relative;">
-            <input type="checkbox" id="enableRefreshServerInfo" {{@DefaultRefreshServerInfo}} checked="checked" {{/DefaultRefreshServerInfo}} style="{{^ShowRefreshServerInfo}}display:none;{{/ShowRefreshServerInfo}}; position:absolute;left:0px; top:0px;" title="Auto Refresh Server Info Every {{$RefreshServerInfoInterval}} Seconds" onchange="autoRefreshServerInfo();" />
-            <div style="{{@ShowRefreshServerInfo}}padding-left:17px;{{/ShowRefreshServerInfo}}{{^ShowRefreshServerInfo}}padding-left:5px;{{/ShowRefreshServerInfo}}margin:auto;padding-top: 3px; " onclick="if (document.getElementById('serverFooterInfo').style.display === 'block')
-                { event.stopPropagation(); document.getElementById('serverFooterInfo').style.display = 'none'; localStorage.setItem('SHOW_SERVER_INFO', false); }">
+            <input type="checkbox" id="serverStatus" stryle="position:absolute;left:0px; top:0px;" title="Server Status (Checked is Stopped)" disabled="disabled" />
+            <input type="checkbox" id="enableRefreshServerInfo" {{@DefaultRefreshServerInfo}} checked="checked" {{/DefaultRefreshServerInfo}} style="{{^ShowRefreshServerInfo}}display:none;{{/ShowRefreshServerInfo}}; position:absolute;left:12px; top:0px;" title="Auto Refresh Server Info Every {{$RefreshServerInfoInterval}} Seconds" onchange="autoRefreshServerInfo();" />
+            <div style="{{@ShowRefreshServerInfo}}margin-left:29px;{{/ShowRefreshServerInfo}}{{^ShowRefreshServerInfo}}margin-left:17px;{{/ShowRefreshServerInfo}} position:absolute;top:3px;padding-top: 3px; " 
+                onclick="if (document.getElementById('serverFooterInfo').style.display === 'block') {
+                    event.stopPropagation(); document.getElementById('serverFooterInfo').style.display = 'none'; localStorage.setItem('SHOW_SERVER_INFO', false);
+                }">
                 Server Info
             </div>
             <div id="serverInfo" style="padding-left: 5px; padding-top:5px;"></div>
@@ -89,18 +85,19 @@
 
 </div>
 
-{{@EnableFrameworkView}}
+{{@EnableFrameworkToolbar}}
     {{@IsLoggedIn}}
         {{ArshuEditComponents("RootComponentID":"Index")}}
     {{/IsLoggedIn}}
     {{^IsLoggedIn}}
         {{ArshuViewComponents("RootComponentID":"Index")}}
     {{/IsLoggedIn}}
-{{/EnableFrameworkView}}
+{{/EnableFrameworkToolbar}}
 
 {{@EnableFrameworkView}}
     <link rel="stylesheet" href="/Resource/Arshu/highlight/highlight.min.css" defer>
     <script src="/Resource/Arshu/highlight/highlight.pack.min.js" defer></script>
+    <script src="/Resource/Arshu/stackedit/stackedit.min.js" defer></script>
 {{/EnableFrameworkView}}
 
 {{@EnableMetricsView}}
@@ -128,7 +125,10 @@
 
     function showServerInfo() {
 
-        if ((isElmDisplayNone('serverInfoDiv') == false) && (isElmDisplayNone('serverFooterInfo') == true)) {
+        let serverInfoHidden = isElmDisplayNone('serverInfoDiv');
+        let serverFooterInfoHidden = isElmDisplayNone('serverFooterInfo');
+
+        if ((serverInfoHidden == false) && (serverFooterInfoHidden == true)) {
             refreshServerInfo('serverInfoProgress', 'noresponse', 'serverInfo', 'serverFooterInfo', function () {
                 document.getElementById('serverFooterInfo').style.display = 'block';
                 localStorage.setItem('SHOW_SERVER_INFO', true);
@@ -194,6 +194,9 @@
         if (haveElm('currentServerStateId')) {
             getElm('currentServerStateId').textContent = "[" + uncheck + "]";
         }
+        if (haveElm('serverStatus')) {
+            getElm('serverStatus').setAttribute("checked", "true");
+        }
     };
 
     function serverStarted() {
@@ -202,6 +205,9 @@
         }
         if (haveElm('currentServerStateId')) {
             getElm('currentServerStateId').textContent = "[" + check + "]";
+        }
+        if (haveElm('serverStatus')) {
+            getElm('serverStatus').removeAttribute("checked");
         }
     }
 
@@ -228,10 +234,11 @@
 
                 if (result.hasOwnProperty('html') === true) {
                     if (haveElm(serverInfoElmId) == true) {
-                        getElm(serverInfoElmId).innerHTML = result.html;
-
-                        if (typeof successCallback === "function") {
-                            successCallback(result.data);
+                        if (result.html.length > 0) {
+                            getElm(serverInfoElmId).innerHTML = result.html;
+                            if (typeof successCallback === "function") {
+                                successCallback(result.data);
+                            }
                         }
                     }
                 }

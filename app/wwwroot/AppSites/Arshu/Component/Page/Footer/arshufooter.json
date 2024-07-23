@@ -1,5 +1,6 @@
 {
   "EnableRealtime$": true,
+  "EnableFrameworkToolbar$": true,
   "EnableFrameworkView$": true,
   "EnableMetricsView$": true,
   "ShowRecordMetrics$": true,

@@ -1,0 +1,7 @@
+{
+   "AllowedRoles": "Guest",
+   "JsonFolder": "AppSites\/Editor\/Json",
+   "JsonKey": "",
+   "JsonSource": "AppSites\/Editor\/Json\/00_test_text",
+   "ViewMode": "Updatable"
+}

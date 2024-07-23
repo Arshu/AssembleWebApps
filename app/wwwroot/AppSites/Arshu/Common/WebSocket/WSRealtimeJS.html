@@ -8,11 +8,13 @@
     const keepAliveInterval = 1000 * parseInt('{{$KeepAliveInterval}}'); // 15 Seconds
     const serverTimeout = 1000 * parseInt('{{$ServerTimeout}}'); // 60 Seconds
 
-    let websocketPtotocol = "ws:";
-    if (location.protocol === 'https:') { 
-        websocketPtotocol = "wss:";
+    let websocketProtocol = "ws://";
+    if (window.location.protocol === 'https:') { 
+        websocketProtocol = "wss://";
     }
-    let websocketUrl = websocketPtotocol + url.hostname + ":" + url.port + "/{{$ApiHub}}";
+    let websocketHost = url.hostname;
+    if ((url.port != 80) && (url.port != 443)) { websocketHost = websocketHost + ":" + url.port; }
+    let websocketUrl = websocketProtocol + websocketHost + "/{{$ApiHub}}";
         
     const urlParams = url.searchParams;
     const region = urlParams.get('region');

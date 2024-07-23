@@ -1,0 +1,13 @@
+<div class="ar-flex-input-wrap" style="margin: 5px 0px;width:100%;">
+    <label for="{{$EditorItemKey}}" style="width:100%;">{{$EditorItemName}}</label>
+    <select class="ar-select ar-flex-item-stretch ar-border"
+            id="{{$EditorItemKey}}"
+            data-key="{{$EditorItemKey}}"
+            data-value="{{$EditorItemValue}}">
+            {{@EditorItemList}}
+            <option value="{{$EditorListItemValue}}" {{@EditorListItemMatchName}} selected {{/EditorListItemMatchName}}>
+                {{$EditorListItemText}}
+            </option>
+            {{/EditorItemList}}
+    </select>
+</div>

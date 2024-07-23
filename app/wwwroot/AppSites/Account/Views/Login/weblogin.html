@@ -279,8 +279,8 @@
             <div class="ar-border-left" style="width: 25px; height: 40px; background-color: gray;" onclick="let elm = getElm('loginId'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="height:39px;" id="loginId" autocomplete="off" type="email" placeholder="Your User Id" autofocus="" tabindex="1">
-            <button class="ar-border-right ar-button" disabled="disabled" style="width:25px;height:40px;background-color:gray;" id="linkLoginBtn" onclick="toggleElm('linkLoginBtnDiv'); ">
+            <input class="ar-input ar-flex-item-stretch ar-border-top-bottom" id="loginId" autocomplete="off" type="email" placeholder="Your User Id" autofocus="" tabindex="1">
+            <button class="ar-border-right ar-button" disabled="disabled" style="width:25px;background-color:gray;" id="linkLoginBtn" onclick="toggleElm('linkLoginBtnDiv'); ">
                 &nbsp;
             </button>
         </div>
@@ -294,10 +294,10 @@
 
             <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
                 <label style="width:100%;">Link Code</label>
-                <div class="ar-border-left" style="width:25px;height:40px;background-color:gray;" onclick="let elm = getElm('linkCode'); elm.value = ''; elm.focus();">
+                <div class="ar-border-left" style="width:25px;background-color:gray;" onclick="let elm = getElm('linkCode'); elm.value = ''; elm.focus();">
                     <div>&nbsp;</div>
                 </div>
-                <input class="ar-input ar-flex-item-stretch ar-border-right" style="height:39px;" id="linkCode" autocomplete="off" type="password" placeholder="Your Link Code">
+                <input class="ar-input ar-flex-item-stretch ar-border-right" id="linkCode" autocomplete="off" type="password" placeholder="Your Link Code">
             </div>
 
             <div style="text-align:center;">
@@ -309,10 +309,10 @@
 
         <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <label style="width:100%;">Password</label>
-            <div class="ar-border-left" style="width:25px;height:40px;background-color:gray;" onclick="let elm = getElm('loginPwd'); elm.value = ''; elm.focus();">
+            <div class="ar-border-left" style="width:25px;background-color:gray;" onclick="let elm = getElm('loginPwd'); elm.value = ''; elm.focus();">
                 <div>&nbsp;</div>
             </div>
-            <input class="ar-input ar-flex-item-stretch ar-border-right" style="height:39px;" id="loginPwd" autocomplete="off" type="password" placeholder="Your Password" tabindex="2">
+            <input class="ar-input ar-flex-item-stretch ar-border-right" id="loginPwd" autocomplete="off" type="password" placeholder="Your Password" tabindex="2">
         </div>
 
         <div style="text-align:center;margin-top:10px;display:none;">

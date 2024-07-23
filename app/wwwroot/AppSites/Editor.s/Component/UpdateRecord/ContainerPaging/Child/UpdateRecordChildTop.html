@@ -1,0 +1,34 @@
+<div class="ar-flex-content-spaced" style="{{@ChildTopHidden}}display:none;{{/ChildTopHidden}}width:100%;" title="UpdateRecordChildTop">
+    {{@HavePreviousPage}}
+    <button class="border ar-flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" title="{{$PageNo}}, {{$PreviousPage}}, {{$KeyPath}}"
+            onclick="return refreshEditorJsonArray('{{$ViewID}}', '{{$ViewID}}{{$FilterKeyPath}}PreviousJsonChildEditorProgress',
+                'JsonObject', '{{$PageNo}}', '{{$PreviousPage}}', '{{$PageNoArrayItem}}', '{{$FilterKeyPath}}');">
+        < <span id="{{$ViewID}}{{$FilterKeyPath}}PreviousJsonChildEditorProgress"></span>
+    </button>
+    {{/HavePreviousPage}}
+    {{^HavePreviousPage}}
+    <button class="border ar-flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" disabled><</button>
+    <span id="{{$ViewID}}{{$FilterKeyPath}}PreviousJsonChildEditorProgress"></span>
+    {{/HavePreviousPage}}
+
+
+    <div class="ar-flex-item-stretch">
+        {{$Title}}
+    </div>
+
+
+    {{@HaveNextPage}}
+    <button class="border ar-flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" title="{{$PageNo}}, {{$NextPage}}, {{$KeyPath}}"
+            onclick="return refreshEditorJsonArray('{{$ViewID}}', '{{$ViewID}}{{$FilterKeyPath}}NextJsonChildEditorProgress',
+                'JsonObject', '{{$PageNo}}', '{{$NextPage}}', '{{$PageNoArrayItem}}', '{{$FilterKeyPath}}')">
+        > <span id="{{$ViewID}}{{$FilterKeyPath}}NextJsonChildEditorProgress"></span>
+    </button>
+    {{/HaveNextPage}}
+    {{^HaveNextPage}}
+    <button class="border ar-flex-item" style="min-width:25px;height:30px;color:black;font-weight:bolder;" disabled>></button>
+    <span id="{{$ViewID}}{{$FilterKeyPath}}NextJsonChildEditorProgress"></span>
+    {{/HaveNextPage}}
+
+</div>
+
+<hr class="ar-flex-item-stretch" style="{{@ChildTopHidden}}display:none;{{/ChildTopHidden}}background-color:black;margin: -1px 4px" />

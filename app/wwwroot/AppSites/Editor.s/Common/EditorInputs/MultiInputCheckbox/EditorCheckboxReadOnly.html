@@ -1,0 +1,17 @@
+<div class="ar-flex-input-wrap" style="margin: 5px 0px;width:100%;">
+    <div class="ar-border" style="width:100%;">
+        <h5 style="margin-top:8px;display:inline-block;">{{$EditorItemName}}</h5>
+        {{@EditorItemList}}
+        <label for="{{$EditorListItemText}}" style="padding:10px 0px 0 5px;">
+            <input id="{{$EditorListItemText}}"
+                   name="{{$EditorItemName}}"
+                   data-key="{{$EditorItemKey}}"
+                   data-value="{{$EditorListItemMatchValue}}"
+                   value="{{$EditorItemValue}}"
+                   {{@EditorListItemMatchName}} checked="checked" {{/EditorListItemMatchName}}
+                   type="checkbox" disabled="disabled">
+            {{$EditorListItemText}}
+        </label>
+        {{/EditorItemList}}
+    </div>
+</div>

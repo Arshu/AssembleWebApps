@@ -1,0 +1,17 @@
+<div class="ar-flex-content-spaced" style="{{@ChildBottomHidden}}display:none;{{/ChildBottomHidden}}width:100%;" title="EditorChildBottom">
+    <select class="ar-border" style="width:60px;height:30px;margin: 0px;padding:0px 5px;" id="{{$ViewID}}{{$FilterKeyPath}}jsonChildEditorItemsPerPage" 
+            onchange="return refreshEditorJsonArray('{{$ViewID}}', '{{$ViewID}}{{$FilterKeyPath}}ItemsPerPageJsonChildEditorProgress',
+            'JsonObjectJsonArray', '{{$PageNo}}', '{{$PageNoArray}}', '{{$PageNoArrayItem}}', '{{$FilterKeyPath}}')">
+        <option value="1" {{@ItemsPerPage1}} selected="selected" {{/ItemsPerPage1}}>1</option>
+        <option value="2" {{@ItemsPerPage2}} selected="selected" {{/ItemsPerPage2}}>2</option>
+        <option value="5" {{@ItemsPerPage5}} selected="selected" {{/ItemsPerPage5}}>5</option>
+        <option value="10" {{@ItemsPerPage10}} selected="selected" {{/ItemsPerPage10}}>10</option>
+        <option value="25" {{@ItemsPerPage25}} selected="selected" {{/ItemsPerPage25}}>25</option>
+        <option value="100" {{@ItemsPerPage100}} selected="selected" {{/ItemsPerPage100}}>100</option>
+    </select>
+    <div style="padding:12px 0px 0px 0px;font-size:small;display:none;">
+        &nbsp; &nbsp;Items Per Page,  <div id="{{$ViewID}}{{$FilterKeyPath}}ItemsPerPageJsonChildEditorProgress"></div>
+    </div>
+    <div class="ar-flex-item-stretch"></div>
+    <p style="padding:12px 0px 0px 5px;font-size:small;">Page {{$PageNo}} / {{$MaxNoOfPages}} of {{$RecordCount}} Items</p>
+</div>

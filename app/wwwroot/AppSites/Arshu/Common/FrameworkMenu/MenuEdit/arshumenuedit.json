@@ -1,5 +1,12 @@
 {
+  "ShowDebug$": false,
+  "DefaultDebug$": false,
+  "EnableFrameworkView$": true,
   "InspectBarBackgroundStyle$": "background-color:transparent",
   "NavBarBackgroundStyle$": "background-color:#209dee",
-  "SignInLink$": "/Account/Login"
+  "AutoHideInspectMenu": true,
+  "SignInLink$": "/Account/Login",
+  "HaveAppSiteEditor$": false,
+  "HaveAppSiteManage$": false,
+  "HaveAppSiteTest$": false
 }

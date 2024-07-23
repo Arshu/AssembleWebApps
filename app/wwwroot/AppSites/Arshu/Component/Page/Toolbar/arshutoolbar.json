@@ -1,4 +1,5 @@
 {
-  "EnableFrameworkView$": false,
+  "EnableFrameworkToolbar$": true,
+  "EnableFrameworkView$": true,
   "IsLoggedIn$": false
 }

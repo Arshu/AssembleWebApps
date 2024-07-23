@@ -1,0 +1,34 @@
+{
+  "JsonFolder$": "",
+  "JsonSource$": "",
+  "JsonKey$": "",
+
+  "AllowUpdateable$": true,
+  "AllowEditable$": false,
+  "AllowModifiable": false,
+
+  "DefaultItemsPerPage$": 2,
+  "DefaultItemsPerPageArray$": 2,
+  "DefaultItemsPerPageArrayItem$": 2,
+
+  "ItemsPerPage$": 2,
+  "ItemsPerPageArray$": 2,
+  "ItemsPerPageArrayItem$": 2,
+
+  "HtmlContainer": "UpdateRecordContainer",
+  "HtmlEmpty": "UpdateRecordEmpty",
+  "HtmlTop": "UpdateRecordTop",
+  "HtmlBottom": "UpdateRecordBottom",
+
+  "HtmlContainerChild": "UpdateRecordChildContainer",
+  "HtmlTopChild": "UpdateRecordChildTop",
+  "HtmlBottomChild": "UpdateRecordChildBottom",
+
+  "HtmlContainerArray": "UpdateRecordArrayContainer",
+  "HtmlTopArray": "UpdateRecordArrayTop",
+  "HtmlBottomArray": "UpdateRecordArrayBottom",
+
+  "HtmlContainerArrayItem": "UpdateRecordArrayItemContainer",
+  "HtmlTopArrayItem": "UpdateRecordArrayItemTop",
+  "HtmlBottomArrayItem": "UpdateRecordArrayItemBottom"
+}

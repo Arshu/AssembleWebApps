@@ -3,18 +3,29 @@
 //Arshu Web Components
 /******************************************************************************************************************/
 
-//class ArshuView extends HTMLElement {
-//    constructor() {
-//        super()
-//        //const category = this.getAttribute("category")
-//        //const message = this.getAttribute("message")
-//        //this.innerHTML = `
-//        //<div>You've got an interesting message, from ${category} category:</div>
-//        //<div>${message}</div>`
-//    }
-//}
+class ArshuView extends HTMLElement {
+    constructor() {
+        super();
+    }
 
-//customElements.define('arshu-view', ArshuView);
+    //connectedCallback() {
+    //    console.log("Custom element added to page.");
+    //}
+
+    //disconnectedCallback() {
+    //    console.log("Custom element removed from page.");
+    //}
+
+    //adoptedCallback() {
+    //    console.log("Custom element moved to new page.");
+    //}
+
+    //attributeChangedCallback(name, oldValue, newValue) {
+    //    console.log(`Attribute ${name} has changed.`);
+    //}
+}
+
+customElements.define('ar-component', ArshuView);
 
 ////https://www.maxiferreira.com/blog/astro-page-transitions/
 //navigation.addEventListener('navigate', (navigateEvent) => {
@@ -55,9 +66,17 @@
 //    document.getElementById('content').innerHTML = html
 //}
 
+
 /******************************************************************************************************************/
 //Arshu Framework Base Utilities
 /******************************************************************************************************************/
+
+//let byteArray = new TextEncoder().encode('{"name":"John","age":30}');
+//console.log(byteArrayToJson(byteArray)); // {name: "John", age: 30}
+function byteArrayToJson(byteArray) {
+    let jsonString = Array.from(byteArray).map(byte => String.fromCharCode(byte)).join('');
+    return JSON.parse(jsonString);
+}
 
 function setApiMetrics(result) {
 
@@ -120,6 +139,10 @@ function setApiMetrics(result) {
     var debugInfo = ""
     if (result.hasOwnProperty('DebugInfo') === true) {
         window.debugInfo = JSON.stringify(result.DebugInfo)
+    }
+
+    if (typeof serverStarted === "function") {
+        serverStarted();
     }
 }
 
@@ -213,7 +236,7 @@ function getFlatJson(scopeElmId, scopePrefixList, skipEmptyValue) {
 
     let dataJson;
     let scopeElm = getElm(scopeElmId);
-    if ((scopeElm) && (scopePrefixList)) {
+    if (scopeElm) {
         dataJson = new Object();
 
         const dataElmArray = Array.prototype.slice.apply(
@@ -231,7 +254,7 @@ function getFlatJson(scopeElmId, scopePrefixList, skipEmptyValue) {
             let skipElm = false;
             let dataKey = "";
 
-            if (scopePrefixList.length > 0) {
+            if ((scopePrefixList) && (scopePrefixList.length > 0)) {
                 let scopePrefixArray = scopePrefixList.split(',');
                 for (let i = 0; i < scopePrefixArray.length; i++) {
                     let scopeId = scopePrefixArray[i].toUpperCase();
@@ -251,6 +274,9 @@ function getFlatJson(scopeElmId, scopePrefixList, skipEmptyValue) {
                         }
                     }
                 }
+            } else {
+                let dataKeyArray = dataKeys.split(',');
+                dataKey = dataKeyArray[0];
             }
 
             if (dataElm.nodeName.toUpperCase() == "INPUT") {
@@ -492,34 +518,82 @@ function refreshHtmlJson(jsonTagList, appSite, appView) {
         }
         for (let key in jsonTag) {
             if (jsonTag.hasOwnProperty(key)) {
-                //if ((key != "RootDomain") && (key != "AppDomain")) {
-                if (haveElm(key) == true) {
-                    let tagNode = getElm(key);
+                if (haveElm(key, null, true) == true) {
+                    let tagNode = getElm(key, null, true);
                     if (tagNode) {
-                        if (key.toLocaleLowerCase().indexOf('main') == -1) {
-                            //Append the New Html Element
-                            tagNode.insertAdjacentHTML('beforeBegin', jsonTag[key]);
-                            var new_elem = tagNode.previousSibling;
-                            tagNode.parentElement.removeChild(tagNode);
-                            if ((new_elem.innerHTML) && (new_elem.innerHTML.trim().length > 0)) {
-                                executeScriptElements(new_elem);
-                                if (typeof bindArshuAction === "function") {
-                                    bindArshuAction(new_elem);
+                        if (jsonTag[key].length > 0) {
+                            if (key.toLocaleLowerCase().indexOf('main') == -1) {
+
+                                if (!document.createDocumentTransition) {
+
+                                    //Append the New Html Element
+                                    tagNode.insertAdjacentHTML('beforeBegin', jsonTag[key]);
+                                    var new_elem = tagNode.previousSibling;
+                                    tagNode.parentElement.removeChild(tagNode);
+
+                                    if ((new_elem.innerHTML) && (new_elem.innerHTML.trim().length > 0)) {
+                                        executeScriptElements(new_elem);
+                                        if (typeof bindArshuAction === "function") {
+                                            bindArshuAction(new_elem);
+                                        }
+                                    }
+                                    //console.log("Update Dom without Transition")
                                 }
-                            }
-                        } else {
-                            //Append the New Html Element
-                            tagNode.innerHTML = jsonTag[key];
-                            if ((tagNode.innerHTML) && (tagNode.innerHTML.trim().length > 0)) {
-                                executeScriptElements(tagNode);
-                                if (typeof bindArshuAction === "function") {
-                                    bindArshuAction(tagNode);
+                                else
+                                {
+                                    const transition = document.createDocumentTransition()
+                                    transition.start(() => {
+
+                                        //Append the New Html Element
+                                        tagNode.insertAdjacentHTML('beforeBegin', jsonTag[key]);
+                                        var new_elem = tagNode.previousSibling;
+                                        tagNode.parentElement.removeChild(tagNode);
+
+                                        if ((new_elem.innerHTML) && (new_elem.innerHTML.trim().length > 0)) {
+                                            executeScriptElements(new_elem);
+                                            if (typeof bindArshuAction === "function") {
+                                                bindArshuAction(new_elem);
+                                            }
+                                        }
+                                        //console.log("Update Dom with Transition")
+                                    });
+                                }
+
+                            } else {
+
+                                if (!document.createDocumentTransition) {
+                                    //Append the New Html Element
+                                    tagNode.innerHTML = jsonTag[key];
+
+                                    if ((tagNode.innerHTML) && (tagNode.innerHTML.trim().length > 0)) {
+                                        executeScriptElements(tagNode);
+
+                                        if (typeof bindArshuAction === "function") {
+                                            bindArshuAction(tagNode);
+                                        }
+                                    }
+                                    //console.log("Update Dom without Transition")
+                                }
+                                else {
+                                    const transition = document.createDocumentTransition()
+                                    transition.start(() => {
+                                        //Append the New Html Element
+                                        tagNode.innerHTML = jsonTag[key];
+
+                                        if ((tagNode.innerHTML) && (tagNode.innerHTML.trim().length > 0)) {
+                                            executeScriptElements(tagNode);
+
+                                            if (typeof bindArshuAction === "function") {
+                                                bindArshuAction(tagNode);
+                                            }
+                                        }
+                                        //console.log("Update Dom with Transition")
+                                    });
                                 }
                             }
                         }
                     }
                 }
-                //}
             }
         }
     }
@@ -528,7 +602,38 @@ function refreshHtmlJson(jsonTagList, appSite, appView) {
         if (typeof initNavBar === "function") {
             initNavBar();
         }
+    }
+}
 
+function highlightHtmlJson(jsonTagList, appSite, appView) {
+
+    for (let i = 0; i < jsonTagList.length; i++) {
+        let jsonTag = jsonTagList[i];
+        for (let key in jsonTag) {
+            if (jsonTag.hasOwnProperty(key)) {
+                if (haveElm(key) == true) {
+                    let tagNode = getElm(key);
+                    if (tagNode) {
+                        if (haveElm('debugMode') == true) {
+                            let debugModeElm = getElm('debugMode');
+                            if (debugModeElm.checked == true) {
+                                tagNode.classList.add('ar_highlight');
+                                let clearTimeout = 500;
+                                if (debugModeElm.hasAttribute('clearTimeout') == true) {
+                                    let clearTimeoutAttributeVal = debugModeElm.getAttribute('clearTimeout');
+                                    if (clearTimeoutAttributeVal) {
+                                        clearTimeout = parseInt(clearTimeoutAttributeVal);
+                                    }
+                                }
+                                setTimeout(function () {
+                                    tagNode.classList.remove('ar_highlight');
+                                }, clearTimeout);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -554,6 +659,14 @@ function clearResponse(responseElmId) {
 function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, componentAppSite, componentAppView, componentName, actionComponentName) {
     let responseElm = clearResponse(responseElmId);
     let apiMessage = "";
+
+    if (haveElm('serverStatus')) {
+        if (getElm('serverStatus').checked == true) {
+            doget('noprogress', 'noresponse', "/EchoInfo", function () {
+                console.log("Called '/EchoInfo' to start the Server");               
+            });
+        }
+    }
 
     if (!isRealtime) isRealtime = false;
     if ((isRealtime === false) || (typeof callWSApi !== "function")) {
@@ -624,8 +737,7 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
 
             let delayInterval = 0;
             if ((isRealtime === true) && (globalWebSocketActive == false)) {
-                //dogetHtml?
-                doget(progressElmId, responseElmId, "/EchoInfo", function () {
+                doget('noprogress', 'noresponse', "/EchoInfo", function () {
                     console.log("Called '/EchoInfo' to start the Server");
                     if (typeof restartWebSocketConnection === "function") {
                         restartWebSocketConnection();
@@ -761,18 +873,14 @@ function refreshViewHtml(progressElmId, responseElmId, appSite, appView, compone
                     if (typeof successCallback === "function") {
                         successCallback(result.json);
                     }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback](result.json);
-                    }
-
+                    
+                    highlightHtmlJson(jsonTagList, appSite, appView);
                     clickRefresh = false;
+
                 } else {
                     if (typeof successCallback === "function") {
                         successCallback(result.message);
-                    }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback](result.message);
-                    }
+                    }                    
                 }
             }
         }
@@ -835,34 +943,13 @@ function refreshComponentHtml(progressElmId, responseElmId, appSite, appView, co
                     if (typeof successCallback === "function") {
                         successCallback(result.json);
                     }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback](result.json);
-                    }
-
-                    //if (getType(configJson) == "Object") {
-                    //    if (isRealtime == true) {
-                    //        configJson["DefaultRealtime"] = isRealtime;
-                    //        configJson["DefaultRealtimeDomain"] = realtimeDomain;
-                    //    }
-                    //}
-
-                    //const apiUrl = new URL(window.location);
-                    //const state = {
-                    //    'componentName': componentName,
-                    //    'configJson': configJson,
-                    //    'isRealtime': isRealtime,
-                    //    'realtimeDomain': realtimeDomain
-                    //}
-                    //window.history.pushState(state, '', apiUrl);
-                    //clickRefresh = false;
+                    
+                    highlightHtmlJson(jsonTagList, appSite, appView);
                 }
                 else {
                     if (typeof successCallback === "function") {
                         successCallback(result.message);
-                    }
-                    else if (window.hasOwnProperty(successCallback) == true) {
-                        window[successCallback](result.message);
-                    }
+                    }                    
                 }
             }
         }
@@ -895,10 +982,7 @@ function loadComponentHtml(progressElmId, responseElmId, appSite, appView, compo
                     function (result) {
                         if (typeof successCallback === "function") {
                             successCallback(result);
-                        }
-                        else if (window.hasOwnProperty(successCallback) == true) {
-                            window[successCallback](result);
-                        }
+                        }                        
                     }, clientRequestTimestamp);
             } else {
                 window.setTimeout(() => {
@@ -906,10 +990,7 @@ function loadComponentHtml(progressElmId, responseElmId, appSite, appView, compo
                         function (result) {
                             if (typeof successCallback === "function") {
                                 successCallback(result);
-                            }
-                            else if (window.hasOwnProperty(successCallback) == true) {
-                                window[successCallback](result);
-                            }
+                            }                            
                         }, clientRequestTimestamp);
                 }, delayInterval);
             }
@@ -919,32 +1000,18 @@ function loadComponentHtml(progressElmId, responseElmId, appSite, appView, compo
     }
 }
 
-function filterComponentHtml(progressElmId, responseElmId, appSite, appView, getFilterJson, componentName, configJson, isRealtime, realtimeDomain, successCallback) {
-
-    let filterConfigJson = getJsonValue(configJson, {});
-    let flatJsonData = getJsonValue(getFilterJson, {});
-
-    let filterKeyJson = new Object();
-    for (let key in flatJsonData) {
-        filterKeyJson[key] = flatJsonData[key];
-    }
-    filterConfigJson["Filter"] = filterKeyJson;
-
-    return refreshComponentHtml(progressElmId, responseElmId, appSite, appView, componentName, filterConfigJson, isRealtime, realtimeDomain, successCallback)
-}
-
 /******************************************************************************************************************/
 //Arshu Framework Json Functions
 /******************************************************************************************************************/
 
-function saveJson(progressElmId, responseElmId, appSite, appView, actionComponentName, getKeyJson, getSaveJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
+function saveJson(el, progressElmId, responseElmId, appSite, appView, actionComponentName, getKeyJson, getSaveJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
     let valid = true;
 
-    let keyInfoJson = getJsonValue(getKeyJson);
-    let dataInfoJson = getJsonValue(getSaveJson);
+    let keyInfoJson = getJsonValue(el, getKeyJson);
+    let dataInfoJson = getJsonValue(el, getSaveJson);
 
     if (valid == true) {
         const keyInfoHasKeys = !!Object.keys(keyInfoJson).length;
@@ -1002,13 +1069,12 @@ function saveJson(progressElmId, responseElmId, appSite, appView, actionComponen
 
                     let jsonTagList = result.json;
                     refreshHtmlJson(jsonTagList, appSite, appView);
-                }
 
-                if (typeof successCallback === "function") {
-                    successCallback(result.message);
-                }
-                else if (window.hasOwnProperty(successCallback) == true) {
-                    window[successCallback](result.message);
+                    if (typeof successCallback === "function") {
+                        successCallback(result.message);
+                    }
+                    
+                    highlightHtmlJson(jsonTagList, appSite, appView);
                 }
             }
             else if (result.hasOwnProperty('error') === true) {
@@ -1021,16 +1087,16 @@ function saveJson(progressElmId, responseElmId, appSite, appView, actionComponen
     return false;
 }
 
-function addJsonToJsonArray(progressElmId, responseElmId, appSite, appView, actionComponentName, getKeyJson, getAddJson, getValidKeyJson, getDuplicateKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
+function addJsonToJsonArray(el, progressElmId, responseElmId, appSite, appView, actionComponentName, getKeyJson, getAddJson, getValidKeyJson, getDuplicateKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
     let valid = true;
 
-    let keyInfoJson = getJsonValue(getKeyJson);
-    let dataInfoJson = getJsonValue(getAddJson);
-    let validKeyJson = getJsonValue(getValidKeyJson);
-    let duplicateKeyJson = getJsonValue(getDuplicateKeyJson);
+    let keyInfoJson = getJsonValue(el, getKeyJson);
+    let dataInfoJson = getJsonValue(el, getAddJson);
+    let validKeyJson = getJsonValue(el, getValidKeyJson);
+    let duplicateKeyJson = getJsonValue(el, getDuplicateKeyJson);
 
     const hasKeys = !!Object.keys(keyInfoJson).length;
     if (hasKeys == false) {
@@ -1108,13 +1174,12 @@ function addJsonToJsonArray(progressElmId, responseElmId, appSite, appView, acti
 
                     let jsonTagList = result.json;
                     refreshHtmlJson(jsonTagList, appSite, appView);
-                }
 
-                if (typeof successCallback === "function") {
-                    successCallback(result.message);
-                }
-                else if (window.hasOwnProperty(successCallback) == true) {
-                    window[successCallback](result.message);
+                    if (typeof successCallback === "function") {
+                        successCallback(result.message);
+                    }
+                    
+                    highlightHtmlJson(jsonTagList, appSite, appView);
                 }
             }
             else if (result.hasOwnProperty('error') === true) {
@@ -1127,16 +1192,16 @@ function addJsonToJsonArray(progressElmId, responseElmId, appSite, appView, acti
     return false;
 }
 
-function editJsonInJsonArray(progressElmId, responseElmId, appSite, appView, actionComponentName, getKeyJson, getEditJson, getValidKeyJson, getDuplicateKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
+function editJsonInJsonArray(el, progressElmId, responseElmId, appSite, appView, actionComponentName, getKeyJson, getEditJson, getValidKeyJson, getDuplicateKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
     let valid = true;
 
-    let keyInfoJson = getJsonValue(getKeyJson);
-    let dataInfoJson = getJsonValue(getEditJson);
-    let validKeyJson = getJsonValue(getValidKeyJson);
-    let duplicateKeyJson = getJsonValue(getDuplicateKeyJson);
+    let keyInfoJson = getJsonValue(el, getKeyJson);
+    let dataInfoJson = getJsonValue(el, getEditJson);
+    let validKeyJson = getJsonValue(el, getValidKeyJson);
+    let duplicateKeyJson = getJsonValue(el, getDuplicateKeyJson);
 
 
     const hasKeys = !!Object.keys(keyInfoJson).length;
@@ -1217,13 +1282,12 @@ function editJsonInJsonArray(progressElmId, responseElmId, appSite, appView, act
 
                     let jsonTagList = result.json;
                     refreshHtmlJson(jsonTagList, appSite, appView);
-                }
 
-                if (typeof successCallback === "function") {
-                    successCallback(result.message);
-                }
-                else if (window.hasOwnProperty(successCallback) == true) {
-                    window[successCallback](result.message);
+                    if (typeof successCallback === "function") {
+                        successCallback(result.message);
+                    }
+                    
+                    highlightHtmlJson(jsonTagList, appSite, appView);
                 }
             }
             else if (result.hasOwnProperty('error') === true) {
@@ -1236,13 +1300,13 @@ function editJsonInJsonArray(progressElmId, responseElmId, appSite, appView, act
     return false;
 }
 
-function deleteJsonInJsonArray(progressElmId, responseElmId, appSite, appView, actionComponentName, getKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
+function deleteJsonInJsonArray(el, progressElmId, responseElmId, appSite, appView, actionComponentName, getKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
     let valid = true;
 
-    let keyInfoJson = getJsonValue(getKeyJson);
+    let keyInfoJson = getJsonValue(el, getKeyJson);
 
     const hasKeys = !!Object.keys(keyInfoJson).length;
     if (hasKeys == false) {
@@ -1289,13 +1353,12 @@ function deleteJsonInJsonArray(progressElmId, responseElmId, appSite, appView, a
 
                     let jsonTagList = result.json;
                     refreshHtmlJson(jsonTagList, appSite, appView);
-                }
 
-                if (typeof successCallback === "function") {
-                    successCallback(result.message);
-                }
-                else if (window.hasOwnProperty(successCallback) == true) {
-                    window[successCallback](result.message);
+                    if (typeof successCallback === "function") {
+                        successCallback(result.message);
+                    }
+                    
+                    highlightHtmlJson(jsonTagList, appSite, appView);
                 }
             }
             else if (result.hasOwnProperty('error') === true) {
@@ -1308,13 +1371,13 @@ function deleteJsonInJsonArray(progressElmId, responseElmId, appSite, appView, a
     return false;
 }
 
-function cloneJsonInJsonArray(progressElmId, responseElmId, appSite, appView, actionComponentName, getKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
+function cloneJsonInJsonArray(el, progressElmId, responseElmId, appSite, appView, actionComponentName, getKeyJson, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime());
     let responseElm = clearResponse(responseElmId)
 
     let valid = true;
 
-    let keyInfoJson = getJsonValue(getKeyJson);
+    let keyInfoJson = getJsonValue(el, getKeyJson);
 
     const hasKeys = !!Object.keys(keyInfoJson).length;
     if (hasKeys == false) {
@@ -1361,13 +1424,12 @@ function cloneJsonInJsonArray(progressElmId, responseElmId, appSite, appView, ac
 
                     let jsonTagList = result.json;
                     refreshHtmlJson(jsonTagList, appSite, appView);
-                }
 
-                if (typeof successCallback === "function") {
-                    successCallback(result.message);
-                }
-                else if (window.hasOwnProperty(successCallback) == true) {
-                    window[successCallback](result.message);
+                    if (typeof successCallback === "function") {
+                        successCallback(result.message);
+                    }
+                    
+                    highlightHtmlJson(jsonTagList, appSite, appView);
                 }
             }
             else if (result.hasOwnProperty('error') === true) {
@@ -1409,103 +1471,12 @@ function getType(object) {
     }
 }
 
-function getIntValue(getDataText, defaultText = 0) {
+function getAttributeValue(el, attrName) {
 
-    let dataInt = parseInt(defaultText);
-
-    let dataText = "";
-    if (getDataText != null) {
-        if (typeof window[getDataText] === "function") {
-            dataText = window[getDataText]();
-        } else {
-            dataText = getDataText;
-        }
-    }
-    if (dataText != "") {
-        dataInt = parseInt(dataText);
-    }
-
-    return dataInt;
-}
-
-function getTextValue(getDataText, defaultText = "") {
-
-    let dataText = defaultText;
-
-    if (getDataText != null) {
-        if (typeof window[getDataText] === "function") {
-            dataText = window[getDataText]();
-        } else {
-            dataText = getDataText;
-        }
-    }
-
-    return dataText;
-}
-
-function getBoolValue(getDataBool, defaultBool = false) {
-
-    let isBool = defaultBool;
-
-    if (typeof window[getDataBool] === "function") {
-        isBool = window[getDataBool]();
-    }
-    else {
-        isBool = getDataBool;
-    }
-    if ((isBool === true) || (isBool === "true")) {
-        isBool = true;
-    }
-    else if ((isBool === false) || (isBool === "false")) {
-        isBool = false;
-    }
-    if (!isBool) {
-        isBool = defaultBool;
-    }
-
-    return isBool;
-}
-
-function getProgress(el) {
-    let dataProgressElmId = getAttributeValue(el, 'data-progress');
-    let dataProgress = getTextValue(dataProgressElmId, 'noprogress');
-    return dataProgress;
-}
-
-function getResponse(el) {
-    let dataResponseElmId = getAttributeValue(el, 'data-response');
-    let dataResponse = getTextValue(dataResponseElmId, 'noresponse');
-    return dataResponse;
-}
-
-function getAppSite(el) {
-
-    let currentAppSite = '';
-    if (haveElm('dynamicAppSite')) {
-        currentAppSite = getElm('dynamicAppSite').value;
-    }
-
-    let dataAppSite = getTextValue(getAttributeValue(el, 'data-appsite'), currentAppSite);
-    return dataAppSite;
-}
-
-function getAppView(el) {
-
-    let currentAppView = '';
-    if (haveElm('dynamicAppView')) {
-        currentAppView = getElm('dynamicAppView').value;
-    }
-
-    let dataAppView = getTextValue(getAttributeValue(el, 'data-appview'), currentAppView);
-    return dataAppView;
-}
-
-function getAttributeValue(elm, attrName) {
-
-    let elmAttrVal = elm.getAttribute(attrName);
+    let elmAttrVal = el.getAttribute(attrName);
 
     if (!elmAttrVal) {
-        let parentElm = elm.parentElement;
+        let parentElm = el.parentElement;
         if (parentElm != null) {
             elmAttrVal = parentElm.getAttribute(attrName);
             if (!elmAttrVal) {
@@ -1526,14 +1497,122 @@ function getAttributeValue(elm, attrName) {
     return elmAttrVal
 }
 
-function getJsonValue(getDataJson) {
+function getProgress(el) {
+    let dataProgressElmId = getAttributeValue(el, 'data-progress');
+    let dataProgress = getTextValue(el, dataProgressElmId, 'noprogress');
+    return dataProgress;
+}
+
+function getResponse(el) {
+    let dataResponseElmId = getAttributeValue(el, 'data-response');
+    let dataResponse = getTextValue(el, dataResponseElmId, 'noresponse');
+    return dataResponse;
+}
+
+function getAppSite(el) {
+
+    let currentAppSite = '';
+    if (haveElm('dynamicAppSite')) {
+        currentAppSite = getElm('dynamicAppSite').value;
+    }
+
+    let dataAppSite = getTextValue(el, getAttributeValue(el, 'data-appsite'), currentAppSite);
+    return dataAppSite;
+}
+
+function getAppView(el) {
+
+    let currentAppView = '';
+    if (haveElm('dynamicAppView')) {
+        currentAppView = getElm('dynamicAppView').value;
+    }
+
+    let dataAppView = getTextValue(el, getAttributeValue(el, 'data-appview'), currentAppView);
+    return dataAppView;
+}
+
+function getIntValue(el, getDataText, defaultText = 0) {
+
+    let dataInt = parseInt(defaultText);
+
+    let dataText = "";
+    if (getDataText != null) {
+        if (typeof window[getDataText] === "function") {
+            if (window[getDataText].length == 1) {
+                dataText = window[getDataText](el);
+            } else {
+                dataText = window[getDataText]();
+            }
+        } else {
+            dataText = getDataText;
+        }
+    }
+    if (dataText != "") {
+        dataInt = parseInt(dataText);
+    }
+
+    return dataInt;
+}
+
+function getTextValue(el, getDataText, defaultText = "") {
+
+    let dataText = defaultText;
+
+    if (getDataText != null) {
+        if (typeof window[getDataText] === "function") {
+            if (window[getDataText].length == 1) {
+                dataText = window[getDataText](el);
+            } else {
+                dataText = window[getDataText]();
+            }
+        } else {
+            dataText = getDataText;
+        }
+    }
+
+    return dataText;
+}
+
+function getBoolValue(el, getDataBool, defaultBool = false) {
+
+    let isBool = defaultBool;
+
+    if (typeof window[getDataBool] === "function") {
+        if (window[getDataBool].length == 1) {
+            isBool = window[getDataBool](el);
+        } else {
+            isBool = window[getDataBool]();
+        }
+    }
+    else {
+        isBool = getDataBool;
+    }
+    if ((isBool === true) || (isBool === "true")) {
+        isBool = true;
+    }
+    else if ((isBool === false) || (isBool === "false")) {
+        isBool = false;
+    }
+    if (!isBool) {
+        isBool = defaultBool;
+    }
+
+    return isBool;
+}
+
+function getJsonValue(el, getDataJson, defaultJson = {}) {
 
     let retJsonData = {};
     let jsonData = {};
+    let getJsonData = defaultJson;
 
     if (getDataJson != null) {
         if (typeof window[getDataJson] === "function") {
-            let getJsonData = window[getDataJson]();
+            if (window[getDataJson].length == 1) {
+                getJsonData = window[getDataJson](el);
+            } else {
+                getJsonData = window[getDataJson]();
+            }
             const hasKeys = !!Object.keys(getJsonData).length;
             if (hasKeys == true) {
                 jsonData = getJsonData;
@@ -1625,12 +1704,12 @@ function bindShowComponentSourceViewer(event) {
     let dataAppSite = getAppSite(el);
     let dataAppView = getAppView(el);
 
-    let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
-    let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
-    let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
-    let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
+    let dataComponent = getTextValue(el, getAttributeValue(el, 'data-component'), "");
+    let dataConfigJson = getJsonValue(el, getAttributeValue(el, 'data-config'));
+    let isRealtime = getBoolValue(el, getAttributeValue(el, 'data-isrealtime'), false);
+    let realtimeDomain = getTextValue(el, getAttributeValue(el, 'data-realtimedomain'), "");
 
-    let dataDelay = getIntValue(getAttributeValue(el, 'data-delay'), 25);
+    let dataDelay = getIntValue(el, getAttributeValue(el, 'data-delay'), 25);
     let dataPreCall = getAttributeValue(el, 'data-precall');
     let dataCallback = getAttributeValue(el, 'data-callback');
 
@@ -1639,11 +1718,11 @@ function bindShowComponentSourceViewer(event) {
         dataConfigJson["DefaultRealtimeDomain"] = realtimeDomain;
     }
 
-    if ((dataComponent != "") && (dataComponent != "")) {
+    if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
 
         if ((dataPreCall) || (dataPreCall != "")) {
             if (typeof dataPreCall === "function") {
-                successCallback();
+                dataPreCall();
             }
             else if (window.hasOwnProperty(dataPreCall) == true) {
                 window[dataPreCall]();
@@ -1652,6 +1731,10 @@ function bindShowComponentSourceViewer(event) {
 
         window["showComponentSourceViewer"](dataProgress, dataAppSite, dataAppView, dataComponent, true, dataCallback);
     }
+    else {
+        console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] or Data Component [" + dataComponent + "] is Empty for Method ShowComponentSourceViewer");
+    }
+
 }
 
 function bindShowComponentSourceEditor(event) {
@@ -1662,12 +1745,12 @@ function bindShowComponentSourceEditor(event) {
     let dataAppSite = getAppSite(el);
     let dataAppView = getAppView(el);
 
-    let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
-    let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
-    let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
-    let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
+    let dataComponent = getTextValue(el, getAttributeValue(el, 'data-component'), "");
+    let dataConfigJson = getJsonValue(el, getAttributeValue(el, 'data-config'));
+    let isRealtime = getBoolValue(el, getAttributeValue(el, 'data-isrealtime'), false);
+    let realtimeDomain = getTextValue(el, getAttributeValue(el, 'data-realtimedomain'), "");
 
-    let dataDelay = getIntValue(getAttributeValue(el, 'data-delay'), 25);
+    let dataDelay = getIntValue(el, getAttributeValue(el, 'data-delay'), 25);
     let dataPreCall = getAttributeValue(el, 'data-precall');
     let dataCallback = getAttributeValue(el, 'data-callback');
 
@@ -1676,11 +1759,11 @@ function bindShowComponentSourceEditor(event) {
         dataConfigJson["DefaultRealtimeDomain"] = realtimeDomain;
     }
 
-    if ((dataComponent != "") && (dataComponent != "")) {
+    if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
 
         if ((dataPreCall) || (dataPreCall != "")) {
             if (typeof dataPreCall === "function") {
-                successCallback();
+                dataPreCall();
             }
             else if (window.hasOwnProperty(dataPreCall) == true) {
                 window[dataPreCall]();
@@ -1688,6 +1771,9 @@ function bindShowComponentSourceEditor(event) {
         }
 
         window["showComponentSourceEditor"](dataProgress, dataAppSite, dataAppView, dataComponent, true, dataCallback);
+    }
+    else {
+        console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] or Data Component [" + dataComponent + "] is Empty for Method ShowComponentSourceEditor");
     }
 }
 
@@ -1699,9 +1785,10 @@ function bindRefreshViewHtml(event) {
     let dataAppSite = getAppSite(el);
     let dataAppView = getAppView(el);
 
-    let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
-    let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
-    let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
+    let dataComponent = getTextValue(el, getAttributeValue(el, 'data-component'), "");
+    if (dataComponent == "") dataComponent = getTextValue(el, getAttributeValue(el, 'data-view'), "");
+    let dataConfigJson = getJsonValue(el, getAttributeValue(el, 'data-config'));
+    let isRealtime = getBoolValue(el, getAttributeValue(el, 'data-isrealtime'), false);
     let href = getAttributeValue(el, 'href');
     if (href.length == 1) {
         if (href[0] == "#") {
@@ -1709,7 +1796,7 @@ function bindRefreshViewHtml(event) {
         }
     }
 
-    let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
+    let realtimeDomain = getTextValue(el, getAttributeValue(el, 'data-realtimedomain'), "");
 
     let dataCallback = getAttributeValue(el, 'data-callback');
 
@@ -1718,8 +1805,17 @@ function bindRefreshViewHtml(event) {
         dataConfigJson["DefaultRealtimeDomain"] = realtimeDomain;
     }
 
+    let dataFilterJson = getJsonValue(el, getAttributeValue(el, 'data-filter'));
+    const filterInfoHasKeys = !!Object.keys(dataFilterJson).length;
+    if (filterInfoHasKeys == true) {
+        dataConfigJson["Filter"] = dataFilterJson;
+    }
+
     if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
         window["refreshViewHtml"](dataProgress, dataResponse, dataAppSite, dataAppView, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+    }
+    else {
+        console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] or Data Component [" + dataComponent + "] is Empty for Method RefreshViewHtml");
     }
 }
 
@@ -1731,23 +1827,33 @@ function bindLoadComponentHtml(element) {
     let dataAppSite = getAppSite(el);
     let dataAppView = getAppView(el);
 
-    let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
-    let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
-    let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
-    let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
+    let dataComponent = getTextValue(el, getAttributeValue(el, 'data-component'), "");
+    if (dataComponent == "") dataComponent = getTextValue(el, getAttributeValue(el, 'data-view'), "");
+    let dataConfigJson = getJsonValue(el, getAttributeValue(el, 'data-config'));
+    let isRealtime = getBoolValue(el, getAttributeValue(el, 'data-isrealtime'), false);
+    let realtimeDomain = getTextValue(el, getAttributeValue(el, 'data-realtimedomain'), "");
 
-    let dataDelay = getIntValue(getAttributeValue(el, 'data-delay'), 25);
+    let dataDelay = getIntValue(el, getAttributeValue(el, 'data-delay'), 25);
     let dataPreCall = getAttributeValue(el, 'data-precall');
     let dataCallback = getAttributeValue(el, 'data-callback');
-    let dataReload = getBoolValue(getAttributeValue(el, 'data-reload', false));
+    let dataReload = getBoolValue(el, getAttributeValue(el, 'data-reload', false));
 
     if (getType(dataConfigJson) == "Object") {
         dataConfigJson["DefaultRealtime"] = isRealtime;
         dataConfigJson["DefaultRealtimeDomain"] = realtimeDomain;
     }
 
-    if ((dataComponent != "") && (dataComponent != "")) {
+    let dataFilterJson = getJsonValue(el, getAttributeValue(el, 'data-filter'));
+    const filterInfoHasKeys = !!Object.keys(dataFilterJson).length;
+    if (filterInfoHasKeys == true) {
+        dataConfigJson["Filter"] = dataFilterJson;
+    }
+
+    if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
         window["loadComponentHtml"](dataProgress, dataResponse, dataAppSite, dataAppView, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataDelay, dataReload, dataCallback);
+    }
+    else {
+        console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] or Data Component [" + dataComponent + "] is Empty for Method LoadComponentHtml");
     }
 }
 
@@ -1762,63 +1868,30 @@ function bindRefreshComponentHtml(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
-        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
-        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
-        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
+        let dataComponent = getTextValue(el, getAttributeValue(el, 'data-component'), "");
+        if (dataComponent == "") dataComponent = getTextValue(el, getAttributeValue(el, 'data-view'), "");
+        let dataConfigJson = getJsonValue(el, getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(el, getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(el, getAttributeValue(el, 'data-realtimedomain'), "");
 
         let dataCallback = getAttributeValue(el, 'data-callback');
 
         if (getType(dataConfigJson) == "Object") {
             dataConfigJson["DefaultRealtime"] = isRealtime;
             dataConfigJson["DefaultRealtimeDomain"] = realtimeDomain;
+        }
+
+        let dataFilterJson = getJsonValue(el, getAttributeValue(el, 'data-filter'));
+        const filterInfoHasKeys = !!Object.keys(dataFilterJson).length;
+        if (filterInfoHasKeys == true) {
+            dataConfigJson["Filter"] = dataFilterJson;
         }
 
         if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
             window["refreshComponentHtml"](dataProgress, dataResponse, dataAppSite, dataAppView, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
         }
-    }
-}
-
-function bindFilterComponentHtml(event) {
-    let el = event.target;
-
-    if ((el.nodeName == "BUTTON")
-        || (el.nodeName == "SELECT")) {
-        let dataProgress = getProgress(el);
-        let dataResponse = getResponse(el);
-        let dataAppSite = getAppSite(el);
-        let dataAppView = getAppView(el);
-
-        let dataFilterJson = getJsonValue(getAttributeValue(el, 'data-filter'));
-
-        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
-        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
-        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
-        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
-
-        let dataCallback = getAttributeValue(el, 'data-callback');
-
-        if (getType(dataConfigJson) == "Object") {
-            dataConfigJson["DefaultRealtime"] = isRealtime;
-            dataConfigJson["DefaultRealtimeDomain"] = realtimeDomain;
-        }
-
-        if (el.nodeName == "SELECT") {
-            let dataCurrentJson = getJsonValue(getAttributeValue(el, 'data-current'));
-            const dataCurrentHasKeys = !!Object.keys(dataCurrentJson).length;
-            if (dataCurrentHasKeys == true) {
-                const dataConfigHasKeys = !!Object.keys(dataConfigJson).length;
-                if (dataConfigHasKeys == true) {
-                    if (jsonContains(dataCurrentJson, dataConfigJson) == true) {
-                        return;
-                    }
-                }
-            }
-        }
-
-        if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
-            window["filterComponentHtml"](dataProgress, dataResponse, dataAppSite, dataAppView, dataFilterJson, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+        else {
+            console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] or Data Component [" + dataComponent + "] is Empty for Method RefreshComponentHtml");
         }
     }
 }
@@ -1834,15 +1907,16 @@ function bindSaveJson(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataAppComponent = getTextValue(getAttributeValue(el, 'data-appcomponent'));
+        let dataAppComponent = getTextValue(el, getAttributeValue(el, 'data-appcomponent'));
         let getKeyInfo = getAttributeValue(el, 'data-keyinfo');
 
         let getSaveJson = getAttributeValue(el, 'data-datainfo');
 
-        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
-        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
-        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
-        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
+        let dataComponent = getTextValue(el, getAttributeValue(el, 'data-component'), "");
+        if (dataComponent == "") dataComponent = getTextValue(el, getAttributeValue(el, 'data-view'), "");
+        let dataConfigJson = getJsonValue(el, getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(el, getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(el, getAttributeValue(el, 'data-realtimedomain'), "");
 
         let dataCallback = getAttributeValue(el, 'data-callback');
 
@@ -1851,9 +1925,19 @@ function bindSaveJson(event) {
             dataConfigJson["DefaultRealtimeDomain"] = realtimeDomain;
         }
 
-        if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
-            window["saveJson"](dataProgress, dataResponse, dataAppSite, dataAppView, dataAppComponent, getKeyInfo, getSaveJson, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+        let dataFilterJson = getJsonValue(el, getAttributeValue(el, 'data-filter'));
+        const filterInfoHasKeys = !!Object.keys(dataFilterJson).length;
+        if (filterInfoHasKeys == true) {
+            dataConfigJson["Filter"] = dataFilterJson;
         }
+
+        if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
+            window["saveJson"](el, dataProgress, dataResponse, dataAppSite, dataAppView, dataAppComponent, getKeyInfo, getSaveJson, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+        }
+        else {
+            console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] or Data Component [" + dataComponent + "] is Empty for Method SaveJson");
+        }
+
     }
 }
 
@@ -1868,17 +1952,18 @@ function bindAddJsonToJsonArray(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataAppComponent = getTextValue(getAttributeValue(el, 'data-appcomponent'));
+        let dataAppComponent = getTextValue(el, getAttributeValue(el, 'data-appcomponent'));
         let getKeyInfo = getAttributeValue(el, 'data-keyinfo');
 
         let getAddJson = getAttributeValue(el, 'data-datainfo');
         let getValidKeyJson = getAttributeValue(el, 'data-validkeyinfo');
         let getDuplicateKeyJson = getAttributeValue(el, 'data-duplicatekeyinfo');
 
-        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
-        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
-        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
-        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
+        let dataComponent = getTextValue(el, getAttributeValue(el, 'data-component'), "");
+        if (dataComponent == "") dataComponent = getTextValue(el, getAttributeValue(el, 'data-view'), "");
+        let dataConfigJson = getJsonValue(el, getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(el, getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(el, getAttributeValue(el, 'data-realtimedomain'), "");
 
         let dataCallback = getAttributeValue(el, 'data-callback');
 
@@ -1887,34 +1972,45 @@ function bindAddJsonToJsonArray(event) {
             dataConfigJson["DefaultRealtimeDomain"] = realtimeDomain;
         }
 
-        if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
-            window["addJsonToJsonArray"](dataProgress, dataResponse, dataAppSite, dataAppView, dataAppComponent, getKeyInfo, getAddJson, getValidKeyJson, getDuplicateKeyJson, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+        let dataFilterJson = getJsonValue(el, getAttributeValue(el, 'data-filter'));
+        const filterInfoHasKeys = !!Object.keys(dataFilterJson).length;
+        if (filterInfoHasKeys == true) {
+            dataConfigJson["Filter"] = dataFilterJson;
         }
+
+        if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
+            window["addJsonToJsonArray"](el, dataProgress, dataResponse, dataAppSite, dataAppView, dataAppComponent, getKeyInfo, getAddJson, getValidKeyJson, getDuplicateKeyJson, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+        }
+        else {
+            console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] or Data Component [" + dataComponent + "] is Empty for Method AddJsonToJsonArray");
+        }
+
     }
 }
 
 function bindEditJsonInJsonArray(event) {
     let el = event.target;
-    if (el.nodeName != "BUTTON") {
+    if ((el.nodeName != "BUTTON") && (el.nodeName != "INPUT")) {
         el = el.parentNode;
     }
-    if (el.nodeName == "BUTTON") {
+    if ((el.nodeName == "BUTTON") || (el.nodeName == "INPUT")) {
         let dataProgress = getProgress(el);
         let dataResponse = getResponse(el);
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataAppComponent = getTextValue(getAttributeValue(el, 'data-appcomponent'));
+        let dataAppComponent = getTextValue(el, getAttributeValue(el, 'data-appcomponent'));
         let getKeyInfo = getAttributeValue(el, 'data-keyinfo');
 
         let getEditJson = getAttributeValue(el, 'data-datainfo');
         let getValidKeyJson = getAttributeValue(el, 'data-validkeyinfo');
         let getDuplicateKeyJson = getAttributeValue(el, 'data-duplicatekeyinfo');
 
-        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
-        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
-        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
-        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
+        let dataComponent = getTextValue(el, getAttributeValue(el, 'data-component'), "");
+        if (dataComponent == "") dataComponent = getTextValue(el, getAttributeValue(el, 'data-view'), "");
+        let dataConfigJson = getJsonValue(el, getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(el, getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(el, getAttributeValue(el, 'data-realtimedomain'), "");
 
         let dataCallback = getAttributeValue(el, 'data-callback');
 
@@ -1923,8 +2019,17 @@ function bindEditJsonInJsonArray(event) {
             dataConfigJson["DefaultRealtimeDomain"] = realtimeDomain;
         }
 
+        let dataFilterJson = getJsonValue(el, getAttributeValue(el, 'data-filter'));
+        const filterInfoHasKeys = !!Object.keys(dataFilterJson).length;
+        if (filterInfoHasKeys == true) {
+            dataConfigJson["Filter"] = dataFilterJson;
+        }
+
         if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
-            window["editJsonInJsonArray"](dataProgress, dataResponse, dataAppSite, dataAppView, dataAppComponent, getKeyInfo, getEditJson, getValidKeyJson, getDuplicateKeyJson, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+            window["editJsonInJsonArray"](el, dataProgress, dataResponse, dataAppSite, dataAppView, dataAppComponent, getKeyInfo, getEditJson, getValidKeyJson, getDuplicateKeyJson, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+        }
+        else {
+            console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] or Data Component [" + dataComponent + "] is Empty for Method EditJsonInJsonArray");
         }
     }
 }
@@ -1940,13 +2045,14 @@ function bindDeleteJsonInJsonArray(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataAppComponent = getTextValue(getAttributeValue(el, 'data-appcomponent'));
+        let dataAppComponent = getTextValue(el, getAttributeValue(el, 'data-appcomponent'));
         let getKeyInfo = getAttributeValue(el, 'data-keyinfo');
 
-        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
-        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
-        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
-        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
+        let dataComponent = getTextValue(el, getAttributeValue(el, 'data-component'), "");
+        if (dataComponent == "") dataComponent = getTextValue(el, getAttributeValue(el, 'data-view'), "");
+        let dataConfigJson = getJsonValue(el, getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(el, getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(el, getAttributeValue(el, 'data-realtimedomain'), "");
 
         let dataCallback = getAttributeValue(el, 'data-callback');
 
@@ -1955,8 +2061,17 @@ function bindDeleteJsonInJsonArray(event) {
             dataConfigJson["DefaultRealtimeDomain"] = realtimeDomain;
         }
 
+        let dataFilterJson = getJsonValue(el, getAttributeValue(el, 'data-filter'));
+        const filterInfoHasKeys = !!Object.keys(dataFilterJson).length;
+        if (filterInfoHasKeys == true) {
+            dataConfigJson["Filter"] = dataFilterJson;
+        }
+
         if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
-            window["deleteJsonInJsonArray"](dataProgress, dataResponse, dataAppSite, dataAppView, dataAppComponent, getKeyInfo, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+            window["deleteJsonInJsonArray"](el, dataProgress, dataResponse, dataAppSite, dataAppView, dataAppComponent, getKeyInfo, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+        }
+        else {
+            console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] or Data Component [" + dataComponent + "] is Empty for Method DeleteJsonInJsonArray");
         }
     }
 }
@@ -1972,13 +2087,14 @@ function bindCloneJsonInJsonArray(event) {
         let dataAppSite = getAppSite(el);
         let dataAppView = getAppView(el);
 
-        let dataAppComponent = getTextValue(getAttributeValue(el, 'data-appcomponent'));
+        let dataAppComponent = getTextValue(el, getAttributeValue(el, 'data-appcomponent'));
         let getKeyInfo = getAttributeValue(el, 'data-keyinfo');
 
-        let dataComponent = getTextValue(getAttributeValue(el, 'data-component'), "");
-        let dataConfigJson = getJsonValue(getAttributeValue(el, 'data-config'));
-        let isRealtime = getBoolValue(getAttributeValue(el, 'data-isrealtime'), false);
-        let realtimeDomain = getTextValue(getAttributeValue(el, 'data-realtimedomain'), "");
+        let dataComponent = getTextValue(el, getAttributeValue(el, 'data-component'), "");
+        if (dataComponent == "") dataComponent = getTextValue(el, getAttributeValue(el, 'data-view'), "");
+        let dataConfigJson = getJsonValue(el, getAttributeValue(el, 'data-config'));
+        let isRealtime = getBoolValue(el, getAttributeValue(el, 'data-isrealtime'), false);
+        let realtimeDomain = getTextValue(el, getAttributeValue(el, 'data-realtimedomain'), "");
 
         let dataCallback = getAttributeValue(el, 'data-callback');
 
@@ -1987,85 +2103,128 @@ function bindCloneJsonInJsonArray(event) {
             dataConfigJson["DefaultRealtimeDomain"] = realtimeDomain;
         }
 
-        if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
-            window["cloneJsonInJsonArray"](dataProgress, dataResponse, dataAppSite, dataAppView, dataAppComponent, getKeyInfo, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+        let dataFilterJson = getJsonValue(el, getAttributeValue(el, 'data-filter'));
+        const filterInfoHasKeys = !!Object.keys(dataFilterJson).length;
+        if (filterInfoHasKeys == true) {
+            dataConfigJson["Filter"] = dataFilterJson;
         }
+
+        if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
+            window["cloneJsonInJsonArray"](el, dataProgress, dataResponse, dataAppSite, dataAppView, dataAppComponent, getKeyInfo, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback);
+        }
+        else {
+            console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] or Data Component [" + dataComponent + "] is Empty for Method CloneJsonInJsonArray");
+        }
+
     }
 }
 
 function bindArshuAction(scopeElement) {
     scopeElement.querySelectorAll('[data-action]').forEach(function (el) {
         let dataAction = getAttributeValue(el, 'data-action');
+        let dataProcess = getAttributeValue(el, 'data-process');
 
-        if (el.nodeName == "DIV") {
-            if (dataAction == "loadComponentHtml") {
-                bindLoadComponentHtml(el);
+        if ((!dataProcess) || (dataProcess == "true")) {
+            if (el.nodeName == "DIV") {
+                if (dataAction == "loadComponentHtml") {
+                    bindLoadComponentHtml(el);
+                }
+                else if (dataAction == "showComponentSourceViewer") {
+                    el.removeEventListener("click", bindShowComponentSourceViewer)
+                    el.addEventListener("click", bindShowComponentSourceViewer, false);
+                }
+                else if (dataAction == "showComponentSourceEditor") {
+                    el.removeEventListener("click", bindShowComponentSourceEditor)
+                    el.addEventListener("click", bindShowComponentSourceEditor, false);
+                }
             }
-            else if (dataAction == "showComponentSourceViewer") {
-                el.removeEventListener("click", bindShowComponentSourceViewer)
-                el.addEventListener("click", bindShowComponentSourceViewer, false);
+            else if (el.nodeName == "LI") {
+                if (dataAction == "showComponentSourceViewer") {
+                    el.removeEventListener("click", bindShowComponentSourceViewer)
+                    el.addEventListener("click", bindShowComponentSourceViewer, false);
+                }
+                else if (dataAction == "showComponentSourceEditor") {
+                    el.removeEventListener("click", bindShowComponentSourceEditor)
+                    el.addEventListener("click", bindShowComponentSourceEditor, false);
+                }
             }
-            else if (dataAction == "showComponentSourceEditor") {
-                el.removeEventListener("click", bindShowComponentSourceEditor)
-                el.addEventListener("click", bindShowComponentSourceEditor, false);
+            else if (el.nodeName == "A") {
+                let dataAppSite = getAttributeValue(el, 'data-appsite');
+                if ((dataAppSite) && (dataAppSite.length > 0)) {
+                    let dataAppView = getAttributeValue(el, 'data-appview');
+                    if ((dataAppSite) && (dataAppSite.length > 0)) {
+                        let dataComponent = getAttributeValue(el, 'data-component');
+                        if ((dataComponent) && (dataComponent.length > 0)) {
+                            if (el.href.indexOf("#") > -1) {
+                                if (dataAction == "refreshViewHtml") {
+                                    el.removeEventListener("click", bindRefreshViewHtml)
+                                    el.addEventListener("click", bindRefreshViewHtml, false);
+                                }
+                            } else {
+                                //console.warn("Bound anchor link [" + el.href + "] does not have # in front");
+                            }
+                        } else {
+                            console.warn("Data Component is empty for Bound anchor link [" + el.href + "]");
+                        }
+                    } else {
+                        console.warn("Data AppView is empty for Bound anchor link [" + el.href + "]");
+                    }
+                } else {
+                    console.warn("Data AppSite is empty for Bound anchor link [" + el.href + "]");
+                }
             }
-        }
-        else if (el.nodeName == "LI") {
-            if (dataAction == "showComponentSourceViewer") {
-                el.removeEventListener("click", bindShowComponentSourceViewer)
-                el.addEventListener("click", bindShowComponentSourceViewer, false);
+            else if (el.nodeName == "SELECT") {
+                if (dataAction == "refreshComponentHtml") {
+                    el.removeEventListener("click", bindRefreshComponentHtml)
+                    el.addEventListener("click", bindRefreshComponentHtml, false);
+                }
             }
-            else if (dataAction == "showComponentSourceEditor") {
-                el.removeEventListener("click", bindShowComponentSourceEditor)
-                el.addEventListener("click", bindShowComponentSourceEditor, false);
+            else if (el.nodeName == "BUTTON") {
+                if (dataAction == "showComponentSourceViewer") {
+                    el.removeEventListener("click", bindShowComponentSourceViewer)
+                    el.addEventListener("click", bindShowComponentSourceViewer, false);
+                }
+                else if (dataAction == "showComponentSourceEditor") {
+                    el.removeEventListener("click", bindShowComponentSourceEditor)
+                    el.addEventListener("click", bindShowComponentSourceEditor, false);
+                }
+                else if (dataAction == "refreshComponentHtml") {
+                    el.removeEventListener("click", bindRefreshComponentHtml)
+                    el.addEventListener("click", bindRefreshComponentHtml, false);
+                }                
+                else if (dataAction == "saveJson") {
+                    el.removeEventListener("click", bindSaveJson)
+                    el.addEventListener("click", bindSaveJson, false);
+                }
+                else if (dataAction == "addJsonToJsonArray") {
+                    el.removeEventListener("click", bindAddJsonToJsonArray)
+                    el.addEventListener("click", bindAddJsonToJsonArray, false);
+                } else if (dataAction == "editJsonInJsonArray") {
+                    el.removeEventListener("click", bindEditJsonInJsonArray)
+                    el.addEventListener("click", bindEditJsonInJsonArray, false);
+                }
+                else if (dataAction == "deleteJsonInJsonArray") {
+                    el.removeEventListener("click", bindDeleteJsonInJsonArray)
+                    el.addEventListener("click", bindDeleteJsonInJsonArray, false);
+                } else if (dataAction == "cloneJsonInJsonArray") {
+                    el.removeEventListener("click", bindCloneJsonInJsonArray)
+                    el.addEventListener("click", bindCloneJsonInJsonArray, false);
+                }
             }
-        }
-        else if (el.nodeName == "A") {
-            if (dataAction == "refreshViewHtml") {
-                el.removeEventListener("click", bindRefreshViewHtml)
-                el.addEventListener("click", bindRefreshViewHtml, false);
+            else if (el.nodeName == "INPUT") {
+                let elmType = el.getAttribute("type");
+                if ((elmType) && (elmType.toLowerCase() == 'checkbox')) {
+                    if (dataAction == "editJsonInJsonArray") {
+                        el.removeEventListener("change", bindEditJsonInJsonArray)
+                        el.addEventListener("change", bindEditJsonInJsonArray);
+                    }
+                }
             }
-        }
-        else if (el.nodeName == "SELECT") {
-            if (dataAction == "refreshComponentHtml") {
-                el.removeEventListener("click", bindRefreshComponentHtml)
-                el.addEventListener("click", bindRefreshComponentHtml, false);
-            } else if (dataAction == "filterComponentHtml") {
-                el.removeEventListener("click", bindFilterComponentHtml)
-                el.addEventListener("click", bindFilterComponentHtml, false);
+            else {
+                console.log("Unknown Element [" + el.nodeName + "]");
             }
-        }
-        else if (el.nodeName == "BUTTON") {
-            if (dataAction == "showComponentSourceViewer") {
-                el.removeEventListener("click", bindShowComponentSourceViewer)
-                el.addEventListener("click", bindShowComponentSourceViewer, false);
-            }
-            else if (dataAction == "showComponentSourceEditor") {
-                el.removeEventListener("click", bindShowComponentSourceEditor)
-                el.addEventListener("click", bindShowComponentSourceEditor, false);
-            }
-            else if (dataAction == "refreshComponentHtml") {
-                el.removeEventListener("click", bindRefreshComponentHtml)
-                el.addEventListener("click", bindRefreshComponentHtml, false);
-            } else if (dataAction == "filterComponentHtml") {
-                el.removeEventListener("click", bindFilterComponentHtml)
-                el.addEventListener("click", bindFilterComponentHtml, false);
-            } else if (dataAction == "saveJson") {
-                el.removeEventListener("click", bindSaveJson)
-                el.addEventListener("click", bindSaveJson, false);
-            } else if (dataAction == "addJsonToJsonArray") {
-                el.removeEventListener("click", bindAddJsonToJsonArray)
-                el.addEventListener("click", bindAddJsonToJsonArray, false);
-            } else if (dataAction == "editJsonInJsonArray") {
-                el.removeEventListener("click", bindEditJsonInJsonArray)
-                el.addEventListener("click", bindEditJsonInJsonArray, false);
-            } else if (dataAction == "deleteJsonInJsonArray") {
-                el.removeEventListener("click", bindDeleteJsonInJsonArray)
-                el.addEventListener("click", bindDeleteJsonInJsonArray, false);
-            } else if (dataAction == "cloneJsonInJsonArray") {
-                el.removeEventListener("click", bindCloneJsonInJsonArray)
-                el.addEventListener("click", bindCloneJsonInJsonArray, false);
-            }
+        } else {
+            console.warn("Element Binding [" + el.nodeName + "][" + el.id + "] Skipped due to Data Process is not true or empty");
         }
     });
 }

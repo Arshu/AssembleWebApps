@@ -6,210 +6,224 @@
 
     {{ApiKey}}
 
-    <div id="appLaunch" class="ar-border" style="margin: 5px 0px;padding: 5px; position:relative;">
+<div id="appLaunch" class="ar-border" style="margin: 5px 0px;padding: 5px; position:relative;">
 
-        <div class="ar-notification" id="appLaunchResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
-            <button class="ar-delete" onclick="hideElm('appLaunchResponseContainer')"></button>
-            <div id="appLaunchResponse"></div>
+    <div class="ar-notification" id="appLaunchResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="ar-delete" onclick="hideElm('appLaunchResponseContainer')"></button>
+        <div id="appLaunchResponse"></div>
+    </div>
+
+    <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
+        <input id="launchShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="toggleElm('launchRestrictionsDiv'); toggleElm('launchImageDiv'); toggleElm('launchEnvironmentalVariableDiv'); toggleElm('orgNetworkDiv');">
+    </label>
+
+    <div class="ar-flex-input-wrap" style="margin: 10px 0 5px 0px;">
+        <label style="width: 100%; margin: 5px 0px; cursor: pointer;" onclick="openFlyUrl('launchAppName')">App Name</label>
+        <input id="launchExecutingAppName" class="ar-input ar-flex-item-stretch ar-border-left" style="background-color: gray;" autocomplete="off" type="text" placeholder="Launch App Name" readonly />
+        <button id="retrieveLaunchInfoBtn" class="ar-button ar-border-right" style="background-color: #209cee; width:60px;"
+                onclick="clearAppLaunchMessage('appLaunchResponse'); clearAppLaunchMessage('doAppLaunchResponse'); clearAppLaunchDetailsMessage('launchDetailResponse'); retrieveAppLaunchInfo('appLaunchProgress', 'appLaunchResponse', getElm('launchExecutingAppName').value, 'launchAppOrganization', 'launchExecutingAppName', 'launchDockerImagePathName', 'launchDockerImageTagName', 'launchRegionsTemplate', 'launchRegions', 'launchMaxRegionsPerApp', 'launchMaxMachinesPerApp', 'launchMaxMachinesPerRegion', 'launchEnvInitialTimeout', 'launchEnvIdleTimeout', 'launchEnvAutoDestroyAfterXMin', 'underDomainName', 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn');">
+            Refresh <div id="appLaunchProgress"></div>
+        </button>
+    </div>
+
+    <fieldset id="launchImageDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Launch Image</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Image(s) Name</label>
+            <label class="ar-flex-item-stretch">Tag Name</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; max-width: 100%;">
+            <select id="launchDockerImagePathName" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Launch Docker Image"
+                    onchange="let imagepath = getElm('launchDockerImagePathName').value; getElm('launchDockerImageTagName').value = imagepath.substr(imagepath.indexOf(':') + 1);">
+            </select>
+            <input id="launchDockerImageTagName" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px;" type="text" placeholder="Your Tag Name" value="latest" />
         </div>
 
-        <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
-            <input id="launchShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="hideElm('launchRestrictionsDiv'); toggleElm('launchImageDiv'); toggleElm('launchEnvironmentalVariableDiv'); toggleElm('orgNetworkDiv');">
+    </fieldset>
+
+    <fieldset id="launchEnvironmentalVariableDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Environmental Variables</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Initial Timeout (sec)</label>
+            <label class="ar-flex-item-stretch">Idle Timeout (sec)</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="launchEnvInitialTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin:0 5px 0 0;" type="number" placeholder="Your Initial Timeout" value="30" />
+            <input id="launchEnvIdleTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px " type="number" placeholder="Your Idle Timeout" value="30" />
+        </div>
+
+        <div class="ar-flex-content-wrap" style="margin: 0px;">
+            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Load AppData
+                <input id="launchEnvLoadAppData" type="checkbox" title="Load App Data" style="margin-left: 5px;">
+            </label>
+        </div>
+
+    </fieldset>
+
+    <div id="launchRegionsTemplate" style="display:none;">
+        <div style="min-width:50px; margin: 5px 5px;">
+            <label style="padding: 7px 0px 0 0px;">
+                <input name="{RegionName}" value="{Region}" type="checkbox" checked="checked"> {RegionText}
+            </label>
+        </div>
+    </div>
+
+    <div class="ar-flex-content-wrap" style="margin: 5px 0px;display:none;" id="launchRegionsDiv">
+        <label style="width: 100%; margin: 5px 0px; text-align: left;">
+            Launch Region(s)
         </label>
+        <label style="width: 50%; margin: 5px 0px; text-align: right;display:none;">
+            All
+            <input id="selectAllLaunchRegion" type="checkbox" title="All Regions" onclick="appLaunchSelectAll('launchRegion', getElm('selectAllLaunchRegion').checked)">
+        </label>
+        <div id="launchRegions" class="ar-border" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
+        </div>
+        <div style="text-align:center;font-size:xx-small;color:orangered;">Select maximum <span id="launchMaxRegion">1</span> Region and minimum <span id="launchMinRegion">1</span> Region to Launch App</div>
+    </div>
 
-        <div class="ar-flex-input-wrap" style="margin: 10px 0 5px 0px;">
-            <label style="width: 100%; margin: 5px 0px; cursor: pointer;" onclick="openFlyUrl('launchAppName')">App Name</label>
-            <input id="launchExecutingAppName" class="ar-input ar-flex-item-stretch ar-border-left" style="background-color: gray;" autocomplete="off" type="text" placeholder="Launch App Name" readonly />
-            <button id="retrieveLaunchInfoBtn" class="ar-button ar-border-right" style="background-color: #209cee; width:60px;"
-                    onclick="clearAppLaunchMessage('appLaunchResponse'); clearAppLaunchMessage('doAppLaunchResponse'); clearAppLaunchDetailsMessage('launchDetailResponse'); retrieveAppLaunchInfo('appLaunchProgress', 'appLaunchResponse', getElm('launchExecutingAppName').value, 'launchAppOrganization', 'launchExecutingAppName', 'launchDockerImagePathName', 'launchDockerImageTagName', 'launchRegionsTemplate', 'launchRegions', 'launchMaxRegionsPerApp', 'launchMaxMachinesPerApp', 'launchMaxMachinesPerRegion', 'launchEnvInitialTimeout', 'launchEnvIdleTimeout', 'launchEnvAutoDestroyAfterXMin', 'underDomainName', 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn');">
-                Refresh <div id="appLaunchProgress"></div>
-            </button>
+    <fieldset id="orgNetworkDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>App Info</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">App Organisation</label>
+            <label class="ar-flex-item-stretch">App Network</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <select id="launchAppOrganization" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="User Org Slug Name">
+            </select>
+            <input id="launchAppNetwork" class="ar-button ar-flex-item-stretch ar-border " style="margin: 0 5px 0 0;" type="number" placeholder="Optional App Network" value="" />
         </div>
 
-        <fieldset id="launchImageDiv" class="ar-border" style="display: none; padding: 5px;">
-            <legend>Launch Image</legend>
+    </fieldset>
 
-            <div class="ar-flex-content-spaced" style="margin: 0px;">
-                <label class="ar-flex-item-stretch">Image(s) Name</label>
-                <label class="ar-flex-item-stretch">Tag Name</label>
-            </div>
-            <div class="ar-flex-content-spaced" style="margin: 0px; max-width: 100%;">
-                <select id="launchDockerImagePathName" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Launch Docker Image"
-                        onchange="let imagepath = getElm('launchDockerImagePathName').value; getElm('launchDockerImageTagName').value = imagepath.substr(imagepath.indexOf(':') + 1);">
-                </select>
-                <input id="launchDockerImageTagName" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px;" type="text" placeholder="Your Tag Name" value="latest" />
-            </div>
+    <fieldset id="launchRestrictionsDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Deploy Restrictions</legend>
 
-        </fieldset>
-
-        <fieldset id="launchEnvironmentalVariableDiv" class="ar-border" style="display: none; padding: 5px;">
-            <legend>Environmental Variables</legend>
-
-            <div class="ar-flex-content-spaced" style="margin: 0px;">
-                <label class="ar-flex-item-stretch">Initial Timeout (sec)</label>
-                <label class="ar-flex-item-stretch">Idle Timeout (sec)</label>
-            </div>
-            <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
-                <input id="launchEnvInitialTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin:0 5px 0 0;" type="number" placeholder="Your Initial Timeout" value="30" />
-                <input id="launchEnvIdleTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px " type="number" placeholder="Your Idle Timeout" value="30" />
-            </div>
-
-            <div class="ar-flex-content-wrap" style="margin: 0px;">
-                <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
-                    Load AppData
-                    <input id="launchEnvLoadAppData" type="checkbox" title="Load App Data" style="margin-left: 5px;">
-                </label>
-            </div>
-
-            <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
-                <label style="width:100%;margin: 5px 0px;">Auto Destroy After x Mins</label>
-                <input id="launchEnvAutoDestroyAfterXMin" class="ar-input ar-flex-item-stretch ar-border" type="number" placeholder="Auto Destroy after x Mins" value="0" />
-                <span style="width:100%;font-size:xx-small;color:blue;">0 is skip Auto Destroy</span>
-            </div>
-
-        </fieldset>
-
-        <div id="launchRegionsTemplate" style="display:none;">
-            <div style="min-width:50px; margin: 5px 5px;">
-                <label style="padding: 7px 0px 0 0px;">
-                    <input name="{RegionName}" value="{Region}" type="checkbox" checked="checked"> {RegionText}
-                </label>
-            </div>
-        </div>
-
-        <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
-            <label style="width: 100%; margin: 5px 0px; text-align: left;">
-                Launch Region(s)
-            </label>
-            <label style="width: 50%; margin: 5px 0px; text-align: right;display:none;">
-                All
-                <input id="selectAllLaunchRegion" type="checkbox" title="All Regions" onclick="appLaunchSelectAll('launchRegion', getElm('selectAllLaunchRegion').checked)">
-            </label>
-            <div id="launchRegions" class="ar-border" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
-            </div>
-            <div style="text-align:center;font-size:xx-small;color:orangered;">Select maximum two Region to Launch App</div>
-        </div>
-
-        <fieldset id="orgNetworkDiv" class="ar-border" style="display: none; padding: 5px;">
-            <legend>App Info</legend>
-
-            <div class="ar-flex-content-spaced" style="margin: 0px;">
-                <label class="ar-flex-item-stretch">App Organisation</label>
-                <label class="ar-flex-item-stretch">App Network</label>
-            </div>
-            <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
-                <select id="launchAppOrganization" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="User Org Slug Name">
-                </select>
-                <input id="launchAppNetwork" class="ar-button ar-flex-item-stretch ar-border " style="margin: 0 5px 0 0;" type="number" placeholder="Optional App Network" value="" />
-            </div>
-
-        </fieldset>
-
-        <fieldset id="launchRestrictionsDiv" class="ar-border" style="display: none; padding: 5px;">
-            <legend>Deploy Restrictions</legend>
-
-            <div class="ar-flex-content-spaced" style="margin: 0px;">
-                <label class="ar-flex-item-stretch" style="text-align: center;">Max Regions&nbsp; Per App</label>
-                <label class="ar-flex-item-stretch" style="text-align: center;">Max Machines Per App</label>
-                <label class="ar-flex-item-stretch" style="text-align: center;">Max Machine&nbsp; Per Region</label>
-            </div>
-            <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <div style="text-align:center;">
+                <label style="text-align: center;">Max Regions&nbsp; Per App</label>
                 <input id="launchMaxRegionsPerApp" class="ar-input ar-border" style="max-width:75px; margin: 0 0 0 5px; background-color: gray; " type="number" placeholder="Max Regions per App" value="1" readonly />
-                <input id="launchMaxMachinesPerApp" class="ar-input ar-border" style="max-width: 75px; margin: 0 0 0 5px; background-color: gray;" type="number" placeholder="Max Machine Count per App" value="1" readonly />
-                <input id="launchMaxMachinesPerRegion" class="ar-input ar-border" style="max-width: 75px; margin: 0 0 0 5px; background-color: gray;" type="number" placeholder="Max Machine Count per Region" value="1" readonly />
             </div>
-
-        </fieldset>
-        
-        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
-            <label style="width:100%;margin: 5px 0px;cursor: pointer;">App Owner Email</label>
-            <input id="appOwnerID" class="ar-input ar-flex-item-stretch ar-border" autocomplete="off" type="email" placeholder="Your App Owner Email" value="{{$OwnerEmail}}" />
+            <div style="text-align:center;">
+                <label style="text-align: center;">Max Machines Per App</label>
+                <input id="launchMaxMachinesPerApp" class="ar-input ar-border" style="max-width: 75px; margin: 0 0 0 5px; background-color: gray;" type="number" placeholder="Max Machine Count per App" value="1" readonly />
+            </div>
+            <div style="text-align:center;">
+                <label style="text-align: center;">Max Machine&nbsp; Per Region</label>
+                <input id="launchMaxMachinesPerRegion" class="ar-input ar-border" style="max-width: 75px; margin: 0 0 0 5px; background-color: gray;" type="number" placeholder="Max Machine Count per Region" value="1" readonly />
+            </div>        
         </div>
 
-        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
-            <label style="width:50%;margin: 5px 0px;cursor: pointer;" onclick="openFlyUrl('launchAppName')">New App Name</label>
-            <label style="width:50%;margin: 5px 0px;cursor: pointer;">Under Domain Name</label>
-            <input id="launchNewAppName" class="ar-input ar-flex-item-stretch ar-border" autocomplete="off" type="text" placeholder="Your Launch App Name" value="{{$TestAppName}}" />
-            <select id="underDomainName" class="ar-select ar-flex-item-stretch ar-border" style="background-color:white;margin-left:2px;">
-                <option selected="selected">arshucs.com</option>
-            </select>            
-        </div>
+    </fieldset>
 
-        <div>
-            <div id="doAppLaunchResponseContainer" class="ar-notification" style="text-align:center;display:none;margin:5px 10px;position:relative;">
-                <svg fill="#000000" width="16px" height="16px" viewBox="0 0 32 32" xml:space="preserve"
-                     style="position:absolute;left:0px;top:0px;"
-                     onclick="toggleElm('launchDetailResponse')">
-                <g>
-                <path d="M17.962,24.725l1.806,0.096v2.531h-7.534v-2.406l1.045-0.094c0.568-0.063,0.916-0.254,0.916-1.014v-8.801
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+        <label style="width:100%;margin: 5px 0px;cursor: pointer;">App Owner Email</label>
+        <input id="appOwnerID" class="ar-input ar-flex-item-stretch ar-border" autocomplete="off" type="email" placeholder="Your App Owner Email" value="{{$OwnerEmail}}" />
+    </div>
+
+
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+        <label style="width:50%;margin: 5px 0px;cursor: pointer;" onclick="openFlyUrl('launchAppName')">New App Name</label>
+        <label style="width:50%;margin: 5px 0px;cursor: pointer;">Under Domain Name</label>
+        <input id="launchNewAppName" class="ar-input ar-flex-item-stretch ar-border" autocomplete="off" type="text" placeholder="Your Launch App Name" value="{{$TestAppName}}" />
+        <select id="underDomainName" class="ar-select ar-flex-item-stretch ar-border" style="background-color:white;margin-left:2px;">
+            <option selected="selected">arshucs.com</option>
+        </select>
+    </div>
+
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+        <label style="width:50%;margin: 5px 0px;cursor: pointer;">Attach Volume Size</label>
+        <label style="width:50%;margin: 5px 0px;cursor: pointer;">Auto Destroy in X Mins</label>
+        <select id="launchAttachVolumeSize" class="ar-select ar-flex-item-stretch ar-border" style="background-color:white;">
+            <option value="0">No Volume</option>
+            <option selected="selected" value="1">1 GB Volume</option>
+        </select>
+        <select id="launchEnvAutoDestroyAfterXMin" class="ar-select ar-flex-item-stretch ar-border" style="background-color:white;margin-left:2px;">
+            <option value="0">Skip Auto Destroy</option>
+            <option value="1">Destroy After 1 Mins</option>
+            <option selected="selected" value="5">Destroy After 5 Mins</option>
+            <option value="15">Destroy After 15 Mins</option>
+            <option value="60">Destroy After 60 Mins</option>
+        </select>
+    </div>
+    <div>
+        <div id="doAppLaunchResponseContainer" class="ar-notification" style="text-align:center;display:none;margin:5px 10px;position:relative;">
+            <svg fill="#000000" width="16px" height="16px" viewBox="0 0 32 32" xml:space="preserve"
+                 style="position:absolute;left:0px;top:0px;"
+                 onclick="toggleElm('launchDetailResponse')">
+            <g>
+            <path d="M17.962,24.725l1.806,0.096v2.531h-7.534v-2.406l1.045-0.094c0.568-0.063,0.916-0.254,0.916-1.014v-8.801
                             c0-0.699-0.188-0.92-0.791-0.92l-1.106-0.062v-2.626h5.666L17.962,24.725L17.962,24.725z M15.747,4.648
                             c1.394,0,2.405,1.047,2.405,2.374c0,1.331-1.014,2.313-2.438,2.313c-1.454,0-2.404-0.982-2.404-2.313
                             C13.31,5.695,14.26,4.648,15.747,4.648z M16,32C7.178,32,0,24.822,0,16S7.178,0,16,0c8.82,0,16,7.178,16,16S24.82,32,16,32z M16,3
                             C8.832,3,3,8.832,3,16s5.832,13,13,13s13-5.832,13-13S23.168,3,16,3z" />
             </g>
             </svg>
-                <button class="ar-delete" onclick="hideElm('doAppLaunchResponseContainer'); hideElm('launchDetailResponse');hideElm('launchLinkDiv')"></button>
-                <div id="doAppLaunchResponse"></div>
-                <div id="doAppLaunchResponseWarn"></div>
+            <button class="ar-delete" onclick="hideElm('doAppLaunchResponseContainer'); hideElm('launchDetailResponse');hideElm('launchLinkDiv')"></button>
+            <div id="doAppLaunchResponse"></div>
+            <div id="doAppLaunchResponseWarn"></div>
+        </div>
+        <div id="launchDetailResponse" style="font-size:x-small;text-align:center">
+        </div>
+    </div>
+
+    <div id="launchLinkDiv" style="display:none;text-align:center;">
+        <div class="ar-flex-content-spaced">
+            <div id="launchLinkDiv" class="ar-border" style="margin: 10px auto;">
+                <a id="launchLink" style="text-decoration: none;margin:10px 5px" href="#" target="_blank">Https://arshuhost.fly.dev</a>
             </div>
-            <div id="launchDetailResponse" style="font-size:x-small;text-align:center">
+            <div id="launchLinkDomainDiv" class="ar-border" style="margin: 10px auto;">
+                <a id="launchLinkDomain" style="text-decoration: none;margin:10px 5px" href="#" target="_blank">Https://arshuhost.fly.dev</a>
             </div>
         </div>
+        <div id="launchLinkDomainInfo" style="text-align:center;font-size:xx-small;color:orangered;">App link created under domain will take some time to propagate before access is available</div>
+    </div>
 
-        <div id="launchLinkDiv" style="display:none;text-align:center;">
-            <div class="ar-flex-content-spaced">
-                <div id="launchLinkDiv" class="ar-border" style="margin: 10px auto;">
-                    <a id="launchLink" style="text-decoration: none;margin:10px 5px" href="#" target="_blank">Https://arshuhost.fly.dev</a>
-                </div>
-                <div id="launchLinkDomainDiv" class="ar-border" style="margin: 10px auto;">
-                    <a id="launchLinkDomain" style="text-decoration: none;margin:10px 5px" href="#" target="_blank">Https://arshuhost.fly.dev</a>
-                </div>
-            </div>
-            <div id="launchLinkDomainInfo" style="text-align:center;font-size:xx-small;color:orangered;">App link created under domain will take some time to propagate before access is available</div>
-        </div>
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
 
-        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+        <button id="deleteLaunchAppBtn" class="ar-button ar-border" style="margin: 5px;background-color: #209cee; width: 110px; height: 40px; "
+                onclick="deleteLaunchApp('doAppDeleteProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('underDomainName').value, getElm('appOwnerID').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); });">
+            Delete <div id="doAppDeleteProgress"></div>
+        </button>
 
-            <button id="deleteLaunchAppBtn" class="ar-button ar-border" style="margin: 5px;background-color: #209cee; width: 110px; height: 40px; "
-                    onclick="deleteLaunchApp('doAppDeleteProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('underDomainName').value, getElm('appOwnerID').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); });">
-                Delete <div id="doAppDeleteProgress"></div>
-            </button>
+        <button id="doLaunchAppBtn" class="ar-button ar-border" style="margin:5px; background-color: #209cee; width: 110px; height: 40px;" tabindex="4" disabled="disabled"
+                onclick="launchApp('doAppLaunchProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('launchAppOrganization').value, getElm('launchAppNetwork').value, getElm('launchDockerImagePathName').value, getElm('launchDockerImageTagName').value, 'launchRegion', getElm('launchEnvInitialTimeout').value, getElm('launchEnvIdleTimeout').value, getElm('launchEnvLoadAppData').checked, getElm('launchEnvAutoDestroyAfterXMin').value, getElm('appOwnerID').value, getElm('underDomainName').value, getElm('launchAttachVolumeSize').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); })">
+            Launch App <div id="doAppLaunchProgress"></div>
+        </button>
 
-            <button id="doLaunchAppBtn" class="ar-button ar-border" style="margin:5px; background-color: #209cee; width: 110px; height: 40px;" tabindex="4" disabled="disabled"
-                    onclick="launchApp('doAppLaunchProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('launchAppOrganization').value, getElm('launchAppNetwork').value, getElm('launchDockerImagePathName').value, getElm('launchDockerImageTagName').value, 'launchRegion', getElm('launchEnvInitialTimeout').value, getElm('launchEnvIdleTimeout').value, getElm('launchEnvLoadAppData').checked, getElm('launchEnvAutoDestroyAfterXMin').value, getElm('appOwnerID').value, getElm('underDomainName').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); })">
-                Launch App <div id="doAppLaunchProgress"></div>
-            </button>
-
-            <button id="doLaunchSimpleAppBtn" class="ar-button ar-border" style="margin: 5px; background-color: #209cee; width: 110px; height: 40px;" tabindex="4"
-                    onclick="launchSimpleApp('doAppLaunchSimpleProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('launchDockerImagePathName').value, 'launchRegion', getElm('underDomainName').value, getElm('appOwnerID').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); })">
-                Launch Simple App <div id="doAppLaunchSimpleProgress"></div>
-            </button>
-
-        </div>
-
-        <div style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; color:orangered; font-size:x-small ">
-            <div>
-                <button id="refreshLaunchStatusBtn" class="ar-smallbutton ar-border" style="width:16px;height:16px;padding:1px"
-                        onclick="refreshLaunchStatus('refreshLaunchStatusProgress', 'noresponse');">
-                    &#x2714;<span id="refreshLaunchStatusProgress"></span>
-                </button>
-                Launch :
-            </div>
-            <div>
-                Per Team : <span id="launchPerTeam">0</span> (Max : <span id="maxLaunchPerTeam">0</span>)
-            </div>
-            <div>
-                per Day : <span id="launchPerDay">0</span> (Max :<span id="maxLaunchPerDay">0</span>)
-            </div>
-            <div>
-                per Hour : <span id="launchPerHour">0</span> (Max: <span id="maxLaunchPerHour">0</span>)
-            </div>
-            <div>
-                per Minute : <span id="launchPerMinute">0</span> (Max: <span id="maxLaunchPerMinute">0</span>)
-            </div>
-        </div>
+        <button id="doLaunchSimpleAppBtn" class="ar-button ar-border" style="margin: 5px; background-color: #209cee; width: 110px; height: 40px;" tabindex="4"
+                onclick="launchSimpleApp('doAppLaunchSimpleProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('launchDockerImagePathName').value, 'launchRegion', getElm('launchEnvAutoDestroyAfterXMin').value, getElm('appOwnerID').value, getElm('underDomainName').value, getElm('launchAttachVolumeSize').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); })">
+            Launch Simple App <div id="doAppLaunchSimpleProgress"></div>
+        </button>
 
     </div>
+
+    <div style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; color:orangered; font-size:x-small ">
+        <div>
+            <button id="refreshLaunchStatusBtn" class="ar-smallbutton ar-border" style="width:16px;height:16px;padding:1px"
+                    onclick="refreshLaunchStatus('refreshLaunchStatusProgress', 'noresponse');">
+                &#x2714;<span id="refreshLaunchStatusProgress"></span>
+            </button>
+            Launch Restriction:
+        </div>
+        <div>
+            Per Team : <span id="launchPerTeam">0</span> (Max : <span id="maxLaunchPerTeam">0</span>)
+        </div>
+        <div>
+            per Day : <span id="launchPerDay">0</span> (Max :<span id="maxLaunchPerDay">0</span>)
+        </div>
+        <div>
+            per Hour : <span id="launchPerHour">0</span> (Max: <span id="maxLaunchPerHour">0</span>)
+        </div>
+        <div>
+            per Minute : <span id="launchPerMinute">0</span> (Max: <span id="maxLaunchPerMinute">0</span>)
+        </div>
+    </div>
+
+</div>
 
 </div>
 

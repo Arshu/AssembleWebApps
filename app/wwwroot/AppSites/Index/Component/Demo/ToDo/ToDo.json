@@ -8,37 +8,37 @@
          "Guid": "7d5f1985-3480-40a7-aef5-7b68d983b2f9",
          "TaskName": "TaskName 1",
          "TaskNo": 1,
-         "TaskStatus": "InProgress"
+         "TaskStatus": "Pending"
       },
       {
          "Guid": "b0cc525e-7732-4896-9f40-9dd080af2852",
          "TaskName": "TaskName 2",
          "TaskNo": 2,
-         "TaskStatus": "Complete"
+         "TaskStatus": "Pending"
       },
       {
          "Guid": "45183136-1ba8-45eb-ac18-22dc053d7b8d",
          "TaskName": "TaskName 3",
          "TaskNo": 3,
-         "TaskStatus": "Complete"
+         "TaskStatus": "InProgress"
       },
       {
          "Guid": "126c08ea-fbbb-44d5-b49c-a7d74488ead8",
          "TaskName": "TaskName 4",
          "TaskNo": 4,
-         "TaskStatus": "Pending"
+         "TaskStatus": "Complete"
       },
       {
          "Guid": "7cab574a-e794-4e55-a29f-46f1da66e103",
          "TaskName": "TaskName 5",
          "TaskNo": 5,
-         "TaskStatus": "InProgress"
+         "TaskStatus": "Pending"
       },
       {
          "Guid": "8549d32d-8b23-4014-89b3-1e2dccaa0d82",
          "TaskName": "TaskName 6",
          "TaskNo": 6,
-         "TaskStatus": "Complete"
+         "TaskStatus": "Pending"
       },
       {
          "Guid": "a4ab6afa-7211-4d1f-b259-f2fe05e07b53",
@@ -68,13 +68,13 @@
          "Guid": "f18a973a-fe21-4305-b401-f05457057c13",
          "TaskName": "TaskName 11",
          "TaskNo": 11,
-         "TaskStatus": "Pending"
+         "TaskStatus": "Complete"
       },
       {
          "Guid": "090abfd3-4ac5-410d-9748-cc7219346525",
          "TaskName": "TaskName 12",
          "TaskNo": 12,
-         "TaskStatus": "Complete"
+         "TaskStatus": "InProgress"
       },
       {
          "Guid": "1ec8bfb4-3f0a-4904-a965-bf51519df368",
@@ -86,7 +86,7 @@
          "Guid": "a159a2af-f19a-4d97-b340-f7cef762350f",
          "TaskName": "TaskName 14",
          "TaskNo": 14,
-         "TaskStatus": "InProgress"
+         "TaskStatus": "Pending"
       },
       {
          "Guid": "6c6571ce-2dcc-43cd-a5d1-904631861f62",
@@ -104,7 +104,7 @@
          "Guid": "536f059b-4b77-4efa-ac1a-2fea51c769f5",
          "TaskName": "TaskName 17",
          "TaskNo": 17,
-         "TaskStatus": "Pending"
+         "TaskStatus": "Complete"
       },
       {
          "Guid": "0515cebb-0613-41ba-973c-8a10be390b1f",
@@ -146,7 +146,7 @@
          "Guid": "96df5435-8004-4722-ad7c-6f2699284b94",
          "TaskName": "TaskName 24",
          "TaskNo": 24,
-         "TaskStatus": "Pending"
+         "TaskStatus": "InProgress"
       },
       {
          "Guid": "ccb9c71c-3311-4b0f-9aa8-85ebc4f0e285",
@@ -5954,7 +5954,7 @@
          "Guid": "914be496-1541-4ce0-8156-b5ecb3197593",
          "TaskName": "TaskName 992",
          "TaskNo": 992,
-         "TaskStatus": "Pending"
+         "TaskStatus": "InProgress"
       },
       {
          "Guid": "36c86aa9-f527-49d0-bd51-944819a54004",
@@ -5978,7 +5978,7 @@
          "Guid": "ab827888-ba79-4f99-b0b0-1b88db6db56e",
          "TaskName": "TaskName 996",
          "TaskNo": 996,
-         "TaskStatus": "Pending"
+         "TaskStatus": "Complete"
       },
       {
          "Guid": "793274be-07db-4b0f-886b-9a9935508c79",
@@ -5990,25 +5990,28 @@
          "Guid": "d955c3ac-e3df-4b6d-a6e2-0109a8655842",
          "TaskName": "TaskName 998",
          "TaskNo": 998,
-         "TaskStatus": "InProgress"
+         "TaskStatus": "Complete"
       },
       {
          "Guid": "af07d611-319f-4c60-a608-4b72cd004ae1",
          "TaskName": "TaskName 999",
          "TaskNo": 999,
-         "TaskStatus": "InProgress"
+         "TaskStatus": "Pending"
       },
       {
          "Guid": "3c7ca830-b16b-4c0c-97b5-8eb4a9f50a5d",
          "TaskName": "TaskName 1000",
          "TaskNo": 1000,
-         "TaskStatus": "InProgress"
+         "TaskStatus": "Pending"
       }
    ],
    "ToDoListSchema": {
       "Guid": "",
+      "TaskEndDate": "{{$EndDate}}",
       "TaskName": "TaskName",
       "TaskNo": "{{$RowNo}}",
+      "TaskProgress": "{{$Percent}}",
+      "TaskStartDate": "{{$StartDate}}",
       "TaskStatus": "Pending"
    }
 }

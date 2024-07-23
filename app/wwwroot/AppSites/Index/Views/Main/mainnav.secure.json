@@ -15,9 +15,9 @@
     {
       "NavTitle": "LogOff ({{$LoginUserID}})",
       "NavUrl": "#",
-      "NavAppSite": "",
-      "NavAppView": "",
-      "NavAppViewIDs": "",
+      "NavAppSite": "Account",
+      "NavAppView": "LogOff",
+      "NavAppViewIDs": "Content",
       "NavActive": "logoff"
     }
   ],

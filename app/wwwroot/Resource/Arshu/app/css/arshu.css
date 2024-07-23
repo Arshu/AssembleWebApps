@@ -85,7 +85,7 @@
 .ar-input {
     min-height: 38px;
     -webkit-appearance: none;
-    padding: 0rem 2.0rem 0rem 0.5rem;
+    /*/padding: 0rem 2.0rem 0rem 0.5rem;*/
     background-color: transparent;
     box-shadow: none;
     box-sizing: inherit;
@@ -94,6 +94,81 @@
 ar-input:focus {
     border-color: #9b4dca;
     outline: 0;
+}
+
+.ar-select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+    .ar-select-wrapper select {
+        -webkit-appearance: none;
+    }
+
+    .ar-select-wrapper option {
+        -webkit-appearance: none;
+    }
+
+    .ar-select-wrapper:after {
+        content: '\0025BC';
+        font: normal normal normal 12px/1;
+        color: black;
+        right: 22px;
+        top: 0px;
+        height: 26px;
+        padding: 10px 2px 0 15px;
+        position: absolute;
+        pointer-events: none;
+    }
+
+.ar-select {
+    min-height: 38px;
+    -webkit-appearance: none;
+    padding: 0rem 5px 0rem 5px;
+    background-color: transparent;
+    box-shadow: none;
+    box-sizing: inherit;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 8" width="20"><path fill="%23d1d1d1" d="M0,0l6,8l6-8"/></svg>') center right no-repeat;
+}
+
+    .ar-select:focus {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 8" width="20"><path fill="%239b4dca" d="M0,0l6,8l6-8"/></svg>');
+    }
+
+    .ar-select:focus {
+        border-color: #9b4dca;
+        outline: 0;
+    }
+
+    .ar-select[multiple] {
+        background: none;
+        height: auto;
+    }
+
+    .ar-select[disabled], input[disabled], button[disabled] {
+        box-shadow: none;
+        opacity: .5;
+    }
+
+.ar-textarea {
+    min-height: 6.5rem;
+}
+
+.ar-button {
+    padding: 0px 10px;
+    min-height: 40px;
+}
+
+    .ar-button[disabled] {
+        box-shadow: none;
+        opacity: .5;
+        background-color: lightgray;
+        cursor: not-allowed;
+    }
+
+.ar-iconbutton {
+    padding: 2px 2px;
+    border: none;
 }
 
 /*=============================================================================================================================================*/
@@ -112,4 +187,13 @@ a.ar-button {
 .ar-h1 {
     font-size: 2em;
     margin: 0.67em 0;
+}
+
+/*=============================================================================================================================================*/
+/* Element - Anchor */
+/*=============================================================================================================================================*/
+
+.ar_highlight {
+    /*background-color:gray;*/
+    border: 1px dashed #000000;
 }

@@ -61,6 +61,16 @@
                         getElm(appNameElmId).value = result.AppName;
                     }
 
+                    if (result.hasOwnProperty('UploadMaxZipSizeInMB') === true) {
+                        //getElm(appNameElmId).value = result.UploadMaxZipSizeInMB;
+                    }
+                    if (result.hasOwnProperty('UploadMaxFileSizeInKB') === true) {
+                        //getElm(appNameElmId).value = result.UploadMaxFileSizeInKB;
+                    }
+                    if (result.hasOwnProperty('UploadAllowedExtensions') === true) {
+                        //getElm(appNameElmId).value = result.UploadAllowedExtensions;
+                    }
+
                     if (result.hasOwnProperty('UploadFolderList') === true) {
                         let folderListArray = result.UploadFolderList;
 
@@ -75,7 +85,7 @@
                                 }
                                 let selectValue = "";
                                 if (bakFolder.hasOwnProperty('Path') === true) {
-                                    selectText = bakFolder.Path
+                                    selectValue = bakFolder.Path
                                 }                                
                                 selectElm.options[selectElm.options.length] = new Option(selectText, selectText);
                                 if (selectText.indexOf("wwwroot") > -1) {

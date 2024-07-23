@@ -656,7 +656,7 @@ function isElement(o) {
     )
 }
 
-function haveElm(elmId, scopeElmId) {
+function haveElm(elmIdOrName, scopeElmId, checkName) {
     let parentElm = document
     if (typeof scopeElmId !== 'undefined' || scopeElmId !== null) {
         if (scopeElmId) {
@@ -664,9 +664,18 @@ function haveElm(elmId, scopeElmId) {
         }
     }
     if (parentElm) {
-        let elm = parentElm.getElementById(elmId)
+        let elm = parentElm.getElementById(elmIdOrName)
         if (elm == null) {
-            return false
+            if (typeof checkName !== 'undefined' && checkName !== null && checkName === true) {
+                elm = parentElm.getElementsByName(elmIdOrName)
+                if (elm == null) {
+                    return false
+                } else {
+                    return true
+                }
+            } else {
+                return false
+            }
         } else {
             return true
         }
@@ -675,7 +684,7 @@ function haveElm(elmId, scopeElmId) {
     }
 }
 
-function getElm(elmId, scopeElmId) {
+function getElm(elmIdOrName, scopeElmId, checkName) {
     let parentElm = document
     let scoped = false
     if (typeof scopeElmId !== 'undefined' || scopeElmId !== null) {
@@ -685,16 +694,32 @@ function getElm(elmId, scopeElmId) {
         }
     }
     if (parentElm) {
-        let elm = parentElm.getElementById(elmId)
+        let elm = parentElm.getElementById(elmIdOrName)
         if (elm == null) {
-            if (scoped === false) {
-                alert('Id [' + elmId + '] not found for getElm')
-                console.log('Id [' + elmId + '] not found for getElm')
+            if (typeof checkName !== 'undefined' && checkName !== null && checkName === true) {
+                elm = parentElm.getElementsByName(elmIdOrName)
+                if (elm == null) {
+                    if (scoped === false) {
+                        alert('Id [' + elmIdOrName + '] not found for getElm')
+                        console.log('Id [' + elmIdOrName + '] not found for getElm')
+                    } else {
+                        alert('Id [' + elmId + '] not found under scoped id [' + scopeElmId + '] for getElm')
+                        console.log('Id [' + elmIdOrName + '] not found under scoped id [' + scopeElmId + '] for getElm')
+                    }
+                    return null
+                } else {
+                    return elm
+                }
             } else {
-                alert('Id [' + elmId + '] not found under scoped id [' + scopeElmId + '] for getElm')
-                console.log('Id [' + elmId + '] not found under scoped id [' + scopeElmId + '] for getElm')
+                if (scoped === false) {
+                    alert('Id [' + elmIdOrName + '] not found for getElm')
+                    console.log('Id [' + elmIdOrName + '] not found for getElm')
+                } else {
+                    alert('Id [' + elmIdOrName + '] not found under scoped id [' + scopeElmId + '] for getElm')
+                    console.log('Id [' + elmIdOrName + '] not found under scoped id [' + scopeElmId + '] for getElm')
+                }
+                return null
             }
-            return null
         } else {
             return elm
         }

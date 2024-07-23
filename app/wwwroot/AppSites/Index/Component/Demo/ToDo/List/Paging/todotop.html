@@ -1,26 +1,26 @@
-<div class="ar-flex-content-spaced" style="width:100%;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+<div class="ar-flex-content-spaced" style="width:100%;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}},KeyPath={{$KeyPath}}">
     {{@HavePreviousPage}}
-    <button class="ar-button ar-border" style="width:40px;height:40px;"
-            data-action="filterComponentHtml" 
+    <button class="ar-button ar-border" style="width:40px;height:40px;" title="PageNo=1, ItemsPerPage={{$ItemsPerPage}}"
+            data-action="refreshComponentHtml" 
             data-progress="firstToDoProgress" 
             data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" 
             data-appview="{{$AppView}}"
-            data-filter="todoGetFilter"
             data-component="{{$ParentViewID}}"
+            data-filter="todoFilterViewGetFilter"
             data-config="{'PageNo': '1', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
             data-isrealtime="todoGetRealtime" ,
             data-realtimedomain="todoGetRealtimeDomain">
         <strong style="font-weight:bolder;">&lt;&lt;</strong> <span id="firstToDoProgress"></span>
     </button>
-    <button class="ar-button ar-border" style="width:40px;height:40px;"
-            data-action="filterComponentHtml" 
+    <button class="ar-button ar-border" style="width:40px;height:40px;" title="PageNo={{$PreviousPage}}, ItemsPerPage={{$ItemsPerPage}}"
+            data-action="refreshComponentHtml" 
             data-progress="previousToDoProgress" 
             data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" 
             data-appview="{{$AppView}}"
-            data-filter="todoGetFilter"
             data-component="{{$ParentViewID}}"
+            data-filter="todoFilterViewGetFilter"
             data-config="{'PageNo': '{{$PreviousPage}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
             data-isrealtime="todoGetRealtime" ,
             data-realtimedomain="todoGetRealtimeDomain">
@@ -39,26 +39,26 @@
     <div class="ar-flex-item-stretch"></div>
 
     {{@HaveNextPage}}
-    <button class="ar-button ar-border" style="width: 40px; height: 40px;"
-            data-action="filterComponentHtml" 
+    <button class="ar-button ar-border" style="width: 40px; height: 40px;" title="PageNo={{$NextPage}}, ItemsPerPage={{$ItemsPerPage}}"
+            data-action="refreshComponentHtml" 
             data-progress="nextToDoProgress" 
             data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" 
             data-appview="{{$AppView}}"
-            data-filter="todoGetFilter"
             data-component="{{$ParentViewID}}"
+            data-filter="todoFilterViewGetFilter"
             data-config="{'PageNo': '{{$NextPage}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
             data-isrealtime="todoGetRealtime" ,
             data-realtimedomain="todoGetRealtimeDomain">
         <strong style="font-weight:bolder;">&gt;</strong><span id="nextToDoProgress"></span>
     </button>
-    <button class="ar-button ar-border" style="width: 40px; height: 40px;"
-            data-action="filterComponentHtml" 
+    <button class="ar-button ar-border" style="width: 40px; height: 40px;" title="PageNo=999999, ItemsPerPage={{$ItemsPerPage}}"
+            data-action="refreshComponentHtml" 
             data-progress="lastToDoProgress" 
             data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
-            data-filter="todoGetFilter"
             data-component="{{$ParentViewID}}"
+            data-filter="todoFilterViewGetFilter"
             data-config="{'PageNo': '999999', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
             data-isrealtime="todoGetRealtime" ,
             data-realtimedomain="todoGetRealtimeDomain">
@@ -74,13 +74,14 @@
     </button>
     {{/HaveNextPage}}
 
-    <button class="ar-button ar-border" style="width:40px;height:40px;margin-left:5px;"
+    <button class="ar-button ar-border" style="width:40px;height:40px;margin-left:5px;" title="PageNo={{$PageNo}}, ItemsPerPage={{$ItemsPerPage}}"
             data-action="refreshComponentHtml" 
             data-progress="refreshToDoProgress" 
             data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" 
             data-appview="{{$AppView}}" 
             data-component="{{$ParentViewID}}"
+            data-filter="todoFilterViewGetFilter"
             data-config="{'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
             data-isrealtime="todoGetRealtime" ,
             data-realtimedomain="todoGetRealtimeDomain">

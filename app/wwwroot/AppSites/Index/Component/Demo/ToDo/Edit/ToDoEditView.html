@@ -1,12 +1,18 @@
 
-<div class="ar-flex-input-wrap bg-alt" id="toDoEditViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+<div class="ar-flex-input-wrap bg-alt" id="toDoEditViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}},KeyPath={{$KeyPath}}">
+    <div id="toDoEditConfig">
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="PageNo" id="{{$ParentViewID}}EditPageNo" />
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="ItemsPerPage" id="{{$ParentViewID}}EditItemsPerPage" />
+    </div>
     <div id="toDoEditKey">
         <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ParentViewID}}EditGuid" />
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ParentViewID}}EditViewID" />
     </div>
     <div class="ar-flex-input-wrap" id="toDoEditInput">
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" id="{{$ParentViewID}}EditKey" value="" />
+
         <div>Task Name</div>
         <input type="text" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ParentViewID}}EditTaskName" />
-        <input type="hidden" class="ar-input ar-border" style="width:100%;" id="{{$ParentViewID}}EditKey" value="" />
 
         <div>Task Status</div>
         <select class="ar-select ar-border" data-key="" style="width:100%;padding:0 0 0 10px;" id="{{$ParentViewID}}EditTaskStatus">
@@ -18,18 +24,19 @@
     <div>
         <button class="ar-button ar-border" style="margin:5px;background-color:green;width:75px;" onclick="hideElm('toDoEditViewDiv')">Close</button>
         <button class="ar-button ar-border" style="margin:5px;background-color:lightblue;width:75px;"
-                data-action="editJsonInJsonArray" 
-                data-progress="{{$ParentViewID}}Progress" 
+                data-action="editJsonInJsonArray"
+                data-progress="{{$ParentViewID}}Progress"
                 data-response="{{$ParentViewID}}Response"
-                data-appsite="{{$AppSite}}" 
-                data-appview="{{$AppView}}" 
+                data-appsite="{{$AppSite}}"
+                data-appview="{{$AppView}}"
                 data-appcomponent="{{$ParentViewID}}"
                 data-keyinfo="todoEditViewGetKeyInfo"
                 data-datainfo="todoEditViewGetEditInfo"
                 data-validkeyinfo="{'TaskName':'', 'TaskStatus':''}"
                 data-duplicatekeyinfo="{'TaskName':''}"
-                data-component="{{$ParentViewID}}"
-                data-config="{ 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }"
+                data-component="todoEditViewGetEditViewID"
+                data-filter="todoFilterViewGetFilter"
+                data-config="todoEditViewGetConfigInfo"
                 data-isrealtime="todoGetRealtime" ,
                 data-realtimedomain="todoGetRealtimeDomain">
             Change
@@ -46,5 +53,13 @@
     function todoEditViewGetEditInfo() {
         return getFlatJson('toDoEditInput', '{{$ParentViewID}}');
     }
-    
+
+    function todoEditViewGetConfigInfo() {
+        //return { "PageNo": getElm('{{$ParentViewID}}EditPageNo').value, "ItemsPerPage": getElm('{{$ParentViewID}}EditItemsPerPage').value }
+        return getFlatJson('toDoEditConfig', '');
+    }
+
+    function todoEditViewGetEditViewID() {
+        return getElm('{{$ParentViewID}}EditViewID').value;
+    }
 </script>

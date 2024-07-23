@@ -2,9 +2,12 @@
   "WebRootName": "wwwroot",
   "ConfigType": "Base",
   "ConfigLogLevel": "Critical,Error,Warn",
+
   "CreateWebConfig": false,
-  "ReadApiConfigList": "",
-  "CreateApiConfigList": "",
+  "ReadApiConfigPatternList": "",
+  "CreateApiConfigPatternList": "",
+  "AllowApiConfigUpdate": false,
+
   "SaveJsCssResource": false,
   "PersistMetricLog": true,
   "AllowReload": true,
@@ -14,10 +17,13 @@
     "PageTitle": "Arshu AppWeb Viewer",
     "ShowManageLink": true,
     "ShowDocumentLink": true,
-    "EnableFrameworkView": true,
-    "EnableMetricsView": true,
-    "DefaultRecordMetrics": true,
-    "ShowRecordMetrics": true
+
+    "EnableFrameworkToolbar": true,
+    "EnableFrameworkView": false,
+    "EnableMetricsView": false,
+    "DefaultRecordMetrics": false,
+    "ShowRecordMetrics": false
+
   },
 
   "MetricPort": 9091,
@@ -77,6 +83,11 @@
       "IsEnabled": true
     },
     {
+      "RegisterTypeName": "Arshu.AppSecure.App.Register.SecureRegister",
+      "RegisterDll": "Arshu.AppSecure.dll",
+      "IsEnabled": true
+    },
+    {
       "RegisterTypeName": "Arshu.Git.App.Register.GitRegister",
       "RegisterDll": "Arshu.Git.dll",
       "IsEnabled": true
@@ -104,14 +115,15 @@
 
   "PackAppDirectories": "AppSites, AppApi",
   "PackResourcesDirectories": "Resource,Content",
-  "PackDataDirectories": "AppApi, App_Data, Db",
+  "PackConfigDirectories": "App_Config, AppApi",
+  "PackDataDirectories": "App_Data, Db",
 
   "PackApp": true,
   "PackResource": true,
   "PackConfig": true,
   "PackData": true,
   "PackAppSites": "Index",
-  "PackAppConfigs": "AppApi",
+  "PackAppConfigs": "App_Config, AppApi",
   "PackAppDatas": "Cert, Roles, Members",
 
   "PackName": "Arshu.AppBaseWeb.1.0.pap",

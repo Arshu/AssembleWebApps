@@ -1,5 +1,5 @@
 
-<div class="ar-flex-input-wrap bg-alt" id="toDoAddViewDiv" style="text-align:center;padding:5px 5px;display:none;">
+<div class="ar-flex-input-wrap bg-alt" id="toDoAddViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}},KeyPath={{$KeyPath}}">
     <div>TaskName</div>
     <input id="addTaskName" type="text" class="ar-input ar-border" style="width:100%;" data-key="ToDo.ToDoList~0.TaskName" />
     <div>
@@ -12,6 +12,7 @@
                 data-datainfo="todoAddViewGetAddInfo"
                 data-duplicatekeyinfo="{'TaskName':''}"
                 data-component="{{$ParentViewID}}"
+                data-filter="todoFilterViewGetFilter"
                 data-config="{ 'PageNo': '999999', 'ItemsPerPage': '{{$ItemsPerPage}}' }"
                 data-isrealtime="todoGetRealtime" ,
                 data-realtimedomain="todoGetRealtimeDomain">

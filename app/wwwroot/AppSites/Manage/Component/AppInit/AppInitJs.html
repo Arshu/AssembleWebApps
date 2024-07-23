@@ -6,8 +6,59 @@
 </script>
 
 <script type="text/javascript">
-    
-    function retrieveAppInitInfo(progressElmId, responseElmId, appNameElmId, folderSelectElmId, appSecurityElmId, doInitAppUserBtnElmId, doInitBackupUpdateAppBtnElmId, doInitUploadBackupUpdateBtnElmId, successCallback, failureCallback) {
+
+    function resetSecurityDiv(initFolderSelectVal, appSecurityElmId, successCallback, failureCallback) {
+
+        let progressElmId = "noprogress";
+        let responseElmId = "noresponse";
+
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        //if (apiToken.length == 0) {
+        //    showText(responseElm, 'Enter the API Token', 'red');
+        //    valid = false;
+        //}
+
+        if (initFolderSelectVal.length == 0) {
+            //showText(responseElm, 'Select Target Folder', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RetrieveInitInfo';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "initializeFolder": initFolderSelectVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                if (result.hasOwnProperty('InitialUserNotFound') === true) {
+                    let initialUserNotFound = result.InitialUserNotFound;
+                    if (initialUserNotFound == true) {
+                        showElm(appSecurityElmId);
+                    } else {
+                        hideElm(appSecurityElmId);
+                    }
+                }
+
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+    }
+
+    function retrieveAppInitInfo(progressElmId, responseElmId, folderSelectElmId, appNameElmId, appSecurityElmId, doInitAppUserBtnElmId, doInitUploadAppBtnElmId, doInitBackupUpdateAppBtnElmId, doInitUploadBackupUpdateBtnElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -25,10 +76,19 @@
         //    valid = false;
         //}
 
+        let initFolderSelectVal = getElm(folderSelectElmId).value;
+        if (initFolderSelectVal.length == 0) {
+            showText(responseElm, 'Select Target Folder', 'red');
+            valid = false;
+        }
+
         if (valid === true) {
 
             if (haveElm(doInitAppUserBtnElmId) == true) {
                 getElm(doInitAppUserBtnElmId).setAttribute("disabled", true);
+            }
+            if (haveElm(doInitUploadAppBtnElmId) == true) {
+                getElm(doInitUploadAppBtnElmId).setAttribute("disabled", true);
             }
             if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
                 getElm(doInitBackupUpdateAppBtnElmId).setAttribute("disabled", true);
@@ -44,22 +104,14 @@
             let apiMethod = 'RetrieveInitInfo';
 
             let apiParams = {
-                "apiToken": apiToken
+                "apiToken": apiToken,
+                "initializeFolder": initFolderSelectVal
             };
 
             let processReturn = function (result, responseElmId, successCallback, failureCallback) {
 
                 let responseElm = getElm(responseElmId);
 
-                if (haveElm(doInitAppUserBtnElmId) == true) {
-                    getElm(doInitAppUserBtnElmId).removeAttribute("disabled");
-                }
-                if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
-                    getElm(doInitBackupUpdateAppBtnElmId).removeAttribute("disabled");
-                }
-                if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
-                    getElm(doInitUploadBackupUpdateBtnElmId).removeAttribute("disabled");
-                }
 
                 if (result.hasOwnProperty('error') === true) {
                     showText(responseElm, result.error, 'red');
@@ -76,7 +128,20 @@
                 //    }
                 //}
                 else
-                {                   
+                {
+                    if (haveElm(doInitAppUserBtnElmId) == true) {
+                        getElm(doInitAppUserBtnElmId).removeAttribute("disabled");
+                    }
+                    if (haveElm(doInitUploadAppBtnElmId) == true) {
+                        getElm(doInitUploadAppBtnElmId).removeAttribute("disabled");
+                    }
+                    if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
+                        getElm(doInitBackupUpdateAppBtnElmId).removeAttribute("disabled");
+                    }
+                    if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
+                        getElm(doInitUploadBackupUpdateBtnElmId).removeAttribute("disabled");
+                    }
+
                     if (result.hasOwnProperty('AppName') === true) {
                         getElm(appNameElmId).value = result.AppName;
                     }
@@ -85,6 +150,8 @@
                         let initialUserNotFound = result.InitialUserNotFound;
                         if (initialUserNotFound == true) {
                             showElm(appSecurityElmId);
+                        } else {
+                            hideElm(appSecurityElmId);
                         }
                     }
 
@@ -127,7 +194,7 @@
         return false;
     }
 
-    function initAppUser(progressElmId, responseElmId, appOwnerIDVal, initialUserEmailVal, initialUserPwdVal, initialUserConfirmPwdVal, doInitAppUserBtnElmId, doInitBackupUpdateAppBtnElmId, doInitUploadBackupUpdateBtnElmId, successCallback, failureCallback) {
+    function initAppUser(progressElmId, responseElmId, initFolderSelectVal, appOwnerIDVal, initialUserEmailVal, initialUserPwdVal, initialUserConfirmPwdVal, doInitAppUserBtnElmId, doInitUploadAppBtnElmId, doInitBackupUpdateAppBtnElmId, doInitUploadBackupUpdateBtnElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -136,6 +203,15 @@
 
         var data = new FormData();
         let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        if (apiToken.length == 0) {
+            showText(responseElm, 'Enter the API Token', 'red');
+            valid = false;
+        }
 
         if (valid == true) {
             if (appOwnerIDVal == "") {
@@ -175,6 +251,9 @@
             if (haveElm(doInitAppUserBtnElmId) == true) {
                 getElm(doInitAppUserBtnElmId).setAttribute("disabled", true);
             }
+            if (haveElm(doInitUploadAppBtnElmId) == true) {
+                getElm(doInitUploadAppBtnElmId).setAttribute("disabled", true);
+            }
             if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
                 getElm(doInitBackupUpdateAppBtnElmId).setAttribute("disabled", true);
             }
@@ -189,6 +268,8 @@
             let apiMethod = 'InitAppUser';
 
             let apiParams = {
+                "apiToken": apiToken,
+                "initializeFolder": initFolderSelectVal,
                 "appOwnerID": appOwnerIDVal,
                 "initialAdminUserEmail": initialUserEmailVal,
                 "initialAdminUserPwd": initialUserPwdVal
@@ -200,6 +281,9 @@
 
                 if (haveElm(doInitAppUserBtnElmId) == true) {
                     getElm(doInitAppUserBtnElmId).removeAttribute("disabled");
+                }
+                if (haveElm(doInitUploadAppBtnElmId) == true) {
+                    getElm(doInitUploadAppBtnElmId).removeAttribute("disabled");
                 }
                 if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
                     getElm(doInitBackupUpdateAppBtnElmId).removeAttribute("disabled");
@@ -231,196 +315,7 @@
         return false;
     }
 
-    function initBackupUpdateApp(progressElmId, responseElmId, appSecurityDivElmId, appOwnerIDVal, initialUserEmailVal, initialUserPwdVal, initialUserConfirmPwdVal, skipMachineUpdateVal, httpStatusCheckVal, doInitAppUserBtnElmId, doInitBackupUpdateAppBtnElmId, doInitUploadBackupUpdateBtnElmId, backupUpdateDetailResponseElmId, successCallback, failureCallback) {
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-
-        hideElm(backupUpdateDetailResponseElmId);
-        let detailResponseElm = getElm(backupUpdateDetailResponseElmId);
-        detailResponseElm.textContent = '';
-        let responseWarnElmId = responseElmId + "Warn";
-        let responseWarnElm = getElm(responseWarnElmId);
-        responseWarnElm.textContent = '';
-
-        let valid = true;
-
-        let apiToken = "";
-        if (haveElm('appAPIToken') == true) {
-            apiToken = getElm('appAPIToken').value;
-        }
-        if (apiToken.length == 0) {
-            showText(responseElm, 'Enter the API Token', 'red');
-            valid = false;
-        }
-
-        if (valid == true) {
-            if (appOwnerIDVal == "") {
-                showText(responseElm, 'Enter the App Owner Email', 'red');
-                valid = false;
-            }
-        }
-
-        let securityElm = getElm(appSecurityDivElmId);
-        if (isHiddenElm(appSecurityDivElmId) == false) {
-            if (valid == true) {
-                if (initialUserEmailVal == "") {
-                    showText(responseElm, 'Enter the Initial Admin User Email', 'red');
-                    valid = false;
-                }
-            }
-
-            if (valid == true) {
-                if (initialUserPwdVal == "") {
-                    showText(responseElm, 'Enter the Initial Admin User Pwd', 'red');
-                    valid = false;
-                }
-            }
-
-            if (valid == true) {
-                if (initialUserConfirmPwdVal == "") {
-                    showText(responseElm, 'Enter the Initial Admin User Confirm Pwd', 'red');
-                    valid = false;
-                }
-            }
-
-            if (valid == true) {
-                if (initialUserPwdVal != initialUserConfirmPwdVal) {
-                    showText(responseElm, 'Pwd and Confirm Pwd does not match', 'red');
-                    valid = false;
-                }
-            }
-        }
-
-        if (valid === true) {
-
-            if (haveElm(doInitAppUserBtnElmId) == true) {
-                getElm(doInitAppUserBtnElmId).setAttribute("disabled", true);
-            }
-            if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
-                getElm(doInitBackupUpdateAppBtnElmId).setAttribute("disabled", true);
-            }
-            if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
-                getElm(doInitUploadBackupUpdateBtnElmId).setAttribute("disabled", true);
-            }
-
-            let isRealtime = false;
-            let realtimeDomain = "";
-
-            let apiUrl = '/AppApi/ServerApi';
-            let apiMethod = 'InitBackupUpdateApp';
-
-            let apiParams = {
-                "apiToken": apiToken,
-                "appOwnerID": appOwnerIDVal,
-                "initialAdminUserEmail": initialUserEmailVal,
-                "initialAdminUserPwd": initialUserPwdVal,
-                "skipMachineUpdate": skipMachineUpdateVal,
-                "httpStatusCheck": httpStatusCheckVal
-            };
-
-            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
-
-                let responseElm = getElm(responseElmId);
-
-                if (haveElm(doInitAppUserBtnElmId) == true) {
-                    getElm(doInitAppUserBtnElmId).removeAttribute("disabled");
-                }
-                if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
-                    getElm(doInitBackupUpdateAppBtnElmId).removeAttribute("disabled");
-                }
-                if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
-                    getElm(doInitUploadBackupUpdateBtnElmId).removeAttribute("disabled");
-                }
-
-                if (result.hasOwnProperty('error') === true) {
-                    showText(responseElm, result.error, 'red');
-                   
-                    let detailMessageHtml = "";
-                    let messageNo = 0;
-                    if (result.hasOwnProperty('errorJson') === true) {
-                        let errorJson = result.errorJson;
-                        for (let i = 0; i < errorJson.length; i++) {
-                            messageNo++;
-                            let messageObj = errorJson[i];
-                            for (var key in messageObj) {
-                                if (messageObj.hasOwnProperty(key)) {
-                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
-                                }
-                            }
-                        }
-                    }
-                    getElm(backupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
-                    showElm(backupUpdateDetailResponseElmId);
-                }
-                else if (result.hasOwnProperty('message') === true) {
-                    showText(responseElm, result.message, 'green');
-
-                    if (result.hasOwnProperty('warn') === true) {
-                        showText(responseWarnElm, result.warn, 'blue');
-                    }
-
-                    let detailMessageHtml = "";
-                    let messageNo = 0;
-                    if (result.hasOwnProperty('messageJson') === true) {
-                        let messageJson = result.messageJson;
-                        for (let i = 0; i < messageJson.length; i++) {
-                            messageNo++;
-                            let messageObj = messageJson[i];
-                            for (var key in messageObj) {
-                                if (messageObj.hasOwnProperty(key)) {
-                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:green'>" + messageObj[key] + "</span><br/>";
-                                }
-                            }
-                        }
-                    }
-                    if (result.hasOwnProperty('warnJson') === true) {
-                        let messageJson = result.warnJson;
-                        for (let i = 0; i < messageJson.length; i++) {
-                            messageNo++;
-                            let messageObj = messageJson[i];
-                            for (var key in messageObj) {
-                                if (messageObj.hasOwnProperty(key)) {
-                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
-                                }
-                            }
-                        }
-                    }
-                    getElm(backupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
-                    //showElm(backupUpdateDetailResponseElmId);
-                }
-                else if (result.hasOwnProperty('warn') === true) {
-                    showText(responseElm, result.warn, 'red');
-
-                    let detailMessageHtml = "";
-                    let messageNo = 0;
-                    if (result.hasOwnProperty('warnJson') === true) {
-                        let messageJson = result.warnJson;
-                        for (let i = 0; i < messageJson.length; i++) {
-                            messageNo++;
-                            let messageObj = messageJson[i];
-                            for (var key in messageObj) {
-                                if (messageObj.hasOwnProperty(key)) {
-                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
-                                }
-                            }
-                        }
-                    }
-                    getElm(backupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
-                    //showElm(backupUpdateDetailResponseElmId);
-                }
-            };
-
-            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
-
-        }
-
-        return false;
-    }
-
-    function initUploadBackupUpdateApp(progressElmId, responseElmId, appSecurityDivElmId, appOwnerIDVal, initialUserEmailVal, initialUserPwdVal, initialUserConfirmPwdVal, fileElmId, initFolderSelectVal, initOverwriteAppDataVal, initClearBackupLayerVal, initBackupAppDataVal, skipZipUploadVal, skipMachineUpdateVal, httpStatusCheckVal, doInitAppUserBtnElmId, doInitBackupUpdateAppBtnElmId, doInitUploadBackupUpdateBtnElmId, uploadBackupUpdateDetailResponseElmId, successCallback, failureCallback) {
+    function initUploadApp(progressElmId, responseElmId, initFolderSelectVal, appOwnerIDVal, initialUserEmailVal, initialUserPwdVal, initialUserConfirmPwdVal, appSecurityDivElmId, fileElmId, initOverwriteAppDataVal, doInitAppUserBtnElmId, doInitUploadAppBtnElmId, doInitBackupUpdateAppBtnElmId, doInitUploadBackupUpdateBtnElmId, uploadBackupUpdateDetailResponseElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -433,7 +328,6 @@
         let responseWarnElmId = responseElmId + "Warn";
         let responseWarnElm = getElm(responseWarnElmId);
         responseWarnElm.textContent = '';
-
 
         var data = new FormData();
         let valid = true;
@@ -485,21 +379,14 @@
             }
         }
 
-        if (skipZipUploadVal == false) {
-            if (valid == true) {
-                var uploadFile = document.getElementById(fileElmId);
-                if (uploadFile.files.length > 0) {
-                    data.append("file", uploadFile.files[0]);
-                }
-                else {
-                    showText(responseElm, 'Select a Zip File before Initializing', 'red');
-                    valid = false;
-                }
-            }
-        } else {
+        if (valid == true) {
             var uploadFile = document.getElementById(fileElmId);
             if (uploadFile.files.length > 0) {
-                showText(responseElm, 'Do not attach Zip File if Skip Upload is checked', 'red');
+                data.append("file", uploadFile.files[0]);
+            }
+            else {
+                showText(responseElm, 'Select a Zip File before Initializing', 'red');
+                valid = false;
             }
         }
 
@@ -515,6 +402,9 @@
             if (haveElm(doInitAppUserBtnElmId) == true) {
                 getElm(doInitAppUserBtnElmId).setAttribute("disabled", true);
             }
+            if (haveElm(doInitUploadAppBtnElmId) == true) {
+                getElm(doInitUploadAppBtnElmId).setAttribute("disabled", true);
+            }
             if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
                 getElm(doInitBackupUpdateAppBtnElmId).setAttribute("disabled", true);
             }
@@ -523,25 +413,18 @@
             }
 
             let apiUrl = '/AppApi/ServerApi';
-            let apiMethod = 'InitUploadBackupUpdateApp';
+            let apiMethod = 'InitUploadApp';
 
             data.append('ProcessFormData', apiMethod);
+
+            data.append("apiToken", apiToken);
+            data.append('initializeFolder', initFolderSelectVal);
+            data.append("appOwnerID", appOwnerIDVal);
 
             data.append('initialAdminUserEmail', initialUserEmailVal);
             data.append('initialAdminUserPwd', initialUserPwdVal);
 
-            data.append('initializeFolder', initFolderSelectVal);
             data.append('overwriteAppData', initOverwriteAppDataVal);
-
-            data.append("apiToken", apiToken),
-            data.append('clearDownloadLayer', initClearBackupLayerVal);
-            data.append('backupAppData', initBackupAppDataVal);
-
-            data.append('skipZipUpload', skipZipUploadVal);
-            data.append('skipMachineUpdate', skipMachineUpdateVal);
-            data.append('httpStatusCheck', httpStatusCheckVal);
-
-            data.append("appOwnerID", appOwnerIDVal),
 
             dopostform(progressElmId, responseElmId, apiUrl, data,
                 function (jsonData) {
@@ -550,6 +433,9 @@
 
                         if (haveElm(doInitAppUserBtnElmId) == true) {
                             getElm(doInitAppUserBtnElmId).removeAttribute("disabled");
+                        }
+                        if (haveElm(doInitUploadAppBtnElmId) == true) {
+                            getElm(doInitUploadAppBtnElmId).removeAttribute("disabled");
                         }
                         if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
                             getElm(doInitBackupUpdateAppBtnElmId).removeAttribute("disabled");
@@ -633,6 +519,442 @@
                             }
                             getElm(uploadBackupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
                             //showElm(uploadBackupUpdateDetailResponseElmId);
+                        }
+
+                        if (typeof successCallback === "function") {
+                            successCallback();
+                        }
+                    }
+                    else if (jsonData.hasOwnProperty('Error') === true) {
+                        var error = jsonData.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                }
+            );
+        }
+
+        return false;
+    }
+
+    function initBackupUpdateApp(progressElmId, responseElmId, initFolderSelectVal, appOwnerIDVal,  initialUserEmailVal, initialUserPwdVal, initialUserConfirmPwdVal, appSecurityDivElmId, initClearBackupLayerVal, initBackupAppDataVal, skipMachineUpdateVal, httpStatusCheckVal, doInitAppUserBtnElmId, doInitUploadAppBtnElmId, doInitBackupUpdateAppBtnElmId, doInitUploadBackupUpdateBtnElmId, backupUpdateDetailResponseElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        hideElm(backupUpdateDetailResponseElmId);
+        let detailResponseElm = getElm(backupUpdateDetailResponseElmId);
+        detailResponseElm.textContent = '';
+        let responseWarnElmId = responseElmId + "Warn";
+        let responseWarnElm = getElm(responseWarnElmId);
+        responseWarnElm.textContent = '';
+
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        if (apiToken.length == 0) {
+            showText(responseElm, 'Enter the API Token', 'red');
+            valid = false;
+        }
+
+        if (valid == true) {
+            if (appOwnerIDVal == "") {
+                showText(responseElm, 'Enter the App Owner Email', 'red');
+                valid = false;
+            }
+        }
+
+        let securityElm = getElm(appSecurityDivElmId);
+        if (isHiddenElm(appSecurityDivElmId) == false) {
+            if (valid == true) {
+                if (initialUserEmailVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Email', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserPwdVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Pwd', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserConfirmPwdVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Confirm Pwd', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserPwdVal != initialUserConfirmPwdVal) {
+                    showText(responseElm, 'Pwd and Confirm Pwd does not match', 'red');
+                    valid = false;
+                }
+            }
+        }
+
+        if (valid === true) {
+
+            if (haveElm(doInitAppUserBtnElmId) == true) {
+                getElm(doInitAppUserBtnElmId).setAttribute("disabled", true);
+            }
+            if (haveElm(doInitUploadAppBtnElmId) == true) {
+                getElm(doInitUploadAppBtnElmId).setAttribute("disabled", true);
+            }
+            if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
+                getElm(doInitBackupUpdateAppBtnElmId).setAttribute("disabled", true);
+            }
+            if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
+                getElm(doInitUploadBackupUpdateBtnElmId).setAttribute("disabled", true);
+            }
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'InitBackupUpdateApp';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "initializeFolder": initFolderSelectVal,
+                "appOwnerID": appOwnerIDVal,
+                "initialAdminUserEmail": initialUserEmailVal,
+                "initialAdminUserPwd": initialUserPwdVal,
+                "clearDownloadLayer": initClearBackupLayerVal,
+                "backupAppData": initBackupAppDataVal,
+                "skipMachineUpdate": skipMachineUpdateVal,
+                "httpStatusCheck": httpStatusCheckVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (haveElm(doInitAppUserBtnElmId) == true) {
+                    getElm(doInitAppUserBtnElmId).removeAttribute("disabled");
+                }
+                if (haveElm(doInitUploadAppBtnElmId) == true) {
+                    getElm(doInitUploadAppBtnElmId).removeAttribute("disabled");
+                }
+                if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
+                    getElm(doInitBackupUpdateAppBtnElmId).removeAttribute("disabled");
+                }
+                if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
+                    getElm(doInitUploadBackupUpdateBtnElmId).removeAttribute("disabled");
+                }
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    let detailMessageHtml = "";
+                    let messageNo = 0;
+                    if (result.hasOwnProperty('errorJson') === true) {
+                        let errorJson = result.errorJson;
+                        for (let i = 0; i < errorJson.length; i++) {
+                            messageNo++;
+                            let messageObj = errorJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    getElm(backupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                    showElm(backupUpdateDetailResponseElmId);
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green');
+
+                    if (result.hasOwnProperty('warn') === true) {
+                        showText(responseWarnElm, result.warn, 'blue');
+                    }
+
+                    let detailMessageHtml = "";
+                    let messageNo = 0;
+                    if (result.hasOwnProperty('messageJson') === true) {
+                        let messageJson = result.messageJson;
+                        for (let i = 0; i < messageJson.length; i++) {
+                            messageNo++;
+                            let messageObj = messageJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:green'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    if (result.hasOwnProperty('warnJson') === true) {
+                        let messageJson = result.warnJson;
+                        for (let i = 0; i < messageJson.length; i++) {
+                            messageNo++;
+                            let messageObj = messageJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    getElm(backupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                    //showElm(backupUpdateDetailResponseElmId);
+                }
+                else if (result.hasOwnProperty('warn') === true) {
+                    showText(responseElm, result.warn, 'red');
+
+                    let detailMessageHtml = "";
+                    let messageNo = 0;
+                    if (result.hasOwnProperty('warnJson') === true) {
+                        let messageJson = result.warnJson;
+                        for (let i = 0; i < messageJson.length; i++) {
+                            messageNo++;
+                            let messageObj = messageJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    getElm(backupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                    //showElm(backupUpdateDetailResponseElmId);
+                }
+
+                if (typeof successCallback === "function") {
+                    successCallback();
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+
+        }
+
+        return false;
+    }
+
+    function initUploadBackupUpdateApp(progressElmId, responseElmId, initFolderSelectVal, appOwnerIDVal,  initialUserEmailVal, initialUserPwdVal, initialUserConfirmPwdVal, appSecurityDivElmId, fileElmId, initOverwriteAppDataVal, initClearBackupLayerVal, initBackupAppDataVal, skipMachineUpdateVal, httpStatusCheckVal, doInitAppUserBtnElmId, doInitUploadAppBtnElmId, doInitBackupUpdateAppBtnElmId, doInitUploadBackupUpdateBtnElmId, uploadBackupUpdateDetailResponseElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        hideElm(uploadBackupUpdateDetailResponseElmId);
+        let detailResponseElm = getElm(uploadBackupUpdateDetailResponseElmId);
+        detailResponseElm.textContent = '';
+        let responseWarnElmId = responseElmId + "Warn";
+        let responseWarnElm = getElm(responseWarnElmId);
+        responseWarnElm.textContent = '';
+
+
+        var data = new FormData();
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        if (apiToken.length == 0) {
+            showText(responseElm, 'Enter the API Token', 'red');
+            valid = false;
+        }
+
+        if (valid == true) {
+            if (appOwnerIDVal == "") {
+                showText(responseElm, 'Enter the App Owner Email', 'red');
+                valid = false;
+            }
+        }
+
+        let securityElm = getElm(appSecurityDivElmId);
+        if (isHiddenElm(appSecurityDivElmId) == false) {
+            if (valid == true) {
+                if (initialUserEmailVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Email', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserPwdVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Pwd', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserConfirmPwdVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Confirm Pwd', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserPwdVal != initialUserConfirmPwdVal) {
+                    showText(responseElm, 'Pwd and Confirm Pwd does not match', 'red');
+                    valid = false;
+                }
+            }
+        }
+
+        if (valid == true) {
+            var uploadFile = document.getElementById(fileElmId);
+            if (uploadFile.files.length > 0) {
+                data.append("file", uploadFile.files[0]);
+            }
+            else {
+                showText(responseElm, 'Select a Zip File before Initializing', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (initFolderSelectVal == "") {
+                showText(responseElm, 'Select the Server Folder to Init to', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+
+            if (haveElm(doInitAppUserBtnElmId) == true) {
+                getElm(doInitAppUserBtnElmId).setAttribute("disabled", true);
+            }
+            if (haveElm(doInitUploadAppBtnElmId) == true) {
+                getElm(doInitUploadAppBtnElmId).setAttribute("disabled", true);
+            }
+            if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
+                getElm(doInitBackupUpdateAppBtnElmId).setAttribute("disabled", true);
+            }
+            if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
+                getElm(doInitUploadBackupUpdateBtnElmId).setAttribute("disabled", true);
+            }
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'InitUploadBackupUpdateApp';
+
+            data.append('ProcessFormData', apiMethod);
+
+            data.append("apiToken", apiToken);
+            data.append("appOwnerID", appOwnerIDVal);
+            data.append('initializeFolder', initFolderSelectVal);
+
+            data.append('initialAdminUserEmail', initialUserEmailVal);
+            data.append('initialAdminUserPwd', initialUserPwdVal);
+
+            data.append('overwriteAppData', initOverwriteAppDataVal);
+
+            data.append('clearDownloadLayer', initClearBackupLayerVal);
+            data.append('backupAppData', initBackupAppDataVal);
+
+            data.append('skipMachineUpdate', skipMachineUpdateVal);
+            data.append('httpStatusCheck', httpStatusCheckVal);
+
+            dopostform(progressElmId, responseElmId, apiUrl, data,
+                function (jsonData) {
+                    if (jsonData.hasOwnProperty('Result') === true) {
+                        var result = jsonData.Result;
+
+                        if (haveElm(doInitAppUserBtnElmId) == true) {
+                            getElm(doInitAppUserBtnElmId).removeAttribute("disabled");
+                        }
+                        if (haveElm(doInitUploadAppBtnElmId) == true) {
+                            getElm(doInitUploadAppBtnElmId).removeAttribute("disabled");
+                        }
+                        if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
+                            getElm(doInitBackupUpdateAppBtnElmId).removeAttribute("disabled");
+                        }
+                        if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
+                            getElm(doInitUploadBackupUpdateBtnElmId).removeAttribute("disabled");
+                        }
+
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+
+                            let detailMessageHtml = "";
+                            let messageNo = 0;
+                            if (result.hasOwnProperty('errorJson') === true) {
+                                let errorJson = result.errorJson;
+                                for (let i = 0; i < errorJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = errorJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            getElm(uploadBackupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                            //showElm(uploadBackupUpdateDetailResponseElmId);
+                        }
+                        else if (result.hasOwnProperty('message') === true) {
+                            showText(responseElm, result.message, 'green');
+
+                            if (result.hasOwnProperty('warn') === true) {
+                                showText(responseWarnElm, result.warn, 'blue');
+                            }
+
+                            let detailMessageHtml = "";
+                            let messageNo = 0;
+                            if (result.hasOwnProperty('messageJson') === true) {
+                                let messageJson = result.messageJson;
+                                for (let i = 0; i < messageJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = messageJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:green'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            if (result.hasOwnProperty('warnJson') === true) {
+                                let messageJson = result.warnJson;
+                                for (let i = 0; i < messageJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = messageJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            getElm(uploadBackupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                            //showElm(uploadBackupUpdateDetailResponseElmId);
+                        }
+                        else if (result.hasOwnProperty('warn') === true) {
+                            showText(responseElm, result.warn, 'red');
+
+                            let detailMessageHtml = "";
+                            let messageNo = 0;
+                            if (result.hasOwnProperty('warnJson') === true) {
+                                let messageJson = result.warnJson;
+                                for (let i = 0; i < messageJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = messageJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            getElm(uploadBackupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                            //showElm(uploadBackupUpdateDetailResponseElmId);
+                        }
+
+                        if (typeof successCallback === "function") {
+                            successCallback();
                         }
                     }
                     else if (jsonData.hasOwnProperty('Error') === true) {

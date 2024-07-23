@@ -1,12 +1,12 @@
-<div class="ar-flex-content-spaced" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}">
+<div class="ar-flex-content-spaced" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}},KeyPath={{$KeyPath}}">
     <select class="ar-input ar-border" style="margin: 0px;" id="{{$ParentViewID}}ItemsPerPage"
-            data-action="filterComponentHtml" 
+            data-action="refreshComponentHtml" 
             data-progress="toDoItemsPerPageProgress" 
             data-response="{{$ParentViewID}}Response"
             data-appsite="{{$AppSite}}" 
             data-appview="{{$AppView}}"
-            data-filter="todoGetFilter"
             data-component="{{$ParentViewID}}"
+            data-filter="todoFilterViewGetFilter"
             data-config="todoGetPager",
             data-current="{'PageNo': '1', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
             data-isrealtime="todoGetRealtime">

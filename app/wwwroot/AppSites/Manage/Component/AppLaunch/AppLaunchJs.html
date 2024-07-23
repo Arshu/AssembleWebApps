@@ -177,6 +177,7 @@
 
                         let launchRegionTargetElm = getElm(launchRegionTargetElmId);
                         launchRegionTargetElm.innerHTML = launchRegionTemplate;
+                        showElm(launchRegionTargetElmId + "Div");
                     }
 
                     if (result.hasOwnProperty("OrgList") === true) {
@@ -248,6 +249,12 @@
                     }
                     if (result.hasOwnProperty('MaxMachinesPerRegion') === true) {
                         getElm(launchMaxMachinesPerRegionElmId).value = result.MaxMachinesPerRegion;
+                    }
+                    if (result.hasOwnProperty('MaxRegion') === true) {
+                        getElm('launchMaxRegion').innerHTML = result.MaxRegion;
+                    }
+                    if (result.hasOwnProperty('MinRegion') === true) {
+                        getElm('launchMinRegion').innerHTML = result.MinRegion;
                     }
 
                     if (result.hasOwnProperty('AppCountPerTeam') === true) {
@@ -487,7 +494,7 @@
         return false;
     }
 
-    function launchApp(progressElmId, responseElmId, newAppNameVal, newAppOrganizationVal, newAppNetworkVal, dockerImagePathVal, dockerImageTagNameVal, launchRegionTargetElmName, envInitialTimeoutVal, envIdleTimeoutVal, envLoadAppDataVal, envAutoDestroyAfterXMinVal, appOwnerIDVal, underDomainNameVal, doLaunchAppBtnElmId, deleteLaunchAppBtnElmId, doLaunchSimpleAppBtnElmId, detailResponseElmId, successCallback, failureCallback) {
+    function launchApp(progressElmId, responseElmId, newAppNameVal, newAppOrganizationVal, newAppNetworkVal, dockerImagePathVal, dockerImageTagNameVal, launchRegionTargetElmName, envInitialTimeoutVal, envIdleTimeoutVal, envLoadAppDataVal, envAutoDestroyAfterXMinVal, appOwnerIDVal, underDomainNameVal, attachVolumeSizeVal, doLaunchAppBtnElmId, deleteLaunchAppBtnElmId, doLaunchSimpleAppBtnElmId, detailResponseElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -596,7 +603,8 @@
                 "envLoadAppData": envLoadAppDataVal,
                 "envAutoDestroyAfterXMin": envAutoDestroyAfterXMinVal,
                 "appOwnerID": appOwnerIDVal,
-                "underDomainName": underDomainNameVal
+                "underDomainName": underDomainNameVal,
+                "attachVolumeSize": attachVolumeSizeVal
             };
 
             let processReturn = function (result, responseElmId, successCallback, failureCallback) {
@@ -717,7 +725,7 @@
         return false;
     }
 
-    function launchSimpleApp(progressElmId, responseElmId, newAppNameVal, dockerImagePathVal, launchRegionTargetElmName, underDomainNameVal, appOwnerIDVal, doLaunchAppBtnElmId, deleteLaunchAppBtnElmId, doLaunchSimpleAppBtnElmId, detailResponseElmId, successCallback, failureCallback) {
+    function launchSimpleApp(progressElmId, responseElmId, newAppNameVal, dockerImagePathVal, launchRegionTargetElmName, envAutoDestroyAfterXMinVal, appOwnerIDVal, underDomainNameVal, attachVolumeSizeVal, doLaunchAppBtnElmId, deleteLaunchAppBtnElmId, doLaunchSimpleAppBtnElmId, detailResponseElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -804,8 +812,10 @@
                 "newAppName": newAppNameVal,
                 "dockerImagePath": dockerImagePathVal,
                 "launchRegions": launchRegionList,
+                "envAutoDestroyAfterXMin": envAutoDestroyAfterXMinVal,
                 "appOwnerID": appOwnerIDVal,
-                "underDomainName": underDomainNameVal
+                "underDomainName": underDomainNameVal,
+                "attachVolumeSize": attachVolumeSizeVal
             };
 
             let processReturn = function (result, responseElmId, successCallback, failureCallback) {
@@ -818,7 +828,36 @@
 
                 if (result.hasOwnProperty('error') === true) {
                     showText(responseElm, result.error, 'red');
-                    getElm(doDeployBtnElmId).removeAttribute("disabled");
+
+                    let detailMessageHtml = "";
+                    let messageNo = 0;
+                    if (result.hasOwnProperty('messageJson') === true) {
+                        let messageJson = result.messageJson;
+                        for (let i = 0; i < messageJson.length; i++) {
+                            messageNo++;
+                            let messageObj = messageJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:green'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    if (result.hasOwnProperty('warnJson') === true) {
+                        let messageJson = result.warnJson;
+                        for (let n = 0; n < messageJson.length; n++) {
+                            messageNo++;
+                            let messageObj = messageJson[n];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    getElm(detailResponseElmId).innerHTML = detailMessageHtml;
+                    //showElm(detailResponseElmId);
+
                 }
                 else if (result.hasOwnProperty('message') === true) {
                     showText(responseElm, result.message, 'green');

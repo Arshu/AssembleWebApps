@@ -23,9 +23,9 @@
     {
       "NavTitle": "SignIn",
       "NavUrl": "/Account/Login",
-      "NavAppSite": "",
-      "NavAppView": "",
-      "NavAppViewIDs": "",
+      "NavAppSite": "Account",
+      "NavAppView": "Login",
+      "NavAppViewIDs": "Nav, Content, Footer",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []

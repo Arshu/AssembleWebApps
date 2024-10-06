@@ -16,14 +16,7 @@
   "ContextJson": {
     "PageTitle": "Arshu AppWeb Viewer",
     "ShowManageLink": true,
-    "ShowDocumentLink": true,
-
-    "EnableFrameworkToolbar": true,
-    "EnableFrameworkView": false,
-    "EnableMetricsView": false,
-    "DefaultRecordMetrics": false,
-    "ShowRecordMetrics": false
-
+    "ShowDocumentLink": true
   },
 
   "MetricPort": 9091,
@@ -36,8 +29,8 @@
   "MMFUrlPatterns": "*",
 
   "RealtimeAppSites": "",
-  "StaticAppSites": "Index, Config, Account, Editor, Manage, Test",
-  "SearchAppSites": "Config, Account, Editor, Index",
+  "StaticAppSites": "Index, Account, Editor, Manage, Test",
+  "SearchAppSites": "Account, Editor, Index",
 
   "LoadAppConfig": true,
   "LoadAppData": true,
@@ -56,19 +49,13 @@
   ],
 
   "AppServices": [
-
-    {
-      "RegisterTypeName": "Arshu.AppCore.App.Register.WebRegister",
-      "RegisterDll": "Arshu.AppCore.dll",
-      "IsEnabled": true
-    },
     {
       "RegisterTypeName": "Arshu.AppCore.App.Register.VueRegister",
       "RegisterDll": "Arshu.AppCore.dll",
       "IsEnabled": true
     },
     {
-      "RegisterTypeName": "Arshu.AppCore.App.Register.SyncRegister",
+      "RegisterTypeName": "Arshu.AppCore.App.Register.WebRegister",
       "RegisterDll": "Arshu.AppCore.dll",
       "IsEnabled": true
     },
@@ -81,17 +68,7 @@
       "RegisterTypeName": "Arshu.AppServer.App.Register.ServerRegister",
       "RegisterDll": "Arshu.AppServer.dll",
       "IsEnabled": true
-    },
-    {
-      "RegisterTypeName": "Arshu.AppSecure.App.Register.SecureRegister",
-      "RegisterDll": "Arshu.AppSecure.dll",
-      "IsEnabled": true
-    },
-    {
-      "RegisterTypeName": "Arshu.Git.App.Register.GitRegister",
-      "RegisterDll": "Arshu.Git.dll",
-      "IsEnabled": true
-    }
+    }    
   ],
 
   "AppProviders": [
@@ -126,14 +103,14 @@
   "PackAppConfigs": "App_Config, AppApi",
   "PackAppDatas": "Cert, Roles, Members",
 
-  "PackName": "Arshu.AppBaseWeb.1.0.pap",
-  "PackDescription": "Arshu.AppBaseWeb for Managing AppWebs",
-  "PackResourceName": "Arshu.AppBaseWeb.Resource.1.0.pap",
-  "PackResourceDescription": "Resource of Arshu,AppBaseWeb for Managing AppWebs",
-  "PackConfigName": "Arshu.AppBaseWeb.Data.1.0.pap",
-  "PackConfigDescription": "Data of Arshu.AppBaseWeb for Managing AppWebs",
-  "PackDataName": "Arshu.AppBaseWeb.Data.1.0.pap",
-  "PackDataDescription": "Data of Arshu.AppBaseWeb for Managing AppWebs",
+  "PackName": "Arshu.BaseWeb.1.0.pap",
+  "PackDescription": "Arshu.BaseWeb for Managing AppWebs",
+  "PackResourceName": "Arshu.BaseWeb.Resource.1.0.pap",
+  "PackResourceDescription": "Resource of Arshu,BaseWeb for Managing AppWebs",
+  "PackConfigName": "Arshu.BaseWeb.Data.1.0.pap",
+  "PackConfigDescription": "Data of Arshu.BaseWeb for Managing AppWebs",
+  "PackDataName": "Arshu.BaseWeb.Data.1.0.pap",
+  "PackDataDescription": "Data of Arshu.BaseWeb for Managing AppWebs",
 
   "PackAppSubFolderPath": "A0",
   "PackResourceSubFolderPath": "A0",

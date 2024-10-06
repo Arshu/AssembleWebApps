@@ -1,0 +1,5 @@
+{
+  "AppSite": "{$AppSite}",
+  "JsonSource": "{$JsonSource}",
+  "JsonEditorConfig": "{{$ViewID}}"
+}

@@ -1,0 +1,104 @@
+﻿
+
+<div style="padding:5px 5px;" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
+    {{VIEWPLACEHOLDER}}
+
+    <div style="text-align:center;">
+        <div style="margin:5px; padding:10px;text-align:center;display:none;" class="ar-notification" id="{{$ViewID}}ResponseContainer">
+            <button class="ar-delete" onclick="hideElm('{{$ViewID}}ResponseContainer')"></button>
+            <div id="{{$ViewID}}Response"></div>
+        </div>
+    </div>
+
+    <div class="ar-flex-input-wrap" style="margin: 10px 0 5px 0px;position:relative;">
+        <label style="width: 100%; margin: 5px 0px; cursor: pointer;" onclick="openFlyUrl('infoAppName')">App Name</label>
+        <input id="machineAppName" class="ar-input ar-flex-item-stretch ar-border-left" type="text" placeholder="App Name" value="{{$AppName}}" />
+        <input style="position:absolute;margin-top:8px;left:65px;" id="machineListAutoRefresh" {{@DefaultAutoRefresh}} checked=checked {{/DefaultAutoRefresh}} type="checkbox" name="machineListAutoRefresh" title="Auto Refresh Machine List using Web Socket">
+        <button id="retrieveLaunchInfoBtn" class="ar-button ar-border-right" style="background-color: #209cee; width:60px;"
+                onclick="retrieveMachineList('{{$ViewID}}Progress', '{{$ViewID}}Response', getElm('machineAppName').value, getElm('machineListAutoRefresh').checked, '{{$ViewID}}');">
+            Refresh <div id="{{$ViewID}}Progress"></div>
+        </button>
+    </div>
+
+    {{MachineTop}}
+
+    {{@MachineList}}
+        {{MachineItemRow}}
+    {{/MachineList}}
+    {{^MachineList}}
+        {{MachineEmptyRow}}
+    {{/MachineList}}
+
+    {{MachineBottom}}
+
+</div>
+
+
+<script type="text/javascript">
+
+    function retrieveMachineList(progressElmId, responseElmId, appNameVal, autoRefreshVal, targetElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        //if (apiToken.length == 0) {
+        //    showText(responseElm, 'Enter the API Token', 'red');
+        //    valid = false;
+        //}
+
+        if (appNameVal.length == 0) {
+            showText(responseElm, 'Enter the App Name', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            let isRealtime = autoRefreshVal;           
+            let realtimeDomain = "";
+            
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RetrieveMachineList';
+
+            let apiParams = {
+                "appSite" : "{{$AppSite}}",
+                "appView" : "{{$AppView}}",
+                "appComponent" : "machineList",
+                "apiToken": apiToken,
+                "appName": appNameVal,
+                "pageNo": "{{$PageNo}}",
+                "itemsPerPage": "{{$ItemsPerPage}}",
+                "autoRefresh": autoRefreshVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+                }
+                else if (result.hasOwnProperty('message') === true) {
+
+                    if (result.hasOwnProperty('json') === true) {
+                        let jsonTagList = result.json;
+                        refreshHtmlJson(jsonTagList, "{{$AppSite}}", "{{$AppView}}");
+                        highlightHtmlJson(jsonTagList, "{{$AppSite}}", "{{$AppView}}");
+                    }
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+
+</script>

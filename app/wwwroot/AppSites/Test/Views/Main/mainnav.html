@@ -8,7 +8,7 @@
         <ul class="ar-submenu">
             {{@SubNAVList}}
             <li class="ar-submenuitem">
-                <a class="{{$SubNavActive}}" href="{{$SubNavUrl}}" data-action="refreshViewHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
+                <a class="{{$SubNavActive}}" href="{{$SubNavUrl}}">
                     {{$SubNavTitle}}
                 </a>
             </li>
@@ -18,7 +18,7 @@
     {{/HaveSubMenu}}
     {{^HaveSubMenu}}
     <li class="ar-menuitem">
-        <a class="{{$NavActive}}" href="{{$NavUrl}}" data-action="refreshViewHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
+        <a class="{{$NavActive}}" href="{{$NavUrl}}">
             {{$NavTitle}}
         </a>
     </li>

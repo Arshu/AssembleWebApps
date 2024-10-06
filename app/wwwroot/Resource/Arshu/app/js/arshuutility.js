@@ -243,16 +243,16 @@ function autocomplete(progressElmId, responseElmId, searchEleId, autocompleteElm
             if (autocompleteList)
                 autocompleteList = autocompleteList.getElementsByTagName("div");
 
-            if (e.keyCode == 40) {
+            if (e.key === 'ArrowDown'/*e.keyCode == 40*/) {
                 currentFocus++;
                 addActive(autocompleteList);
             }
-            else if (e.keyCode == 38) {
+            else if (e.key === 'ArrowUp'/*e.keyCode == 38*/) {
                 //up
                 currentFocus--;
                 addActive(autocompleteList);
             }
-            else if (e.keyCode == 13) {
+            else if (e.key === 'Enter'/*e.keyCode == 13*/) {
                 e.preventDefault();
                 if (currentFocus > -1) {
                     if (autocompleteList) autocompleteList[currentFocus].click();
@@ -540,7 +540,6 @@ function showAutoHideFlex(elmId, scopeElmId) {
 /******************************************************************************************************************/
 
 function navBarClickEvent(el) {
-    event.stopPropagation();
 
     // Get the target from the "data-component" attribute
     const targetElmId = el.dataset.target;

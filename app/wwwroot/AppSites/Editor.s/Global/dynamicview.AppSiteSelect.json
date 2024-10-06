@@ -1,0 +1,9 @@
+{
+  "AppSite": "{$AppSite}",
+  "SkipValue": "Editor",
+  "FilterValue": "",
+  "SelectedKey": "Index",
+  "SelectEmptyText": "No App Site Found",
+  "AppendOption": "",
+  "AppendOptionValue": ""
+}

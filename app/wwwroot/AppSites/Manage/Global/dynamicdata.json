@@ -1,0 +1,8 @@
+{
+  "MachineList": [
+    {
+      "IDataType": "MachineList",
+      "IDataParamFile": "DynamicData.MachineList"
+    }
+  ]
+}

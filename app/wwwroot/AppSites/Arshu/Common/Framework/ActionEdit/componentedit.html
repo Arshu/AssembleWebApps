@@ -1,168 +1,162 @@
 
 <script type="text/javascript">
 
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
     function hideComponentSourceEditor() {
 
-        clearResponse('{{$ViewID}}JsonEditorResponse');
-        clearResponse('editComponentSourceResponse');
-        let modal = document.querySelector('#editComponentSource');
-        modal.classList.remove('ar-modal-active');
+        clearResponse('{{$ViewID}}JsonEditorResponse')
+        clearResponse('editComponentSourceResponse')
+        let modal = document.querySelector('#editComponentSource')
+        modal.classList.remove('ar-modal-active')
     }
 
     function showComponentSourceEditor(progressElmId, componentAppSite, componentAppView, sourceComponentId, reloadData, successCallback) {
 
-        getElm('{{$ViewID}}EditorJsonSourceAppSite').value = componentAppSite;
-        getElm('{{$ViewID}}EditorJsonSourceAppView').value = componentAppView;
+        getElm('{{$ViewID}}EditorJsonSourceAppSite').value = componentAppSite
+        getElm('{{$ViewID}}EditorJsonSourceAppView').value = componentAppView
 
         if ((getElm('selectEditComponentSource').options.length <= 1) || (reloadData === true)) {
             getEditComponentSourceHierarchyForEditor(progressElmId, 'editComponentSourceResponse', componentAppSite, componentAppView, sourceComponentId, 'selectEditComponentSource', 'componentSourceEditor', function () {
-                let modal = document.querySelector('#editComponentSource');
-                modal.classList.add('ar-modal-active');
+                let modal = document.querySelector('#editComponentSource')
+                modal.classList.add('ar-modal-active')
 
                 if (typeof successCallback === "function") {
-                    successCallback();
+                    successCallback()
                 }
             })
         } else {
-            let modal = document.querySelector('#editComponentSource');
-            modal.classList.add('ar-modal-active');
+            let modal = document.querySelector('#editComponentSource')
+            modal.classList.add('ar-modal-active')
 
             if (typeof successCallback === "function") {
-                successCallback();
+                successCallback()
             }
         }
     }
 
     function getEditComponentSourceHierarchyForEditor(progressElmId, responseElmId, componentAppSite, componentAppView, editPage, selectElmId, sourceEditElmId, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseContainerElmId = responseElmId + "Container";
-        let responseElm = getElm(responseElmId);
-        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild);
+        let id = window.ajaxid++
+        let responseContainerElmId = responseElmId + "Container"
+        let responseElm = getElm(responseElmId)
+        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild)
         let responseContainerElm = getElm(responseContainerElmId)
-        hideElm(responseContainerElmId);
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (valid === true) {
 
-            let url = '/AppApi/VueApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetEditComponentSourceHierarchy',
-                "params": {
-                    "appSite": componentAppSite,
-                    "appView": componentAppView,
-                    "editPage": editPage,
-                },
-                "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (((data.hasOwnProperty('Result') === true) && (data.Result))  && (data.Result)) {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/VueApi"
+            let apiMethod = "GetEditComponentSourceHierarchy"
 
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            //showText(responseElm, result.message, 'green');
+            let apiParams = {
+                "appSite": componentAppSite,
+                "appView": componentAppView,
+                "editPage": editPage,
+            }
 
-                            if (result.hasOwnProperty('json') === true) {
-                                let json = result.json;
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                                let selectElm = getElm(selectElmId);
-                                if (selectElm) {
-                                    selectElm.options.length = 0;
+                let responseElm = getElm(responseElmId)
 
-                                    for (let i = 0; i < json.length; i++) {
-                                        let jsonSource = json[i];
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    //showText(responseElm, result.message, 'green');
 
-                                        let selectText = "";
-                                        let selectValue = "";
-                                        for (let key in jsonSource) {
-                                            selectText = key;
-                                            selectValue = jsonSource[key];
-                                        }
-                                        selectElm.options[selectElm.options.length] = new Option(selectText, selectValue);
-                                    }
+                    if (result.hasOwnProperty('json') === true) {
+                        let json = result.json
+
+                        let selectElm = getElm(selectElmId)
+                        if (selectElm) {
+                            selectElm.options.length = 0
+
+                            for (let i = 0; i < json.length; i++) {
+                                let jsonSource = json[i]
+
+                                let selectText = ""
+                                let selectValue = ""
+                                for (let key in jsonSource) {
+                                    selectText = key
+                                    selectValue = jsonSource[key]
                                 }
-                                selectElm.selectedIndex = 0;
-
-                                let sourceType = selectElm.value.substring(0, 4);
-                                let sourceContent = selectElm.value.substring(5);
-
-                                setComponentSourceEditor(sourceEditElmId, sourceType, sourceContent);
-
-                                if (typeof successCallback === "function") {
-                                    successCallback();
-                                }
+                                selectElm.options[selectElm.options.length] = new Option(selectText, selectValue)
                             }
                         }
-                    }
-                    if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error) {
-                            if (error.hasOwnProperty('Message') === true) {
-                                showText(responseElm, error.Message, 'red');
-                            }
+                        selectElm.selectedIndex = 0
+
+                        let sourceType = selectElm.value.substring(0, 4)
+                        let sourceContent = selectElm.value.substring(5)
+
+                        setComponentSourceEditor(sourceEditElmId, sourceType, sourceContent)
+
+                        if (typeof successCallback === "function") {
+                            successCallback()
                         }
                     }
-                });
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     function setComponentSourceEditor(sourceEditElmId, sourceType, sourceContent) {
 
         if (typeof hljs === 'object' && hljs !== null) {
 
-            let sourceEditHtmlElmId = sourceEditElmId + "Html";
-            let sourceEditJsonElmId = sourceEditElmId + "Json";
+            let sourceEditHtmlElmId = sourceEditElmId + "Html"
+            let sourceEditJsonElmId = sourceEditElmId + "Json"
 
             if (sourceType == "HTML") {
 
-                let sourceEditHtmlElm = getElm(sourceEditHtmlElmId);
-                sourceEditHtmlElm.value = sourceContent;
-                showElm(sourceEditHtmlElmId);
+                let sourceEditHtmlElm = getElm(sourceEditHtmlElmId)
+                sourceEditHtmlElm.value = sourceContent
+                showElm(sourceEditHtmlElmId)
             }
             else if (sourceType == "JSON") {
 
-                let sourceEditHtmlElm = getElm(sourceEditHtmlElmId);
-                sourceEditHtmlElm.value = "";
-                hideElm(sourceEditHtmlElmId);
+                let sourceEditHtmlElm = getElm(sourceEditHtmlElmId)
+                sourceEditHtmlElm.value = ""
+                hideElm(sourceEditHtmlElmId)
 
-                let idxOfFirstColon = sourceContent.indexOf(";");
+                let idxOfFirstColon = sourceContent.indexOf(";")
                 if (idxOfFirstColon > -1) {
-                    let sourceName = sourceContent.substring(0, idxOfFirstColon);
-                    getElm('{{$ViewID}}EditorJsonSource').value = sourceName;
+                    let sourceName = sourceContent.substring(0, idxOfFirstColon)
+                    getElm('{{$ViewID}}EditorJsonSource').value = sourceName
 
-                    let idxOfSecondColon = sourceContent.indexOf(";", idxOfFirstColon + 1);
-                    let sourceAppSite = sourceContent.substring(idxOfFirstColon + 1, idxOfSecondColon);
-                    getElm('{{$ViewID}}EditorJsonSourceAppSite').value = sourceAppSite;
+                    let idxOfSecondColon = sourceContent.indexOf(";", idxOfFirstColon + 1)
+                    let sourceAppSite = sourceContent.substring(idxOfFirstColon + 1, idxOfSecondColon)
+                    getElm('{{$ViewID}}EditorJsonSourceAppSite').value = sourceAppSite
 
-                    let idxOfThirdColon = sourceContent.indexOf(";", idxOfSecondColon + 1);
-                    let sourceAppView = sourceContent.substring(idxOfSecondColon + 1, idxOfThirdColon);
-                    getElm('{{$ViewID}}EditorJsonSourceAppView').value = sourceAppView;
+                    let idxOfThirdColon = sourceContent.indexOf(";", idxOfSecondColon + 1)
+                    let sourceAppView = sourceContent.substring(idxOfSecondColon + 1, idxOfThirdColon)
+                    getElm('{{$ViewID}}EditorJsonSourceAppView').value = sourceAppView
 
-                    let idxOfFourthColon = sourceContent.indexOf(";", idxOfThirdColon + 1);
-                    let sourceViewMode = sourceContent.substring(idxOfThirdColon + 1, idxOfFourthColon);
-                    getElm('{{$ViewID}}EditorViewMode').value = sourceViewMode;
+                    let idxOfFourthColon = sourceContent.indexOf(";", idxOfThirdColon + 1)
+                    let sourceViewMode = sourceContent.substring(idxOfThirdColon + 1, idxOfFourthColon)
+                    getElm('{{$ViewID}}EditorViewMode').value = sourceViewMode
 
-                    let sourceViewModeEnabled = sourceContent.substring(idxOfFourthColon + 1);
+                    let sourceViewModeEnabled = sourceContent.substring(idxOfFourthColon + 1)
                     if (sourceViewModeEnabled == "true") {
-                        getElm('{{$ViewID}}EditorViewMode').disabled = false;
+                        getElm('{{$ViewID}}EditorViewMode').disabled = false
                     } else {
-                        getElm('{{$ViewID}}EditorViewMode').disabled = true;
+                        getElm('{{$ViewID}}EditorViewMode').disabled = true
                     }
 
                     refreshEditorJson('{{$ViewID}}', 'editComponentJsonProgress', 0, '', '', '', '{{$ViewID}}', 'componentSourceEditorJson', function () {
-                        let sourceEditJsonElm = getElm(sourceEditJsonElmId);
-                        showElm(sourceEditJsonElmId);
+                        let sourceEditJsonElm = getElm(sourceEditJsonElmId)
+                        showElm(sourceEditJsonElmId)
                     })
                 }
             }
@@ -171,8 +165,8 @@
 
     function refreshEditedPage(viewId) {
         refreshEditorJson(viewId, viewId + 'JsonEditorProgress', 0, '', '', '', '{{$ViewID}}', 'componentSourceEditorJson', function () {
-            triggerEvent('editPageRefresh', 'click');
-        });
+            triggerEvent('editPageRefresh', 'click')
+        })
     }
 
 </script>
@@ -278,7 +272,6 @@
                             <div id="{{$ViewID}}JsonEditorSection">
 
                                 <div id="{{$ViewID}}">
-
                                 </div>
                                 <div>{{VIEWPLACEHOLDER$}}</div>
 

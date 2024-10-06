@@ -1,11 +1,11 @@
-<div class="ar-flex-content-spaced" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}},KeyPath={{$KeyPath}}">
-    <select class="ar-input ar-border" style="margin: 0px;" id="{{$ParentViewID}}ItemsPerPage"
+<div class="ar-flex-content-spaced" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
+    <select class="ar-input ar-border" style="margin: 0px;" id="{{$ViewParentID}}ItemsPerPage"
             data-action="refreshComponentHtml" 
             data-progress="toDoItemsPerPageProgress" 
-            data-response="{{$ParentViewID}}Response"
+            data-response="{{$ViewParentID}}Response"
             data-appsite="{{$AppSite}}" 
             data-appview="{{$AppView}}"
-            data-component="{{$ParentViewID}}"
+            data-component="{{$ViewParentID}}"
             data-filter="todoFilterViewGetFilter"
             data-config="todoGetPager",
             data-current="{'PageNo': '1', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
@@ -33,23 +33,25 @@
 <script>
 
     function todoGetPager() {
-        let selectElm = getElm('{{$ParentViewID}}ItemsPerPage');
+        let selectElm = getElm('{{$ViewParentID}}ItemsPerPage');
         let pageJson = {};
         pageJson["PageNo"] = '{{$PageNo}}';
 
         let selectedItemsPerPage = parseInt(selectElm.value);
-        let recordCount = parseInt('{{$RecordCount}}');
+        pageJson["ItemsPerPage"] = selectedItemsPerPage;
 
-        if (parseInt(pageJson["PageNo"]) == 1) {
-            if (selectedItemsPerPage <= recordCount) {
-                pageJson["ItemsPerPage"] = selectElm.value;
-            } else {
-                pageJson["ItemsPerPage"] = recordCount;
-            }
-        }
-        else {
-            pageJson["ItemsPerPage"] = selectElm.value;
-        }
+        //let recordCount = parseInt('{{$RecordCount}}');
+        //if (parseInt(pageJson["PageNo"]) == 1) {
+        //    if (selectedItemsPerPage <= recordCount) {
+        //        pageJson["ItemsPerPage"] = selectedItemsPerPage;
+        //    } else {
+        //        pageJson["ItemsPerPage"] = recordCount;
+        //    }
+        //}
+        //else {
+        //    pageJson["ItemsPerPage"] = selectedItemsPerPage;
+        //}
+
         return pageJson;
     }
 

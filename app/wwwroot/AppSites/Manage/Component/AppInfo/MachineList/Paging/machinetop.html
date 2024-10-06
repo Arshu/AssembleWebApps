@@ -1,0 +1,120 @@
+<div class="ar-flex-content-spaced" style="width:100%;" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
+    {{@HavePreviousPage}}
+    <button class="ar-button ar-border" style="width:40px;height:40px;" title="PageNo=1, ItemsPerPage={{$ItemsPerPage}}"
+            data-action="refreshComponentHtml" 
+            data-progress="firstMachineProgress" 
+            data-response="{{$ViewParentID}}Response"
+            data-appsite="{{$AppSite}}" 
+            data-appview="{{$AppView}}"
+            data-component="{{$ViewParentID}}"
+            data-config="machineGetTopPager"
+            data-pageno="1"
+            data-itemsperpage="{{$ItemsPerPage}}"
+            data-isrealtime="getRealtime"
+            data-realtimedomain="getRealtimeDomain">
+        <strong style="font-weight:bolder;">&lt;&lt;</strong> <span id="firstMachineProgress"></span>
+    </button>
+    <button class="ar-button ar-border" style="width:40px;height:40px;" title="PageNo={{$PreviousPage}}, ItemsPerPage={{$ItemsPerPage}}"
+            data-action="refreshComponentHtml" 
+            data-progress="previousMachineProgress" 
+            data-response="{{$ViewParentID}}Response"
+            data-appsite="{{$AppSite}}" 
+            data-appview="{{$AppView}}"
+            data-component="{{$ViewParentID}}"
+            data-config="machineGetTopPager"
+            data-pageno="{{$PreviousPage}}"
+            data-itemsperpage="{{$ItemsPerPage}}"
+            data-isrealtime="getRealtime"
+            data-realtimedomain="getRealtimeDomain">
+        <strong style="font-weight:bolder;">&lt;</strong> <span id="previousMachineProgress"></span>
+    </button>
+    {{/HavePreviousPage}}
+    {{^HavePreviousPage}}
+    <button class="ar-button ar-border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">&lt;&lt;</strong> <span id="firstMachineProgress"></span>
+    </button>
+    <button class="ar-button ar-border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">&lt;</strong> <span id="previousMachineProgress"></span>
+    </button>
+    {{/HavePreviousPage}}
+
+    <div class="ar-flex-item-stretch"></div>
+
+    {{@HaveNextPage}}
+    <button class="ar-button ar-border" style="width: 40px; height: 40px;" title="PageNo={{$NextPage}}, ItemsPerPage={{$ItemsPerPage}}"
+            data-action="refreshComponentHtml" 
+            data-progress="nextMachineProgress" 
+            data-response="{{$ViewParentID}}Response"
+            data-appsite="{{$AppSite}}" 
+            data-appview="{{$AppView}}"
+            data-component="{{$ViewParentID}}"
+            data-config="machineGetTopPager"
+            data-pageno="{{$NextPage}}"
+            data-itemsperpage="{{$ItemsPerPage}}"
+            data-isrealtime="getRealtime"
+            data-realtimedomain="getRealtimeDomain">
+        <strong style="font-weight:bolder;">&gt;</strong><span id="nextMachineProgress"></span>
+    </button>
+    <button class="ar-button ar-border" style="width: 40px; height: 40px;" title="PageNo=999999, ItemsPerPage={{$ItemsPerPage}}"
+            data-action="refreshComponentHtml" 
+            data-progress="lastMachineProgress" 
+            data-response="{{$ViewParentID}}Response"
+            data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
+            data-component="{{$ViewParentID}}"
+            data-config="machineGetTopPager"
+            data-pageno="99999"
+            data-itemsperpage="{{$ItemsPerPage}}"
+            data-isrealtime="appInfoGetRealtime"
+            data-realtimedomain="appInfoGetRealtimeDomain">
+        <strong style="font-weight:bolder;">&gt;&gt;</strong><span id="lastMachineProgress"></span>
+    </button>
+    {{/HaveNextPage}}
+    {{^HaveNextPage}}
+    <button class="ar-button ar-border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">&gt;</strong> <span id="nextMachineProgress"></span>
+    </button>
+    <button class="ar-button ar-border" style="width:40px;height:40px;" disabled>
+        <strong style="font-weight:bolder;">&gt;&gt;</strong> <span id="lastMachineProgress"></span>
+    </button>
+    {{/HaveNextPage}}
+
+    <button class="ar-button ar-border" style="width:40px;height:40px;margin-left:5px;" title="PageNo={{$PageNo}}, ItemsPerPage={{$ItemsPerPage}}"
+            data-action="refreshComponentHtml" 
+            data-progress="refreshMachineProgress" 
+            data-response="{{$ViewParentID}}Response"
+            data-appsite="{{$AppSite}}" 
+            data-appview="{{$AppView}}" 
+            data-component="{{$ViewParentID}}"
+            data-config="machineGetTopPager"
+            data-pageno="{{$PageNo}}"
+            data-itemsperpage="{{$ItemsPerPage}}"
+            data-isrealtime="getRealtime"
+            data-realtimedomain="getRealtimeDomain">
+        &#x2714;<span id="refreshMachineProgress"></span>
+    </button>
+
+</div>
+
+<script>
+   
+    function machineGetTopPager(el) {
+        let pageJson = {};
+        let pageNo = getIntValue(el, getAttributeValue(el, 'data-pageno'), 1);
+        let itemsPerPage = getIntValue(el, getAttributeValue(el, 'data-itemsperpage'), 2);
+
+        pageJson["PageNo"] = pageNo;
+        pageJson["ItemsPerPage"] = itemsPerPage;
+        
+        if (haveElm('machineAppName') == true) {
+            let appName = getElm('machineAppName').value;
+            pageJson["AppName"] = appName;
+        }
+        else
+        {
+            pageJson["AppName"] = "";
+        }
+
+        return pageJson;
+    }
+
+</script>

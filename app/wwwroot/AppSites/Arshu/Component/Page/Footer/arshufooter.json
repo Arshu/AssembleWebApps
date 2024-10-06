@@ -1,10 +1,11 @@
 {
-  "EnableRealtime$": true,
   "EnableFrameworkToolbar$": true,
   "EnableFrameworkView$": true,
   "EnableMetricsView$": true,
+  "EnableWebSocket$": true,
+  "EnableWebRTC$": false,
   "ShowRecordMetrics$": true,
-  "DefaultRecordMetrics$": true,
+  "DefaultRecordMetrics$": false,
   "ShowServerInfo$": true,
   "ShowRefreshServerInfo$": true,
   "DefaultRefreshServerInfo$": false,

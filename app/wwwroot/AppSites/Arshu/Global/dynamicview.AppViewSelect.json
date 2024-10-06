@@ -1,0 +1,10 @@
+{
+  "AppSite": "{$AppSite}",
+  "SkipValue": "",
+  "FilterValue": "",
+  "SelectedKey": "{$AppView}",
+  "SelectEmptyText": "No App View Found",
+  "AppendOption": "",
+  "AppendOptionValue": "",
+  "FilterAppSite": "{$AppSite}"
+}

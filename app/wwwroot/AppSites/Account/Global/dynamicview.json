@@ -1,0 +1,18 @@
+{
+  "AppViewPathSelect": {
+    "IViewType": "AppViewPathSelect",
+    "IViewParamFile": "DynamicView.AppViewPathSelect"
+  },
+  "UserList": {
+    "IViewType": "UserList",
+    "IViewParamFile": "DynamicView.UserList"
+  },
+  "RoleList": {
+    "IViewType": "RoleList",
+    "IViewParamFile": "DynamicView.RoleList"
+  },
+  "AppSiteSelect": {
+    "IViewType": "AppSiteSelect",
+    "IViewParamFile": "DynamicView.AppSiteSelect"
+  } 
+}

@@ -1,0 +1,14 @@
+{
+  "AppSiteSelect": {
+    "IViewType": "AppSiteSelect",
+    "IViewParamFile": "DynamicView.AppSiteSelect"
+  },
+  "FileSelect": {
+    "IViewType": "FileSelect",
+    "IViewParamFile": "DynamicView.FileSelect"
+  },
+  "JsonEditorView": {
+    "IViewType": "JsonEditor",
+    "IViewParamFile": "DynamicView.JsonEditor"
+  }
+}

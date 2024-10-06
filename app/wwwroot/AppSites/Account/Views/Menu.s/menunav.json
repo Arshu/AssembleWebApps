@@ -1,0 +1,37 @@
+{
+  "NAVList": [
+
+    {
+      "NavTitle": "AppSites",
+      "NavUrl": "/Arshu/AppSites",
+      "NavActive": "",
+      "HaveSubMenu": "False",
+      "SubNAVList": [
+
+      ]
+    },
+    {
+      "NavTitle": "AppViews",
+      "NavUrl": "/Arshu/AppViews",
+      "NavActive": "",
+      "HaveSubMenu": "False",
+      "SubNAVList": [
+
+      ]
+    }
+  ],
+  "NAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "/Index/Main",
+    "NavActive": "",
+    "HaveSubMenu": false,
+    "SubNAVList": [
+
+    ]
+  },
+  "SubNAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "/Index/Main",
+    "NavActive": ""
+  }
+}

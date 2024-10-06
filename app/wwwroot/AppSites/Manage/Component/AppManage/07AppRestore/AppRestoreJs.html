@@ -1,0 +1,241 @@
+﻿
+<script type="text/javascript">
+
+    function retrieveAppRestoreInfo(progressElmId, responseElmId, restoreAppNameVal, appNameElmId, ociImagePathSelectElmId, ociImageTagNameElmId, restoreFolderSelectElmId, doRestoreBtnElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        //if (apiToken.length == 0) {
+        //    showText(responseElm, 'Enter the API Token', 'red');
+        //    valid = false;
+        //}
+
+        if (valid === true) {
+
+            getElm(doRestoreBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RetrieveRestoreInfo';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "restoreAppName": restoreAppNameVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    if (typeof failureCallback === "function") {
+                        failureCallback();
+                    }
+                }
+                    //else if (result.hasOwnProperty('message') === true) {
+                    //    showText(responseElm, result.message, 'green');
+
+                    //    if (typeof successCallback === "function") {
+                    //        successCallback();
+                    //    }
+                    //}
+                else
+                {
+                    if (result.hasOwnProperty('AppName') === true) {
+                        getElm(appNameElmId).value = result.AppName;
+                    }
+
+                    getElm(ociImageTagNameElmId).TimeID = "v" + getElm('appAPIToken').TimeID;
+
+                    if (result.hasOwnProperty("OCIImageList") === true) {
+                        let ociImageList = result.OCIImageList;
+
+                        let selectElm = getElm(ociImagePathSelectElmId);
+                        if (selectElm) {
+                            selectElm.options.length = 0;
+
+                            for (var i = 0; i < ociImageList.length; i++) {
+                                let ociImageInfo = ociImageList[i];
+
+                                let ociImageName = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImageName') === true) {
+                                    ociImageName = ociImageInfo.OCIImageName
+                                }
+                                let ociImageTag = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImageTag') === true) {
+                                    ociImageTag = ociImageInfo.OCIImageTag
+                                }
+                                let ociImagePath = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImagePath') === true) {
+                                    ociImagePath = ociImageInfo.OCIImagePath
+                                }
+                                let isAppImage = false;
+                                if (ociImageInfo.hasOwnProperty('IsAppImage') === true) {
+                                    isAppImage = ociImageInfo.IsAppImage
+                                }
+
+                                if ((i == 0) && (ociImageTag.trim().length == 0)) {
+                                    getElm(ociImageTagNameElmId).value = getElm(ociImageTagNameElmId).TimeID;
+                                    getElm(ociImageTagNameElmId).original = ociImageTag;
+                                } else {
+                                    getElm(ociImageTagNameElmId).value = getElm(ociImageTagNameElmId).TimeID;
+                                    getElm(ociImageTagNameElmId).original = 'latest';
+                                }
+
+                                if (isAppImage == true) {
+                                    selectElm.options[selectElm.options.length] = new Option(ociImageName, ociImagePath, true, true);
+                                } else {
+                                    selectElm.options[selectElm.options.length] = new Option(ociImageName, ociImagePath, false, false);
+                                }
+                            }
+                        }
+                    }
+
+                    if (result.hasOwnProperty('RestoreFolderList') === true) {
+                        let folderListArray = result.RestoreFolderList;
+                       
+                        let restoreSelectElm = getElm(restoreFolderSelectElmId);
+                        if (restoreSelectElm) {
+                            restoreSelectElm.options.length = 0;
+                            for (let i = 0; i < folderListArray.length; i++) {
+                                let bakFolder = folderListArray[i];
+                                let selectText = "";
+                                if (bakFolder.hasOwnProperty('Name') === true) {
+                                    selectText = bakFolder.Name
+                                }
+                                let selectValue = "";
+                                if (bakFolder.hasOwnProperty('Path') === true) {
+                                    selectText = bakFolder.Path
+                                }                                
+                                restoreSelectElm.options[restoreSelectElm.options.length] = new Option(selectText, selectText);
+
+                                if (selectText.indexOf("wwwroot") > -1) {
+                                    if (selectText.endsWith("wwwroot") == true) {
+                                        restoreSelectElm.selectedIndex = restoreSelectElm.options.length - 1;
+                                    }
+                                }
+                            }
+                            getElm(doRestoreBtnElmId).removeAttribute("disabled");   
+
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }                        
+                    }
+                }                
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+    function restoreAppFolder(progressElmId, responseElmId, appNameVal, ociImagePathVal, ociImageTagNameVal, restoreFolderSelectVal, clearRestoreFolderVal, overwriteRestoreAppDataVal, restoreAppDataVal, doRestoreBtnElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+        
+        if (valid == true) {
+            if (appNameVal.length == 0) {
+                showText(responseElm, 'App Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (ociImagePathVal.length == 0) {
+                showText(responseElm, 'Restore App OCI Image Path Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (ociImageTagNameVal.length == 0) {
+                showText(responseElm, 'Restore App OCI Image Tag Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (restoreFolderSelectVal == "") {
+            showText(responseElm, 'Select the Restore Folder', 'red');
+            valid = false;
+        }
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        if (apiToken.length == 0) {
+            showText(responseElm, 'Enter the API Token', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            getElm(doRestoreBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RestoreAppFolder';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "appName": appNameVal,
+                "sourceOCIImagePath": ociImagePathVal,
+                "sourceOCIImageTagName": ociImageTagNameVal,
+                "restoreFolder": restoreFolderSelectVal,
+                "clearRestoreFolder": clearRestoreFolderVal,
+                "overwriteAppData": overwriteRestoreAppDataVal,
+                "restoreAppData": restoreAppDataVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    getElm(doRestoreBtnElmId).removeAttribute("disabled");
+
+                    if (typeof failureCallback === "function") {
+                        failureCallback();
+                    }
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green');
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+</script>
+

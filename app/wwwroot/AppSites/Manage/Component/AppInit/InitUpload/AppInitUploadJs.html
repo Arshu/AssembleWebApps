@@ -1,0 +1,630 @@
+﻿
+<script type="text/javascript">
+    ready(() => {
+        triggerEvent('retrieveInitInfoBtn', 'click');
+    });
+</script>
+
+<script type="text/javascript">
+
+    function resetSecurityDiv(initFolderSelectVal, appSecurityElmId, successCallback, failureCallback) {
+
+        let progressElmId = "noprogress";
+        let responseElmId = "noresponse";
+
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        //if (apiToken.length == 0) {
+        //    showText(responseElm, 'Enter the API Token', 'red');
+        //    valid = false;
+        //}
+
+        if (initFolderSelectVal.length == 0) {
+            //showText(responseElm, 'Select Target Folder', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RetrieveInitInfo';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "initializeFolder": initFolderSelectVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                if (result.hasOwnProperty('InitialUserNotFound') === true) {
+                    let initialUserNotFound = result.InitialUserNotFound;
+                    if (haveElm(appSecurityElmId) == true) {
+                        if (initialUserNotFound == true) {
+                            showElm(appSecurityElmId);
+                        } else {
+                            hideElm(appSecurityElmId);
+                        }
+                    }
+                }
+
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+    }
+
+    function retrieveAppInitInfo(progressElmId, responseElmId, folderSelectElmId, appNameElmId, appSecurityElmId, doInitUploadAppBtnElmId, doInitUploadBackupUpdateBtnElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        //if (apiToken.length == 0) {
+        //    showText(responseElm, 'Enter the API Token', 'red');
+        //    valid = false;
+        //}
+
+        let initFolderSelectVal = getElm(folderSelectElmId).value;
+        if (initFolderSelectVal.length == 0) {
+            showText(responseElm, 'Select Target Folder', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            if (haveElm(doInitUploadAppBtnElmId) == true) {
+                getElm(doInitUploadAppBtnElmId).setAttribute("disabled", true);
+            }
+            if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
+                getElm(doInitUploadBackupUpdateBtnElmId).setAttribute("disabled", true);
+            }
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RetrieveInitInfo';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "initializeFolder": initFolderSelectVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    if (typeof failureCallback === "function") {
+                        failureCallback();
+                    }
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+
+                //    if (typeof successCallback === "function") {
+                //        successCallback();
+                //    }
+                //}
+                else
+                {
+                    if (haveElm(doInitUploadAppBtnElmId) == true) {
+                        getElm(doInitUploadAppBtnElmId).removeAttribute("disabled");
+                    }
+                    if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
+                        getElm(doInitUploadBackupUpdateBtnElmId).removeAttribute("disabled");
+                    }
+
+                    if (result.hasOwnProperty('AppName') === true) {
+                        getElm(appNameElmId).value = result.AppName;
+                    }
+
+                    if (result.hasOwnProperty('InitialUserNotFound') === true) {
+                        let initialUserNotFound = result.InitialUserNotFound;
+                        if (haveElm(appSecurityElmId) == true) {
+                            if (initialUserNotFound == true) {
+                                showElm(appSecurityElmId);
+                            } else {
+                                hideElm(appSecurityElmId);
+                            }
+                        }
+                    }
+
+                    if (result.hasOwnProperty('InitFolderList') === true) {
+                        let folderListArray = result.InitFolderList;
+
+                        let selectElm = getElm(folderSelectElmId);
+                        if (selectElm) {
+                            selectElm.options.length = 0;
+
+                            for (let i = 0; i < folderListArray.length; i++) {
+                                let bakFolder = folderListArray[i];
+                                let selectText = "";
+                                if (bakFolder.hasOwnProperty('Name') === true) {
+                                    selectText = bakFolder.Name
+                                }
+                                let selectValue = "";
+                                if (bakFolder.hasOwnProperty('Path') === true) {
+                                    selectText = bakFolder.Path
+                                }
+                                selectElm.options[selectElm.options.length] = new Option(selectText, selectText);
+                                if (selectText.indexOf("wwwroot") > -1) {
+                                    if (selectText.endsWith("wwwroot") == true) {
+                                        selectElm.selectedIndex = selectElm.options.length - 1;
+                                    }
+                                }
+                            }
+
+                            if (typeof successCallback === "function") {
+                                successCallback();
+                            }
+                        }
+                    }
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+    function initUploadApp(progressElmId, responseElmId, initFolderSelectVal, appOwnerIDVal, initialUserEmailVal, initialUserPwdVal, initialUserConfirmPwdVal, appSecurityDivElmId, fileElmId, initOverwriteAppDataVal, doInitUploadAppBtnElmId, doInitUploadBackupUpdateBtnElmId, uploadBackupUpdateDetailResponseElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        hideElm(uploadBackupUpdateDetailResponseElmId);
+        let detailResponseElm = getElm(uploadBackupUpdateDetailResponseElmId);
+        detailResponseElm.textContent = '';
+        let responseWarnElmId = responseElmId + "Warn";
+        let responseWarnElm = getElm(responseWarnElmId);
+        responseWarnElm.textContent = '';
+
+        var data = new FormData();
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        if (apiToken.length == 0) {
+            showText(responseElm, 'Enter the API Token', 'red');
+            valid = false;
+        }
+
+        if (valid == true) {
+            if (appOwnerIDVal == "") {
+                showText(responseElm, 'Enter the App Owner Email', 'red');
+                valid = false;
+            }
+        }
+
+        let securityElm = getElm(appSecurityDivElmId);
+        if (isHiddenElm(appSecurityDivElmId) == false) {
+            if (valid == true) {
+                if (initialUserEmailVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Email', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserPwdVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Pwd', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserConfirmPwdVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Confirm Pwd', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserPwdVal != initialUserConfirmPwdVal) {
+                    showText(responseElm, 'Pwd and Confirm Pwd does not match', 'red');
+                    valid = false;
+                }
+            }
+        }
+
+        if (valid == true) {
+            var uploadFile = document.getElementById(fileElmId);
+            if (uploadFile.files.length > 0) {
+                data.append("file", uploadFile.files[0]);
+            }
+            else {
+                showText(responseElm, 'Select a Zip File before Initializing', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (initFolderSelectVal == "") {
+                showText(responseElm, 'Select the Server Folder to Init to', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+
+            if (haveElm(doInitUploadAppBtnElmId) == true) {
+                getElm(doInitUploadAppBtnElmId).setAttribute("disabled", true);
+            }
+            if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
+                getElm(doInitUploadBackupUpdateBtnElmId).setAttribute("disabled", true);
+            }
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'InitUploadApp';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "appOwnerID": appOwnerIDVal,
+                "initializeFolder": initFolderSelectVal,
+                "initialAdminUserEmail": initialUserEmailVal,
+                "initialAdminUserPwd": initialUserPwdVal,
+                "overwriteAppData": initOverwriteAppDataVal
+            }
+
+            data.append('FormDataMethod', apiMethod);
+            for (const key in apiParams) {
+                data.append(key, apiParams[key])
+            }
+            
+            dopostform(progressElmId, responseElmId, apiUrl, data,
+                function (jsonData) {
+                    if (jsonData.hasOwnProperty('Result') === true) {
+                        var result = jsonData.Result;
+
+                        if (haveElm(doInitAppUserBtnElmId) == true) {
+                            getElm(doInitAppUserBtnElmId).removeAttribute("disabled");
+                        }
+                        if (haveElm(doInitUploadAppBtnElmId) == true) {
+                            getElm(doInitUploadAppBtnElmId).removeAttribute("disabled");
+                        }
+                        if (haveElm(doInitBackupUpdateAppBtnElmId) == true) {
+                            getElm(doInitBackupUpdateAppBtnElmId).removeAttribute("disabled");
+                        }
+                        if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
+                            getElm(doInitUploadBackupUpdateBtnElmId).removeAttribute("disabled");
+                        }
+
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+
+                            let detailMessageHtml = "";
+                            let messageNo = 0;
+                            if (result.hasOwnProperty('errorJson') === true) {
+                                let errorJson = result.errorJson;
+                                for (let i = 0; i < errorJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = errorJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            getElm(uploadBackupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                            //showElm(uploadBackupUpdateDetailResponseElmId);
+                        }
+                        else if (result.hasOwnProperty('message') === true) {
+                            showText(responseElm, result.message, 'green');
+
+                            if (result.hasOwnProperty('warn') === true) {
+                                showText(responseWarnElm, result.warn, 'blue');
+                            }
+
+                            let detailMessageHtml = "";
+                            let messageNo = 0;
+                            if (result.hasOwnProperty('messageJson') === true) {
+                                let messageJson = result.messageJson;
+                                for (let i = 0; i < messageJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = messageJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:green'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            if (result.hasOwnProperty('warnJson') === true) {
+                                let messageJson = result.warnJson;
+                                for (let i = 0; i < messageJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = messageJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            getElm(uploadBackupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                            //showElm(uploadBackupUpdateDetailResponseElmId);
+                        }
+                        else if (result.hasOwnProperty('warn') === true) {
+                            showText(responseElm, result.warn, 'red');
+
+                            let detailMessageHtml = "";
+                            let messageNo = 0;
+                            if (result.hasOwnProperty('warnJson') === true) {
+                                let messageJson = result.warnJson;
+                                for (let i = 0; i < messageJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = messageJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            getElm(uploadBackupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                            //showElm(uploadBackupUpdateDetailResponseElmId);
+                        }
+
+                        if (typeof successCallback === "function") {
+                            successCallback();
+                        }
+                    }
+                    else if (jsonData.hasOwnProperty('Error') === true) {
+                        var error = jsonData.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                }
+            );
+        }
+
+        return false;
+    }
+
+    function initUploadBackupUpdateApp(progressElmId, responseElmId, initFolderSelectVal, appOwnerIDVal,  initialUserEmailVal, initialUserPwdVal, initialUserConfirmPwdVal, appSecurityDivElmId, fileElmId, initOverwriteAppDataVal, initClearBackupLayerVal, initBackupAppDataVal, skipMachineUpdateVal, httpStatusCheckVal, doInitUploadAppBtnElmId, doInitUploadBackupUpdateBtnElmId, uploadBackupUpdateDetailResponseElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        hideElm(uploadBackupUpdateDetailResponseElmId);
+        let detailResponseElm = getElm(uploadBackupUpdateDetailResponseElmId);
+        detailResponseElm.textContent = '';
+        let responseWarnElmId = responseElmId + "Warn";
+        let responseWarnElm = getElm(responseWarnElmId);
+        responseWarnElm.textContent = '';
+
+
+        var data = new FormData();
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        if (apiToken.length == 0) {
+            showText(responseElm, 'Enter the API Token', 'red');
+            valid = false;
+        }
+
+        if (valid == true) {
+            if (appOwnerIDVal == "") {
+                showText(responseElm, 'Enter the App Owner Email', 'red');
+                valid = false;
+            }
+        }
+
+        let securityElm = getElm(appSecurityDivElmId);
+        if (isHiddenElm(appSecurityDivElmId) == false) {
+            if (valid == true) {
+                if (initialUserEmailVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Email', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserPwdVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Pwd', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserConfirmPwdVal == "") {
+                    showText(responseElm, 'Enter the Initial Admin User Confirm Pwd', 'red');
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                if (initialUserPwdVal != initialUserConfirmPwdVal) {
+                    showText(responseElm, 'Pwd and Confirm Pwd does not match', 'red');
+                    valid = false;
+                }
+            }
+        }
+
+        if (valid == true) {
+            var uploadFile = document.getElementById(fileElmId);
+            if (uploadFile.files.length > 0) {
+                data.append("file", uploadFile.files[0]);
+            }
+            else {
+                showText(responseElm, 'Select a Zip File before Initializing', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (initFolderSelectVal == "") {
+                showText(responseElm, 'Select the Server Folder to Init to', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid === true) {
+
+            if (haveElm(doInitUploadAppBtnElmId) == true) {
+                getElm(doInitUploadAppBtnElmId).setAttribute("disabled", true);
+            }
+            if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
+                getElm(doInitUploadBackupUpdateBtnElmId).setAttribute("disabled", true);
+            }
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'InitUploadBackupUpdateApp';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "appOwnerID": appOwnerIDVal,
+                "initializeFolder": initFolderSelectVal,
+                "initialAdminUserEmail": initialUserEmailVal,
+                "initialAdminUserPwd": initialUserPwdVal,
+                "overwriteAppData": initOverwriteAppDataVal,
+                "clearDownloadLayer": initClearBackupLayerVal,
+                "backupAppData": initBackupAppDataVal,
+                "skipMachineUpdate": skipMachineUpdateVal,
+                "httpStatusCheck": httpStatusCheckVal
+            }
+
+            data.append('FormDataMethod', apiMethod);
+            for (const key in apiParams) {
+                data.append(key, apiParams[key])
+            }
+            
+            dopostpost(progressElmId, responseElmId, apiUrl, data,
+                function (jsonData) {
+                    if (jsonData.hasOwnProperty('Result') === true) {
+                        var result = jsonData.Result;
+
+                        if (haveElm(doInitUploadAppBtnElmId) == true) {
+                            getElm(doInitUploadAppBtnElmId).removeAttribute("disabled");
+                        }
+                        if (haveElm(doInitUploadBackupUpdateBtnElmId) == true) {
+                            getElm(doInitUploadBackupUpdateBtnElmId).removeAttribute("disabled");
+                        }
+
+                        if (result.hasOwnProperty('error') === true) {
+                            showText(responseElm, result.error, 'red');
+
+                            let detailMessageHtml = "";
+                            let messageNo = 0;
+                            if (result.hasOwnProperty('errorJson') === true) {
+                                let errorJson = result.errorJson;
+                                for (let i = 0; i < errorJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = errorJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            getElm(uploadBackupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                            //showElm(uploadBackupUpdateDetailResponseElmId);
+                        }
+                        else if (result.hasOwnProperty('message') === true) {
+                            showText(responseElm, result.message, 'green');
+
+                            if (result.hasOwnProperty('warn') === true) {
+                                showText(responseWarnElm, result.warn, 'blue');
+                            }
+
+                            let detailMessageHtml = "";
+                            let messageNo = 0;
+                            if (result.hasOwnProperty('messageJson') === true) {
+                                let messageJson = result.messageJson;
+                                for (let i = 0; i < messageJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = messageJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:green'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            if (result.hasOwnProperty('warnJson') === true) {
+                                let messageJson = result.warnJson;
+                                for (let i = 0; i < messageJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = messageJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            getElm(uploadBackupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                            //showElm(uploadBackupUpdateDetailResponseElmId);
+                        }
+                        else if (result.hasOwnProperty('warn') === true) {
+                            showText(responseElm, result.warn, 'red');
+
+                            let detailMessageHtml = "";
+                            let messageNo = 0;
+                            if (result.hasOwnProperty('warnJson') === true) {
+                                let messageJson = result.warnJson;
+                                for (let i = 0; i < messageJson.length; i++) {
+                                    messageNo++;
+                                    let messageObj = messageJson[i];
+                                    for (var key in messageObj) {
+                                        if (messageObj.hasOwnProperty(key)) {
+                                            detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                        }
+                                    }
+                                }
+                            }
+                            getElm(uploadBackupUpdateDetailResponseElmId).innerHTML = detailMessageHtml;
+                            //showElm(uploadBackupUpdateDetailResponseElmId);
+                        }
+
+                        if (typeof successCallback === "function") {
+                            successCallback();
+                        }
+                    }
+                    else if (jsonData.hasOwnProperty('Error') === true) {
+                        var error = jsonData.Error;
+                        if (error.hasOwnProperty('Message') === true) {
+                            showText(responseElm, error.Message, 'red');
+                        }
+                    }
+                }
+            );
+        }
+
+        return false;
+    }
+
+</script>
+
+

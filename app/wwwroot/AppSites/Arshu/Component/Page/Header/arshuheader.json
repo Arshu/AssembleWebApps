@@ -1,3 +1,7 @@
 {
-  "EnableLoginCheck": false
+  "EnableLoginCheck$": false,
+  "OnlyRootGET$": false,
+  "DefaultRealtime$": false,
+  "DefaultRealtimeDomain$": false,
+  "DefaultRefreshComponent$": "Nav, Content, Footer"
 }

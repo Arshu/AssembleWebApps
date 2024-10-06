@@ -1,5 +1,9 @@
 <ul class="ar-menu" id="navMenu" style="{{$NavBarBackgroundStyle}};">
-    <li class="ar-menulogo"><a href="/">{{$SiteTitle}}</a></li>
+    <li class="ar-menulogo">
+        <a href="/">
+            {{$SiteTitle}}
+        </a>
+    </li>
     {{@NAVList}}
 
     {{@HaveSubMenu}}
@@ -47,7 +51,7 @@
             {{/IsTempUser}}
             {{@HaveAdminRole}}
             <li class="ar-submenuitem">
-                <a href="/Config/Menu">
+                <a href="/Account/Menu">
                     Config Menu
                 </a>
             </li>

@@ -1,0 +1,7 @@
+{
+  "DirRelativePath": "{$JsonFolder}",
+  "DirSearchPattern": "*.json",
+  "SelectValue": "{$JsonSource}",
+  "DisplayMode": "FileNameWithoutExtension",
+  "ExcludePattern": ".editor"
+}

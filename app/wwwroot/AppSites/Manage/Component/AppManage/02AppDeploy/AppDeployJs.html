@@ -1,0 +1,442 @@
+﻿
+<script type="text/javascript">
+
+    function clearAppDeployMessage(responseElmId) {
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+    }
+
+    function clearAppDeployDetailsMessage(responseElmId) {
+        getElm(responseElmId).innerHTML = '';
+    }
+
+    function appDeploySelectAll(regionTargetElmId, checkedState) {
+        var regionCheckboxes = document.getElementsByName(regionTargetElmId);
+        for (var i = 0; i < regionCheckboxes.length; i++) {
+            regionCheckboxes[i].checked = checkedState;
+        }
+    }
+
+    function retrieveAppDeployInfo(progressElmId, responseElmId, deployAppNameVal, appNameElmId, ociImagePathSelectElmId, ociImageTagNameElmId, deployReferenceRegionTemplateElmId, deployReferenceRegionTargetElmId, deployRegionTemplateElmId, deployRegionTargetElmId, deployMaxRegionsPerAppElmId, deployMaxMachinesPerAppElmId, deployMaxMachinesPerRegionElmId, deployEnvInitialTimeoutElmId, deployEnvIdleTimeoutElmId, deployEnvLoadAppDataElmId, deployEnvAutoDestroyAfterXMinElmId, deployOptionsDivElmId, doDeployBtnElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }
+        //if (apiToken.length == 0) {
+        //    showText(responseElm, 'Enter the API Token', 'red');
+        //    valid = false;
+        //}
+
+        if (valid === true) {
+
+            getElm(doDeployBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'RetrieveDeployInfo';
+
+            let apiParams = {
+                "apiToken" : apiToken,
+                "deployAppName": deployAppNameVal
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+
+                    getElm(doDeployBtnElmId).removeAttribute("disabled");
+
+
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+
+                //    if (typeof successCallback === "function") {
+                //        successCallback();
+                //    }
+                //}
+                else {
+
+                    if (result.hasOwnProperty('AppName') === true) {
+                        getElm(appNameElmId).value = result.AppName;
+                    }
+
+                    getElm(ociImageTagNameElmId).TimeID = "v" + getElm('appAPIToken').TimeID;
+                    
+                    if (result.hasOwnProperty("OCIImageList") === true) {
+                        let ociImageList = result.OCIImageList;
+
+                        let selectElm = getElm(ociImagePathSelectElmId);
+                        if (selectElm) {
+                            selectElm.options.length = 0;
+
+                            for (var i = 0; i < ociImageList.length; i++) {
+                                let ociImageInfo = ociImageList[i];
+
+                                let ociImageName = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImageName') === true) {
+                                    ociImageName = ociImageInfo.OCIImageName
+                                }
+                                let ociImageTag = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImageTag') === true) {
+                                    ociImageTag = ociImageInfo.OCIImageTag
+                                }
+                                let ociImagePath = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImagePath') === true) {
+                                    ociImagePath = ociImageInfo.OCIImagePath
+                                }
+                                let isAppImage = false;
+                                if (ociImageInfo.hasOwnProperty('IsAppImage') === true) {
+                                    isAppImage = ociImageInfo.IsAppImage
+                                }
+
+                                if ((i == 0) && (ociImageTag.trim().length != 0)) {
+                                    getElm(ociImageTagNameElmId).value = ociImageTag; //getElm(ociImageTagNameElmId).TimeID;
+                                    getElm(ociImageTagNameElmId).original = ociImageTag;
+                                } else {
+                                    getElm(ociImageTagNameElmId).value = "latest"; //getElm(ociImageTagNameElmId).TimeID;
+                                    getElm(ociImageTagNameElmId).original = 'latest';
+                                }
+
+                                if (isAppImage == true) {
+                                    selectElm.options[selectElm.options.length] = new Option(ociImageName, ociImagePath, true, true);
+                                } else {
+                                    selectElm.options[selectElm.options.length] = new Option(ociImageName, ociImagePath, false, false);
+                                }
+                            }
+                        }
+                    }
+
+                    if (result.hasOwnProperty('EnvInitialShutdownTimeInSec') === true) {
+                        getElm(deployEnvInitialTimeoutElmId).value = result.EnvInitialShutdownTimeInSec;
+                    }
+                    if (result.hasOwnProperty('EnvMinIdleShutdownTimeInSec') === true) {
+                        getElm(deployEnvIdleTimeoutElmId).value = result.EnvIdleShutdownTimeInSec;
+                    }
+                    if (result.hasOwnProperty('EnvAutoDestroyAfterXMin') === true) {
+                        getElm(deployEnvAutoDestroyAfterXMinElmId).value = result.EnvAutoDestroyAfterXMin;
+                    }
+
+                    if (result.hasOwnProperty("DeployReferenceRegionList") === true) {
+                        let deployReferenceRegionList = result.DeployReferenceRegionList;
+
+                        let deployReferenceRegionTemplateElm = getElm(deployReferenceRegionTemplateElmId);
+                        let deployReferenceRegionTemplateHtml = deployReferenceRegionTemplateElm.innerHTML;
+
+                        let deployReferenceRegionTemplate = "";
+
+                        for (var i = 0; i < deployReferenceRegionList.length; i++) {
+                            let regionInfo = deployReferenceRegionList[i];
+
+                            let regionName = "";
+                            if (regionInfo.hasOwnProperty('Region') === true) {
+                                regionName = regionInfo.Region
+                            }
+                            let deployRegion = false;
+                            if (regionInfo.hasOwnProperty('Status') === true) {
+                                deployRegion = regionInfo.Status
+                            }
+                            let regionText = regionName;
+                            if (regionInfo.hasOwnProperty('MachineCount') === true) {
+                                regionText = regionText + "[" + regionInfo.MachineCount + "]";
+                            }
+
+                            let deployReferenceRegionTemplateItem = deployReferenceRegionTemplateHtml;
+                            if (deployRegion == false) {
+                                deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/checked="checked"/g, "")
+                            }
+                            if (result.hasOwnProperty('AppName') === true) {
+                                deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/{AppName}/g, result.AppName)
+                            }
+                            deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/{RegionName}/g, 'deployReferenceRegion')
+                            deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/{Region}/g, regionName)
+                            deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/{RegionText}/g, regionText)
+
+                            deployReferenceRegionTemplate = deployReferenceRegionTemplate + deployReferenceRegionTemplateItem;
+                        }
+
+                        let deployReferenceRegionTargetElm = getElm(deployReferenceRegionTargetElmId);
+                        deployReferenceRegionTargetElm.innerHTML = deployReferenceRegionTemplate;
+                    }
+
+                    if (result.hasOwnProperty("DeployRegionList") === true) {
+                        let deployRegionList = result.DeployRegionList;
+
+                        let deployRegionTemplateElm = getElm(deployRegionTemplateElmId);
+                        let deployRegionTemplateHtml = deployRegionTemplateElm.innerHTML;
+
+                        let deployRegionTemplate = "";
+
+                        for (var i = 0; i < deployRegionList.length; i++) {
+                            let regionInfo = deployRegionList[i];
+                            let regionName = "";
+                            if (regionInfo.hasOwnProperty('Region') === true) {
+                                regionName = regionInfo.Region
+                            }
+                            let deployRegion = false;
+                            if (regionInfo.hasOwnProperty('Status') === true) {
+                                deployRegion = regionInfo.Status
+                            }
+                            let regionText = regionName;
+                            if (regionInfo.hasOwnProperty('MachineCount') === true) {
+                                regionText = regionText + "[" + regionInfo.MachineCount + "]";
+                            }
+
+                            let deployRegionTemplateItem = deployRegionTemplateHtml;
+                            if (deployRegion == false) {
+                                deployRegionTemplateItem = deployRegionTemplateItem.replace(/checked="checked"/g, "")
+                            }
+                            deployRegionTemplateItem = deployRegionTemplateItem.replace(/{RegionName}/g, 'deployRegion')
+                            deployRegionTemplateItem = deployRegionTemplateItem.replace(/{Region}/g, regionName)
+                            deployRegionTemplateItem = deployRegionTemplateItem.replace(/{RegionText}/g, regionText)
+
+                            deployRegionTemplate = deployRegionTemplate + deployRegionTemplateItem;
+                        }
+
+                        let deployRegionTargetElm = getElm(deployRegionTargetElmId);
+                        deployRegionTargetElm.innerHTML = deployRegionTemplate;
+                    }
+
+                    if (result.hasOwnProperty('MaxRegionsPerApp') === true) {
+                        getElm(deployMaxRegionsPerAppElmId).value = result.MaxRegionsPerApp;
+                    }
+                    if (result.hasOwnProperty('MaxMachinesPerApp') === true) {
+                        getElm(deployMaxMachinesPerAppElmId).value = result.MaxMachinesPerApp;
+                    }
+                    if (result.hasOwnProperty('MaxMachinesPerRegion') === true) {
+                        getElm(deployMaxMachinesPerRegionElmId).value = result.MaxMachinesPerRegion;
+
+                        if (result.MaxMachinesPerRegion == 1) {
+                            hideElm(deployOptionsDivElmId);
+                        } else {
+                            showElm(deployOptionsDivElmId);
+                        }
+                    }
+
+                    getElm(doDeployBtnElmId).removeAttribute("disabled");
+
+                    if (typeof successCallback === "function") {
+                        successCallback();
+                    }
+
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+    function deployApp(progressElmId, responseElmId, newAppNameVal, ociImagePathVal, ociImageTagNameVal, deployReferenceRegionTargetElmName, deployRegionTargetElmName, envInitialTimeoutVal, envIdleTimeoutVal, envAutoDestroyAfterXMinVal, machineCountPerRegionVal, deployDestroyIfNotInRegionVal, doUpdateBtnElmId, deployMaxMachinesPerRegionElmId, detailResponseElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++;
+        let responseElm = getElm(responseElmId);
+        let responseContainerElmId = responseElmId + "Container";
+        responseElm.textContent = '';
+        hideElm(responseContainerElmId);
+
+        let valid = true;
+
+        if (valid == true) {
+            if (newAppNameVal.length == 0) {
+                showText(responseElm, 'Deploy App Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (ociImagePathVal.length == 0) {
+                showText(responseElm, 'Deploy OCI Image Path Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (ociImageTagNameVal.length == 0) {
+                showText(responseElm, 'Deploy OCI Image Tag Name Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        let deployReferenceRegion = "";
+        var deployReferenceRegionRadios = document.getElementsByName(deployReferenceRegionTargetElmName);
+        for (var i = 0; i < deployReferenceRegionRadios.length; i++) {
+            // And stick the checked ones onto an array...
+            if (deployReferenceRegionRadios[i].checked) {
+                deployReferenceRegion = deployReferenceRegionRadios[i].value;
+            }
+        }
+
+        if (valid == true) {
+            if (deployReferenceRegion.length == 0) {
+                showText(responseElm, 'Select at least 1 Reference Region', 'red');
+                valid = false;
+            }
+        }
+
+
+        let deployRegionList = [];
+        var deployRegionCheckboxes = document.getElementsByName(deployRegionTargetElmName);
+        for (var i = 0; i < deployRegionCheckboxes.length; i++) {
+            // And stick the checked ones onto an array...
+            if (deployRegionCheckboxes[i].checked) {
+                deployRegionList.push(deployRegionCheckboxes[i].value);
+            }
+        }
+
+        if (valid == true) {
+            if (deployRegionList.length == 0) {
+                showText(responseElm, 'Select at least 1 Deploy Region', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (machineCountPerRegionVal == "") {
+                showText(responseElm, 'Specifiy Deploy Machine Count Per Region', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (machineCountPerRegionVal > getElm(deployMaxMachinesPerRegionElmId).value) {
+                showText(responseElm, 'Deploy Machine Count cannot be Greater than Max Machine Counter Per Region', 'red');
+                valid = false;
+            }
+        }
+
+        let apiToken = "";
+        if (haveElm('appAPIToken') == true) {
+            apiToken = getElm('appAPIToken').value;
+        }       
+        if (apiToken.length == 0) {
+            showText(responseElm, 'Enter the API Token', 'red');
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            getElm(doUpdateBtnElmId).setAttribute("disabled", true);
+
+            let isRealtime = false;
+            let realtimeDomain = "";
+
+            let apiUrl = '/AppApi/ServerApi';
+            let apiMethod = 'DeployApp';
+
+            let apiParams = {
+                "apiToken": apiToken,
+                "newAppName": newAppNameVal,
+                "ociImagePath": ociImagePathVal,
+                "ociImageTagName": ociImageTagNameVal,
+                "referenceRegion": deployReferenceRegion,
+                "deployRegions": deployRegionList,
+                "deployMachineCountPerRegion": machineCountPerRegionVal,
+                "envInitialTimeout": envInitialTimeoutVal,
+                "envIdleTimeout": envIdleTimeoutVal,
+                "envAutoDestroyAfterXMin": envAutoDestroyAfterXMinVal,
+                "destroyIfNotInRegion": deployDestroyIfNotInRegionVal,
+            };
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+                    getElm(doDeployBtnElmId).removeAttribute("disabled");
+
+                    let detailMessageHtml = "";
+                    let messageNo = 0;
+                    if (result.hasOwnProperty('errorJson') === true) {
+                        let errorJson = result.errorJson;
+                        for (let i = 0; i < errorJson.length; i++) {
+                            messageNo++;
+                            let messageObj = errorJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    getElm(detailResponseElmId).innerHTML = detailMessageHtml;
+                    showElm(detailResponseElmId);
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green');
+
+                    let detailMessageHtml = "";
+                    let messageNo = 0;
+                    if (result.hasOwnProperty('messageJson') === true) {
+                        let messageJson = result.messageJson;
+                        for (let i = 0; i < messageJson.length; i++) {
+                            messageNo++;
+                            let messageObj = messageJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:green'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    if (result.hasOwnProperty('warnJson') === true) {
+                        let messageJson = result.warnJson;
+                        for (let n = 0; n < messageJson.length; n++) {
+                            messageNo++;
+                            let messageObj = messageJson[n];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    getElm(detailResponseElmId).innerHTML = detailMessageHtml;
+                    showElm(detailResponseElmId);
+                }
+                else if (result.hasOwnProperty('warn') === true) {
+                    showText(responseElm, result.warn, 'red');
+
+                    let detailMessageHtml = "";                   
+                    let messageNo = 0;
+                    if (result.hasOwnProperty('warnJson') === true) {
+                        let messageJson = result.warnJson;
+                        for (let i = 0; i < messageJson.length; i++) {
+                            messageNo++;
+                            let messageObj = messageJson[i];
+                            for (var key in messageObj) {
+                                if (messageObj.hasOwnProperty(key)) {
+                                    detailMessageHtml = detailMessageHtml + messageNo + " : <span style='color:red'>" + messageObj[key] + "</span><br/>";
+                                }
+                            }
+                        }
+                    }
+                    getElm(detailResponseElmId).innerHTML = detailMessageHtml;
+                    showElm(detailResponseElmId);
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+        }
+
+        return false;
+    }
+
+</script>
+

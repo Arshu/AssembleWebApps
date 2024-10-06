@@ -1,21 +1,16 @@
 {
+  "Data": true,
   "NAVList": [
     {
       "NavTitle": "Contact Us",
-      "NavUrl": "#",
-      "NavAppSite": "Index",
-      "NavAppView": "Contact",
-      "NavAppViewIDs": "Nav, Content",
+      "NavUrl": "/Index/Contact",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []
     },
     {
       "NavTitle": "Help",
-      "NavUrl": "#/Arshu/Help",
-      "NavAppSite": "Arshu",
-      "NavAppView": "Help",
-      "NavAppViewIDs": "Nav, Content, Footer",
+      "NavUrl": "/Arshu/Help",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []
@@ -23,9 +18,6 @@
     {
       "NavTitle": "SignIn",
       "NavUrl": "/Account/Login",
-      "NavAppSite": "Account",
-      "NavAppView": "Login",
-      "NavAppViewIDs": "Nav, Content, Footer",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []
@@ -34,9 +26,6 @@
   "NAVListSchema": {
     "NavTitle": "Index",
     "NavUrl": "/Index/Main",
-    "NavAppSite": "Index",
-    "NavAppView": "Main",
-    "NavAppViewIDs": "Content",
     "NavActive": "",
     "HaveSubMenu": false,
     "SubNAVList": []
@@ -44,9 +33,6 @@
   "SubNAVListSchema": {
     "NavTitle": "Index",
     "NavUrl": "/Index/Main",
-    "NavAppSite": "Index",
-    "NavAppView": "Main",
-    "NavAppViewIDs": "Content",
     "NavActive": ""
   }
 }

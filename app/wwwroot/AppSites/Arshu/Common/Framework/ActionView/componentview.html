@@ -58,72 +58,70 @@
 
         if (valid === true) {
 
-            let url = '/AppApi/VueApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetViewComponentSourceHierarchy',
-                "params": {
-                    "componentAppSite": componentAppSite,
-                    "componentAppView": componentAppView,
-                    "componentName": componentName,
-                },
-                "id": id
+            let isRealtime = false;
+            let realtimeDomain = "";
+            let failureCallback = null;
+            let clientRequestTimestamp = Math.floor(new Date().getTime());
+            let appSite = componentAppSite;
+            let appView = componentAppView;
+
+            let apiUrl = '/AppApi/HtmlApi';
+            let apiMethod = 'GetViewComponentSourceHierarchy';
+
+            let componentInfo = {
+                "componentAppSite": componentAppSite,
+                "componentAppView": componentAppView,
+                "componentName": componentName,
+            }
+
+            let apiParams = {
+                "componentInfo": componentInfo
             };
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (((data.hasOwnProperty('Result') === true) && (data.Result))  && (data.Result)) {
-                        let result = data.Result;
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            //showText(responseElm, result.message, 'green');
+                let responseElm = getElm(responseElmId);
 
-                            if (result.hasOwnProperty('json') === true) {
-                                let json = result.json;
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    //showText(responseElm, result.message, 'green');
 
-                                let selectElm = getElm(selectElmId);
-                                if (selectElm) {
-                                    selectElm.options.length = 0;
+                    if (result.hasOwnProperty('json') === true) {
+                        let json = result.json;
 
-                                    for (let i = 0; i < json.length; i++) {
-                                        let jsonSource = json[i];
+                        let selectElm = getElm(selectElmId);
+                        if (selectElm) {
+                            selectElm.options.length = 0;
 
-                                        let selectText = "";
-                                        let selectValue = "";
-                                        for (let key in jsonSource) {
-                                            selectText = key;
-                                            selectValue = jsonSource[key];
-                                        }
-                                        selectElm.options[selectElm.options.length] = new Option(selectText, selectValue);
-                                    }
+                            for (let i = 0; i < json.length; i++) {
+                                let jsonSource = json[i];
+
+                                let selectText = "";
+                                let selectValue = "";
+                                for (let key in jsonSource) {
+                                    selectText = key;
+                                    selectValue = jsonSource[key];
                                 }
-                                selectElm.selectedIndex = 0;
-
-                                let sourceType = selectElm.value.substring(0, 4).trim();
-                                let sourceContent = selectElm.value.substring(5);
-
-                                setComponentSourceViewer(sourceViewerElmId, sourceType, sourceContent, metaViewerElmId);
-
-                                if (typeof successCallback === "function") {
-                                    successCallback();
-                                }
+                                selectElm.options[selectElm.options.length] = new Option(selectText, selectValue);
                             }
                         }
-                    }
-                    if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error) {
-                            if (error.hasOwnProperty('Message') === true) {
-                                showText(responseElm, error.Message, 'red');
-                            }
+                        selectElm.selectedIndex = 0;
+
+                        let sourceType = selectElm.value.substring(0, 4).trim();
+                        let sourceContent = selectElm.value.substring(5);
+
+                        setComponentSourceViewer(sourceViewerElmId, sourceType, sourceContent, metaViewerElmId);
+
+                        if (typeof successCallback === "function") {
+                            successCallback();
                         }
                     }
                 }
+            }
 
-            );
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, appSite, appView, componentName, "");            
         }
 
         return false;
@@ -145,7 +143,7 @@
         }
     }
 
-    function refreshViewComponentMetaData(progressElmId, responseElmId, appSite, appView, componentName, sourceViewerElmId, successCallback) {
+    function refreshViewComponentMetaData(progressElmId, responseElmId, componentAppSite, componentAppView, componentName, sourceViewerElmId, successCallback) {
 
         let id = window.ajaxid++;
         let responseContainerElmId = responseElmId + "Container";
@@ -158,51 +156,55 @@
 
         if (valid === true) {
 
-            let url = '/AppApi/VueApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetViewComponentMetaData',
-                "params": {
-                    "appSite": appSite,
-                    "appView": appView,
-                    "componentName": componentName,
-                    "configJson": globalConfigJson,
-                    "reloadMetaData": globalReloadMetaData
-                },
-                "id": id
+            let isRealtime = false;
+            let realtimeDomain = "";
+            let failureCallback = null;
+            let clientRequestTimestamp = Math.floor(new Date().getTime());
+            let appSite = componentAppSite;
+            let appView = componentAppView;
+
+            let apiUrl = '/AppApi/HtmlApi';
+            let apiMethod = 'GetViewComponentMetaData';
+
+            let componentInfo = {
+                "componentAppSite": componentAppSite,
+                "componentAppView": componentAppView,
+                "componentName": componentName,
+            }
+
+            let metaDataInfo = {
+                "componentInfo": componentInfo,
+                "configJson": globalConfigJson,
+                "reloadMetaData": globalReloadMetaData
             };
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
-                        let result = data.Result;
+            let apiParams = {
+                "metaDataInfo": metaDataInfo
+            };
 
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            //showText(responseElm, result.message, 'green');
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                            if (result.hasOwnProperty('data') === true) {
-                                let jsonData = result.data;
+                let responseElm = getElm(responseElmId);
 
-                                setComponentMetaDataViewer(sourceViewerElmId, jsonData);
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red');
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    //showText(responseElm, result.message, 'green');
 
-                                if (typeof successCallback === "function") {
-                                    successCallback();
-                                }
-                            }
-                        }
-                    }
-                    if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error) {
-                            if (error.hasOwnProperty('Message') === true) {
-                                showText(responseElm, error.Message, 'red');
-                            }
+                    if (result.hasOwnProperty('data') === true) {
+                        let jsonData = result.data;
+
+                        setComponentMetaDataViewer(sourceViewerElmId, jsonData);
+
+                        if (typeof successCallback === "function") {
+                            successCallback();
                         }
                     }
-                });
+                }
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, appSite, appView, componentName, "");
         }
 
         return false;

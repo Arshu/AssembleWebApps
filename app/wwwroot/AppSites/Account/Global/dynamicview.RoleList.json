@@ -1,0 +1,12 @@
+{
+  "htmlTableEmpty": "RoleListEmpty",
+  "htmlTable": "RoleListTable",
+  "htmlTableBody": "RoleListTableBody",
+  "htmlTableRow": "RoleListTableRow",
+  "htmlTableHeader": "RoleListTableHeader",
+  "htmlTableFooter": "RoleListTableFooter",
+  "filterKey": "",
+  "filterValue": "",
+  "pageNo": "1",
+  "itemsPerPage": "10"
+}

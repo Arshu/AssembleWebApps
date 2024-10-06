@@ -1,21 +1,21 @@
 
-<div class="ar-flex-input-wrap bg-alt" id="toDoEditViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}},KeyPath={{$KeyPath}}">
+<div class="ar-flex-input-wrap bg-alt" id="toDoEditViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
     <div id="toDoEditConfig">
-        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="PageNo" id="{{$ParentViewID}}EditPageNo" />
-        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="ItemsPerPage" id="{{$ParentViewID}}EditItemsPerPage" />
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="PageNo" id="{{$ViewParentID}}EditPageNo" />
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="ItemsPerPage" id="{{$ViewParentID}}EditItemsPerPage" />
     </div>
     <div id="toDoEditKey">
-        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ParentViewID}}EditGuid" />
-        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ParentViewID}}EditViewID" />
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ViewParentID}}EditGuid" />
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ViewParentID}}EditViewID" />
     </div>
     <div class="ar-flex-input-wrap" id="toDoEditInput">
-        <input type="hidden" class="ar-input ar-border" style="width:100%;" id="{{$ParentViewID}}EditKey" value="" />
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" id="{{$ViewParentID}}EditKey" value="" />
 
         <div>Task Name</div>
-        <input type="text" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ParentViewID}}EditTaskName" />
+        <input type="text" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ViewParentID}}EditTaskName" />
 
         <div>Task Status</div>
-        <select class="ar-select ar-border" data-key="" style="width:100%;padding:0 0 0 10px;" id="{{$ParentViewID}}EditTaskStatus">
+        <select class="ar-select ar-border" data-key="" style="width:100%;padding:0 0 0 10px;" id="{{$ViewParentID}}EditTaskStatus">
             <option>Pending</option>
             <option>InProgress</option>
             <option>Complete</option>
@@ -25,11 +25,11 @@
         <button class="ar-button ar-border" style="margin:5px;background-color:green;width:75px;" onclick="hideElm('toDoEditViewDiv')">Close</button>
         <button class="ar-button ar-border" style="margin:5px;background-color:lightblue;width:75px;"
                 data-action="editJsonInJsonArray"
-                data-progress="{{$ParentViewID}}Progress"
-                data-response="{{$ParentViewID}}Response"
+                data-progress="{{$ViewParentID}}Progress"
+                data-response="{{$ViewParentID}}Response"
                 data-appsite="{{$AppSite}}"
                 data-appview="{{$AppView}}"
-                data-appcomponent="{{$ParentViewID}}"
+                data-appcomponent="{{$ViewParentID}}"
                 data-keyinfo="todoEditViewGetKeyInfo"
                 data-datainfo="todoEditViewGetEditInfo"
                 data-validkeyinfo="{'TaskName':'', 'TaskStatus':''}"
@@ -47,19 +47,19 @@
 <script>
 
     function todoEditViewGetKeyInfo() {
-        return getFlatJson('toDoEditKey', '{{$ParentViewID}}');
+        return getFlatJson('toDoEditKey', '{{$ViewParentID}}');
     }
 
     function todoEditViewGetEditInfo() {
-        return getFlatJson('toDoEditInput', '{{$ParentViewID}}');
+        return getFlatJson('toDoEditInput', '{{$ViewParentID}}');
     }
 
     function todoEditViewGetConfigInfo() {
-        //return { "PageNo": getElm('{{$ParentViewID}}EditPageNo').value, "ItemsPerPage": getElm('{{$ParentViewID}}EditItemsPerPage').value }
+        //return { "PageNo": getElm('{{$ViewParentID}}EditPageNo').value, "ItemsPerPage": getElm('{{$ViewParentID}}EditItemsPerPage').value }
         return getFlatJson('toDoEditConfig', '');
     }
 
     function todoEditViewGetEditViewID() {
-        return getElm('{{$ParentViewID}}EditViewID').value;
+        return getElm('{{$ViewParentID}}EditViewID').value;
     }
 </script>

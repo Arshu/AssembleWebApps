@@ -1,0 +1,24 @@
+{
+  "SiteTitle": "Init",
+  "NAVList": [
+    {
+      "NavTitle": "SignIn",
+      "NavUrl": "/Account/Login",
+      "NavActive": "",
+      "HaveSubMenu": false,
+      "SubNAVList": []
+    }
+  ],
+  "NAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "/Index/Main",
+    "NavActive": "",
+    "HaveSubMenu": false,
+    "SubNAVList": []
+  },
+  "SubNAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "/Index/Main",
+    "NavActive": ""
+  }
+}

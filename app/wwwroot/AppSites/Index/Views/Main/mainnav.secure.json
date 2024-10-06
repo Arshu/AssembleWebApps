@@ -1,11 +1,9 @@
 {
+  "Data": true,
   "NAVList": [
     {
       "NavTitle": "Help",
-      "NavUrl": "#/Arshu/Help",
-      "NavAppSite": "Arshu",
-      "NavAppView": "Help",
-      "NavAppViewIDs": "Nav, Content, Footer",
+      "NavUrl": "/Arshu/Help",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []
@@ -14,37 +12,25 @@
   "NAVAccountList": [
     {
       "NavTitle": "LogOff ({{$LoginUserID}})",
-      "NavUrl": "#",
-      "NavAppSite": "Account",
-      "NavAppView": "LogOff",
-      "NavAppViewIDs": "Content",
+      "NavUrl": "#/",
       "NavActive": "logoff"
     }
   ],
   "NAVListSchema": {
     "NavTitle": "Index",
-    "NavUrl": "#/Index/Main",
-    "NavAppSite": "Index",
-    "NavAppView": "Main",
-    "NavAppViewIDs": "Content, Nav, Footer",
+    "NavUrl": "/Index/Main",
     "NavActive": "",
     "HaveSubMenu": false,
     "SubNAVList": []
   },
   "SubNAVListSchema": {
     "NavTitle": "Index",
-    "NavUrl": "#/Index/Main",
-    "NavAppSite": "Index",
-    "NavAppView": "Main",
-    "NavAppViewIDs": "Content, Nav, Footer",
+    "NavUrl": "/Index/Main",
     "NavActive": ""
   },
   "NAVAccountListSchema": {
     "NavTitle": "Index",
-    "NavUrl": "#/Index/Main",
-    "NavAppSite": "Index",
-    "NavAppView": "Main",
-    "NavAppViewIDs": "Content, Nav, Footer",
+    "NavUrl": "/Index/Main",
     "NavActive": ""
   }
 }

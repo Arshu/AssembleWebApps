@@ -1,0 +1,136 @@
+﻿<script type="text/javascript">
+
+    const webRtcUrl = new URL(document.location);
+    let webRtcWSProtocol = "ws://";
+    if (window.location.protocol === 'https:') {
+        webRtcWSProtocol = "wss://";
+    }
+    let webRtcWSHost = webRtcUrl.hostname;
+    if ((webRtcUrl.port != 80) && (webRtcUrl.port != 443)) { webRtcWSHost = webRtcWSHost + ":" + webRtcUrl.port; }
+    let webRtcWSUrl = webRtcWSProtocol + webRtcWSHost + "/{{$ApiHub}}";
+
+    let stunListener = 'stun:stun.l.google.com:19302';
+    let stunListener1 = 'stun:' + window.location.hostname + ':3478';
+    let stunListener2 = 'stun:' + window.location.hostname + ':3479';
+
+    const iceServers = [
+        {
+            urls: stunListener1
+        }
+    ];
+
+    const pc = new RTCPeerConnection({
+        iceServers
+    });
+
+    let peerCandidate = null;
+    pc.onicecandidate = (e) => {
+        if (!e.candidate) return;
+
+        //console.log(e.candidate.candidate);
+
+        // If a srflx candidate was found, notify that the STUN server works!
+        if (e.candidate.type == 'srflx' || e.candidate.candidate.includes('srflx')) {
+            let ip = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/;
+            let address = e.candidate.address
+                ? e.candidate.address
+                : e.candidate.candidate.match(ip);
+            let port = e.candidate.port;
+
+            //e.candidate.protocol
+            //e.candidate.relatedAddress
+            //e.candidate.relatedPort
+            console.log('Your Public IP Address is ' + address + '[' + port + '] The STUN server is reachable!');
+        }
+
+        // If a relay candidate was found, notify that the TURN server works!
+        if (e.candidate.type == 'relay' || e.candidate.candidate.includes('relay')) {
+            console.log('The TURN server is reachable!');
+        }
+
+        peerCandidate = e.candidate;
+    };
+
+    pc.onconnectionstatechange = () => {
+        console.log("onconnectionstatechange: " + pc.connectionState);
+        //if (pc.connectionState == "connected") {
+        //    console.log(`creating data channel ${DATA_CHANNEL_LABEL}.`);
+        //    dc = pc.createDataChannel(DATA_CHANNEL_LABEL);
+        //    dc.onopen = (event) => console.log(`data channel onopen: id=${dc.id}, label ${dc.label}.`);
+        //    dc.onclose = (event) => console.log(`data channel onclose: id=${dc.id}, label ${dc.label}.`);
+        //    dc.onmessage = (event) => console.log(`data channel onmessage: ${event.data}.`);
+        //}
+    }
+
+    // handle error
+    pc.onicecandidateerror = (e) => {
+        console.error(e);
+        console.log('Error: ' + e.errorText);
+    };
+
+    pc.ondatachannel = (evt) => {
+        console.log(`ondatachannel new data channel created: id ${evt.channel.id}, label ${evt.channel.label}.`);
+        //dc = evt.channel;
+        //dc.onopen = (event) => console.log(`data channel onopen: ${event}.`);
+        //dc.onclose = (event) => console.log(`data channel onclose: ${event}.`);
+        //dc.onmessage = onDataChannelMessage;
+    }
+
+    const dc = pc.createDataChannel('test');
+    dc.onopen = (event) => console.log(`data channel onopen: id=${dc.id}, label ${dc.label}.`);
+    dc.onclose = (event) => console.log(`data channel onclose: id=${dc.id}, label ${dc.label}.`);
+    dc.onmessage = onDataChannelMessage;
+
+    pc.createOffer().then(offer => pc.setLocalDescription(offer));
+
+    const rtcWS = new WebSocket(webRtcWSUrl);
+
+    rtcWS.onopen = async function () {
+        if (rtcWS.readyState == 1) {
+            rtcWS.send(JSON.stringify(peerCandidate));
+        }
+    }
+
+    rtcWS.onmessage = async function (evt) {
+        var obj = JSON.parse(evt.data);
+        if (obj?.candidate) {
+            if (pc.remoteDescription !== null) {
+                pc.addIceCandidate(obj);
+            }
+            else {
+                console.log("no remote sdp, ignoring remote ice candidate: " + evt.data);
+            }
+        }
+        else if (obj?.sdp) {
+            await pc.setRemoteDescription(new RTCSessionDescription(obj));
+            if (!makeOffer) {
+                pc.createAnswer()
+                    .then((answer) => pc.setLocalDescription(answer))
+                    .then(() => ws.send(JSON.stringify(pc.localDescription)));
+            }
+        }
+    };
+
+    async function closePeer() {
+        isClosed = true;
+        await dc?.close();
+        await pc?.close();
+        await rtcWS?.close();
+    };
+
+    function sendMessage(message) {
+        console.log(`send message: ${message}.`);
+        dc?.send(message);
+    }
+
+    function onDataChannelMessage(evt) {
+        //console.log(evt);
+        console.log(`data channel onmessage: message type ${evt.type}, label ${evt.target.label}, data ${evt.data}.`);
+        if (evt.data instanceof ArrayBuffer) {
+            console.log(`binary data of length ${evt.data.byteLength}.`);
+            evt.target.send(evt.data);
+        }
+    }
+
+   
+</script>

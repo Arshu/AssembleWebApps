@@ -37,17 +37,7 @@
 
             <div class="ar-flex-item-stretch ar-border-left">
                 <select class="ar-select" style="width:100%;border:none;" id="selectJsonAppSite">
-                    {{
-                         VIEW_AppSiteSelect(
-                         "AppSiteList",
-                         "AppSite":"{$AppSite}",
-                         "SkipValue" : "Editor",
-                         "FilterValue": "",
-                         "SelectedKey":"Index",
-                         "SelectEmptyText":"No App Site Found",
-                         "AppendOption" : "",
-                         "AppendOptionValue" : "")
-                    }}
+                    {{AppSiteSelect}}
                 </select>
             </div>
 

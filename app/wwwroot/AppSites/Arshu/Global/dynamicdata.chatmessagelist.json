@@ -1,7 +1,0 @@
-{
-  "PageNo": 1,
-  "ItemsPerPage": 2,
-  "MarkMatchTags": "ChatFromUser, ChatFromAppSite, ChatFromAppView",
-  "MarkMatchValues": "{{$LoginUserID}}#{{$RootDomain}}, {{$AppSite}}, {{$AppView}}",
-  "MarkMatchTypes": "Contains, Exact, Exact"
-}

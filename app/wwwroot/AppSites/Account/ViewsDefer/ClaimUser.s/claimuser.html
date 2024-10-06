@@ -2,96 +2,96 @@
 
 <script type="text/javascript">
 
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
-    function claimUser(progressElmId, responseElmId, loginIdVal, loginAliasVal, loginPasswordVal, confirmPasswordVal, redirectUrl) {
-        let id = window.ajaxid++;
+    function claimUser(progressElmId, responseElmId, loginIdVal, loginAliasVal, loginPasswordVal, confirmPasswordVal, redirectUrl, successCallback, failureCallback) {
+        let id = window.ajaxid++
 
-        let responseContainerElmId = responseElmId + "Container";
+        let responseContainerElmId = responseElmId + "Container"
         let responseElm = getElm(responseElmId)
         let responseContainerElm = getElm(responseContainerElmId)
-        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild);
-        hideElm(responseContainerElmId);
+        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild)
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (loginIdVal.trim().length === 0) {
-            showText(responseElm, 'Enter Login Id', 'red');
-            valid = false;
+            showText(responseElm, 'Enter Login Id', 'red')
+            valid = false
         }
 
         if (valid === true) {
             if (loginAliasVal.trim().length === 0) {
-                showText(responseElm, 'Enter Alias', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Alias', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
             if (loginPasswordVal.trim().length === 0) {
-                showText(responseElm, 'Enter Password', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Password', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
             if (confirmPasswordVal.trim().length === 0) {
-                showText(responseElm, 'Enter Confirm Password', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Confirm Password', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
             if (loginPasswordVal !== confirmPasswordVal) {
-                showText(responseElm, 'Password and Confirm Password does not match', 'red');
-                valid = false;
+                showText(responseElm, 'Password and Confirm Password does not match', 'red')
+                valid = false
             }
         }
 
-     
-        if (valid === true)
-        {
-            let url = '/AppApi/WebApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'ClaimUser',
-                "params": { "userId": loginIdVal, "userAlias": loginAliasVal, "userPassword": loginPasswordVal },
-                "id": id
-            };
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result)) {
-                        let result = data.Result;
+        if (valid === true) {
+            let isRealtime = false
+            let realtimeDomain = ""
 
-                        if (result.hasOwnProperty('data') === true) {
-                            redirectUrl = result.data;
-                        }
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "ClaimUser"
 
-                        if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message + ". Please wait", 'green');
-                            if (redirectUrl) {
-                                setTimeout(function () { window.location.replace(redirectUrl); }, 1000);
-                            } else {
-                                setTimeout(function () { window.location.reload(true); }, 1000);
-                            }
-                        }
-                        else if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
+            let apiParams = {
+                "userId": loginIdVal,
+                "userAlias": loginAliasVal,
+                "userPassword": loginPasswordVal
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('data') === true) {
+                    redirectUrl = result.data
+                }
+
+                if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message + ". Please wait", 'green')
+                    if (redirectUrl) {
+                        setTimeout(function () { window.location.replace(redirectUrl) }, 1000)
+                    } else {
+                        setTimeout(function () { window.location.reload(true) }, 1000)
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                else if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
 
-        return false;
+        return false
     }
 
 </script>
+
 <style>
     .avatar {
         padding-bottom: 10px;
@@ -112,7 +112,7 @@
     <div class="ar-flex-card ar-card-border" style="text-align:center;">
 
         <figure class="avatar" style="text-align:center;">
-            <img src="/Content/logos/logo_login.png" />
+            <img src="/Resource/account/logo_login.png" />
         </figure>
 
         <div class="ar-flex-input-wrap border" style="margin: 5px 0px;background-color:#209cee;">

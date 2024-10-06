@@ -26,7 +26,7 @@
             border: 1px solid #8e26d4;
             border-bottom: 1px solid #d4d4d4;
             background-color: #e9e9e9;
-            text-align:left;
+            text-align: left;
         }
 
             .autocomplete-items div:hover {
@@ -40,12 +40,12 @@
 
     table {
         border-collapse: collapse;
-        width: 100%;       
+        width: 100%;
         border: 1px solid gray;
     }
 
     tr, th, td {
-        border: 1px solid lightgray;       
+        border: 1px solid lightgray;
     }
 
     th {
@@ -55,469 +55,459 @@
 
 <script type="text/javascript">
 
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
     window.addEventListener("load", function (windowLoadE) {
-        let p, letter, button, holder;
-        holder =getElm("buttonsHolder");
+        let p, letter, button, holder
+        holder = getElm("buttonsHolder")
         for (let i = 65; i <= 90; i++) {
             //if (i == 65 || i == 75 || i == 84) {
             //    p = document.createElement("p");
             //}
-            letter = String.fromCharCode(i);
-            button = document.createElement("button");
-            button.innerHTML = letter;
-            button.classList.add("key");
-            button.setAttribute("data-letter", letter);
-            button.onclick = function (e) { setLetter(this.getAttribute("data-letter")); };
-            holder.appendChild(button);
+            letter = String.fromCharCode(i)
+            button = document.createElement("button")
+            button.innerHTML = letter
+            button.classList.add("key")
+            button.setAttribute("data-letter", letter)
+            button.onclick = function (e) { setLetter(this.getAttribute("data-letter")) }
+            holder.appendChild(button)
             //if ( i == 74 || i == 83 || i == 90 ) {
             //    holder.appendChild( p );
             //}
         }
-        p = document.createElement("p");
-        holder.appendChild(p);
+        p = document.createElement("p")
+        holder.appendChild(p)
         for (let i = 48; i <= 57; i++) {
-            letter = String.fromCharCode(i);
-            button = document.createElement("button");
-            button.innerHTML = letter;
-            button.classList.add("key");
-            button.setAttribute("data-letter", letter);
-            button.onclick = function (e) { setLetter(this.getAttribute("data-letter")); };
-            holder.appendChild(button);
+            letter = String.fromCharCode(i)
+            button = document.createElement("button")
+            button.innerHTML = letter
+            button.classList.add("key")
+            button.setAttribute("data-letter", letter)
+            button.onclick = function (e) { setLetter(this.getAttribute("data-letter")) }
+            holder.appendChild(button)
         }
-    });
+    })
 
     function setLetter(letter) {
-        showFlex('userFilter');
-        hideFlex('userSearch');
-       getElm('userId').value = '';
-        fillUserList('roleProgress', 'roleResponse', 'userList', letter, function () {getElm('userId').value = ''; });
+        showFlex('userFilter')
+        hideFlex('userSearch')
+        getElm('userId').value = ''
+        fillUserList('roleProgress', 'roleResponse', 'userList', letter, function () { getElm('userId').value = '' })
     }
 
     function resetUserList(userListElmId) {
-        let selectElm = getElm(userListElmId);
-        selectElm.options.length = 0;
-        let optionElm = document.createElement("option");
-        optionElm.text = "Select Filter...";
-        selectElm.add(optionElm);
-       getElm('userId').value = '';
+        let selectElm = getElm(userListElmId)
+        selectElm.options.length = 0
+        let optionElm = document.createElement("option")
+        optionElm.text = "Select Filter..."
+        selectElm.add(optionElm)
+        getElm('userId').value = ''
     }
 
-    function fillRoleUserList(progressElmId, responseElmId, targetElmId, roleFilterVal, successCallback) {
-        let dataSource = "assignuserrolelist";
-        let htmlContainer = "assignuserrolelist";
-        let pageNo = 1;
-        let itemsPerPage = 0;
+    function fillRoleUserList(progressElmId, responseElmId, targetElmId, roleFilterVal, successCallback, failureCallback) {
+        let dataSource = "assignuserrolelist"
+        let htmlContainer = "assignuserrolelist"
+        let pageNo = 1
+        let itemsPerPage = 0
 
-        let id = window.ajaxid++;
-        let responseElm =getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
         if (valid === true) {
 
-            let url = '/AppApi/WebApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetRoleUserListHtml', "params":
-                {
-                    "appSite": "{{$AppSite}}",
-                    "appView": "{{$AppView}}",
-                    "htmlContainer": htmlContainer,
-                    "dataSource": dataSource,
-                    "pageNo": pageNo,
-                    "itemsPerPage": itemsPerPage,
-                    "filterRole": roleFilterVal
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
-                            let rootNode =getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            showElm(targetElmId);
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "GetRoleUserListHtml"
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
+            let apiParams = {
+                "appSite": "{{$AppSite}}",
+                "appView": "{{$AppView}}",
+                "htmlContainer": htmlContainer,
+                "dataSource": dataSource,
+                "pageNo": pageNo,
+                "itemsPerPage": itemsPerPage,
+                "filterRole": roleFilterVal
+            }
 
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    showElm(targetElmId)
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
 
-        return false;
+        return false
     }
 
     function refreshRoleUserList() {
-        fillRoleUserList('rolesUserListProgress', 'roleResponse', 'rolesUserList',getElm('roleList').value);
+        fillRoleUserList('rolesUserListProgress', 'roleResponse', 'rolesUserList', getElm('roleList').value)
     }
 
-    function fillRoleList(progressElmId, responseElmId, targetElmId, successCallback) {
-        let id = window.ajaxid++;
-        let responseElm =getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
+    function fillRoleList(progressElmId, responseElmId, targetElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
 
-        let valid = true;
-        let dataSource = "assignrolelist";
-        let htmlContainer = "assignrolelist";
-        let selectIndex = 0;
+        let valid = true
+        let dataSource = "assignrolelist"
+        let htmlContainer = "assignrolelist"
+        let selectIndex = 0
 
         if (valid === true) {
 
-            let url = '/AppApi/WebApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetRoleListHtml', "params": {
-                    "appSite": "{{$AppSite}}",
-                    "appView": "{{$AppView}}",
-                    "htmlContainer": htmlContainer,
-                    "dataSource": dataSource,
-                    "pageNo": 1,
-                    "itemsPerPage": 99
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "GetRoleListHtml"
 
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //  showText(responseElm, result.message, 'green');
-                        //}
-
-                        if (result.hasOwnProperty('html') === true) {
-                            let rootNode =getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            showElm(targetElmId);
-
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        else if (result.hasOwnProperty('data') === true) {
-                            let selectElm =getElm(targetElmId);
-                            if (selectElm) {
-                                let retData = retResult.data;
-                                selectElm.options.length = 0;
-                                for (let i = 0; i < retData.length; i++) {
-                                    let key = retData[i].Key;
-                                    let jsonData = retData[i].Value;
-                                    if (jsonData.hasOwnProperty("OptionText") && jsonData.hasOwnProperty("OptionValue")) {
-                                        let optionText = jsonData.OptionText;
-                                        let optionValue = jsonData.OptionValue;
-                                        selectElm.options[selectElm.options.length] = new Option(optionText, optionValue);
-                                    }
-                                }
-                                if (selectIndex === 999) {
-                                    selectElm.selectedIndex = selectElm.options.length - 1;
-                                }
-                                else {
-                                    selectElm.selectedIndex = selectIndex;
-                                }
-                                if (typeof (successCallback) === "function") {
-                                    successCallback();
-                                }
-                            }                            
-                        }
-                        else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                            let error = data.Error;
-                            if (error.hasOwnProperty('Message') === true) {
-                                showText(responseElm, error.Message, 'red');
-                            }
-                        }
-                    }
-                });
-        }
-    }
-
-    function fillUserList(progressElmId, responseElmId, targetElmId, userFilterVal, successCallback) {
-        let id = window.ajaxid++;
-        let responseElm =getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-
-        let valid = true;
-        let dataSource = "assignuserlist";
-        let htmlContainer = "assignuserlist";
-        let selectIndex = 0;
-
-        if (valid === true) {
-
-            let url = '/AppApi/WebApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'SearchUserListHtml', "params":
-                {
-                    "appSite": "{{$AppSite}}",
-                    "appView": "{{$AppView}}",
-                    "htmlContainer": htmlContainer,
-                    "dataSource": dataSource,
-                    "pageNo": 1,
-                    "itemsPerPage": 99,
-                    "userFilter": userFilterVal
-                }, "id": id
-            };
-
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
-                            let rootNode =getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            showElm(targetElmId);
-
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        else if (result.hasOwnProperty('data') === true) {
-                            let selectElm =getElm(targetElmId);
-                            if (selectElm) {
-                                let retData = retResult.data;
-                                selectElm.options.length = 0;
-                                for (let i = 0; i < retData.length; i++) {
-                                    let key = retData[i].Key;
-                                    let jsonData = retData[i].Value;
-                                    if (jsonData.hasOwnProperty("OptionText") && jsonData.hasOwnProperty("OptionValue")) {
-                                        let optionText = jsonData.OptionText;
-                                        let optionValue = jsonData.OptionValue;
-                                        selectElm.options[selectElm.options.length] = new Option(optionText, optionValue);
-                                    }
-                                }
-                                if (selectIndex === 999) {
-                                    selectElm.selectedIndex = selectElm.options.length - 1;
-                                }
-                                else {
-                                    selectElm.selectedIndex = selectIndex;
-                                }
-                                if (typeof (successCallback) === "function") {
-                                    successCallback();
-                                }
-                            }
-
-                            if (result.hasOwnProperty('error') === true) {
-                                showText(responseElm, result.error, 'red');
-                            }
-                            //else if (result.hasOwnProperty('message') === true) {
-                            //    showText(responseElm, result.message, 'green');
-                            //}
-                        }                        
-                    }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
-        }
-    }
-
-    function addUserToRole(progressElmId, responseElmId, roleName, searchUserId, filterUserId) {
-
-        let id = window.ajaxid++;
-        let responseElm =getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
-
-        if (valid === true) {
-            if (roleName.trim().length === 0) {
-                showText(responseElm, 'Select Role Name', 'red');                
-                valid = false;
+            let apiParams = {
+                "appSite": "{{$AppSite}}",
+                "appView": "{{$AppView}}",
+                "htmlContainer": htmlContainer,
+                "dataSource": dataSource,
+                "pageNo": 1,
+                "itemsPerPage": 99
             }
-        }
 
-        if ((searchUserId.trim().length === 0) && (filterUserId == "Select Filter...")) {
-            showText(responseElm, 'Search or Filter User Id', 'red');
-            valid = false;
-        }
+            let processReturn = function (result, responseElmId, successCallback) {
 
-        let userId = searchUserId.trim();
-        if (filterUserId !== "Select Filter...") {
-            userId = filterUserId;
-        }
+                let responseElm = getElm(responseElmId)
 
-        if (userId.trim().length === 0) {
-            showText(responseElm, 'Search or Filter User Id cannot be empty', 'red');
-            valid = false;
-        }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //  showText(responseElm, result.message, 'green');
+                //}
 
-        let isDefault = false;
+                if (result.hasOwnProperty('html') === true) {
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    showElm(targetElmId)
 
-        if (valid === true) {
-            
-
-            let url = '/AppApi/WebApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'AddUserToRole', "params": {
-                    "userId": encodeURIComponent(userId),
-                    "roleName": encodeURIComponent(roleName),
-                    "isDefault": isDefault
-                }, "id": id
-            };
-
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
+                    if (typeof successCallback === "function") {
+                        successCallback()
+                    }
+                }
+                else if (result.hasOwnProperty('data') === true) {
+                    let selectElm = getElm(targetElmId)
+                    if (selectElm) {
+                        let retData = retResult.data
+                        selectElm.options.length = 0
+                        for (let i = 0; i < retData.length; i++) {
+                            let key = retData[i].Key
+                            let jsonData = retData[i].Value
+                            if (jsonData.hasOwnProperty("OptionText") && jsonData.hasOwnProperty("OptionValue")) {
+                                let optionText = jsonData.OptionText
+                                let optionValue = jsonData.OptionValue
+                                selectElm.options[selectElm.options.length] = new Option(optionText, optionValue)
+                            }
                         }
-                        else if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message + ". Please wait for Refresh", 'green');
-                            if (typeof (refreshRoleUserList) === "function") refreshRoleUserList();
+                        if (selectIndex === 999) {
+                            selectElm.selectedIndex = selectElm.options.length - 1
+                        }
+                        else {
+                            selectElm.selectedIndex = selectIndex
+                        }
+                        if (typeof (successCallback) === "function") {
+                            successCallback()
                         }
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });               
-        }
-        return false;
-    }
 
-    function removeUserFromRole(progressElmId, responseElmId, roleName, searchUserId, filterUserId) {
-        let id = window.ajaxid++;
-        let responseElm =getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
-
-        if (valid === true) {
-            if (roleName.trim().length === 0) {
-                showText(responseElm, 'Select Role Name', 'red');
-                valid = false;
+                }
             }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
-
-        if ((searchUserId.trim().length === 0) && (filterUserId == "Select Filter...")) {
-            showText(responseElm, 'Search or Filter User Id', 'red');
-            valid = false;
-        }
-
-        let userId = searchUserId.trim();
-        if (filterUserId !== "Select Filter...") {
-            userId = filterUserId;
-        }
-
-        if (userId.trim().length === 0) {
-            showText(responseElm, 'Search or Filter User Id cannot be empty', 'red');
-            valid = false;
-        }
-
-        if (valid === true) {
-            
-
-            let url = '/AppApi/WebApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'RemoveUserFromRole', "params": { "userId": encodeURIComponent(userId), "roleName": encodeURIComponent(roleName) }, "id": id
-            };
-
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message + ". Please wait for Refresh", 'green');
-                            if (typeof (refreshRoleUserList) === "function") refreshRoleUserList();
-                        }
-                    }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
-               
-        }
-        return false;
     }
 
-    function retrieveData(progressElmId, responseElmId, query, dataCallback) {
-        let id = window.ajaxid++;
+    function fillUserList(progressElmId, responseElmId, targetElmId, userFilterVal, successCallback, failureCallback) {
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
 
-        let responseElm =getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
+        let valid = true
+        let dataSource = "assignuserlist"
+        let htmlContainer = "assignuserlist"
+        let selectIndex = 0
 
-        let url = '/AppApi/WebApi';
-        let urlMethod = 'POST';
-        let urlContent = {
-            "jsonrpc": '2.0', "method": 'SearchUserList', "params": { "userPattern": query }, "id": id
-        };
+        if (valid === true) {
 
-        dopost(progressElmId, responseElmId, url, urlContent,
-            function (data) {
-                if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                    let result = data.Result;
-                    if (result.hasOwnProperty('data') === true) {
-                        dataCallback(result.data);
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "SearchUserListHtml"
+
+            let apiParams = {
+                "appSite": "{{$AppSite}}",
+                "appView": "{{$AppView}}",
+                "htmlContainer": htmlContainer,
+                "dataSource": dataSource,
+                "pageNo": 1,
+                "itemsPerPage": 99,
+                "userFilter": userFilterVal
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    showElm(targetElmId)
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
+                }
+                else if (result.hasOwnProperty('data') === true) {
+                    let selectElm = getElm(targetElmId)
+                    if (selectElm) {
+                        let retData = retResult.data
+                        selectElm.options.length = 0
+                        for (let i = 0; i < retData.length; i++) {
+                            let key = retData[i].Key
+                            let jsonData = retData[i].Value
+                            if (jsonData.hasOwnProperty("OptionText") && jsonData.hasOwnProperty("OptionValue")) {
+                                let optionText = jsonData.OptionText
+                                let optionValue = jsonData.OptionValue
+                                selectElm.options[selectElm.options.length] = new Option(optionText, optionValue)
+                            }
+                        }
+                        if (selectIndex === 999) {
+                            selectElm.selectedIndex = selectElm.options.length - 1
+                        }
+                        else {
+                            selectElm.selectedIndex = selectIndex
+                        }
+                        if (typeof (successCallback) === "function") {
+                            successCallback()
+                        }
+                    }
+
                     if (result.hasOwnProperty('error') === true) {
-                        showText(responseElm, result.error, 'red');
+                        showText(responseElm, result.error, 'red')
                     }
                     //else if (result.hasOwnProperty('message') === true) {
-                    //   showText(responseElm, result.message, 'green');
+                    //    showText(responseElm, result.message, 'green');
                     //}
                 }
-                else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                    let error = data.Error;
-                    if (error.hasOwnProperty('Message') === true) {
-                        showText(responseElm, error.Message, 'red');
-                    }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+        }
+    }
+
+    function addUserToRole(progressElmId, responseElmId, roleName, searchUserId, filterUserId, successCallback, failureCallback) {
+
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
+
+        if (valid === true) {
+            if (roleName.trim().length === 0) {
+                showText(responseElm, 'Select Role Name', 'red')
+                valid = false
+            }
+        }
+
+        if ((searchUserId.trim().length === 0) && (filterUserId == "Select Filter...")) {
+            showText(responseElm, 'Search or Filter User Id', 'red')
+            valid = false
+        }
+
+        let userId = searchUserId.trim()
+        if (filterUserId !== "Select Filter...") {
+            userId = filterUserId
+        }
+
+        if (userId.trim().length === 0) {
+            showText(responseElm, 'Search or Filter User Id cannot be empty', 'red')
+            valid = false
+        }
+
+        let isDefault = false
+
+        if (valid === true) {
+
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "AddUserToRole"
+
+            let apiParams = {
+                "userId": encodeURIComponent(userId),
+                "roleName": encodeURIComponent(roleName),
+                "isDefault": isDefault
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
                 }
-            });
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message + ". Please wait for Refresh", 'green')
+                    if (typeof (refreshRoleUserList) === "function") refreshRoleUserList()
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+        }
+        return false
+    }
+
+    function removeUserFromRole(progressElmId, responseElmId, roleName, searchUserId, filterUserId, successCallback, failureCallback) {
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
+
+        if (valid === true) {
+            if (roleName.trim().length === 0) {
+                showText(responseElm, 'Select Role Name', 'red')
+                valid = false
+            }
+        }
+
+        if ((searchUserId.trim().length === 0) && (filterUserId == "Select Filter...")) {
+            showText(responseElm, 'Search or Filter User Id', 'red')
+            valid = false
+        }
+
+        let userId = searchUserId.trim()
+        if (filterUserId !== "Select Filter...") {
+            userId = filterUserId
+        }
+
+        if (userId.trim().length === 0) {
+            showText(responseElm, 'Search or Filter User Id cannot be empty', 'red')
+            valid = false
+        }
+
+        if (valid === true) {
+
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "RemoveUserFromRole"
+
+            let apiParams = {
+                "userId": encodeURIComponent(userId), "roleName": encodeURIComponent(roleName)
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message + ". Please wait for Refresh", 'green')
+                    if (typeof (refreshRoleUserList) === "function") refreshRoleUserList()
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+        }
+        return false
+    }
+
+    function retrieveData(progressElmId, responseElmId, query, dataCallback, successCallback, failureCallback) {
+        let id = window.ajaxid++
+
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+
+        let valid = true
+
+        if (valid === true) {
+
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "SearchUserList"
+
+            let apiParams = {
+                "userPattern": query
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('data') === true) {
+                    dataCallback(result.data)
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //   showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+        }
     }
 
     ready(() => {
         fillRoleList('roleProgress', 'roleResponse', 'roleList', function () {
-            let roleListSelectElm =getElm('roleList');
-            roleListSelectElm.dispatchEvent(new Event('change'));
-        });
+            let roleListSelectElm = getElm('roleList')
+            roleListSelectElm.dispatchEvent(new Event('change'))
+        })
         autocomplete('roleProgress', 'roleResponse', 'userId', 'userIdAutoComplete', function (query, dataCalback) {
             retrieveData('roleProgress', 'roleResponse', query, dataCalback)
-        });
-    });
+        })
+    })
 
 </script>
 

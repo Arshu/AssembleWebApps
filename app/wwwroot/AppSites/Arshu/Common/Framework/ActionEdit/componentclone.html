@@ -1,320 +1,312 @@
 
 <script type="text/javascript">
 
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
     function hideComponentSourceCloner() {
 
-        let modal = document.querySelector('#cloneComponentSource');
-        modal.classList.remove('ar-modal-active');
+        let modal = document.querySelector('#cloneComponentSource')
+        modal.classList.remove('ar-modal-active')
     }
 
     function showComponentSourceCloner(progressElmId, componentAppSite, componentAppView, sourceComponentId) {
-        let modal = document.querySelector('#cloneComponentSource');
-        modal.classList.add('ar-modal-active');
+        let modal = document.querySelector('#cloneComponentSource')
+        modal.classList.add('ar-modal-active')
     }
 
     function navigateToAppSiteView(appSite, appView) {
         if ((appSite.length > 0) && (appView.length > 0)) {
-            let idxOfStartBraket = appView.indexOf("[");
+            let idxOfStartBraket = appView.indexOf("[")
             if (idxOfStartBraket > -1) {
-                appView = appView.substring(0, idxOfStartBraket).trim();
+                appView = appView.substring(0, idxOfStartBraket).trim()
             }
-            window.location.href = '/' + appSite + '/' + appView;
+            window.location.href = '/' + appSite + '/' + appView
         }
     }
 
     ready(() => {
-        triggerEvent('cloneFromAppSiteList', 'change');
-        triggerEvent('cloneToAppSiteList', 'change');
-    });
+        triggerEvent('cloneFromAppSiteList', 'change')
+        triggerEvent('cloneToAppSiteList', 'change')
+    })
 
     function cloneRefreshAppSiteList(progressElmId, responseElmId, targetElmId, selectedKeyVal, successCallback) {
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/VueApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetAppSiteSelectView', "params": {
-                    "appSite": '{{$AppSite}}',
-                    "selectEmptyText": "No App Sites Found",
-                    "selectedKey": selectedKeyVal,
-                    "filterKey": "",
-                    "skipValue": "",
-                    "appendOptionText": "",
-                    "appendOptionValue": "",
-                    "addCurrent": false
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/AppApi"
+            let apiMethod = "GetAppSiteSelectView"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result)) {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
-                            let rootNode = getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            showElm(targetElmId);
+            let apiParams = {
+                "appSite": '{{$AppSite}}',
+                "selectEmptyText": "No App Sites Found",
+                "selectedKey": selectedKeyVal,
+                "filterKey": "",
+                "skipValue": "",
+                "appendOptionText": "",
+                "appendOptionValue": "",
+                "addCurrent": false
+            }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    showElm(targetElmId)
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     function cloneRefreshAppViewList(progressElmId, responseElmId, appSiteVal, targetElmId, selectedKeyVal, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/VueApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetAppViewSelectView', "params": {
-                    "appSite": "{{$AppSite}}",
-                    "selectEmptyText": "No App Views Found",
-                    "selectedKey": selectedKeyVal,
-                    "filterKey": "",
-                    "skipValue": "",
-                    "appendOptionText": "",
-                    "appendOptionValue": "",
-                    "textAsValue": false,
-                    "filterAppSite": appSiteVal,
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/AppApi"
+            let apiMethod = "GetAppViewSelectView"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result)) {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
-                            let rootNode = getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            showElm(targetElmId);
+            let apiParams = {
+                "appSite": "{{$AppSite}}",
+                "selectEmptyText": "No App Views Found",
+                "selectedKey": selectedKeyVal,
+                "filterKey": "",
+                "skipValue": "",
+                "appendOptionText": "",
+                "appendOptionValue": "",
+                "textAsValue": false,
+                "filterAppSite": appSiteVal,
+            }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    showElm(targetElmId)
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
 
         }
 
-        return false;
+        return false
     }
 
-    let keyPressHandler;
+    let keyPressHandler
     function showNewAppSiteOrAppViewInput(inputElmContainerId, inputElmLabelId, inputElmId, inputLabelText, confirmBtnElmId, hiddenTargetSelectElmId, targetSelectElmId, hiddenTargetClearElmId, targetClearElmId) {
-        toggleFlex(inputElmContainerId);
+        toggleFlex(inputElmContainerId)
 
-        getElm(inputElmLabelId).textContent = inputLabelText;
-        getElm(inputElmId).setAttribute("placeholder", inputLabelText);
+        getElm(inputElmLabelId).textContent = inputLabelText
+        getElm(inputElmId).setAttribute("placeholder", inputLabelText)
 
         if (haveElm(confirmBtnElmId) == true) {
-            let inputElm = getElm(inputElmId);
+            let inputElm = getElm(inputElmId)
             if (keyPressHandler == null) {
                 keyPressHandler = function (event) {
-                    let key = event.which || event.keyCode;
+                    let key = event.which || event.keyCode
                     if (key === 13) { // 13 is enter
-                        getElm(confirmBtnElmId).click();
+                        getElm(confirmBtnElmId).click()
                     }
-                };
+                }
             };
-            inputElm.removeEventListener('keypress', keyPressHandler, false);
-            inputElm.addEventListener('keypress', keyPressHandler, false);
+            inputElm.removeEventListener('keypress', keyPressHandler, false)
+            inputElm.addEventListener('keypress', keyPressHandler, false)
         }
 
-        getElm(hiddenTargetSelectElmId).value = targetSelectElmId;
-        getElm(hiddenTargetClearElmId).value = targetClearElmId;
+        getElm(hiddenTargetSelectElmId).value = targetSelectElmId
+        getElm(hiddenTargetClearElmId).value = targetClearElmId
 
-        getElm(inputElmId).focus();
+        getElm(inputElmId).focus()
     }
 
     function updateAppSiteOrAppViewSelect(responseElmId, inputElmContainerId, inputTextElmId, hiddenTargetSelectElmId, hiddenTargetClearElmId) {
 
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
-        let inputText = getElm(inputTextElmId).value;
+        let inputText = getElm(inputTextElmId).value
         if (inputText.length === 0) {
-            showText(responseElm, 'Enter Input Value', 'red');
-            valid = false;
+            showText(responseElm, 'Enter Input Value', 'red')
+            valid = false
         }
 
-        let targetSelectId = getElm(hiddenTargetSelectElmId).value;
+        let targetSelectId = getElm(hiddenTargetSelectElmId).value
         if (targetSelectId.length === 0) {
-            showText(responseElm, 'Target Select Not Set', 'red');
-            showAutoHideFlex(responseContainerElmId);
-            valid = false;
+            showText(responseElm, 'Target Select Not Set', 'red')
+            showAutoHideFlex(responseContainerElmId)
+            valid = false
         }
 
-        let targetClearId = getElm(hiddenTargetClearElmId).value;
+        let targetClearId = getElm(hiddenTargetClearElmId).value
         if (targetClearId.length > 0) {
-            let clearSelectElm = getElm(targetClearId);
-            clearSelectElm.options.length = 0;
+            let clearSelectElm = getElm(targetClearId)
+            clearSelectElm.options.length = 0
         }
 
         if (valid === true) {
-            let selectElm = getElm(targetSelectId);
-            let optionElm = document.createElement("option");
-            optionElm.text = inputText;
-            optionElm.value = inputText;
-            optionElm.selected = true;
-            selectElm.add(optionElm);
+            let selectElm = getElm(targetSelectId)
+            let optionElm = document.createElement("option")
+            optionElm.text = inputText
+            optionElm.value = inputText
+            optionElm.selected = true
+            selectElm.add(optionElm)
 
-            getElm(inputTextElmId).value = "";
-            toggleFlex(inputElmContainerId);
-            triggerEvent(targetSelectId, 'change');
+            getElm(inputTextElmId).value = ""
+            toggleFlex(inputElmContainerId)
+            triggerEvent(targetSelectId, 'change')
         }
     }
 
     function cloneAppView(progressElmId, responseElmId, fromAppSiteVal, fromAppViewVal, toAppSiteVal, toAppViewVal, cloneGlobalJson, isSecureView, isDeferView, overwrite, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/VueApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'CopyAppView', "params": {
-                    "fromAppSite": fromAppSiteVal,
-                    "fromAppView": fromAppViewVal,
-                    "toAppSite": toAppSiteVal,
-                    "toAppView": toAppViewVal,
-                    "copyGlobalJson": cloneGlobalJson,
-                    "isDeferView": isDeferView,
-                    "isSecureView": isSecureView,
-                    "overwrite": overwrite
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/VueApi"
+            let apiMethod = "CopyAppView"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result)) {
-                        let result = data.Result;
+            let apiParams = {
+                "fromAppSite": fromAppSiteVal,
+                "fromAppView": fromAppViewVal,
+                "toAppSite": toAppSiteVal,
+                "toAppView": toAppViewVal,
+                "copyGlobalJson": cloneGlobalJson,
+                "isDeferView": isDeferView,
+                "isSecureView": isSecureView,
+                "overwrite": overwrite
+            }
 
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message, 'green');
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     function deleteAppView(progressElmId, responseElmId, appSiteVal, appViewVal, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/VueApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'DeleteAppView', "params": {
-                    "appSite": appSiteVal,
-                    "appView": appViewVal
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/VueApi"
+            let apiMethod = "DeleteAppView"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result)) {
-                        let result = data.Result;
+            let apiParams = {
+                "appSite": appSiteVal,
+                "appView": appViewVal
+            }
 
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message, 'green');
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
 </script>
@@ -350,17 +342,7 @@
                 <label style="width:100%;">Copy From App Site</label>
                 <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
                     <select class="ar-select" style="width:100%;border:none;" id="cloneFromAppSiteList" onchange="cloneRefreshAppViewList('cloneFromAppSiteListProgress', 'refreshResponse', getElm('cloneFromAppSiteList').value, 'cloneFromAppViewList', getSelectedOption('cloneFromAppViewList').value, null);">
-                        {{
-                            VIEW_AppSiteSelect(
-                            "AppSiteList",
-                            "AppSite":"{$AppSite}",
-                            "SkipValue" : "",
-                            "FilterValue": "",
-                            "SelectedKey":"Index",
-                            "SelectEmptyText":"No App Site Found",
-                            "AppendOption" : "",
-                            "AppendOptionValue" : "")
-                        }}
+                        {{AppSiteSelect}}
                     </select>
                 </div>
                 <button class="ar-border-right" style="width:40px;height:40px;" id="refreshFromAppSiteListBtn" onclick="cloneRefreshAppSiteList('cloneFromAppSiteListProgress', 'refreshResponse', 'cloneFromAppSiteList', getElm('cloneFromAppSiteList').value, function () { triggerEvent('cloneFromAppSiteList', 'change'); triggerEvent('cloneToAppSiteList', 'change'); });">
@@ -373,18 +355,7 @@
                 <label style="width:100%;">Copy From App View</label>
                 <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
                     <select class="ar-select" style="width:100%;border:none;" id="cloneFromAppViewList">
-                        {{
-                            VIEW_AppViewSelect(
-                            "AppViewList",
-                            "AppSite" : "{$AppSite}",
-                            "SkipValue" : "",
-                            "FilterValue": "",
-                            "SelectedKey":"{$AppView}",
-                            "SelectEmptyText":"No App View Found",
-                            "AppendOption" : "",
-                            "AppendOptionValue" : "",
-                            "FilterAppSite" : "{$AppSite}")
-                        }}
+                        {{AppViewSelect}}
                     </select>
                 </div>
                 <button class="ar-border-right" style="width:40px;height:40px;" id="showAppSiteViewBtn" onclick="navigateToAppSiteView(getElm('cloneFromAppSiteList').value, getSelectedOption('cloneFromAppViewList').text);">
@@ -403,17 +374,7 @@
                 </button>
                 <div class="ar-flex-item-stretch ar-border-top-bottom" style="height:40px;">
                     <select class="ar-select" style="width:100%;border:none;" id="cloneToAppSiteList" onchange="cloneRefreshAppViewList('cloneToAppSiteListProgress', 'refreshResponse', getElm('cloneToAppSiteList').value, 'cloneToAppViewList', getSelectedOption('cloneToAppViewList').value, null);">
-                        {{
-                            VIEW_AppSiteSelect(
-                            "AppSiteList",
-                            "AppSite":"{$AppSite}",
-                            "SkipValue" : "",
-                            "FilterValue": "",
-                            "SelectedKey":"{$AppSite}",
-                            "SelectEmptyText":"No App Site Found",
-                            "AppendOption" : "",
-                            "AppendOptionValue" : "")
-                        }}
+                        {{AppSiteSelect}}
                     </select>
                 </div>
                 <button class="ar-border-right" style="width:40px;height:40px;" id="refreshToAppSiteListBtn" onclick="cloneRefreshAppSiteList('cloneToAppSiteListProgress', 'refreshResponse', 'cloneToAppSiteList', getElm('cloneToAppSiteList').value, function () { triggerEvent('cloneToAppSiteList', 'change'); triggerEvent('cloneToAppSiteList', 'change'); });">
@@ -429,18 +390,7 @@
                 </button>
                 <div class="ar-flex-item-stretch ar-border-top-bottom" style="height:40px;">
                     <select class="ar-select" style="width:100%;border:none;" id="cloneToAppViewList">
-                        {{
-                            VIEW_AppViewSelect(
-                            "AppViewList",
-                            "AppSite":"{$AppSite}",
-                            "SkipValue" : "",
-                            "FilterValue": "",
-                            "SelectedKey":"{$AppView}",
-                            "SelectEmptyText":"No App View Found",
-                            "AppendOption" : "",
-                            "AppendOptionValue" : "",
-                            "FilterAppSite" : "{$AppSite}",)
-                        }}
+                        {{AppViewSelect}}
                     </select>
                 </div>
                 <button class="ar-border-right" style="width:40px;height:40px;" id="showAppSiteViewBtn" onclick="navigateToAppSiteView(getElm('cloneToAppSiteList').value, getSelectedOption('cloneToAppViewList').text);">

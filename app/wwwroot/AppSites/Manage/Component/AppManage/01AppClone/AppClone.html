@@ -1,7 +1,7 @@
 ﻿
 
 <div style="margin: 5px 0px; " class="ar-flex-input-wrap">
-    <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (haveElm('appDeploy') == true) { hideElm('appDeploy'); }; if (haveElm('appSync') == true) { hideElm('appSync'); }; if (haveElm('appUpdate') == true) { hideElm('appUpdate'); }; clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); if (isHiddenElm('appClone') == true) { retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneNewAppName').value, 'cloneAppOrganization', 'cloneExistingAppName', 'cloneDockerImagePathName', 'cloneDockerImageTagName', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvLoadAppData', 'cloneEnvAutoDestroyAfterXMin', 'doCloneApp', function () { showElm('appClone'); getElm('deleteCloneApp').removeAttribute('disabled'); }); } else { hideElm('appClone'); }">
+    <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (haveElm('appDeploy') == true) { hideElm('appDeploy'); }; if (haveElm('appSync') == true) { hideElm('appSync'); }; if (haveElm('appUpdate') == true) { hideElm('appUpdate'); }; clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); if (isHiddenElm('appClone') == true) { retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneNewAppName').value, 'cloneAppOrganization', 'cloneExistingAppName', 'cloneMachineConfig', 'cloneOCIImagePathName', 'cloneOCIImageTagName', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvLoadAppData', 'cloneEnvAutoDestroyAfterXMin', 'doCloneApp', function () { showElm('appClone'); getElm('deleteCloneApp').removeAttribute('disabled'); }); } else { hideElm('appClone'); }">
         Clone App <div id="appCloneProgress"></div>
     </button>
 </div>
@@ -25,8 +25,8 @@
                 <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
             </svg>
         </button>
-        <input id="cloneExistingAppName" class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="background-color: gray;" autocomplete="off" type="text" placeholder="Clone App Name" readonly />
-        <button class="ar-button ar-border-right" style="background-color: #209cee; width:110px;" onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneExistingAppName').value, 'cloneAppOrganization', 'cloneExistingAppName', 'cloneDockerImagePathName', 'cloneDockerImageTagName', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvLoadAppData', 'cloneEnvAutoDestroyAfterXMin', 'doCloneApp', function () { getElm('deleteCloneApp').removeAttribute('disabled'); } );">
+        <input id="cloneExistingAppName" class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="background-color: gray;" autocomplete="off" type="text" placeholder="Current App Name" readonly />
+        <button class="ar-button ar-border-right" style="background-color: #209cee; width:110px;" onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneExistingAppName').value, 'cloneAppOrganization', 'cloneExistingAppName', 'cloneMachineConfig', 'cloneOCIImagePathName', 'cloneOCIImageTagName', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvLoadAppData', 'cloneEnvAutoDestroyAfterXMin', 'doCloneApp', function () { getElm('deleteCloneApp').removeAttribute('disabled'); } );">
             Refresh
         </button>
     </div>
@@ -39,10 +39,10 @@
             <label class="ar-flex-item-stretch">Tag Name</label>
         </div>
         <div class="ar-flex-content-spaced" style="margin: 0px;">
-            <select id="cloneDockerImagePathName" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Clone Docker Image"
-                    onchange="let imagepath = getElm('cloneDockerImagePathName').value; getElm('cloneDockerImageTagName').value = imagepath.substr(imagepath.indexOf(':') + 1);">
+            <select id="cloneOCIImagePathName" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Clone OCI Image"
+                    onchange="let imagepath = getElm('cloneOCIImagePathName').value; getElm('cloneOCIImageTagName').value = imagepath.substr(imagepath.indexOf(':') + 1);">
             </select>
-            <input id="cloneDockerImageTagName" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px;" type="text" placeholder="Your Tag Name" value="latest" />
+            <input id="cloneOCIImageTagName" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px;" type="text" placeholder="Your Tag Name" value="latest" />
         </div>
 
     </fieldset>
@@ -57,13 +57,6 @@
         <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
             <input id="cloneEnvInitialTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin:0 5px 0 0;" type="number" placeholder="Your Initial Timeout" value="30" />
             <input id="cloneEnvIdleTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px " type="number" placeholder="Your Idle Timeout" value="30" />
-        </div>
-
-        <div class="ar-flex-content-wrap" style="margin: 0px;">
-            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
-                Load AppData
-                <input id="cloneEnvLoadAppData" type="checkbox" title="Load App Data" style="margin-left: 5px;">
-            </label>
         </div>
 
         <div class="ar-flex-input-wrap" style="margin: 0px;">
@@ -86,7 +79,7 @@
         <label style="width: 50%; margin: 5px 0px; text-align: left;">
             Clone Region(s)
         </label>
-        <label style="width: 50%; margin: 5px 0px; text-align: right;display:none;">
+        <label style="width: 50%; margin: 5px 0px; text-align: right;">
             All
             <input id="selectAllCloneRegion" type="checkbox" title="All Regions" onclick="appCloneSelectAll('cloneRegion', getElm('selectAllCloneRegion').checked)">
         </label>
@@ -126,9 +119,33 @@
 
     </fieldset>
 
-    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
-        <label style="width:100%;margin: 5px 0px;cursor: pointer;">App Owner Email</label>
-        <input id="appOwnerID" class="ar-input ar-flex-item-stretch ar-border" autocomplete="off" type="email" placeholder="Your App Owner Email" value="" />
+    <div>
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Machine Config</label>
+            <label class="ar-flex-item-stretch">App Owner Email</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <select id="cloneMachineConfig" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Machine Config List">
+            </select>
+            <input id="appOwnerID" class="ar-input ar-flex-item-stretch ar-border" autocomplete="off" type="email" placeholder="Your App Owner Email" value="{{$OwnerEmail}}" />
+        </div>
+    </div>
+
+    <div>
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Volume Size</label>
+            <label class="ar-flex-item-stretch">Volume Path</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <select id="cloneMachineVolumeSize" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Machine Config List">
+                <option selected="selected" value="0">No Volume</option>
+                <option value="1">1 GB Volume</option>
+            </select>
+            <select id="cloneMachineVolumePath" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Machine Config List">
+                <option selected="selected" value="app/wwwroot">wwwroot</option>
+                <option value="app/wwwroot/App_Data">App_Data</option>
+            </select>
+        </div>
     </div>
 
     <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
@@ -150,13 +167,13 @@
 
     <div id="cloneLinkDiv" class="ar-flex-content-spaced" style="display:none;text-align:center;">
         <div class="ar-border" style="margin: 10px auto;">
-            <a id="cloneLink" style="text-decoration: none;margin:10px 5px" href="#" target="_blank">Https://arshuhost.fly.dev</a>
+            <a id="cloneLink" style="text-decoration: none;margin:10px 5px" href="#" target="_blank">Https://appweb.fly.dev</a>
         </div>
     </div>
 
     <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
         <button id="doCloneApp" class="ar-button ar-border" style="background-color: #209cee; width: 110px; height: 40px;" tabindex="4" disabled="disabled"
-                onclick="cloneApp('doAppCloneProgress', 'doAppCloneResponse', getElm('cloneNewAppName').value, getElm('cloneAppOrganization').value, getElm('cloneAppNetwork').value, getElm('cloneExistingAppName').value, getElm('cloneDockerImagePathName').value, getElm('cloneDockerImageTagName').value, 'cloneRegion', getElm('cloneEnvInitialTimeout').value, getElm('cloneEnvIdleTimeout').value, getElm('cloneEnvLoadAppData').checked, getElm('cloneEnvAutoDestroyAfterXMin').value, getElm('appOwnerID').value, 'doCloneApp', 'cloneDetailResponse')">
+                onclick="cloneApp('doAppCloneProgress', 'doAppCloneResponse', getElm('cloneNewAppName').value, getElm('cloneAppOrganization').value, getElm('cloneAppNetwork').value, getElm('cloneExistingAppName').value, getElm('cloneMachineConfig').value, getElm('cloneOCIImagePathName').value, getElm('cloneOCIImageTagName').value, 'cloneRegion', getElm('cloneEnvInitialTimeout').value, getElm('cloneEnvIdleTimeout').value, getElm('cloneEnvAutoDestroyAfterXMin').value, getElm('appOwnerID').value, getElm('cloneMachineVolumeSize').value, getElm('cloneMachineVolumePath').value, 'doCloneApp', 'cloneDetailResponse')">
             Clone App <div id="doAppCloneProgress"></div>
         </button>
 

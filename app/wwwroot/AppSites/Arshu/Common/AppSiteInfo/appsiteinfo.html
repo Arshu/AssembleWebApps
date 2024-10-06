@@ -1,103 +1,102 @@
 
 <script type="text/javascript">
 
-    window.ajaxid = 0;
-    let gResponseElmId = "appsiteResponse";
-    let gProgressElmId = "appsiteProgress";
-    let gTargetElmId = "appsiteList";
-    let gShowElmId = "appsiteList";
-    let gCurrentPage = 1;
-    let gItemsPerPage = "{{$AppSitesItemsPerPage}}";
+    window.ajaxid = 0
+    let gResponseElmId = "appsiteResponse"
+    let gProgressElmId = "appsiteProgress"
+    let gTargetElmId = "appsiteList"
+    let gShowElmId = "appsiteList"
+    let gCurrentPage = 1
+    let gItemsPerPage = "{{$AppSitesItemsPerPage}}"
 
-    function fillAppSiteList(progressElmId, responseElmId, targetElmId, showElmId, pageNo, successCallback) {
+    function fillAppSiteList(progressElmId, responseElmId, targetElmId, showElmId, pageNo, successCallback, failureCallback) {
 
-        let id = window.ajaxid++;
+        let id = window.ajaxid++
         let responseElm = getElm(responseElmId)
-        let responseContainerElmId = responseElmId + "Container";
-        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild);
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let responseContainerElmId = responseElmId + "Container"
+        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild)
+        hideElm(responseContainerElmId)
+        let valid = true
 
-        let htmlContainer = "AppSiteContainer";
-        let htmlTop = "AppSiteTop";
-        let htmlBottom = "AppSiteBottom";
-        let htmlItem = "AppSiteItem";
-        let htmlEmpty = "AppSiteEmpty";
+        let htmlContainer = "AppSiteContainer"
+        let htmlTop = "AppSiteTop"
+        let htmlBottom = "AppSiteBottom"
+        let htmlItem = "AppSiteItem"
+        let htmlEmpty = "AppSiteEmpty"
 
-        gCurrentPage = pageNo;
-        let itemsPerPage = gItemsPerPage;
+        gCurrentPage = pageNo
+        let itemsPerPage = gItemsPerPage
         if (getElm("appSiteItemsPerPage") != null) {
-            itemsPerPage = getElm("appSiteItemsPerPage").value;
+            itemsPerPage = getElm("appSiteItemsPerPage").value
         }
 
         if (targetElmId.trim().length == 0) {
-            showText(responseElm, 'Enter Target Element Id', 'red');
-            valid = false;
+            showText(responseElm, 'Enter Target Element Id', 'red')
+            valid = false
         }
 
         if (targetElmId.trim().length == 0) {
-            showText(responseElm, 'Enter Target Element Id', 'red');
-            valid = false;
+            showText(responseElm, 'Enter Target Element Id', 'red')
+            valid = false
         }
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/VueApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetAppSiteListView', "params": {
-                    "appSite": '{{$AppSite}}',
-                    "htmlContainer": htmlContainer,
-                    "htmlItem": htmlItem,
-                    "htmlEmpty": htmlEmpty,
-                    "htmlTop": htmlTop,
-                    "htmlBottom": htmlBottom,
-                    "pageNo": pageNo,
-                    "itemsPerPage": itemsPerPage
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/AppApi"
+            let apiMethod = "GetAppSiteListView"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
+            let apiParams = {
+                "appSite": '{{$AppSite}}',
+                "htmlContainer": htmlContainer,
+                "htmlItem": htmlItem,
+                "htmlEmpty": htmlEmpty,
+                "htmlTop": htmlTop,
+                "htmlBottom": htmlBottom,
+                "pageNo": pageNo,
+                "itemsPerPage": itemsPerPage
+            }
 
-                            let rootNode = getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            //showElm(targetElmId);
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                            if (typeof successCallback == "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    //showElm(targetElmId);
+
+                    if (typeof successCallback == "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     function refreshAppSiteList(progressElmId, currentPageNo) {
 
-        let valid = true;
+        let valid = true
 
         if (valid == true) {
             fillAppSiteList(progressElmId, gResponseElmId, gTargetElmId, gShowElmId, currentPageNo, function () {
 
-            });
+            })
         }
     }
 

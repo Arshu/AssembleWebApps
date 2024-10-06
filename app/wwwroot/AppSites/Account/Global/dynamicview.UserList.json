@@ -1,0 +1,12 @@
+{
+  "htmlTableEmpty": "UserListEmpty",
+  "htmlTable": "UserListTable",
+  "htmlTableBody": "UserListTableBody",
+  "htmlTableRow": "UserListTableRow",
+  "htmlTableHeader": "UserListTableHeader",
+  "htmlTableFooter": "UserListTableFooter",
+  "filterKey": "",
+  "filterValue": "",
+  "pageNo": "1",
+  "itemsPerPage": "10"
+}

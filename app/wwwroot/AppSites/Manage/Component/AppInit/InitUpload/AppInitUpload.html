@@ -1,0 +1,190 @@
+﻿<div id="appInit" class="ar-border" style="margin: 5px 5px;padding: 5px;">
+
+    <div style="text-align:center;">
+        App Init
+    </div>
+
+    {{ApiKey}}
+
+    <div class="ar-notification" id="appInitResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="ar-delete" onclick="hideElm('appInitResponseContainer')"></button>
+        <div id="appInitResponse"></div>
+    </div>
+
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px 5px 0px;">
+        <label style="width:100%;margin: 5px 0px;">App Name</label>
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-left" onclick="openFlyUrl('initAppName')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+        <input id="initAppName" class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="background-color: gray;" autocomplete="off" type="text" placeholder="Init App Name" readonly />
+        <button id="retrieveInitInfoBtn" class="ar-button ar-border-right" style="background-color: #209cee; width:100px; "
+                onclick="retrieveAppInitInfo('appInitProgress', 'appInitResponse', 'initServerFolders', 'initAppName',  'appSecurity',  'doInitUploadAppBtn', 'doInitUploadBackupUpdateAppBtn')">
+            Refresh <div id="appInitProgress"></div>
+        </button>
+    </div>
+
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+        <label style="width:100%;margin: 5px 0px;">Initialize Folder</label>
+        <button class="ar-border-left" style="width: 100px; height: 38px; background-color: black; color: white;">
+            Target
+        </button>
+        <select id="initServerFolders" class="ar-flex-item-stretch ar-border-right" style="height: 38px; padding:0 0 0 10px; background-color:white;">
+            <option>wwwroot</option>
+        </select>
+    </div>
+
+    {{@HaveInitUser}}
+    <div class="ar-border" style="margin: 5px 0px;padding: 5px;">
+        <div style="text-align:center">
+            Initial Admin Credentials Already Initialized
+        </div>
+    </div>
+    {{/HaveInitUser}}
+    {{^HaveInitUser}}
+    <div id="appSecurity" style="display:none;">
+
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;margin: 5px 0px;cursor: pointer;">App Owner Email</label>
+            <input id="appOwnerID" class="ar-input ar-flex-item-stretch ar-border" autocomplete="off" type="email" placeholder="Your App Owner Email" value="{{$OwnerEmail}}" />
+        </div>
+
+        <div class="ar-border" style="margin: 5px 0px;padding: 5px;">
+            <div style="text-align:center">Initial Admin Credentials <div id="loginProgress"></div></div>
+
+            <div class="ar-flex-input-wrap" style="margin: 10px 0px 5px 0px;">
+                <label style="width:100%;margin: 5px 0px;">Admin Email</label>
+                <input class="ar-input ar-flex-item-stretch ar-border" id="intializeAdminUserEmail" autocomplete="off" type="email" placeholder="Your User Id" autofocus="" tabindex="1" value="{{$AdminUserEmail}}">
+            </div>
+
+            <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+                <label style="width:100%;margin: 5px 0px;">Password</label>
+                <input class="ar-input ar-flex-item-stretch ar-border" id="intializeAdminUserPwd" autocomplete="off" type="password" placeholder="Your Password" tabindex="2" value="{{$AdminUserPwd}}">
+            </div>
+
+            <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+                <label style="width:100%;margin: 5px 0px;">Confirm Password</label>
+                <input class="ar-input ar-flex-item-stretch ar-border" id="intializeAdminUserConfirmPwd" autocomplete="off" type="password" placeholder="Your Password" tabindex="3" value="{{$AdminUserPwd}}">
+            </div>
+
+        </div>
+    </div>
+    {{/HaveInitUser}}
+
+    <div class="ar-notification" id="doAppInitResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="ar-delete" onclick="hideElm('doAppInitResponseContainer')"></button>
+        <div id="doAppInitResponse"></div>
+    </div>
+    <div class="ar-border" style="margin: 5px 0px;padding: 5px;">
+        <div style="text-align:center">Upload</div>
+
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <button class="ar-button ar-border-left is-primary" style="width: 100px;">
+                Zip File
+            </button>
+            <div class="ar-flex-item-stretch ar-border-right" style="height: 38px;">
+                <input id="addZipFile" name="addZipFile" class="ar-flex-item-stretch" style="width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1;" type="file" onchange="if (this.files && this.files.length > 0) { let fileName = event.target.value.split('\\').pop(); getElm('zipFileLabel').innerHTML = fileName; } else { getElm('zipFileLabel').innerHTML = getElm('zipFileLabel').title; }">
+                <label id="zipFileLabel" title="Choose Zip file" for="addZipFile" style="font-size: 1.25em; font-weight: 700; color: black; display: inline-block;width:100%;padding-left:5px;">Choose Zip file</label>
+            </div>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Overwrite AppData
+                <input id="initOverwriteAppData" type="checkbox" title="Overwrite AppData" style="margin-left: 5px;">
+            </label>
+        </div>
+
+        <div>
+            <div class="ar-notification" id="doAppInitUploadResponseContainer" style="text-align:center;display:none;margin:5px 10px;position:relative;">
+                <svg fill="#000000" width="16px" height="16px" viewBox="0 0 32 32" xml:space="preserve"
+                     style="position:absolute;left:0px;top:0px;"
+                     onclick="toggleElm('uploadDetailResponse')">
+                <g>
+                <path d="M17.962,24.725l1.806,0.096v2.531h-7.534v-2.406l1.045-0.094c0.568-0.063,0.916-0.254,0.916-1.014v-8.801
+                    c0-0.699-0.188-0.92-0.791-0.92l-1.106-0.062v-2.626h5.666L17.962,24.725L17.962,24.725z M15.747,4.648
+                    c1.394,0,2.405,1.047,2.405,2.374c0,1.331-1.014,2.313-2.438,2.313c-1.454,0-2.404-0.982-2.404-2.313
+                    C13.31,5.695,14.26,4.648,15.747,4.648z M16,32C7.178,32,0,24.822,0,16S7.178,0,16,0c8.82,0,16,7.178,16,16S24.82,32,16,32z M16,3
+                    C8.832,3,3,8.832,3,16s5.832,13,13,13s13-5.832,13-13S23.168,3,16,3z" />
+                </g>
+                </svg>
+                <button class="ar-delete" onclick="hideElm('doAppInitUploadResponseContainer');hideElm('uploadDetailResponse')"></button>
+                <div id="doAppInitUploadResponse"></div>
+                <div id="doAppInitUploadResponseWarn"></div>
+            </div>
+            <div id="uploadDetailResponse" style="font-size:x-small;text-align:center">
+            </div>
+        </div>
+
+        {{^IsLocalHost}}
+
+        <div class="ar-flex-content-wrap" style="margin: 0px;">
+            <button class="ar-button ar-border" id="doInitUploadAppBtn" style="margin: 5px; background-color: #209cee;" disabled="disabled"
+                    onclick="initUploadApp('doAppInitUploadProgress', 'doAppInitUploadResponse', getElm('initServerFolders').value, getElm('appOwnerID').value, getElm('intializeAdminUserEmail').value, getElm('intializeAdminUserPwd').value, getElm('intializeAdminUserConfirmPwd').value, 'appSecurity', 'addZipFile', getElm('initOverwriteAppData').checked, 'doInitUploadAppBtn', 'doInitUploadBackupUpdateAppBtn', 'uploadDetailResponse', function () {resetSecurityDiv(getElm('initServerFolders').value, 'appSecurity');})">
+                Init and Upload App <div id="doAppInitUploadProgress"></div>
+            </button>
+        </div>
+
+        {{/IsLocalHost}}
+
+    </div>
+
+    {{@IsLocalHost}}
+
+    <div class="ar-border" style="margin: 5px 0px;padding: 5px;">
+        <div style="text-align:center">Upload, Backup and Update</div>
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Clear Download Layer
+                <input id="initClearDownloadLayer" type="checkbox" title="Clear Download Layer" style="margin-left: 5px;" checked="checked">
+            </label>
+            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Backup AppData
+                <input id="initBackupAppData" type="checkbox" title="Backup AppData" style="margin-left: 5px;" checked="checked">
+            </label>
+        </div>
+        <div class="ar-flex-content-wrap" style="margin: 0px;">
+            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Skip Machine Update
+                <input id="backupUpdateSkipMachineUpdate" type="checkbox" title="Do Http Status Check" style="margin-left:5px;">
+            </label>
+            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
+                Do Http Status Wait
+                <input id="backupUpdateHttpStatusCheck" type="checkbox" title="Do Http Status Wait" style="margin-left:5px;">
+            </label>
+        </div>
+        <div>
+            <div class="ar-notification" id="doAppInitBackupUpdateResponseContainer" style="text-align:center;display:none;margin:5px 10px;position:relative;">
+                <svg fill="#000000" width="16px" height="16px" viewBox="0 0 32 32" xml:space="preserve"
+                     style="position:absolute;left:0px;top:0px;"
+                     onclick="toggleElm('backupUpdateDetailResponse')">
+                <g>
+                <path d="M17.962,24.725l1.806,0.096v2.531h-7.534v-2.406l1.045-0.094c0.568-0.063,0.916-0.254,0.916-1.014v-8.801
+                     c0-0.699-0.188-0.92-0.791-0.92l-1.106-0.062v-2.626h5.666L17.962,24.725L17.962,24.725z M15.747,4.648
+                     c1.394,0,2.405,1.047,2.405,2.374c0,1.331-1.014,2.313-2.438,2.313c-1.454,0-2.404-0.982-2.404-2.313
+                     C13.31,5.695,14.26,4.648,15.747,4.648z M16,32C7.178,32,0,24.822,0,16S7.178,0,16,0c8.82,0,16,7.178,16,16S24.82,32,16,32z M16,3
+                     C8.832,3,3,8.832,3,16s5.832,13,13,13s13-5.832,13-13S23.168,3,16,3z" />
+                 </g>
+                 </svg>
+                <button class="ar-delete" onclick="hideElm('doAppInitBackupUpdateResponseContainer');hideElm('backupUpdateDetailResponse')"></button>
+                <div id="doAppInitBackupUpdateResponse"></div>
+                <div id="doAppInitBackupUpdateResponseWarn"></div>
+            </div>
+            <div id="backupUpdateDetailResponse" style="font-size:x-small;text-align:center">
+            </div>
+        </div>
+        <div class="ar-flex-content-wrap" style="margin: 0px;">
+            <button class="ar-button ar-border" id="doInitUploadBackupUpdateAppBtn" style="margin: 5px; background-color: #209cee;" disabled="disabled"
+                    onclick="initUploadBackupUpdateApp('doAppInitUploadBackupUpdateProgress', 'doAppInitBackupUpdateResponse', getElm('initServerFolders').value, getElm('appOwnerID').value, getElm('intializeAdminUserEmail').value, getElm('intializeAdminUserPwd').value, getElm('intializeAdminUserConfirmPwd').value, 'appSecurity', 'addZipFile', getElm('initOverwriteAppData').checked, getElm('initClearDownloadLayer').checked, getElm('initBackupAppData').checked, getElm('uploadBackupUpdateSkipZipUpload').checked, getElm('backupUpdateSkipMachineUpdate').checked, getElm('backupUpdateHttpStatusCheck').checked, 'doInitUploadAppBtn', 'doInitUploadBackupUpdateAppBtn', 'backupUpdateDetailResponse', function () {resetSecurityDiv(getElm('initServerFolders').value, 'appSecurity');} )">
+                Init, Upload, Backup and Update App <div id="doAppInitUploadBackupUpdateProgress"></div>
+            </button>
+        </div>
+        <div style="text-align:center;font-size:xx-small;color:orangered;">Upload, Backup and Update App will upload and persist any changes to oci image and update the current machine instance if not skipped</div>
+    </div>
+
+    {{/IsLocalHost}}
+
+    {{AppInitUploadJs}}
+
+</div>

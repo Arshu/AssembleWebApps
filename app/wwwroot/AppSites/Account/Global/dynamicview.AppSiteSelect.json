@@ -1,0 +1,15 @@
+{
+  "AppSite": "{$AppSite}",
+  "AppSiteType": "All",
+  "SelectedOption": "AppSiteCheckedOption",
+  "SelectOption": "AppSiteOption",
+  "EmptyText": "No App Site Found",
+  "SkipValue": "",
+  "FilterValue": "",
+  "SelectedKey": "",
+  "DefaultChecked": "True",
+  "AppendOptionText": "",
+  "AppendOptionValue": "",
+  "DisableOptionValue": "Index",
+  "DisableOptionChecked": "false"
+}

@@ -1,101 +1,99 @@
-﻿{{weblogintypeJS}}
+﻿<script type="text/javascript">
 
-<script type="text/javascript">
-
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
     document.addEventListener('DOMContentLoaded', function (event) {
-        checkAllowedLoginType('registerProgress', 'registerResponse', 'autoLoginBtn', '', null);
-    });
+        checkAllowedLoginType('registerProgress', 'registerResponse', 'autoLoginBtn', '', null)
+    })
 
-    function registerUser(progressElmId, responseElmId, registerIdVal, registerAliasVal, registerPasswordVal, confirmPasswordVal, redirectUrl) {
-        let id = window.ajaxid++;
+    function registerUser(progressElmId, responseElmId, registerIdVal, registerAliasVal, registerPasswordVal, confirmPasswordVal, redirectUrl, successCallback, failureCallback) {
+        let id = window.ajaxid++
 
-        let responseContainerElmId = responseElmId + "Container";
+        let responseContainerElmId = responseElmId + "Container"
         let responseElm = getElm(responseElmId)
         let responseContainerElm = getElm(responseContainerElmId)
-        responseElm.innerHTML = "";
-        hideElm(responseContainerElmId);
+        responseElm.innerHTML = ""
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (registerIdVal.trim().length === 0) {
-            showText(responseElm, 'Enter Login Id', 'red');
-            valid = false;
+            showText(responseElm, 'Enter Login Id', 'red')
+            valid = false
         }
 
         if (valid === true) {
             if (registerAliasVal.trim().length === 0) {
-                showText(responseElm, 'Enter Alias', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Alias', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
             if (registerPasswordVal.trim().length === 0) {
-                showText(responseElm, 'Enter Password', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Password', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
             if (confirmPasswordVal.trim().length === 0) {
-                showText(responseElm, 'Enter Confirm Password', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Confirm Password', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
             if (registerPasswordVal !== confirmPasswordVal) {
-                showText(responseElm, 'Password and Confirm Password does not match', 'red');
-                valid = false;
+                showText(responseElm, 'Password and Confirm Password does not match', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
 
-            let url = '/AppApi/WebApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'RegisterUser',
-                "params": { "userId": registerIdVal, "userAlias": registerAliasVal, "userPassword": confirmPasswordVal },
-                "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "RegisterUser"
 
-                        if (result.hasOwnProperty('data') === true) {
-                            redirectUrl = result.data;
-                        }
+            let apiParams = {
+                "userId": registerIdVal,
+                "userAlias": registerAliasVal,
+                "userPassword": confirmPasswordVal
+            }
 
-                        if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message + ". Please wait", 'green');
-                            if (redirectUrl) {
-                                setTimeout(function () { window.location.replace(redirectUrl); }, 1000);
-                            } else {
-                                setTimeout(function () { window.location.reload(true); }, 1000);
-                            }
-                        }
-                        else if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('data') === true) {
+                    redirectUrl = result.data
+                }
+
+                if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message + ". Please wait", 'green')
+                    if (redirectUrl) {
+                        setTimeout(function () { window.location.replace(redirectUrl) }, 1000)
+                    } else {
+                        setTimeout(function () { window.location.reload(true) }, 1000)
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
-          
+                }
+                else if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
 
-        return false;
+        return false
     }
 
 </script>
+
 <style>
     .avatar {
         padding-bottom: 10px;
@@ -116,7 +114,7 @@
     <div class="ar-flex-card ar-card-border" style="text-align:center;">
 
         <figure class="avatar" style="text-align:center;">
-            <img src="/Content/logos/logo_register.png" />
+            <img src="/Resource/account/logo_register.png" />
         </figure>
 
         <div style="text-align:center;display:none;" id="autoLoginBtnDiv">

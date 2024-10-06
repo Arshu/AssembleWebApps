@@ -1,92 +1,90 @@
 ﻿<script type="text/javascript" id="{{$ViewID}}Script">
 
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
     function updateNewGitRepositorySelect(responseElmId, inputElmContainerId, inputTextElmId, targetSelectElmId) {
 
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
-        let inputText = getElm(inputTextElmId).value;
+        let inputText = getElm(inputTextElmId).value
         if (inputText.length === 0) {
-            showText(responseElm, 'Enter Input Value', 'red');
-            valid = false;
+            showText(responseElm, 'Enter Input Value', 'red')
+            valid = false
         }
 
         if (targetSelectElmId.length === 0) {
-            showText(responseElm, 'Target Select Not Set', 'red');
-            showAutoHideFlex(responseContainerElmId);
-            valid = false;
+            showText(responseElm, 'Target Select Not Set', 'red')
+            showAutoHideFlex(responseContainerElmId)
+            valid = false
         }
 
         if (valid === true) {
-            let selectElm = getElm(targetSelectElmId);
-            let optionElm = document.createElement("option");
-            optionElm.text = inputText;
-            optionElm.value = inputText;
-            optionElm.selected = true;
-            selectElm.add(optionElm);
+            let selectElm = getElm(targetSelectElmId)
+            let optionElm = document.createElement("option")
+            optionElm.text = inputText
+            optionElm.value = inputText
+            optionElm.selected = true
+            selectElm.add(optionElm)
 
-            getElm(inputTextElmId).value = "";
-            toggleFlex(inputElmContainerId);
+            getElm(inputTextElmId).value = ""
+            toggleFlex(inputElmContainerId)
         }
     }
 
     function gitRefreshGitRepositoryList(progressElmId, responseElmId, targetElmId, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
         //responseElm.textContent = '';
         //let responseContainerElmId = responseElmId + "Container";
         //hideElm(responseContainerElmId);
-        let valid = true;
+        let valid = true
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/GitApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetGitRepositorySelectView', "params": {
-                    "appSite": "",
-                    "selectedKey": "",
-                    "emptyText": "No Git Repository Found"
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/GitApi"
+            let apiMethod = "GetGitRepositorySelectView"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (data.hasOwnProperty('Result') === true) {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
-                            let rootNode = getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            showElm(targetElmId);
+            let apiParams = {
+                "appSite": "",
+                "selectedKey": "",
+                "emptyText": "No Git Repository Found"
+            }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    showElm(targetElmId)
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if (data.hasOwnProperty('Error') === true) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
 </script>
@@ -116,10 +114,10 @@
                 </option>
                 {{/GitList}}
             </select>
-        </div>        
-        <button class="ar-border-right" style="width:40px;height:40px;background-color:lightgray;" {{@HaveAdminRole}}onclick="toggleElm('newGitRepositorySection');getElm('gitUrl').value = getElm('gitSampleRepository').value"{{/HaveAdminRole}}>
+        </div>
+        <button class="ar-border-right" style="width:40px;height:40px;background-color:lightgray;" {{@HaveAdminRole}}onclick="toggleElm('newGitRepositorySection');getElm('gitUrl').value = getElm('gitSampleRepository').value" {{ /HaveAdminRole}}>
             S
-        </button>        
+        </button>
     </div>
     <div id="{{$ViewID}}NewSection">
         {{^IsSubDomain}}

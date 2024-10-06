@@ -19,6 +19,7 @@
   "EnableRealtime$": true,
   "EnableLoginCheck$": false,
   "ShowDefaultFooter$": true,
+
   "ShowAppSiteTest$": true,
   "HaveGitApiService$": false,
   "HaveDomainApiService$": false

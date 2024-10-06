@@ -1,0 +1,497 @@
+﻿<script type="text/javascript">
+
+    const globalWebSocketTimeout = 10000
+    let globalWebSocketConnection
+    let wsConnectionInfo = ""
+    let lastServerRefreshTimestamp = 0
+
+    const wsUrl = new URL(document.location)
+    const keepAliveInterval = 1000 * parseInt('{{$KeepAliveInterval}}') // 15 Seconds
+    const serverTimeout = 1000 * parseInt('{{$ServerTimeout}}') // 60 Seconds
+
+    let websocketProtocol = "ws://"
+    if (window.location.protocol === 'https:') {
+        websocketProtocol = "wss://"
+    }
+    let websocketHost = wsUrl.hostname
+    if ((wsUrl.port != 80) && (wsUrl.port != 443)) { websocketHost = websocketHost + ":" + wsUrl.port }
+    let websocketUrl = websocketProtocol + websocketHost + "/{{$ApiHub}}"
+
+    const wsUrlParams = wsUrl.searchParams
+    const wsRegion = wsUrlParams.get('region')
+    const wsInstance = wsUrlParams.get('instance')
+    const wsAppname = wsUrlParams.get('app')
+
+    if ((wsRegion) && (wsRegion.length > 0)) {
+        var wsRegionUrl = new URL(websocketUrl, document.baseURI)
+        if (wsRegionUrl.searchParams.has('region') == false) {
+            wsRegionUrl.searchParams.append('region', region)
+            websocketUrl = wsRegionUrl.toString()
+            console.log('ws region Url:', websocketUrl)
+        }
+    }
+    else if ((wsInstance) && (wsInstance.length > 0)) {
+        var wsInstanceUrl = new URL(websocketUrl, document.baseURI)
+        if (wsInstanceUrl.searchParams.has('instance') == false) {
+            wsInstanceUrl.searchParams.append('instance', instance)
+            websocketUrl = wsInstanceUrl.toString()
+            console.log('ws instance Url:', websocketUrl)
+        }
+    }
+    else if ((wsAppname) && (wsAppname.length > 0)) {
+        var wsAppnameUrl = new URL(websocketUrl, document.baseURI)
+        if (wsAppnameUrl.searchParams.has('app') == false) {
+            wsAppnameUrl.searchParams.append('app', appname)
+            websocketUrl = wsAppnameUrl.toString()
+            console.log('ws app Url:', websocketUrl)
+        }
+    }
+
+    function startWebSocketConnection(websocketUrl) {
+
+        const websocket = new WebSocket(websocketUrl)
+
+        websocket.onopen = function (event) {
+            console.log('Socket event: ', event, 'OnOpen socket')
+            if (websocket.readyState == 1) {
+                globalWebSocketConnection = websocket
+                if ((typeof getMainAppSite === "function") && (typeof getMainAppView === "function")) {
+                    let appSite = getMainAppSite()
+                    let appView = getMainAppView()
+                    callWSPage(appSite, appView)
+                    console.log('Socked Opened and Changed Page Context to ' + appSite + ' - ' + appView)
+                }
+            }
+        }
+
+        websocket.onerror = function (event) {
+            console.log('Socket encountered error: ', event, 'Closing socket')
+            globalWebSocketActive = false
+            globalWebSocketConnection = null
+            websocket.close()
+            lastAppSite = ""
+            lastAppView = ""
+        }
+
+        websocket.onclose = function (event) {
+            console.log('Socket is closed.', event.reason)
+            globalWebSocketActive = false
+            globalWebSocketConnection = null
+            lastAppSite = ""
+            lastAppView = ""
+            if (typeof serverStopped === "function") {
+                serverStopped()
+            }
+        }
+
+        websocket.onmessage = function (event) {
+            let returnMessage = JSON.parse(event.data)
+            if (returnMessage) {
+                let method = ""
+                if (returnMessage.hasOwnProperty('method')) {
+                    method = returnMessage.method
+                }
+                let returnJson = ""
+                if (returnMessage.hasOwnProperty('arg1')) {
+                    returnJson = returnMessage.arg1
+                }
+                let connectionInfo = ""
+                if (returnMessage.hasOwnProperty('arg2')) {
+                    connectionInfo = returnMessage.arg2
+                }
+
+                if (method == "WSOnline") {
+                    onWSOnline(returnJson, connectionInfo)
+                }
+                else if (method == "WSPageChanged") {
+                    onWSPageChanged(returnJson, connectionInfo)
+                }
+                else if (method == "WSViewChanged") {
+                    onWSViewChanged(returnJson, connectionInfo)
+                }
+                else {
+                    //alert(method + "," + arg1 + "," + arg2);
+                }
+            }
+        }
+    }
+
+    function restartWebSocketConnection() {
+        if ((globalWebSocketActive == false) || ((globalWebSocketConnection) && (globalWebSocketConnection.readyState == 3))) {
+            console.log('Restarting WebSocket Connection')
+            startWebSocketConnection(websocketUrl)
+        }
+    }
+
+    function closeWebSocketConnection() {
+        if ((globalWebSocketConnection) && (globalWebSocketConnection.readyState == 1)) {
+            globalWebSocketConnection.close()
+        }
+    }
+
+    window.onbeforeunload = function (e) {
+        closeWebSocketConnection()
+    }
+
+    startWebSocketConnection(websocketUrl)
+
+    let lastAppSite = ""
+    let lastAppView = ""
+    function callWSPage(appSite, appView) {
+        console.log('callWSPage: AppSite [' + appSite + "]App View[" + appView + "]" + globalWebSocketActive)
+
+        if ((globalWebSocketConnection) && (globalWebSocketConnection.readyState == 1)) {
+            if ((lastAppSite != appSite) || (lastAppView != appView)) {
+                let appDomain = window.location.hostname
+                lastAppSite = appSite
+                lastAppView = appView
+                let messageJson = {
+                    "method": "CallWSPage",
+                    "arg1": appDomain + ":" + appSite + "," + appView,
+                    "arg2": lastServerRefreshTimestamp
+                }
+                let messageText = JSON.stringify(messageJson)
+                globalWebSocketConnection.send(messageText)
+            }
+        }
+    }
+
+    function callWSApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, successCallback, failureCallback, clientRequestStartTimestamp, refreshAppDomain) {
+        console.log('callWSApi: Connection Info [' + wsConnectionInfo + "][" + apiUrl + "][" + apiMethod + "]" + globalWebSocketActive)
+
+        if ((globalWebSocketActive == true) && (globalWebSocketConnection) && (globalWebSocketConnection.readyState == 1)) {
+            ajaxStart(progressElmId)
+
+            let isSecure = true
+            if (location.protocol !== 'https:') {
+                isSecure = false
+            }
+            let requestTicket = ""
+            let requestTicketElm = document.querySelector("[name=ticket]")
+            if (requestTicketElm) requestTicket = requestTicketElm.value
+
+            if (!clientRequestStartTimestamp) {
+                clientRequestStartTimestamp = Math.floor(new Date().getTime())
+            }
+
+            let appDomain = window.location.hostname
+            let rootPort = window.location.port
+
+            if (rootPort.trim() == "") {
+                if (isSecure == true) { rootPort = "443" } else { rootPort = "80" }
+            }
+
+            let messageJson = {
+                "method": "CallWSApi",
+                "arg1": isSecure,
+                "arg2": requestTicket,
+                "arg3": appDomain,
+                "arg4": parseInt(rootPort),
+                "arg5": apiUrl,
+                "arg6": apiMethod,
+                "arg7": apiParams,
+                "arg8": clientRequestStartTimestamp
+            }
+
+            let webSocketTimeout = 10000
+            if (typeof globalWebSocketTimeout !== 'undefined') {
+                webSocketTimeout = globalWebSocketTimeout
+            }
+
+            let messageText = JSON.stringify(messageJson)
+            globalWebSocketConnection.send(messageText)
+
+            var returnCallWSApiHandler = function (event) {
+
+                let returnMessage = JSON.parse(event.data)
+                let method = ""
+                if (returnMessage) {
+                    let method = ""
+                    if (returnMessage.hasOwnProperty('method')) {
+                        method = returnMessage.method
+                    }
+                    let returnJson = ""
+                    if (returnMessage.hasOwnProperty('arg1')) {
+                        returnJson = returnMessage.arg1
+                    }
+                    let connectionInfo = ""
+                    if (returnMessage.hasOwnProperty('arg2')) {
+                        connectionInfo = returnMessage.arg2
+                    }
+                    if (method == "WSReturnCallApi") {
+
+                        globalWebSocketConnection.removeEventListener("message", returnCallWSApiHandler)
+
+                        ajaxStop(progressElmId)
+
+                        filterShowWSTime(returnJson)
+                        if (typeof successCallback === "function") {
+                            successCallback(returnJson)
+                        }
+
+                        console.log("WSReturnCallApi [" + connectionInfo + "] after CallWSApi [" + apiUrl + "][" + apiMethod + "]")
+                    }
+                }
+            }
+
+            globalWebSocketConnection.addEventListener("message", returnCallWSApiHandler)
+        }
+    }
+
+    function onWSOnline(onlineCount, connectionInfo) {
+        console.log('onWSOnline: Recent Connection Info [' + connectionInfo + "]" + onlineCount)
+
+        wsConnectionInfo = connectionInfo
+        if (haveElm('webSocketCount') == true) {
+            getElm('webSocketCount').textContent = onlineCount
+        }
+    }
+
+    function onWSPageChanged(pageChangeInfo, connectionInfo) {
+        console.log('OnPageChanged: Connection Info [' + connectionInfo + "]" + pageChangeInfo)
+
+        globalWebSocketActive = true
+        if (typeof serverStarted === "function") {
+            serverStarted()
+        }
+    }
+
+    function onWSViewChanged(returnJson, connectionInfo) {
+        filterShowWSTime(returnJson)
+
+        let changedAppSite = ""
+        if (returnJson.hasOwnProperty('ChangedAppSite') === true) {
+            changedAppSite = returnJson['ChangedAppSite']
+        }
+        let changedAppView = ""
+        if (returnJson.hasOwnProperty('ChangedAppView') === true) {
+            changedAppView = returnJson['ChangedAppView']
+        }
+        let changedAppFileOrPath = ""
+        if (returnJson.hasOwnProperty('ChangedAppFileOrPath') === true) {
+            changedAppFileOrPath = returnJson['ChangedAppFileOrPath']
+        }
+
+        console.log("onWSChangeView Connection Info[" + connectionInfo + "] With AppSite [" + changedAppSite + "], AppView [" + changedAppView + "] and AppFileOrPath [" + changedAppFileOrPath + "]")
+
+        if (returnJson.hasOwnProperty('ChangedView') == true) {
+
+            let jsonTagList = returnJson.ChangedView
+            refreshHtmlJson(jsonTagList, changedAppSite, changedAppView)
+            highlightHtmlJson(jsonTagList, changedAppSite, changedAppView)
+            setApiMetrics(returnJson)
+
+            if (typeof callChangeContextPage === "function") {
+                if ((changedAppSite != "") && (changedAppView != "")) {
+                    callChangeContextPage(changedAppSite, changedAppView)
+                }
+            }
+        } else {
+
+            if ((currentAppSite.length > 0) && (currentAppView.length > 0) && (changedAppFileOrPath.length > 0)) {
+                console.log("onWSChangeView Refresh Connection Info[" + connectionInfo + "] With AppSite [" + changedAppSite + "], AppView [" + changedAppView + "] and AppFileOrPath [" + changedAppFileOrPath + "]")
+                refreshComponentHtml('progress', 'response', currentAppSite, currentAppView, changedAppFileOrPath, {}, false, false, '', '')
+            }
+        }
+    }
+
+    function filterShowWSTime(serverResponseJson) {
+        if ((serverResponseJson) && (serverResponseJson.ServiceInfo)) {
+            if ((serverResponseJson.ServiceInfo.toUpperCase().indexOf("MetricsApi".toUpperCase()) === -1)
+                //&& (serverResponseJson.ServiceInfo.toUpperCase().indexOf("CurlApi".toUpperCase()) === -1)
+            ) {
+                recordWSTiming(serverResponseJson, false)
+            }
+        } else {
+            recordWSTiming(serverResponseJson, false)
+        }
+    }
+
+    let showLastWebSocketCount = 7
+    function recordWSTiming(returnWsJson, clear) {
+        if (haveElm('wsTime') == true) {
+            let wsTimeElm = getElm('wsTime')
+            if (wsTimeElm) {
+
+                let currentTimestamp = Math.floor(new Date().getTime())
+                let wsTimeVal = ""
+                if (clear === true) wsTimeElm.innerHTML = ""
+
+                if (returnWsJson.hasOwnProperty('ServiceInfo') === true) {
+
+                    if (returnWsJson.hasOwnProperty('ClientRequestStartTimestamp') === true) {
+
+                        let clientRequestStartTimestamp = returnWsJson['ClientRequestStartTimestamp']
+                        let clientRequestTimestampDifference = 0
+                        if (clientRequestStartTimestamp > 0) {
+                            clientRequestTimestampDifference = currentTimestamp - clientRequestStartTimestamp
+                        }
+
+                        let serverRequestStartTimestamp = 0
+                        if (returnWsJson.hasOwnProperty('ServerRequestStartTimestamp') === true) {
+                            serverRequestStartTimestamp = returnWsJson['ServerRequestStartTimestamp']
+                        }
+
+                        let serverRequestEndTimestamp = currentTimestamp
+                        if (returnWsJson.hasOwnProperty('ServerRequestEndTimestamp') === true) {
+                            serverRequestEndTimestamp = returnWsJson['ServerRequestEndTimestamp']
+                            lastServerRefreshTimestamp = serverRequestEndTimestamp
+                        }
+
+                        let serverRequestTimestampDifference = (serverRequestEndTimestamp - serverRequestStartTimestamp)
+                        let networkTimestampDifference = clientRequestTimestampDifference - serverRequestTimestampDifference
+
+                        if (clientRequestTimestampDifference > 0) {
+                            if ((serverRequestTimestampDifference <= 0) && (clientRequestTimestampDifference != serverRequestTimestampDifference)) {
+                                wsTimeVal = "(<span style='color:red;'>" + clientRequestTimestampDifference + "</span>)"
+                                if (returnWsJson.hasOwnProperty('ServiceInfo') === true) {
+                                    wsTimeVal = "(<span style='color:red;' title='" + returnWsJson.ServiceInfo + "'>" + clientRequestTimestampDifference + "</span >)"
+                                    if (typeof sendWSMetrics === "function") {
+                                        sendWSMetrics(returnWsJson.ServiceInfo, serverRequestTimestampDifference, clientRequestTimestampDifference)
+                                    }
+                                }
+                            } else {
+                                wsTimeVal = "(<span style='color:red;'>" + clientRequestTimestampDifference + "[" + serverRequestTimestampDifference + "]</span>)"
+                                if (returnWsJson.hasOwnProperty('ServiceInfo') === true) {
+                                    wsTimeVal = "(<span style='color:red;' title='" + returnWsJson.ServiceInfo + "'>" + clientRequestTimestampDifference + "[" + serverRequestTimestampDifference + "]</span>)"
+                                    if (typeof sendWSMetrics === "function") {
+                                        sendWSMetrics(returnWsJson.ServiceInfo, serverRequestTimestampDifference, clientRequestTimestampDifference)
+                                    }
+                                }
+                            }
+                        } else {
+                            if (serverRequestTimestampDifference > 0) {
+                                wsTimeVal = "(<span style='color:red;'>[" + serverRequestTimestampDifference + "]</span>)"
+                                if (returnWsJson.hasOwnProperty('ServiceInfo') === true) {
+                                    wsTimeVal = "(<span style='color:red;' title='" + returnWsJson.ServiceInfo + "'>[" + serverRequestTimestampDifference + "]</span>)"
+                                    if (typeof sendWSMetrics === "function") {
+                                        sendWSMetrics(returnWsJson.ServiceInfo, serverRequestTimestampDifference, clientRequestTimestampDifference)
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if (returnWsJson.hasOwnProperty('ServerRequestStartTimestamp') === true) {
+                            let serverRequestStartTimestamp = 0
+                            if (returnWsJson.hasOwnProperty('ServerRequestStartTimestamp') === true) {
+                                serverRequestStartTimestamp = returnWsJson['ServerRequestStartTimestamp']
+                            }
+
+                            let serverRequestEndTimestamp = currentTimestamp
+                            if (returnWsJson.hasOwnProperty('ServerRequestEndTimestamp') === true) {
+                                serverRequestEndTimestamp = returnWsJson['ServerRequestEndTimestamp']
+                            }
+
+                            let serverRequestTimestampDifference = (serverRequestEndTimestamp - serverRequestStartTimestamp)
+
+                            if (serverRequestTimestampDifference > 0) {
+                                wsTimeVal = "(<span style='color:red;'>[" + serverRequestTimestampDifference + "]</span>)"
+                                if (returnWsJson.hasOwnProperty('ServiceInfo') === true) {
+                                    wsTimeVal = "(<span style='color:red;' title='" + returnWsJson.ServiceInfo + "'>[" + serverRequestTimestampDifference + "]</span>)"
+                                    if (typeof sendWSMetrics === "function") {
+                                        sendWSMetrics(returnWsJson.ServiceInfo, serverRequestTimestampDifference, clientRequestTimestampDifference)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (wsTimeVal.length > 0) {
+                        let wsTimeElmText = wsTimeElm.innerHTML.trim()
+                        let storedWsTime = sessionStorage.getItem('wsTime')
+                        if (storedWsTime !== null) {
+                            if (storedWsTime.length > 0) {
+                                wsTimeElmText = storedWsTime
+                            }
+                        }
+
+                        let wsTimeList = ""
+                        if (wsTimeElmText.length === 0) {
+                            wsTimeList = wsTimeVal
+                        }
+                        else {
+
+                            if (wsTimeElmText.indexOf(",") === -1) {
+                                wsTimeList = wsTimeElmText + "," + wsTimeVal
+                            } else {
+                                let wsTimeArr = wsTimeElmText.split(",", showLastWebSocketCount)
+                                if (wsTimeArr.length >= showLastWebSocketCount) wsTimeArr.shift()
+                                wsTimeList = wsTimeArr.join(",") + "," + wsTimeVal
+                            }
+                        }
+                        wsTimeElm.innerHTML = "WS[" + wsTimeList + "]"
+                        sessionStorage.setItem("wsTime", wsTimeList)
+                    }
+                }
+                else
+                {
+                    console.log("Empty Service Info");
+                }
+            }
+        }
+    }
+
+    function clearWSTiming() {
+        if (haveElm('wsTime') == true) {
+            let wsTimeElm = getElm('wsTime')
+            if (wsTimeElm) {
+                wsTimeElm.innerHTML = ""
+            }
+        }
+        sessionStorage.setItem("wsTime", "")
+    }
+
+    /*
+        let blob = jsonToBlob([{foo:[1,2,3], a:1, bar:["a", 2, {$hi:[1,2,3, {a:3}]}]}, 4, new Date(),, (()=>{})]);
+        console.log(JSON.parse(await blob.text()));
+
+        let json = {};
+        for(let i = 0; i < 600000; i++) {
+          json[Math.random()] = Math.random().toString().repeat(100);
+        }
+        let blob = jsonToBlob(json);
+        console.log(blob); // ~1 GB
+    */
+    function jsonToBlob(json) {
+        const textEncoder = new TextEncoder()
+        const seen = new WeakSet()
+
+        function processValue(value) {
+            if (seen.has(value)) {
+                throw new TypeError("Converting circular structure to JSON")
+            }
+
+            if (value && typeof value.toJSON === "function") {
+                value = value.toJSON()
+            }
+
+            if (typeof value === 'object' && value !== null) {
+                seen.add(value)
+
+                const blobParts = []
+                const entries = Array.isArray(value) ? value : Object.entries(value)
+                for (let i = 0; i < entries.length; i++) {
+                    if (Array.isArray(value)) {
+                        blobParts.push(processValue(entries[i]))
+                    } else {
+                        const [key, val] = entries[i]
+                        blobParts.push(textEncoder.encode(JSON.stringify(key) + ':'), processValue(val))
+                    }
+                    if (i !== entries.length - 1) blobParts.push(textEncoder.encode(','))
+                }
+
+                const startBracket = Array.isArray(value) ? '[' : '{'
+                const endBracket = Array.isArray(value) ? ']' : '}'
+                return new Blob([textEncoder.encode(startBracket), ...blobParts, textEncoder.encode(endBracket)])
+            } else if (typeof value === 'function' || typeof value === 'undefined') {
+                return textEncoder.encode("null")
+            } else {
+                // For primitives we just convert it to string and encode
+                return textEncoder.encode(JSON.stringify(value))
+            }
+        }
+
+        return processValue(json)
+    }
+
+</script>

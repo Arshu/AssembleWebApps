@@ -27,7 +27,7 @@
         }
     }
 
-    function retrieveAppLaunchInfo(progressElmId, responseElmId, launchAppName, appOrganisationSelectElmId, appNameElmId, dockerImagePathSelectElmId, dockerImageTagNameElmId, launchRegionTemplateElmId, launchRegionTargetElmId, launchMaxRegionsPerAppElmId, launchMaxMachinesPerAppElmId, launchMaxMachinesPerRegionElmId, launchEnvInitialTimeoutElmId, launchEnvIdleTimeoutElmId, launchEnvAutoDestroyAfterXMinElmId, domainNameSelectElmId, doLaunchAppBtnElmId, deleteLaunchAppBtnElmId, doLaunchSimpleAppBtnElmId, successCallback, failureCallback) {
+    function retrieveAppLaunchInfo(progressElmId, responseElmId, launchAppName, appOrganisationSelectElmId, appNameElmId, ociImagePathSelectElmId, ociImageTagNameElmId, launchRegionTemplateElmId, launchRegionTargetElmId, launchMaxRegionsPerAppElmId, launchMaxMachinesPerAppElmId, launchMaxMachinesPerRegionElmId, launchEnvInitialTimeoutElmId, launchEnvIdleTimeoutElmId, launchEnvAutoDestroyAfterXMinElmId, domainNameSelectElmId, doLaunchAppBtnElmId, deleteLaunchAppBtnElmId, doLaunchSimpleAppBtnElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -86,45 +86,45 @@
                         getElm(appNameElmId).value = result.AppName;
                     }
 
-                    if (result.hasOwnProperty("DockerImageList") === true) {
-                        let dockerImageList = result.DockerImageList;
+                    if (result.hasOwnProperty("OCIImageList") === true) {
+                        let ociImageList = result.OCIImageList;
 
-                        let selectElm = getElm(dockerImagePathSelectElmId);
+                        let selectElm = getElm(ociImagePathSelectElmId);
                         if (selectElm) {
                             selectElm.options.length = 0;
 
-                            for (var i = 0; i < dockerImageList.length; i++) {
-                                let dockerImageInfo = dockerImageList[i];
+                            for (var i = 0; i < ociImageList.length; i++) {
+                                let ociImageInfo = ociImageList[i];
 
-                                let dockerImageName = "";
-                                if (dockerImageInfo.hasOwnProperty('DockerImageName') === true) {
-                                    dockerImageName = dockerImageInfo.DockerImageName
+                                let ociImageName = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImageName') === true) {
+                                    ociImageName = ociImageInfo.OCIImageName
                                 }
-                                let dockerImageTag = "";
-                                if (dockerImageInfo.hasOwnProperty('DockerImageTag') === true) {
-                                    dockerImageTag = dockerImageInfo.DockerImageTag
+                                let ociImageTag = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImageTag') === true) {
+                                    ociImageTag = ociImageInfo.OCIImageTag
                                 }
-                                let dockerImagePath = "";
-                                if (dockerImageInfo.hasOwnProperty('DockerImagePath') === true) {
-                                    dockerImagePath = dockerImageInfo.DockerImagePath
+                                let ociImagePath = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImagePath') === true) {
+                                    ociImagePath = ociImageInfo.OCIImagePath
                                 }
                                 let isAppImage = false;
-                                if (dockerImageInfo.hasOwnProperty('IsAppImage') === true) {
-                                    isAppImage = dockerImageInfo.IsAppImage
+                                if (ociImageInfo.hasOwnProperty('IsAppImage') === true) {
+                                    isAppImage = ociImageInfo.IsAppImage
                                 }
 
-                                if ((i == 0) && (dockerImageTag.trim().length == 0)) {
-                                    getElm(dockerImageTagNameElmId).value = dockerImageTag;
-                                    getElm(dockerImageTagNameElmId).original = dockerImageTag;
+                                if ((i == 0) && (ociImageTag.trim().length == 0)) {
+                                    getElm(ociImageTagNameElmId).value = ociImageTag;
+                                    getElm(ociImageTagNameElmId).original = ociImageTag;
                                 } else {
-                                    getElm(dockerImageTagNameElmId).value = dockerImageTag;
-                                    getElm(dockerImageTagNameElmId).original = 'latest';
+                                    getElm(ociImageTagNameElmId).value = ociImageTag;
+                                    getElm(ociImageTagNameElmId).original = 'latest';
                                 }
 
                                 if (isAppImage == true) {
-                                    selectElm.options[selectElm.options.length] = new Option(dockerImageName, dockerImagePath, true, true);
+                                    selectElm.options[selectElm.options.length] = new Option(ociImageName, ociImagePath, true, true);
                                 } else {
-                                    selectElm.options[selectElm.options.length] = new Option(dockerImageName, dockerImagePath, false, false);
+                                    selectElm.options[selectElm.options.length] = new Option(ociImageName, ociImagePath, false, false);
                                 }
                             }
                         }
@@ -137,9 +137,7 @@
                     if (result.hasOwnProperty('MinIdleShutdownTimeInSec') === true) {
                         getElm(launchEnvIdleTimeoutElmId).value = result.MinIdleShutdownTimeInSec;
                     }
-                    //if (result.hasOwnProperty('EnvLoadAppData') === true) {
-                    //    getElm(cloneEnvLoadAppDataElmId).checked = result.EnvLoadAppData;
-                    //}
+                    
                     if (result.hasOwnProperty('AutoDestroyAfterXMin') === true) {
                         getElm(launchEnvAutoDestroyAfterXMinElmId).value = result.AutoDestroyAfterXMin;
                     }
@@ -494,7 +492,7 @@
         return false;
     }
 
-    function launchApp(progressElmId, responseElmId, newAppNameVal, newAppOrganizationVal, newAppNetworkVal, dockerImagePathVal, dockerImageTagNameVal, launchRegionTargetElmName, envInitialTimeoutVal, envIdleTimeoutVal, envLoadAppDataVal, envAutoDestroyAfterXMinVal, appOwnerIDVal, underDomainNameVal, attachVolumeSizeVal, doLaunchAppBtnElmId, deleteLaunchAppBtnElmId, doLaunchSimpleAppBtnElmId, detailResponseElmId, successCallback, failureCallback) {
+    function launchApp(progressElmId, responseElmId, newAppNameVal, newAppOrganizationVal, newAppNetworkVal, ociImagePathVal, ociImageTagNameVal, launchRegionTargetElmName, appOwnerIDVal, envInitialTimeoutVal, envIdleTimeoutVal, envAutoDestroyAfterXMinVal, underDomainNameVal, attachVolumeSizeVal, doLaunchAppBtnElmId, deleteLaunchAppBtnElmId, doLaunchSimpleAppBtnElmId, detailResponseElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -535,15 +533,15 @@
         }
 
         if (valid == true) {
-            if (dockerImagePathVal.length == 0) {
-                showText(responseElm, 'Launch App Docker Image Path Cannot be Empty', 'red');
+            if (ociImagePathVal.length == 0) {
+                showText(responseElm, 'Launch App OCI Image Path Cannot be Empty', 'red');
                 valid = false;
             }
         }
 
         if (valid == true) {
-            if (dockerImageTagNameVal.length == 0) {
-                showText(responseElm, 'Launch App Docker Image Tag Name Cannot be Empty', 'red');
+            if (ociImageTagNameVal.length == 0) {
+                showText(responseElm, 'Launch App OCI Image Tag Name Cannot be Empty', 'red');
                 valid = false;
             }
         }
@@ -595,14 +593,13 @@
                 "newAppName": newAppNameVal,
                 "newAppOrganization": newAppOrganizationVal,
                 "newAppNetwork": newAppNetworkVal,
-                "dockerImagePath": dockerImagePathVal,
-                "dockerImageTagName": dockerImageTagNameVal,
+                "ociImagePath": ociImagePathVal,
+                "ociImageTagName": ociImageTagNameVal,
                 "launchRegions": launchRegionList,
+                "appOwnerID": appOwnerIDVal,
                 "envInitialTimeout": envInitialTimeoutVal,
                 "envIdleTimeout": envIdleTimeoutVal,
-                "envLoadAppData": envLoadAppDataVal,
                 "envAutoDestroyAfterXMin": envAutoDestroyAfterXMinVal,
-                "appOwnerID": appOwnerIDVal,
                 "underDomainName": underDomainNameVal,
                 "attachVolumeSize": attachVolumeSizeVal
             };
@@ -725,7 +722,7 @@
         return false;
     }
 
-    function launchSimpleApp(progressElmId, responseElmId, newAppNameVal, dockerImagePathVal, launchRegionTargetElmName, envAutoDestroyAfterXMinVal, appOwnerIDVal, underDomainNameVal, attachVolumeSizeVal, doLaunchAppBtnElmId, deleteLaunchAppBtnElmId, doLaunchSimpleAppBtnElmId, detailResponseElmId, successCallback, failureCallback) {
+    function launchSimpleApp(progressElmId, responseElmId, newAppNameVal, ociImagePathVal, launchRegionTargetElmName, appOwnerIDVal, envInitialTimeoutVal, envIdleTimeoutVal, envAutoDestroyAfterXMinVal, underDomainNameVal, attachVolumeSizeVal, doLaunchAppBtnElmId, deleteLaunchAppBtnElmId, doLaunchSimpleAppBtnElmId, detailResponseElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -750,8 +747,8 @@
         }
 
         if (valid == true) {
-            if (dockerImagePathVal.length == 0) {
-                showText(responseElm, 'Launch App Docker Image Path Cannot be Empty', 'red');
+            if (ociImagePathVal.length == 0) {
+                showText(responseElm, 'Launch App OCI Image Path Cannot be Empty', 'red');
                 valid = false;
             }
         }
@@ -810,10 +807,12 @@
             let apiParams = {
                 "apiToken": apiToken,
                 "newAppName": newAppNameVal,
-                "dockerImagePath": dockerImagePathVal,
+                "ociImagePath": ociImagePathVal,
                 "launchRegions": launchRegionList,
-                "envAutoDestroyAfterXMin": envAutoDestroyAfterXMinVal,
                 "appOwnerID": appOwnerIDVal,
+                "envInitialTimeout": envInitialTimeoutVal,
+                "envIdleTimeout": envIdleTimeoutVal,
+                "envAutoDestroyAfterXMin": envAutoDestroyAfterXMinVal,
                 "underDomainName": underDomainNameVal,
                 "attachVolumeSize": attachVolumeSizeVal
             };

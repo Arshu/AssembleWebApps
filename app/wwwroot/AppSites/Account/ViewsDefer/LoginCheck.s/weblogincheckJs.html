@@ -1,0 +1,79 @@
+﻿
+<script type="text/javascript">
+
+    function isLoggedIn(progressElmId, responseElmId, failureRedirectUrl, successCallback, failureCallback) {
+        let id = window.ajaxid++
+
+        let valid = true
+
+        if (valid === true) {
+
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = "/AppApi/WEBApi"
+            let apiMethod = "IsWebLoggedIn"
+
+            let apiParams = {
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('status') === true) {
+                    if (result.status === true) {
+                        if (result.hasOwnProperty('data') === true) {
+                            if (typeof successCallback === "function") {
+                                successCallback(result.data)
+                            }
+                        } else {
+                            if (typeof successCallback === "function") {
+                                successCallback(failureRedirectUrl)
+                            }
+                        }
+                    }
+                    else {
+                        if (typeof failureCallback === "function") {
+                            failureCallback()
+                        }
+                    }
+                }
+
+                if (result.hasOwnProperty('error') === true) {
+                    if (haveElm(responseElmId) == true) {
+                        showText(responseElm, result.error, 'red')
+                    }
+                }
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+        }
+
+        return false
+    }
+
+    function checkIsLoggedIn() {
+        isLoggedIn('noprogress', 'noresponse', '/', function (redirectUrl) {
+
+            console.log("Current Url :" + window.location.href)
+            console.log("Redirect Url :" + redirectUrl)
+            if (window.location.href.indexOf(redirectUrl) === -1) {
+                setTimeout(function () {
+                    if (haveElm('progress') == true) { ajaxStop('progress') };
+                    window.location.replace(redirectUrl)
+                }, 1000)
+            }
+
+        }, function () {
+            //window.location.href = "/"
+            logOff('progress', 'response', "/", null, null)
+        })
+    }
+
+    ready(() => {
+        checkIsLoggedIn()
+        setInterval("checkIsLoggedIn()", 30000)
+    })
+
+</script>

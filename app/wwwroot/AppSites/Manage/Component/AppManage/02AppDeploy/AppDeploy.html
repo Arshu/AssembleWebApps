@@ -1,0 +1,161 @@
+﻿
+
+<div style="margin: 5px 0px; " class="ar-flex-input-wrap">
+    <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (haveElm('appSync') == true) { hideElm('appSync'); };if (haveElm('appClone') == true) { hideElm('appClone'); };clearAppDeployMessage('appDeployResponse'); clearAppDeployMessage('doAppDeployResponse'); clearAppDeployDetailsMessage('deployDetailResponse'); if (isHiddenElm('appDeploy') == true) { retrieveAppDeployInfo('appDeployProgress', 'appDeployResponse', getElm('deployAppName').value, 'deployAppName', 'deployOCIImagePath', 'deployOCIImageTagName', 'deployReferenceRegionsTemplate', 'deployReferenceRegionsDiv', 'deployRegionsTemplate', 'deployRegions', 'deployMaxRegionsPerApp', 'deployMaxMachinesPerApp', 'deployMaxMachinesPerRegion', 'deployEnvInitialTimeout', 'deployEnvIdleTimeout', 'deployEnvLoadAppData', 'deployEnvAutoDestroyAfterXMin', 'deployOptionsDiv', 'doDeployApp', function () { showElm('appDeploy'); }); } else { hideElm('appDeploy'); }">
+        Deploy App <div id="appDeployProgress"></div>
+    </button>
+</div>
+
+<div class="ar-notification" id="appDeployResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+    <button class="ar-delete" onclick="hideElm('appDeployResponseContainer')"></button>
+    <div id="appDeployResponse"></div>
+</div>
+
+<div id="appDeploy" class="ar-border" style="margin: 5px 0px;padding: 5px; display: none;position:relative;">
+
+    <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
+        <input id="deployShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="toggleElm('deployRestrictionsDiv'); toggleElm('deployReferenceRegionDiv'); toggleElm('deployImageDiv'); toggleElm('deployEnvironmentalVariableDiv'); if (this.checked == true) { showElm('deployOptionsDiv') } else { if (getElm('deployMaxMachinesPerRegion').value == 1) { hideElm('deployOptionsDiv'); } }">
+    </label>
+
+    <div class="ar-flex-input-wrap" style="margin: 10px 0px 5px 0px;">
+        <label style="width: 100%; margin: 5px 0px; cursor: pointer;">Deploy App Name<span style="padding-left: 5px; font-size: xx-small; color: orangered;">(If empty set FLY_APP_NAME environment variable and restart)</span></label>
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-left" onclick="openFlyUrl('deployAppName')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+        <input id="deployAppName" class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="background-color: gray;" autocomplete="off" type="text" placeholder="Deploy App Name" readonly />
+        <button class="ar-button ar-border-right" style="background-color: #209cee;" onclick="clearAppDeployMessage('appDeployResponse'); clearAppDeployMessage('doAppDeployResponse'); clearAppDeployDetailsMessage('deployDetailResponse'); retrieveAppDeployInfo('appDeployProgress', 'appDeployResponse', getElm('deployAppName').value, 'deployAppName', 'deployOCIImagePath', 'deployOCIImageTagName', 'deployReferenceRegionsTemplate', 'deployReferenceRegionsDiv', 'deployRegionsTemplate', 'deployRegions', 'deployMaxRegionsPerApp', 'deployMaxMachinesPerApp', 'deployMaxMachinesPerRegion', 'deployEnvInitialTimeout', 'deployEnvIdleTimeout', 'deployEnvLoadAppData', 'deployEnvAutoDestroyAfterXMin', 'deployOptionsDiv', 'doDeployApp');">
+            Refresh
+        </button>
+    </div>
+
+    <fieldset id="deployImageDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Deploy Image</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Image Path</label>
+            <label class="ar-flex-item-stretch">Tag Name (<span style="font-size:xx-small">yyMMddhh</span>)</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; max-width: 100%;">
+            <select id="deployOCIImagePath" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px;" title="Deploy OCI Image">
+            </select>
+            <input id="deployOCIImageTagName" class="ar-input ar-border-left" style="width: 48%; margin: 0 0 0 5px; " type="text" placeholder="Your Tag Name" value="latest" />
+            <button class="ar-button ar-border-right" style="min-width:40px;" onclick="var tagElm = getElm('deployOCIImageTagName'); if (tagElm.value == tagElm.original) { tagElm.value = tagElm.TimeID; } else { tagElm.value = tagElm.original; } "></button>
+        </div>
+
+    </fieldset>
+
+
+    <fieldset id="deployEnvironmentalVariableDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Environmental Variables</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Initial Timeout (sec)</label>
+            <label class="ar-flex-item-stretch">Idle Timeout (sec)</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="deployEnvInitialTimeout" class="ar-input ar-border" style="width:48%;height: 40px; margin:0 5px 0 0;" type="number" placeholder="Your Initial Timeout" value="30" />
+            <input id="deployEnvIdleTimeout" class="ar-input ar-border" style="width: 48%; height: 40px; margin: 0 0 0 5px " type="number" placeholder="Your Idle Timeout" value="30" />
+        </div>
+
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;margin: 5px 0px;">Auto Destroy After x Mins</label>
+            <span style="width:100%;font-size:xx-small;color:blue;">0 is skip Auto Destroy</span>
+            <input id="deployEnvAutoDestroyAfterXMin" class="ar-input ar-flex-item-stretch ar-border-left" type="number" placeholder="Auto Destroy after x Mins" value="0" />
+        </div>
+
+    </fieldset>
+
+    <div id="deployReferenceRegionsTemplate" style="display:none;">
+        <div style="min-width:50px; margin: 5px 5px;cursor: pointer;" onclick="openAppRegionUrl('{AppName}', '{Region}');">
+            <label style="padding: 7px 0px 0 0px;">
+                <input name="{RegionName}" value="{Region}" type="radio" checked="checked"> {RegionText}
+            </label>
+        </div>
+    </div>
+
+    <fieldset id="deployReferenceRegionDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Deploy Reference Region</legend>
+
+        <div id="deployReferenceRegionsDiv" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
+        </div>
+
+    </fieldset>
+
+    <div id="deployRegionsTemplate" style="display:none;">
+        <div style="min-width:50px; margin: 5px 5px;">
+            <label style="padding: 7px 0px 0 0px;">
+                <input name="{RegionName}" value="{Region}" type="checkbox" checked="checked"> {RegionText}
+            </label>
+        </div>
+    </div>
+
+    <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
+        <label style="width: 50%; margin: 5px 0px; text-align: left;">
+            Deploy Region(s)
+        </label>
+        <label style="width: 50%; margin: 5px 0px; text-align: right">
+            All
+            <input id="selectAllDeployRegion" type="checkbox" title="All Regions" onclick="appDeploySelectAll('deployRegion', getElm('selectAllDeployRegion').checked)">
+        </label>
+        <div id="deployRegions" class="ar-border" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
+        </div>
+    </div>
+
+    <fieldset id="deployRestrictionsDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Deploy Restrictions</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Max Regions Per App</label>
+            <label class="ar-flex-item-stretch">Max Machines Per App</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="deployMaxRegionsPerApp" class="ar-input ar-border ar-flex-item-stretch" style="width: 48%; height: 40px; margin: 0 0 0 5px; background-color: gray; " type="number" placeholder="Max Regions per App" value="1" readonly />
+            <input id="deployMaxMachinesPerApp" class="ar-input ar-border ar-flex-item-stretch" style="width: 48%; height: 40px; background-color: gray; margin: 0 5px 0 0;" type="number" placeholder="Max Machine Count per App" value="1" readonly />
+        </div>
+
+    </fieldset>
+
+    <fieldset id="deployOptionsDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Deploy Options Per Region</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label style="width:100%;margin: 5px 0px;">Max Machine(s)</label>
+            <label style="width:100%;margin: 5px 0px;">Deploy Machine Count</label>
+        </div>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="deployMaxMachinesPerRegion" class="ar-input ar-flex-item-stretch ar-border" style="width: 48%; background-color: gray;" autocomplete="off" type="number" placeholder="Max Machine Count per Region" value="1" readonly />
+            <input id="deployMachineCountPerRegion" class="ar-input ar-border ar-flex-item-stretch" style="width: 48%; margin: 0 0 0 5px " type="number" placeholder="Deploy Machine Count Per Region" value="1" />
+        </div>
+
+    </fieldset>
+
+    <div class="ar-flex-content-wrap" style="margin:15px 0px 15px 0px;">
+        <label class="ar-flex-item-stretch" style="text-align: center">
+            Destroy if not in Region
+            <input id="deployDestroyIfNotInRegion" type="checkbox" title="Destroy if not in Deploy region" style="margin-left: 5px;">
+        </label>
+    </div>
+
+    <div class="ar-notification" id="doAppDeployResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="ar-delete" onclick="hideElm('doAppDeployResponseContainer');hideElm('deployDetailResponse')"></button>
+        <div id="doAppDeployResponse"></div>
+    </div>
+
+    <div id="deployDetailResponse" style="font-size:x-small;text-align:center">
+
+    </div>
+
+    <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
+        <button class="ar-button ar-border" id="doDeployApp" style="background-color:#209cee;" tabindex="4" disabled="disabled"
+                onclick="deployApp('doAppDeployProgress', 'doAppDeployResponse', getElm('deployAppName').value, getElm('deployOCIImagePath').value, getElm('deployOCIImageTagName').value, 'deployReferenceRegion', 'deployRegion', getElm('deployEnvInitialTimeout').value, getElm('deployEnvIdleTimeout').value, getElm('deployEnvAutoDestroyAfterXMin').value, getElm('deployMachineCountPerRegion').value, getElm('deployDestroyIfNotInRegion').checked, 'doDeployApp', 'deployMaxMachinesPerRegion', 'deployDetailResponse')">
+            Deploy Machine(s) to Selected Regions <div id="doAppDeployProgress"></div>
+        </button>
+    </div>
+
+</div>
+
+{{AppDeployJs}}

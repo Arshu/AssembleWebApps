@@ -14,14 +14,14 @@
     </div>
 
     <label style="position:absolute;left:5px;top:-6px; margin: 5px 0px; text-align: right">
-        <input id="launchShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="toggleElm('launchRestrictionsDiv'); toggleElm('launchImageDiv'); toggleElm('launchEnvironmentalVariableDiv'); toggleElm('orgNetworkDiv');">
+        <input id="launchShowAdvancedOption" type="checkbox" title="Show Advanced Options" onclick="toggleElm('launchRestrictionsDiv'); toggleElm('launchImageDiv'); toggleElm('orgNetworkDiv');">
     </label>
 
     <div class="ar-flex-input-wrap" style="margin: 10px 0 5px 0px;">
         <label style="width: 100%; margin: 5px 0px; cursor: pointer;" onclick="openFlyUrl('launchAppName')">App Name</label>
         <input id="launchExecutingAppName" class="ar-input ar-flex-item-stretch ar-border-left" style="background-color: gray;" autocomplete="off" type="text" placeholder="Launch App Name" readonly />
         <button id="retrieveLaunchInfoBtn" class="ar-button ar-border-right" style="background-color: #209cee; width:60px;"
-                onclick="clearAppLaunchMessage('appLaunchResponse'); clearAppLaunchMessage('doAppLaunchResponse'); clearAppLaunchDetailsMessage('launchDetailResponse'); retrieveAppLaunchInfo('appLaunchProgress', 'appLaunchResponse', getElm('launchExecutingAppName').value, 'launchAppOrganization', 'launchExecutingAppName', 'launchDockerImagePathName', 'launchDockerImageTagName', 'launchRegionsTemplate', 'launchRegions', 'launchMaxRegionsPerApp', 'launchMaxMachinesPerApp', 'launchMaxMachinesPerRegion', 'launchEnvInitialTimeout', 'launchEnvIdleTimeout', 'launchEnvAutoDestroyAfterXMin', 'underDomainName', 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn');">
+                onclick="clearAppLaunchMessage('appLaunchResponse'); clearAppLaunchMessage('doAppLaunchResponse'); clearAppLaunchDetailsMessage('launchDetailResponse'); retrieveAppLaunchInfo('appLaunchProgress', 'appLaunchResponse', getElm('launchExecutingAppName').value, 'launchAppOrganization', 'launchExecutingAppName', 'launchOCIImagePathName', 'launchOCIImageTagName', 'launchRegionsTemplate', 'launchRegions', 'launchMaxRegionsPerApp', 'launchMaxMachinesPerApp', 'launchMaxMachinesPerRegion', 'launchEnvInitialTimeout', 'launchEnvIdleTimeout', 'launchEnvAutoDestroyAfterXMin', 'underDomainName', 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn');">
             Refresh <div id="appLaunchProgress"></div>
         </button>
     </div>
@@ -34,31 +34,10 @@
             <label class="ar-flex-item-stretch">Tag Name</label>
         </div>
         <div class="ar-flex-content-spaced" style="margin: 0px; max-width: 100%;">
-            <select id="launchDockerImagePathName" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Launch Docker Image"
-                    onchange="let imagepath = getElm('launchDockerImagePathName').value; getElm('launchDockerImageTagName').value = imagepath.substr(imagepath.indexOf(':') + 1);">
+            <select id="launchOCIImagePathName" class="ar-select ar-flex-item-stretch ar-border" style="margin: 0 5px 0 0px; padding-left:5px;" title="Launch OCI Image"
+                    onchange="let imagepath = getElm('launchOCIImagePathName').value; getElm('launchOCIImageTagName').value = imagepath.substr(imagepath.indexOf(':') + 1);">
             </select>
-            <input id="launchDockerImageTagName" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px;" type="text" placeholder="Your Tag Name" value="latest" />
-        </div>
-
-    </fieldset>
-
-    <fieldset id="launchEnvironmentalVariableDiv" class="ar-border" style="display: none; padding: 5px;">
-        <legend>Environmental Variables</legend>
-
-        <div class="ar-flex-content-spaced" style="margin: 0px;">
-            <label class="ar-flex-item-stretch">Initial Timeout (sec)</label>
-            <label class="ar-flex-item-stretch">Idle Timeout (sec)</label>
-        </div>
-        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
-            <input id="launchEnvInitialTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin:0 5px 0 0;" type="number" placeholder="Your Initial Timeout" value="30" />
-            <input id="launchEnvIdleTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px " type="number" placeholder="Your Idle Timeout" value="30" />
-        </div>
-
-        <div class="ar-flex-content-wrap" style="margin: 0px;">
-            <label class="ar-flex-item-stretch" style="margin: 5px 0px; text-align: center">
-                Load AppData
-                <input id="launchEnvLoadAppData" type="checkbox" title="Load App Data" style="margin-left: 5px;">
-            </label>
+            <input id="launchOCIImageTagName" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px;" type="text" placeholder="Your Tag Name" value="latest" />
         </div>
 
     </fieldset>
@@ -114,7 +93,7 @@
             <div style="text-align:center;">
                 <label style="text-align: center;">Max Machine&nbsp; Per Region</label>
                 <input id="launchMaxMachinesPerRegion" class="ar-input ar-border" style="max-width: 75px; margin: 0 0 0 5px; background-color: gray;" type="number" placeholder="Max Machine Count per Region" value="1" readonly />
-            </div>        
+            </div>
         </div>
 
     </fieldset>
@@ -124,6 +103,19 @@
         <input id="appOwnerID" class="ar-input ar-flex-item-stretch ar-border" autocomplete="off" type="email" placeholder="Your App Owner Email" value="{{$OwnerEmail}}" />
     </div>
 
+    <fieldset id="launchEnvironmentalVariableDiv" class="ar-border" style="padding: 5px;">
+        <legend>Environmental Variables</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label class="ar-flex-item-stretch">Initial Timeout (sec)</label>
+            <label class="ar-flex-item-stretch">Idle Timeout (sec)</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <input id="launchEnvInitialTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin:0 5px 0 0;" type="number" placeholder="Your Initial Timeout" value="30" />
+            <input id="launchEnvIdleTimeout" class="ar-input ar-flex-item-stretch ar-border" style="margin: 0 0 0 5px " type="number" placeholder="Your Idle Timeout" value="30" />
+        </div>
+
+    </fieldset>
 
     <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
         <label style="width:50%;margin: 5px 0px;cursor: pointer;" onclick="openFlyUrl('launchAppName')">New App Name</label>
@@ -138,8 +130,8 @@
         <label style="width:50%;margin: 5px 0px;cursor: pointer;">Attach Volume Size</label>
         <label style="width:50%;margin: 5px 0px;cursor: pointer;">Auto Destroy in X Mins</label>
         <select id="launchAttachVolumeSize" class="ar-select ar-flex-item-stretch ar-border" style="background-color:white;">
-            <option value="0">No Volume</option>
-            <option selected="selected" value="1">1 GB Volume</option>
+            <option selected="selected" value="0">No Volume</option>
+            <option value="1">1 GB Volume</option>
         </select>
         <select id="launchEnvAutoDestroyAfterXMin" class="ar-select ar-flex-item-stretch ar-border" style="background-color:white;margin-left:2px;">
             <option value="0">Skip Auto Destroy</option>
@@ -190,12 +182,12 @@
         </button>
 
         <button id="doLaunchAppBtn" class="ar-button ar-border" style="margin:5px; background-color: #209cee; width: 110px; height: 40px;" tabindex="4" disabled="disabled"
-                onclick="launchApp('doAppLaunchProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('launchAppOrganization').value, getElm('launchAppNetwork').value, getElm('launchDockerImagePathName').value, getElm('launchDockerImageTagName').value, 'launchRegion', getElm('launchEnvInitialTimeout').value, getElm('launchEnvIdleTimeout').value, getElm('launchEnvLoadAppData').checked, getElm('launchEnvAutoDestroyAfterXMin').value, getElm('appOwnerID').value, getElm('underDomainName').value, getElm('launchAttachVolumeSize').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); })">
+                onclick="launchApp('doAppLaunchProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('launchAppOrganization').value, getElm('launchAppNetwork').value, getElm('launchOCIImagePathName').value, getElm('launchOCIImageTagName').value, 'launchRegion', getElm('appOwnerID').value, getElm('launchEnvInitialTimeout').value, getElm('launchEnvIdleTimeout').value, getElm('launchEnvAutoDestroyAfterXMin').value, getElm('underDomainName').value, getElm('launchAttachVolumeSize').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); })">
             Launch App <div id="doAppLaunchProgress"></div>
         </button>
 
         <button id="doLaunchSimpleAppBtn" class="ar-button ar-border" style="margin: 5px; background-color: #209cee; width: 110px; height: 40px;" tabindex="4"
-                onclick="launchSimpleApp('doAppLaunchSimpleProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('launchDockerImagePathName').value, 'launchRegion', getElm('launchEnvAutoDestroyAfterXMin').value, getElm('appOwnerID').value, getElm('underDomainName').value, getElm('launchAttachVolumeSize').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); })">
+                onclick="launchSimpleApp('doAppLaunchSimpleProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('launchOCIImagePathName').value, 'launchRegion', getElm('appOwnerID').value, getElm('launchEnvInitialTimeout').value, getElm('launchEnvIdleTimeout').value, getElm('launchEnvAutoDestroyAfterXMin').value, getElm('underDomainName').value, getElm('launchAttachVolumeSize').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); })">
             Launch Simple App <div id="doAppLaunchSimpleProgress"></div>
         </button>
 

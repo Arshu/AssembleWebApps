@@ -11,16 +11,16 @@
         Refreshes the Parent Component having the View ID and Child Components
     </div>
     <div class="ar-flex-item-stretch" style="width: 100%;">
-        <span style="font-size:xx-small">ViewID:[{{$ViewID}}] ParentViewID:[{{$ParentViewID}}] NextParentViewID:[{{$NextParentViewID}}]</span>
+        <span style="font-size:xx-small">ViewID:[{{$ViewID}}] ViewParentID:[{{$ViewParentID}}] ViewNextParentID:[{{$ViewNextParentID}}]</span>
     </div>
     <div class="ar-flex-item-stretch" style="width:100%;">
         <p>Refresh Html Sub Component without ID at <br /><span style="color: green">{{$DateTimeUTC}}</span></p>
     </div>
     <div style="text-align:center;">
-        <button class="ar-border" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}" style="width:40px;height:40px;"
+        <button class="ar-border" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}}" style="width:40px;height:40px;"
             data-action="refreshComponentHtml" data-progress="progress" data-response="response"
             data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" 
-            data-component="{{$ParentViewID}}"
+            data-component="{{$ViewParentID}}"
             data-config="{}"
             data-isrealtime="getRealtime" ,
             data-realtimedomain="getRealtimeDomain">                
@@ -28,7 +28,7 @@
         </button>
     </div>
     <div class="ar-flex-item-stretch" style="width:100%;">
-        <p>{{$JsonComponentText}} for Parent <span style="color: blue">{{$ParentViewID}}</span></p>
+        <p>{{$JsonComponentText}} for Parent <span style="color: blue">{{$ViewParentID}}</span></p>
     </div>
 
     <div class="ar-flex-item-stretch" style="width:100%;">

@@ -1,0 +1,271 @@
+{{@HaveAdminRole}}
+
+<div style="margin: 5px;" class="ar-flex-input-wrap">
+    <button style="height:40px; width: 40px; text-align:center;position:relative;" class="ar-border-left" id="configViewRefresh"
+            onclick="refreshConfigViewPath('configViewPathRefreshProgress', 'confiViewResponse', 'selectInitView', 'selectStartView', 'selectLoginView', 'selectLoginAfterView', 'selectChangePwdView', function () { toggleElm('configViewData'); })">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+        <span id="configViewPathRefreshProgress"></span>
+    </button>
+    <button style="height:40px;" class="ar-flex-item-stretch ar-border-top-bottom">
+        Config View
+    </button>
+    <button style="height:40px; width: 40px; text-align:center;position:relative;" class="ar-border-right"
+            onclick="if (isHiddenElm('configViewData') === false) { updateConfigViewPath('configViewUpdateProgress', 'confiViewResponse', getElm('selectInitView').value, getElm('selectStartView').value, getElm('selectLoginView').value,getElm('selectLoginAfterView').value, getElm('selectChangePwdView').value, null); }">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <span id="configViewUpdateProgress"></span>
+    </button>
+</div>
+
+<div class="ar-notification" id="confiViewResponseContainer" style="margin:5px; padding:10px;text-align:justify;display:none;">
+    <button class="ar-delete" onclick="hideElm('confiViewResponseContainer')"></button>
+    <div id="confiViewResponse"></div>
+</div>
+
+<div style="display:none;" class="ar-flex-content-wrap" id="configViewData">
+
+    <div style="margin: 5px 5px;width:100%;" class="ar-flex-input-wrap">
+        <button style="width: 125px; text-align:center;" class="ar-button ar-border-left is-primary" onclick="loadView(document.getElementById('selectInitView').value)">
+            Init View
+        </button>
+        <div class="ar-flex-item-stretch ar-border-top-bottom">
+            <select class="ar-select" style="width:100%;border:none;padding:0 0 0 5px;" id="selectInitView" placeholder="Select Start View">
+                {{AppViewPathSelect}}
+            </select>
+        </div>
+        <button style=" width: 40px; text-align:center;" class="ar-button ar-border-right" onclick="loadView(document.getElementById('selectStartView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+    </div>
+
+    <div style="margin: 5px 5px;width:100%;" class="ar-flex-input-wrap">
+        <button style="width: 125px; text-align:center;" class="ar-button ar-border-left is-primary" onclick="loadView(document.getElementById('selectStartView').value)">
+            Start View
+        </button>
+        <div class="ar-flex-item-stretch ar-border-top-bottom">
+            <select class="ar-select" style="width: 100%; border: none; padding: 0 0 0 5px" id="selectStartView" placeholder="Select Start View">
+                {{AppViewPathSelect}}
+            </select>
+        </div>
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-right" onclick="loadView(document.getElementById('selectStartView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+    </div>
+
+    <div style="margin: 5px 5px;width:100%;" class="ar-flex-input-wrap">
+        <button style="width: 125px; text-align:center;" class="ar-button ar-border-left is-primary" onclick="loadView(document.getElementById('selectLoginView').value)">
+            Login View
+        </button>
+        <div class="ar-flex-item-stretch ar-border-top-bottom">
+            <select class="ar-select" style="width: 100%; border: none; padding: 0 0 0 5px" id="selectLoginView" placeholder="Select Login View">
+                {{AppViewPathSelect}}
+            </select>
+        </div>
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-right" onclick="loadView(document.getElementById('selectLoginView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+    </div>
+
+    <div style="margin: 5px 5px;width:100%;" class="ar-flex-input-wrap">
+        <button style="width: 125px; text-align:center;" class="ar-button ar-border-left is-primary" onclick="loadView(document.getElementById('selectLoginAfterView').value)">
+            Login After
+        </button>
+        <div class="ar-flex-item-stretch ar-border-top-bottom">
+            <select class="ar-select" style="width: 100%; border: none; padding: 0 0 0 5px" id="selectLoginAfterView" placeholder="Select Login After View">
+                {{AppViewPathSelect}}
+            </select>
+        </div>
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-right" onclick="loadView(document.getElementById('selectLoginAfterView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+    </div>
+
+    <div style="margin: 5px 5px;width:100%;" class="ar-flex-input-wrap">
+        <button style="width: 125px; text-align:center;" class="ar-button ar-border-left is-primary" onclick="loadView(document.getElementById('selectChangePwdView').value)">
+            Change Pwd
+        </button>
+        <div class="ar-flex-item-stretch ar-border-top-bottom">
+            <select class="ar-select" style="width: 100%; border: none; padding: 0 0 0 5px" id="selectChangePwdView" placeholder="Select Change Pwd View">
+                {{AppViewPathSelect}}
+            </select>
+        </div>
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-right" onclick="loadView(document.getElementById('selectChangePwdView').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    window.ajaxid = 0
+
+    function refreshConfigViewPath(progressElmId, responseElmId, targetInitViewSelectId, targetStartViewSelectId, targetLoginViewSelectId, targetLoginAfterViewSelectId, targetChangePwdViewSelectId, successCallback, failureCallback) {
+
+        let id = window.ajaxid++
+        let responseContainerElmId = responseElmId + "Container"
+        let responseElm = getElm(responseElmId)
+        let responseContainerElm = getElm(responseContainerElmId)
+        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild)
+        hideElm(responseContainerElmId)
+
+        let valid = true
+
+        if (valid === true) {
+
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = "/AppApi/AppApi"
+            let apiMethod = "GetConfigViewPath"
+
+            let apiParams = {
+                "appSite": '{{$AppSite}}',
+                "selectEmptyText": "Config View Path Not Found",
+                "selectedKey": "",
+                "filterKey": "",
+                "skipValue": "",
+                "appendOptionText": "",
+                "appendOptionValue": "",
+                "itemsPerPage": 100
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                let targetSelectIdList = []
+                targetSelectIdList.push(targetInitViewSelectId)
+                targetSelectIdList.push(targetStartViewSelectId)
+                targetSelectIdList.push(targetLoginViewSelectId)
+                targetSelectIdList.push(targetLoginAfterViewSelectId)
+                targetSelectIdList.push(targetChangePwdViewSelectId)
+
+                if (result.hasOwnProperty('html') === true) {
+                    for (let i = 0; i < targetSelectIdList.length; i++) {
+                        let rootNode = getElm(targetSelectIdList[i])
+                        rootNode.innerHTML = result.html
+                    }
+                }
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                } else {
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
+                    }
+                }
+
+                //if (result.hasOwnProperty('message') === true) {
+                //   showText(responseElm, result.message, 'green');
+                //}
+                if (result.hasOwnProperty('InitViewPath') === true) {
+                    getElm(targetInitViewSelectId).value = result.InitViewPath
+                }
+                if (result.hasOwnProperty('StartViewPath') === true) {
+                    getElm(targetStartViewSelectId).value = result.StartViewPath
+                }
+                if (result.hasOwnProperty('LoginViewPath') === true) {
+                    getElm(targetLoginViewSelectId).value = result.LoginViewPath
+                }
+                if (result.hasOwnProperty('LoginAfterViewPath') === true) {
+                    getElm(targetLoginAfterViewSelectId).value = result.LoginAfterViewPath
+                }
+                if (result.hasOwnProperty('ChangePasswordViewPath') === true) {
+                    getElm(targetChangePwdViewSelectId).value = result.ChangePasswordViewPath
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
+        }
+        else {
+            let responseElm = getElm('itemNo')
+            responseElm.focus()
+        }
+
+        return false
+    }
+
+
+    function updateConfigViewPath(progressElmId, responseElmId, initViewVal, startViewVal, loginViewVal, loginAfterViewVal, changePwdViewVal, successCallback, failureCallback) {
+
+        let id = window.ajaxid++
+        let responseContainerElmId = responseElmId + "Container"
+        let responseElm = getElm(responseElmId)
+        let responseContainerElm = getElm(responseContainerElmId)
+        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild)
+        hideElm(responseContainerElmId)
+
+        let valid = true
+
+        if (valid === true) {
+
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = "/AppApi/AppApi"
+            let apiMethod = "UpdateConfigViewPath"
+
+            let apiParams = {
+                "initViewPath": initViewVal,
+                "startViewPath": startViewVal,
+                "loginViewPath": loginViewVal,
+                "loginAfterViewPath": loginAfterViewVal,
+                "changePasswordViewPath": changePwdViewVal
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('error') === true) {
+                    responseElm.textContent = result.error
+                    responseElm.style.color = "red"
+                    showAutoHideElm(responseContainerElmId)
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    responseElm.textContent = result.message
+                    responseElm.style.color = "green"
+                    showAutoHideFlex(responseContainerElmId)
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+        }
+        else {
+            let responseElm = getElm('itemNo')
+            responseElm.focus()
+        }
+
+        return false
+    }
+
+    function loadView(viewPath) {
+        if (viewPath.length > 0) {
+            window.location.href = viewPath
+        }
+    }
+
+</script>
+
+{{/HaveAdminRole}}
+

@@ -1,17 +1,28 @@
-﻿<div class="ar-flex-item ar-border" {{^EnableRealtime}} style="display: none; text-align: right;" {{/EnableRealtime}}>
+﻿<script type="text/javascript" id="{{$ViewParentID}}Script">
+
+    function getRealtime() {
+        return getElm('{{$ViewParentID}}RealtimeRefresh').checked;
+    }
+
+    function getRealtimeDomain() {
+        return getElm('{{$ViewParentID}}RealtimeRefreshDomain').value;
+    }
+
+</script>
+<div class="ar-flex-item ar-border" {{^EnableRealtime}} style="display: none; text-align: right;" {{/EnableRealtime}}>
     <div class="ar-flex-item-stretch" style="font-size: xx-small; text-align: right; justify-content: flex-end;margin-right:7px;">
-        {{$RootDomain}}/{{$AppSite}}/{{$AppView}}
+        {{$RootDomain}}:{{$AppSite}}/{{$AppView}}
     </div>
     <div class="ar-flex-item-stretch" style="text-align: right; justify-content: flex-end; margin-right: 2px;">
         <div class="ar-flex-item-input" style="height:25px;">
             <div class="ar-flex-input-wrap">
-                <label for="{{$ParentViewID}}RealtimeRefresh" style="font-size: xx-small;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}}"
-                       onclick="if (getElm('{{$ParentViewID}}RealtimeRefreshDomain').value.length == 0) { getElm('{{$ParentViewID}}RealtimeRefreshDomain').value = '{{$SubDomain}}'; } else { getElm('{{$ParentViewID}}RealtimeRefreshDomain').value = '' ; }">
-                    Use WS<input style="margin-top:5px;" id="{{$ParentViewID}}RealtimeRefresh" {{@DefaultRealtime}} checked=checked {{/DefaultRealtime}} type="checkbox" name="{{$ParentViewID}}RealtimeRefresh" title="Use WebSocket Api" tabindex="0">
+                <label for="{{$ViewParentID}}RealtimeRefresh" style="font-size: xx-small;" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}}"
+                       onclick="if (getElm('{{$ViewParentID}}RealtimeRefreshDomain').value.length == 0) { if ('{{$SubDomain}}'.length > 0) { getElm('{{$ViewParentID}}RealtimeRefreshDomain').value = '{{$SubDomain}}:{{$AppSite}}/{{$AppView}}'; } } else { getElm('{{$ViewParentID}}RealtimeRefreshDomain').value = '' ; }">
+                    Use WS<input style="margin-top:5px;" id="{{$ViewParentID}}RealtimeRefresh" {{@DefaultRealtime}} checked=checked {{/DefaultRealtime}} type="checkbox" name="{{$ViewParentID}}RealtimeRefresh" title="Use WebSocket Api" tabindex="0">
                 </label>
-                <input class="ar-border-left" style="padding-left:5px; height: 20px; min-height: 20px; width: 125px; font-size: xx-small; border-right:none;" id="{{$ParentViewID}}RealtimeRefreshDomain" type="text" value="{{$DefaultRealtimeDomain}}" title="Enter AppDomain for Realtime Refresh of AppDomain Pages" placeholder="Refresh AppDomain Page" onload="" />
+                <input class="ar-border-left" style="padding-left:5px; height: 20px; min-height: 20px; width: 125px; font-size: xx-small; border-right:none;" id="{{$ViewParentID}}RealtimeRefreshDomain" type="text" value="{{$DefaultRealtimeDomain}}" title="Enter AppDomain for Realtime Refresh of AppDomain Pages" placeholder="Refresh AppDomain Page" onload="" />
                 <button class="ar-border-right" style="width:20px;height:24px; font-size: xx-small; border-left:none;" title="Toggle RootDomain and Subdomain for Realtime Refresh of AppDomain Pages"
-                        onclick="if (getElm('{{$ParentViewID}}RealtimeRefreshDomain').value == '{{$RootDomain}}') { getElm('{{$ParentViewID}}RealtimeRefreshDomain').value = '{{$SubDomain}}'; } else { getElm('{{$ParentViewID}}RealtimeRefreshDomain').value = '{{$RootDomain}}' ; }">
+                        onclick="if (getElm('{{$ViewParentID}}RealtimeRefreshDomain').value == '{{$RootDomain}}:{{$AppSite}}/{{$AppView}}') { if ('{{$SubDomain}}'.length == 0) { getElm('{{$ViewParentID}}RealtimeRefreshDomain').value = '{{$SubDomain}}'; } else { getElm('{{$ViewParentID}}RealtimeRefreshDomain').value = '{{$SubDomain}}:{{$AppSite}}/{{$AppView}}'; } } else { getElm('{{$ViewParentID}}RealtimeRefreshDomain').value = '{{$RootDomain}}:{{$AppSite}}/{{$AppView}}' ; }">
                     &#x2714;
                 </button>                             
             </div>

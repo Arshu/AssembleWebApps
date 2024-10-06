@@ -1,17 +1,17 @@
 
-<div class="ar-flex-input-wrap bg-alt" id="toDoAddViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}},KeyPath={{$KeyPath}}">
+<div class="ar-flex-input-wrap bg-alt" id="toDoAddViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
     <div>TaskName</div>
     <input id="addTaskName" type="text" class="ar-input ar-border" style="width:100%;" data-key="ToDo.ToDoList~0.TaskName" />
     <div>
         <button class="ar-button ar-border" style="margin:5px;background-color:green;width:75px;" onclick="hideElm('toDoAddViewDiv')">Close</button>
         <button class="ar-button ar-border" style="margin:5px;background-color:lightblue;width:75px;"
-                data-action="addJsonToJsonArray" data-progress="{{$ParentViewID}}Progress" data-response="{{$ParentViewID}}Response"
+                data-action="addJsonToJsonArray" data-progress="{{$ViewParentID}}Progress" data-response="{{$ViewParentID}}Response"
                 data-appsite="{{$AppSite}}" data-appview="{{$AppView}}" 
-                data-appcomponent="{{$ParentViewID}}"
+                data-appcomponent="{{$ViewParentID}}"
                 data-keyinfo="{'TaskName':''}"
                 data-datainfo="todoAddViewGetAddInfo"
                 data-duplicatekeyinfo="{'TaskName':''}"
-                data-component="{{$ParentViewID}}"
+                data-component="{{$ViewParentID}}"
                 data-filter="todoFilterViewGetFilter"
                 data-config="{ 'PageNo': '999999', 'ItemsPerPage': '{{$ItemsPerPage}}' }"
                 data-isrealtime="todoGetRealtime" ,
@@ -25,7 +25,7 @@
 <script>
 
     function todoAddViewGetAddInfo() {
-        return getFlatJson('toDoAddViewDiv', '{{$ParentViewID}}');
+        return getFlatJson('toDoAddViewDiv', '{{$ViewParentID}}');
     }
     
 </script>

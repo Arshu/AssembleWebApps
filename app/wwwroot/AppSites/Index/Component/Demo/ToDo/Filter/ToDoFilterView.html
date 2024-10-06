@@ -1,10 +1,10 @@
 
-<div class="ar-flex-input-wrap bg-alt" id="toDoFilterViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}},KeyPath={{$KeyPath}}">
+<div class="ar-flex-input-wrap bg-alt" id="toDoFilterViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
     <div class="ar-flex-input-wrap" id="toDoFilterInput">
         <div>Task Name</div>
-        <input type="text" class="ar-input ar-border" style="width:100%;" data-key="ToDo.ToDoList~0.FilterTaskName" id="{{$ParentViewID}}FilterTaskName" value="{{$FilterTaskName}}" />
+        <input type="text" class="ar-input ar-border" style="width:100%;" data-key="ToDo.ToDoList~0.FilterTaskName" id="{{$ViewParentID}}FilterTaskName" value="{{$FilterTaskName}}" />
         <div>Task Status</div>
-        <select class="ar-input ar-border" data-key="ToDo.ToDoList~0.FilterTaskStatus" style="width:100%;padding:0 0 0 10px;" id="{{$ParentViewID}}FilterTaskStatus">
+        <select class="ar-input ar-border" data-key="ToDo.ToDoList~0.FilterTaskStatus" style="width:100%;padding:0 0 0 10px;" id="{{$ViewParentID}}FilterTaskStatus">
             <option {{@FilterTaskStatusNone}} selected="selected" {{/FilterTaskStatusNone}}>None</option>
             <option {{@FilterTaskStatusPending}} selected="selected" {{/FilterTaskStatusPending}}>Pending</option>
             <option {{@FilterTaskStatusInProgress}} selected="selected" {{/FilterTaskStatusInProgress}}>InProgress</option>
@@ -17,10 +17,10 @@
         <button class="ar-button ar-border" style="margin:5px;background-color:lightblue;width:75px;"
                 data-action="refreshComponentHtml" 
                 data-progress="toDoItemsPerPageProgress" 
-                data-response="{{$ParentViewID}}Response"
+                data-response="{{$ViewParentID}}Response"
                 data-appsite="{{$AppSite}}" 
                 data-appview="{{$AppView}}" 
-                data-component="{{$ParentViewID}}"
+                data-component="{{$ViewParentID}}"
                 data-filter="todoFilterViewGetFilter"
                 data-config="{'PageNo': '1', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
                 data-isrealtime="todoGetRealtime" ,
@@ -33,7 +33,7 @@
 <script>
 
     function todoFilterViewGetFilter() {
-        let filterList = getFlatJson('toDoFilterInput', '{{$ParentViewID}}');
+        let filterList = getFlatJson('toDoFilterInput', '{{$ViewParentID}}');
         //for (let key in filterList) {
         //    if (filterList.hasOwnProperty(key)) {
         //        if ((filterList[key] != "") && (filterList[key] != "None")) {
@@ -46,13 +46,13 @@
 
     function todoFilterRefreshComponent(el) {
 
-        let filterList = getFlatJson('toDoFilterInput', '{{$ParentViewID}}');
+        let filterList = getFlatJson('toDoFilterInput', '{{$ViewParentID}}');
 
         for (let key in filterList) {
             if (filterList.hasOwnProperty(key)) {
                 if ((filterList[key] != "") && (filterList[key] != "None")) {
-                    console.log("Refresh:{{$ParentViewID}}");
-                    return '{{$ParentViewID}}';
+                    console.log("Refresh:{{$ViewParentID}}");
+                    return '{{$ViewParentID}}';
                 }
             }
         }

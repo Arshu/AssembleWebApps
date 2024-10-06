@@ -1,8 +1,8 @@
 {
-  "NAVList": [    
+  "NAVList": [
     {
       "NavTitle": "Home",
-      "NavUrl": "/",
+      "NavUrl": "/Index/Main",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []
@@ -11,10 +11,7 @@
   "NAVAccountList": [
     {
       "NavTitle": "LogOff ({{$LoginUserID}})",
-      "NavUrl": "#",
-      "NavAppSite": "Account",
-      "NavAppView": "Login",
-      "NavAppViewIDs": "mainNav, mainContent, mainFooter",
+      "NavUrl": "#/",
       "NavActive": "logoff"
     }
   ]

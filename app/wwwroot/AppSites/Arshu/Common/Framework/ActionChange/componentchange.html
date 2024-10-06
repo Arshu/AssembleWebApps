@@ -1,210 +1,207 @@
 
 <script type="text/javascript">
 
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
     function hideComponentChangeViewer() {
 
-        let modal = document.querySelector('#viewComponentChange');
-        modal.classList.remove('ar-modal-active');
+        let modal = document.querySelector('#viewComponentChange')
+        modal.classList.remove('ar-modal-active')
     }
 
     function showComponentChangeViewer(progressElmId, sourceComponentId, reloadData) {
-        let modal = document.querySelector('#viewComponentChange');
-        modal.classList.add('ar-modal-active');
+        let modal = document.querySelector('#viewComponentChange')
+        modal.classList.add('ar-modal-active')
     }
 
-    let gComponentChangeProgressElmId = "componentChangeProgress";
-    let gComponentChangeResponseElmId = "componentChangeResponse";
-    let gComponentChangeTargetElmId = "componentChangeList";
-    let gComponentChangeCurrentPage = 1;
-    let gComponentChangeDefaultItemsPerPage = '{{$ItemsPerPage}}';
-    let gComponentChangeLastUnixTimestampElmId = "lastUnixTimeStamp";
+    let gComponentChangeProgressElmId = "componentChangeProgress"
+    let gComponentChangeResponseElmId = "componentChangeResponse"
+    let gComponentChangeTargetElmId = "componentChangeList"
+    let gComponentChangeCurrentPage = 1
+    let gComponentChangeDefaultItemsPerPage = '{{$ItemsPerPage}}'
+    let gComponentChangeLastUnixTimestampElmId = "lastUnixTimeStamp"
 
     function fillComponentChangeList(progressElmId, responseElmId, targetElmId, pageNo, refreshComponent, successCallback) {
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
         //responseElm.textContent = '';
         //hideElm(responseContainerElmId);
 
-        let valid = true;
+        let valid = true
 
-        let previousUnixTimestamp = getElm(gComponentChangeLastUnixTimestampElmId).value;
-        let currentUnixTimestamp = Math.round((new Date()).getTime() / 1000) - 1;
-        getElm(gComponentChangeLastUnixTimestampElmId).value = currentUnixTimestamp;
+        let previousUnixTimestamp = getElm(gComponentChangeLastUnixTimestampElmId).value
+        let currentUnixTimestamp = Math.round((new Date()).getTime() / 1000) - 1
+        getElm(gComponentChangeLastUnixTimestampElmId).value = currentUnixTimestamp
 
-        let htmlTableEmpty = "ComponentChangeEmpty";
-        let htmlTable = "ComponentChangeTable";
-        let htmlTableBody = "ComponentChangeTableBody";
-        let htmlTableRow = "ComponentChangeTableRow";
-        let htmlTableHeader = "ComponentChangeTableHeader";
-        let htmlTableFooter = "ComponentChangeTableFooter";
+        let htmlTableEmpty = "ComponentChangeEmpty"
+        let htmlTable = "ComponentChangeTable"
+        let htmlTableBody = "ComponentChangeTableBody"
+        let htmlTableRow = "ComponentChangeTableRow"
+        let htmlTableHeader = "ComponentChangeTableHeader"
+        let htmlTableFooter = "ComponentChangeTableFooter"
 
         if (pageNo == 0) {
-            pageNo = gComponentChangeCurrentPage;
+            pageNo = gComponentChangeCurrentPage
         }
-        gComponentChangeCurrentPage = pageNo;
-        let itemsPerPage = gComponentChangeDefaultItemsPerPage;
+        gComponentChangeCurrentPage = pageNo
+        let itemsPerPage = gComponentChangeDefaultItemsPerPage
         if (getElm("componentChangeItemsPerPage") != null) {
-            itemsPerPage = getElm("componentChangeItemsPerPage").value;
+            itemsPerPage = getElm("componentChangeItemsPerPage").value
         }
 
         if (targetElmId.trim().length === 0) {
-            responseElm.textContent = 'Enter Target Element Id';
-            responseElm.style.color = "red";
-            showElm(responseContainerElmId);
-            valid = false;
+            responseElm.textContent = 'Enter Target Element Id'
+            responseElm.style.color = "red"
+            showElm(responseContainerElmId)
+            valid = false
         }
 
         if (valid === true) {
 
-            let url = '/AppApi/VueApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetComponentChangeListView', "params": {
-                    "appSite": '{{$AppSite}}',
-                    "htmlTableEmpty": htmlTableEmpty,
-                    "htmlTable": htmlTable,
-                    "htmlTableBody": htmlTableBody,
-                    "htmlTableRow": htmlTableRow,
-                    "htmlTableHeader": htmlTableHeader,
-                    "htmlTableFooter": htmlTableFooter,
-                    "pageNo": pageNo,
-                    "itemsPerPage": itemsPerPage,
-                    "filterKey": "",
-                    "filterValue": previousUnixTimestamp
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result)) {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
-                            let rootNode = getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            showElm(targetElmId);
+            let apiUrl = "/AppApi/VueApi"
+            let apiMethod = "GetComponentChangeListView"
 
-                            if (refreshComponent == true) {
-                                if (result.hasOwnProperty('json') === true) {
-                                    let jsonData = result.json;
-                                    for (let i = 0; i < jsonData.length; i++) {
-                                        let jsonInfo = jsonData[i];
-                                        let changedAppSite = "";
-                                        if (jsonInfo.hasOwnProperty('ChangedAppSite') === true) {
-                                            changedAppSite = jsonInfo.ChangedAppSite;
-                                        }
-                                        let changedAppView = "";
-                                        if (jsonInfo.hasOwnProperty('ChangedAppView') === true) {
-                                            changedAppView = jsonInfo.ChangedAppView;
-                                        }
-                                        let changedAppFile = "";
-                                        if (jsonInfo.hasOwnProperty('ChangedAppFile') === true) {
-                                            changedAppFile = jsonInfo.ChangedAppFile;
-                                        }
-                                        if ((changedAppSite.length > 0) && (changedAppView.length > 0) && (changedAppFile.length > 0)) {
-                                            refreshComponentChange(changedAppSite, changedAppView, changedAppFile);
-                                        }
-                                        else
-                                        {
-                                            alert('Invalid Change Data');
-                                        }
-                                    }
+            let apiParams = {
+                "appSite": '{{$AppSite}}',
+                "htmlTableEmpty": htmlTableEmpty,
+                "htmlTable": htmlTable,
+                "htmlTableBody": htmlTableBody,
+                "htmlTableRow": htmlTableRow,
+                "htmlTableHeader": htmlTableHeader,
+                "htmlTableFooter": htmlTableFooter,
+                "pageNo": pageNo,
+                "itemsPerPage": itemsPerPage,
+                "filterKey": "",
+                "filterValue": previousUnixTimestamp
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    showElm(targetElmId)
+
+                    if (refreshComponent == true) {
+                        if (result.hasOwnProperty('json') === true) {
+                            let jsonData = result.json
+                            for (let i = 0; i < jsonData.length; i++) {
+                                let jsonInfo = jsonData[i]
+                                let changedAppSite = ""
+                                if (jsonInfo.hasOwnProperty('ChangedAppSite') === true) {
+                                    changedAppSite = jsonInfo.ChangedAppSite
+                                }
+                                let changedAppView = ""
+                                if (jsonInfo.hasOwnProperty('ChangedAppView') === true) {
+                                    changedAppView = jsonInfo.ChangedAppView
+                                }
+                                let changedAppFile = ""
+                                if (jsonInfo.hasOwnProperty('ChangedAppFile') === true) {
+                                    changedAppFile = jsonInfo.ChangedAppFile
+                                }
+                                if ((changedAppSite.length > 0) && (changedAppView.length > 0) && (changedAppFile.length > 0)) {
+                                    refreshComponentChange(changedAppSite, changedAppView, changedAppFile)
+                                }
+                                else {
+                                    alert('Invalid Change Data')
                                 }
                             }
+                        }
+                    }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     function refreshComponentChangeList(progressElmId, currentPageNo, successCallback) {
 
-        let valid = true;
-        if (progressElmId) { valid = true; } else { valid = false; }
-        if (currentPageNo) { valid = true; } else { valid = false; }
+        let valid = true
+        if (progressElmId) { valid = true } else { valid = false }
+        if (currentPageNo) { valid = true } else { valid = false }
 
         if (valid === true) {
-            fillComponentChangeList(progressElmId, gComponentChangeResponseElmId, gComponentChangeTargetElmId, currentPageNo, false);
+            fillComponentChangeList(progressElmId, gComponentChangeResponseElmId, gComponentChangeTargetElmId, currentPageNo, false)
         }
     }
 
     function refreshComponentChange(changedAppSiteVal, changedAppViewVal, changedAppFile) {
-        refreshComponentHtml(gComponentChangeProgressElmId, gComponentChangeResponseElmId, changedAppSiteVal, changedAppViewVal, changedAppFile, {}, false, '', '');
+        refreshComponentHtml(gComponentChangeProgressElmId, gComponentChangeResponseElmId, changedAppSiteVal, changedAppViewVal, changedAppFile, {}, false, '', '')
     }
 
     function resetComponentChangeTimestamp() {
-        getElm(gComponentChangeLastUnixTimestampElmId).value = 0;
+        getElm(gComponentChangeLastUnixTimestampElmId).value = 0
     }
 
-    let change_auto_refresh;
-    let change_in_refresh = false;
-    let change_stop_refresh = false;
+    let change_auto_refresh
+    let change_in_refresh = false
+    let change_stop_refresh = false
 
     function startChangeAutoRefresh(callback, interval) {
-        change_auto_refresh = setInterval(callback, interval);
+        change_auto_refresh = setInterval(callback, interval)
     }
 
     function stopChangeAutoRefresh() {
-        clearInterval(change_auto_refresh);
+        clearInterval(change_auto_refresh)
     }
 
     function enableChangeAutoRefresh(progressElmId, responseElmId, intervalInputElmId, refreshCountElmId) {
 
-        stopChangeAutoRefresh();
+        stopChangeAutoRefresh()
 
-        if (change_in_refresh == true) change_stop_refresh = true;
+        if (change_in_refresh == true) change_stop_refresh = true
 
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
 
-        let refreshIntervalVal = getElm(intervalInputElmId).value;
-        let refreshInterval = parseInt(refreshIntervalVal);
-        getElm(refreshCountElmId).textContent = 0;
+        let refreshIntervalVal = getElm(intervalInputElmId).value
+        let refreshInterval = parseInt(refreshIntervalVal)
+        getElm(refreshCountElmId).textContent = 0
 
         if (refreshInterval > 100) {
 
             let changeAutoRefreshFunction = function () {
-                let refreshCountElm = getElm(refreshCountElmId);
-                let refreshCount = parseInt(refreshCountElm.textContent) + 1;
-                refreshCountElm.textContent = refreshCount;
+                let refreshCountElm = getElm(refreshCountElmId)
+                let refreshCount = parseInt(refreshCountElm.textContent) + 1
+                refreshCountElm.textContent = refreshCount
 
-                stopChangeAutoRefresh();
-                change_in_refresh = true;
-                change_stop_refresh = false;
+                stopChangeAutoRefresh()
+                change_in_refresh = true
+                change_stop_refresh = false
 
                 fillComponentChangeList(progressElmId, gComponentChangeResponseElmId, gComponentChangeTargetElmId, 0, true,
-                    function ()
-                    {
-                        if (change_stop_refresh == false) { startChangeAutoRefresh(changeAutoRefreshFunction, refreshInterval); }
-                    });
-            };
+                    function () {
+                        if (change_stop_refresh == false) { startChangeAutoRefresh(changeAutoRefreshFunction, refreshInterval) }
+                    })
+            }
 
-            startChangeAutoRefresh(changeAutoRefreshFunction, refreshInterval);
+            startChangeAutoRefresh(changeAutoRefreshFunction, refreshInterval)
         }
         else {
-            showText(responseElm, 'Refresh Interval has to be greater than 100ms', 'red');
+            showText(responseElm, 'Refresh Interval has to be greater than 100ms', 'red')
         }
     }
 
@@ -257,20 +254,7 @@
         </div>
         <input type="hidden" id="lastUnixTimeStamp" value="0" />
         <div class="ar-flex-content-wrap" style="padding:3px 10px;background-color:#fff;" id="componentChangeList">
-            {{
-                VIEW_ComponentChangeList("ComponentChangeList",
-                    "htmlTableEmpty":"ComponentChangeEmpty",
-                    "htmlTable":"ComponentChangeTable",
-                    "htmlTableBody":"ComponentChangeTableBody",
-                    "htmlTableRow":"ComponentChangeTableRow",
-                    "htmlTableHeader":"ComponentChangeTableHeader",
-                    "htmlTableFooter":"ComponentChangeTableFooter",
-                    "filterKey" :"",
-                    "filterValue":"",
-                    "pageNo": "1",
-                    "itemsPerPage":"10"
-                )
-            }}
+            {{ComponentChangeList}}
         </div>
 
     </div>

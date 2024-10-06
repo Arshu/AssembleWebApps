@@ -1,0 +1,37 @@
+{
+  "NAVList$": [
+    {
+      "NavTitle": "Home",
+      "NavUrl": "/Index/Main",
+      "NavActive": "",
+      "HaveSubMenu": false,
+      "SubNAVList": []
+    },
+    {
+      "NavTitle": "Home1",
+      "NavUrl": "/",
+      "NavActive": "",
+      "HaveSubMenu": false,
+      "SubNAVList": []
+    },
+    {
+      "NavTitle": "Home2",
+      "NavUrl": "/",
+      "NavActive": "",
+      "HaveSubMenu": false,
+      "SubNAVList": []
+    }
+  ],
+  "NAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "/Index/Main",
+    "NavActive": "",
+    "HaveSubMenu": false,
+    "SubNAVList": []
+  },
+  "SubNAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "/Index/Main",
+    "NavActive": ""
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "TurnListener1Port$": 3478,
+  "TurnListener2Port$": 3479,
+  "KeepAliveInterval$": 15,
+  "ServerTimeout$": 60,
+  "ApiHub$": "ws"
+}

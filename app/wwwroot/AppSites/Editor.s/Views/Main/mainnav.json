@@ -1,18 +1,8 @@
 {
-    "NAVList" : [
-        
+    "NAVList" : [        
         {
-            "NavTitle" : "AppSites",            
-            "NavUrl" : "/Config/AppSites",            
-            "NavActive" : "",            
-            "HaveSubMenu" : "False",            
-            "SubNAVList" : [
-                
-            ]
-        },
-        {
-            "NavTitle" : "AppViews",            
-            "NavUrl" : "/Config/AppViews",            
+            "NavTitle" : "Homr",            
+            "NavUrl" : "/Index/Main",            
             "NavActive" : "",            
             "HaveSubMenu" : "False",            
             "SubNAVList" : [

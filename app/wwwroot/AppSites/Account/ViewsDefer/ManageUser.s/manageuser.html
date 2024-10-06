@@ -2,401 +2,394 @@
 
 <script type="text/javascript">
 
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
-    let gManageUserResponseElmId = "userListResponse";
-    let gManageUserTargetElmId = "userList";
-    let gManageUserDefaultItemsPerPage = '{{$ItemsPerPageManageUser}}';
+    let gManageUserResponseElmId = "userListResponse"
+    let gManageUserTargetElmId = "userList"
+    let gManageUserDefaultItemsPerPage = '{{$ItemsPerPageManageUser}}'
 
-    function fillUserList(progressElmId, responseElmId, targetElmId, pageNo, successCallback) {
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
+    function fillUserList(progressElmId, responseElmId, targetElmId, pageNo, successCallback, failureCallback) {
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
         //responseElm.textContent = '';
         //hideElm(responseContainerElmId);
 
-        let valid = true;
+        let valid = true
 
-        let htmlTableEmpty = "UserListEmpty";
-        let htmlTable = "UserListTable";
-        let htmlTableBody = "UserListTableBody";
-        let htmlTableRow = "UserListTableRow";
-        let htmlTableHeader = "UserListTableHeader";
-        let htmlTableFooter = "UserListTableFooter";
+        let htmlTableEmpty = "UserListEmpty"
+        let htmlTable = "UserListTable"
+        let htmlTableBody = "UserListTableBody"
+        let htmlTableRow = "UserListTableRow"
+        let htmlTableHeader = "UserListTableHeader"
+        let htmlTableFooter = "UserListTableFooter"
 
-        gManagerUserCurrentPage = pageNo;
-        let itemsPerPage = gManageUserDefaultItemsPerPage;
+        gManagerUserCurrentPage = pageNo
+        let itemsPerPage = gManageUserDefaultItemsPerPage
         if (getElm("userListItemsPerPage") != null) {
-            itemsPerPage = getElm("userListItemsPerPage").value;
+            itemsPerPage = getElm("userListItemsPerPage").value
         }
 
         if (targetElmId.trim().length === 0) {
-            responseElm.textContent = 'Enter Target Element Id';
-            responseElm.style.color = "red";
-            showElm(responseContainerElmId);
-            valid = false;
+            responseElm.textContent = 'Enter Target Element Id'
+            responseElm.style.color = "red"
+            showElm(responseContainerElmId)
+            valid = false
         }
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/WebApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetUserListView', "params": {
-                    "appSite": '{{$AppSite}}',
-                    "appView": "{{$AppView}}",
-                    "htmlTableEmpty": htmlTableEmpty,
-                    "htmlTable": htmlTable,
-                    "htmlTableBody": htmlTableBody,
-                    "htmlTableRow": htmlTableRow,
-                    "htmlTableHeader": htmlTableHeader,
-                    "htmlTableFooter": htmlTableFooter,
-                    "pageNo": pageNo,
-                    "itemsPerPage": itemsPerPage,
-                    "filterKey": "",
-                    "filterValue": ""
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "GetUserListView"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
+            let apiParams = {
+                "appSite": '{{$AppSite}}',
+                "appView": "{{$AppView}}",
+                "htmlTableEmpty": htmlTableEmpty,
+                "htmlTable": htmlTable,
+                "htmlTableBody": htmlTableBody,
+                "htmlTableRow": htmlTableRow,
+                "htmlTableHeader": htmlTableHeader,
+                "htmlTableFooter": htmlTableFooter,
+                "pageNo": pageNo,
+                "itemsPerPage": itemsPerPage,
+                "filterKey": "",
+                "filterValue": ""
+            }
 
-                            let rootNode = getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            showElm(targetElmId);
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    showElm(targetElmId)
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
-    function refreshUserList(progressElmId, currentPageNo, successCallback) {
+    function refreshUserList(progressElmId, currentPageNo, successCallback, failureCallback) {
 
-        let valid = true;
-        if (progressElmId) { valid = true; } else { valid = false; }
-        if (currentPageNo) { valid = true; } else { valid = false; }
+        let valid = true
+        if (progressElmId) { valid = true } else { valid = false }
+        if (currentPageNo) { valid = true } else { valid = false }
 
         if (valid === true) {
             //let filterVal = getElm('filter').value;
             fillUserList(progressElmId, gManageUserResponseElmId, gManageUserTargetElmId, currentPageNo, function () {
-                showAddUserBtn();
-            });
+                showAddUserBtn()
+            })
         }
     }
 
     function setUser(userIdVal, userAliasVal, userEmailVal) {
         if (getElm("userListEditMode").checked == true) {
-            getElm('userId').value = userIdVal;
-            getElm('userAlias').value -= userAliasVal;
-            getElm('userEmail').value -= userEmailVal;
+            getElm('userId').value = userIdVal
+            getElm('userAlias').value -= userAliasVal
+            getElm('userEmail').value -= userEmailVal
         }
     }
 
     function showAddUser() {
-        toggleElm('addUserDiv');
+        toggleElm('addUserDiv')
     }
 
-    function addUser(progressElmId, responseElmId, userIdVal, userAliasVal, userEmailVal, userPasswordVal, userChangePasswordOnFirstLoginVal, successCallback) {
+    function addUser(progressElmId, responseElmId, userIdVal, userAliasVal, userEmailVal, userPasswordVal, userChangePasswordOnFirstLoginVal, successCallback, failureCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (valid == true) {
             if (userIdVal.trim().length === 0) {
-                showText(responseElm, 'Enter User Id', 'red');
-                valid = false;
+                showText(responseElm, 'Enter User Id', 'red')
+                valid = false
             }
         }
 
         if (valid == true) {
             if (userAliasVal.trim().length === 0) {
-                showText(responseElm, 'Enter User Alias', 'red');
-                valid = false;
+                showText(responseElm, 'Enter User Alias', 'red')
+                valid = false
             }
         }
 
         if (valid == true) {
             if (userEmailVal.trim().length === 0) {
-                showText(responseElm, 'Enter User Email', 'red');
-                valid = false;
+                showText(responseElm, 'Enter User Email', 'red')
+                valid = false
             }
         }
 
-        let userChangePasswordOnFirstLogin = false;
-        if (userChangePasswordOnFirstLoginVal === "on") userChangePasswordOnFirstLogin = true;
-        if (userChangePasswordOnFirstLoginVal === true) userChangePasswordOnFirstLogin = true;
-
-        let jsonInput = {
-            "request type": "User",
-            "sub type": "Add",
-            "data": {
-                "userId": userIdVal,
-                "userAlias": userAliasVal,
-                "userEmail": userEmailVal,
-                "userPassword": userPasswordVal,
-                "userChangePasswordOnFirstLogin": userChangePasswordOnFirstLogin,
-            },
-            "filter": {
-                "userId": userIdVal,
-                "userAlias": userAliasVal,
-                "userEmail": userEmailVal
-            }
-        }
+        let userChangePasswordOnFirstLogin = false
+        if (userChangePasswordOnFirstLoginVal === "on") userChangePasswordOnFirstLogin = true
+        if (userChangePasswordOnFirstLoginVal === true) userChangePasswordOnFirstLogin = true
 
         if (valid === true) {
 
-            let url = '/AppApi/WebApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'AddUser', "params": {
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "AddUser"
+
+            let jsonInput = {
+                "request type": "User",
+                "sub type": "Add",
+                "data": {
                     "userId": userIdVal,
                     "userAlias": userAliasVal,
                     "userEmail": userEmailVal,
                     "userPassword": userPasswordVal,
-                    "jsonInput": jsonInput
-                }, "id": id
-            };
-
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('message') === true) {
-
-                            showText(responseElm, result.message, 'green');
-
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                    }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
-        }
-
-        return false;
-    }
-
-    function deleteUser(progressElmId, responseElmId, userIdVal, successCallback) {
-
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-
-        let valid = true;
-
-        if (valid == true) {
-            if (userIdVal.trim().length === 0) {
-                showText(responseElm, 'Enter User Id', 'red');
-                valid = false;
-            }
-        }
-
-        if (valid === true) {
-
-            let url = '/AppApi/WebApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'RemoveUser', "params": {
-                    "userId": userIdVal
-                }, "id": id
-            };
-
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('message') === true) {
-
-                            showText(responseElm, result.message, 'green');
-
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                    }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
-        }
-
-        return false;
-    }
-
-    function setForceChangePassword(progressElmId, responseElmId, userIdVal, forceChangeVal, successCallback) {
-
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-
-        let valid = true;
-
-        let forceChange = false;
-        if (forceChangeVal === "on") forceChange = true;
-        if (forceChangeVal === true) forceChange = true;
-
-        if (valid == true) {
-            if (userIdVal.trim().length === 0) {
-                showText(responseElm, 'Enter User Name', 'red');
-                valid = false;
-            }
-        }
-
-
-        if (valid === true) {
-
-
-            let url = '/AppApi/WebApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'SetUserForceChangePassword', "params": {
+                    "userChangePasswordOnFirstLogin": userChangePasswordOnFirstLogin,
+                },
+                "filter": {
                     "userId": userIdVal,
-                    "forceChange": forceChange
-                }, "id": id
-            };
+                    "userAlias": userAliasVal,
+                    "userEmail": userEmailVal
+                }
+            }
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('message') === true) {
+            let apiParams = {
+                "userId": userIdVal,
+                "userAlias": userAliasVal,
+                "userEmail": userEmailVal,
+                "userPassword": userPasswordVal,
+                "jsonInput": jsonInput
+            }
 
-                            showText(responseElm, result.message, 'green');
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('message') === true) {
+
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
 
         }
 
-        return false;
+        return false
+    }
+
+    function deleteUser(progressElmId, responseElmId, userIdVal, successCallback, failureCallback) {
+
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+
+        let valid = true
+
+        if (valid == true) {
+            if (userIdVal.trim().length === 0) {
+                showText(responseElm, 'Enter User Id', 'red')
+                valid = false
+            }
+        }
+
+        if (valid === true) {
+
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "RemoveUser"
+
+            let apiParams = {
+                "userId": userIdVal
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('message') === true) {
+
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
+                    }
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
+        }
+
+        return false
+    }
+
+    function setForceChangePassword(progressElmId, responseElmId, userIdVal, forceChangeVal, successCallback, failureCallback) {
+
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+
+        let valid = true
+
+        let forceChange = false
+        if (forceChangeVal === "on") forceChange = true
+        if (forceChangeVal === true) forceChange = true
+
+        if (valid == true) {
+            if (userIdVal.trim().length === 0) {
+                showText(responseElm, 'Enter User Name', 'red')
+                valid = false
+            }
+        }
+
+
+        if (valid === true) {
+
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "SetUserForceChangePassword"
+
+            let apiParams = {
+                "userId": userIdVal,
+                "forceChange": forceChange
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('message') === true) {
+
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
+                    }
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
+        }
+
+        return false
     }
 
     function showAddUserBtn() {
         if (haveElm('userIconPlus') == true) {
             if (isHiddenElm('addUserDiv') == true) {
-                showElm('userIconPlus');
+                showElm('userIconPlus')
                 hideElm('userIconMinus')
             } else {
-                showElm('userIconMinus');
+                showElm('userIconMinus')
                 hideElm('userIconPlus')
             }
         }
     }
 
     function clearUserInput() {
-        getElm('userId').value = "";
-        getElm('userAlias').value = "";
-        getElm('userEmail').value = "";
-        getElm('userPassword').value = "";
+        getElm('userId').value = ""
+        getElm('userAlias').value = ""
+        getElm('userEmail').value = ""
+        getElm('userPassword').value = ""
 
         //let responseElm = getElm('userListResponse');
         //responseElm.textContent = '';
         //hideElm("userListResponseContainer");
 
-        getElm("userId").focus();
-        showAddUserBtn();
+        getElm("userId").focus()
+        showAddUserBtn()
     }
 
     ready(() => {
 
-        let userIdElm = getElm("userId");
-        userIdElm.removeEventListener("keypress", null);
+        let userIdElm = getElm("userId")
+        userIdElm.removeEventListener("keypress", null)
         userIdElm.addEventListener("keypress", function (event) {
             if (event.which == 13) {
-                let userAliasInput = getElm('userAlias');
-                userAliasInput.focus();
+                let userAliasInput = getElm('userAlias')
+                userAliasInput.focus()
             }
-        });
+        })
 
-        let userAliasElm = getElm("userAlias");
-        userAliasElm.removeEventListener("keypress", null);
+        let userAliasElm = getElm("userAlias")
+        userAliasElm.removeEventListener("keypress", null)
         userAliasElm.addEventListener("keypress", function (event) {
             if (event.which == 13) {
-                let userEmailElm = getElm("userEmail");
-                userEmailElm.focus();
+                let userEmailElm = getElm("userEmail")
+                userEmailElm.focus()
             }
-        });
+        })
 
-        let userEmailElm = getElm("userEmail");
-        userEmailElm.removeEventListener("keypress", null);
+        let userEmailElm = getElm("userEmail")
+        userEmailElm.removeEventListener("keypress", null)
         userEmailElm.addEventListener("keypress", function (event) {
             if (event.which == 13) {
-                let userPasswordInput = getElm('userPassword');
-                userPasswordInput.focus();
+                let userPasswordInput = getElm('userPassword')
+                userPasswordInput.focus()
             }
-        });
+        })
 
-        let userPasswordElm = getElm("userPassword");
-        userPasswordElm.removeEventListener("keypress", null);
+        let userPasswordElm = getElm("userPassword")
+        userPasswordElm.removeEventListener("keypress", null)
         userPasswordElm.addEventListener("keypress", function (event) {
             if (event.which == 13) {
-                let addUserConfirmBtn = getElm('addUserConfirm');
-                addUserConfirmBtn.dispatchEvent(new Event('click'));
-                event.preventDefault();
+                let addUserConfirmBtn = getElm('addUserConfirm')
+                addUserConfirmBtn.dispatchEvent(new Event('click'))
+                event.preventDefault()
             }
-        });
+        })
 
-        clearUserInput();
-    });
+        clearUserInput()
+    })
 
 </script>
 
@@ -487,20 +480,7 @@
         </div>
 
         <div id="userList">
-            {{
-                VIEW_UserList("UserList",
-                    "htmlTableEmpty":"UserListEmpty",
-                    "htmlTable":"UserListTable",
-                    "htmlTableBody":"UserListTableBody",
-                    "htmlTableRow":"UserListTableRow",
-                    "htmlTableHeader":"UserListTableHeader",
-                    "htmlTableFooter":"UserListTableFooter",
-                    "filterKey" :"",
-                    "filterValue":"",
-                    "pageNo": "1",
-                    "itemsPerPage":"10"
-                )
-            }}
+            {{UserList}}
         </div>
     </div>
 

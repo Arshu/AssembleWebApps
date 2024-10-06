@@ -1,181 +1,172 @@
 
 <script type="text/javascript">
 
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
     function hideComponentSourceCopy() {
 
-        let modal = document.querySelector('#copyComponentSource');
-        modal.classList.remove('ar-modal-active');
+        let modal = document.querySelector('#copyComponentSource')
+        modal.classList.remove('ar-modal-active')
     }
 
     function showComponentSourceCopy(progressElmId, componentAppSite, componentAppView, sourceComponentId, reloadData) {
 
-        getElm('sourceComponentId').value = sourceComponentId;
-        getElm('sourceComponentTitle').textContent = sourceComponentId + " Components";
+        getElm('sourceComponentId').value = sourceComponentId
+        getElm('sourceComponentTitle').textContent = sourceComponentId + " Components"
 
-        getElm('copyComponentAppSite').value = componentAppSite;
-        getElm('copyComponentAppView').value = componentAppView;
+        getElm('copyComponentAppSite').value = componentAppSite
+        getElm('copyComponentAppView').value = componentAppView
 
         if ((getElm('selectMainComponent').options.length <= 1) || (reloadData === true)) {
             getViewComponentHierarchy(progressElmId, 'copyComponentSourceResponse', componentAppSite, componentAppView, sourceComponentId, 'selectMainComponent', function () {
 
-                let componentCount = getElm('selectNewComponent').options.length;
+                let componentCount = getElm('selectNewComponent').options.length
                 if (componentCount <= 1) {
                     let fromComponentAppSiteVal = getElm('selectNewComponentAppSite').value
                     getViewComponentCategoryList(progressElmId, 'copyComponentSourceResponse', fromComponentAppSiteVal, 'selectNewComponentCategory', function () {
-                        let componentCategoryCount = getElm('selectNewComponentCategory').options.length;
+                        let componentCategoryCount = getElm('selectNewComponentCategory').options.length
                         if (componentCategoryCount > 0) {
-                            let fromComponentCategoryVal = getElm('selectNewComponentCategory').value;
+                            let fromComponentCategoryVal = getElm('selectNewComponentCategory').value
                             getViewComponentList(progressElmId, 'copyComponentSourceResponse', fromComponentAppSiteVal, fromComponentCategoryVal, 'selectNewComponent', function () {
-                                let modal = document.querySelector('#copyComponentSource');
-                                modal.classList.add('ar-modal-active');
-                            });
+                                let modal = document.querySelector('#copyComponentSource')
+                                modal.classList.add('ar-modal-active')
+                            })
                         } else {
-                            let modal = document.querySelector('#copyComponentSource');
-                            modal.classList.add('ar-modal-active');
+                            let modal = document.querySelector('#copyComponentSource')
+                            modal.classList.add('ar-modal-active')
                         }
-                    });
+                    })
                 } else {
-                    let modal = document.querySelector('#copyComponentSource');
-                    modal.classList.add('ar-modal-active');
+                    let modal = document.querySelector('#copyComponentSource')
+                    modal.classList.add('ar-modal-active')
                 }
-            });
+            })
         } else {
-            let modal = document.querySelector('#copyComponentSource');
-            modal.classList.add('ar-modal-active');
+            let modal = document.querySelector('#copyComponentSource')
+            modal.classList.add('ar-modal-active')
         }
     }
 
     function getViewComponentHierarchy(progressElmId, responseElmId, componentAppSite, componentAppView, sourceComponentName, targetSelectElmId, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseContainerElmId = responseElmId + "Container";
-        let responseElm = getElm(responseElmId);
-        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild);
+        let id = window.ajaxid++
+        let responseContainerElmId = responseElmId + "Container"
+        let responseElm = getElm(responseElmId)
+        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild)
         let responseContainerElm = getElm(responseContainerElmId)
-        hideElm(responseContainerElmId);
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
-        let currentSelectedVal = getElm(targetSelectElmId).value;
+        let currentSelectedVal = getElm(targetSelectElmId).value
 
         if (valid === true) {
 
-            let url = '/AppApi/VueApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetViewComponentHierarchy',
-                "params": {
-                    "componentAppSite": componentAppSite,
-                    "componentAppView": componentAppView,
-                    "componentName": sourceComponentName,
-                },
-                "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/VueApi"
+            let apiMethod = "GetViewComponentHierarchy"
 
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            //showText(responseElm, result.message, 'green');
+            let apiParams = {
+                "componentAppSite": componentAppSite,
+                "componentAppView": componentAppView,
+                "componentName": sourceComponentName,
+            }
 
-                            if (result.hasOwnProperty('json') === true) {
-                                let json = result.json;
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                                let selectElm = getElm(targetSelectElmId);
-                                if (selectElm) {
-                                    selectElm.options.length = 0;
+                let responseElm = getElm(responseElmId)
 
-                                    for (let i = 0; i < json.length; i++) {
-                                        let jsonSource = json[i];
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    //showText(responseElm, result.message, 'green');
 
-                                        let selectText = "";
-                                        let selectValue = "";
-                                        for (let key in jsonSource) {
-                                            selectText = key;
-                                            selectValue = jsonSource[key];
-                                        }
-                                        selectElm.options[selectElm.options.length] = new Option(selectText, selectValue);
-                                    }
+                    if (result.hasOwnProperty('json') === true) {
+                        let json = result.json
+
+                        let selectElm = getElm(targetSelectElmId)
+                        if (selectElm) {
+                            selectElm.options.length = 0
+
+                            for (let i = 0; i < json.length; i++) {
+                                let jsonSource = json[i]
+
+                                let selectText = ""
+                                let selectValue = ""
+                                for (let key in jsonSource) {
+                                    selectText = key
+                                    selectValue = jsonSource[key]
                                 }
-                                if (currentSelectedVal == 0) {
-                                    selectElm.selectedIndex = 0;
-                                } else {
-                                    selectElm.value = currentSelectedVal;
-                                }
-                                triggerEvent(targetSelectElmId, 'change');
-
-                                if (typeof successCallback === "function") {
-                                    successCallback();
-                                }
+                                selectElm.options[selectElm.options.length] = new Option(selectText, selectValue)
                             }
                         }
-                    }
-                    if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error) {
-                            if (error.hasOwnProperty('Message') === true) {
-                                showText(responseElm, error.Message, 'red');
-                            }
+                        if (currentSelectedVal == 0) {
+                            selectElm.selectedIndex = 0
+                        } else {
+                            selectElm.value = currentSelectedVal
+                        }
+                        triggerEvent(targetSelectElmId, 'change')
+
+                        if (typeof successCallback === "function") {
+                            successCallback()
                         }
                     }
-                });
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
-    function refreshViewComponentHierarchy(progressElmId, sourceComponentId, targetSelectElmId)
-    {
+    function refreshViewComponentHierarchy(progressElmId, sourceComponentId, targetSelectElmId) {
         getViewComponentHierarchy(progressElmId, 'copyComponentSourceResponse', sourceComponentId, targetSelectElmId, function () {
 
-        });
+        })
     }
 
-    function fillSubComponentList(componentSelectElmId, subComponentSelectElmId)
-    {
-        let subComponentSelectElm = getElm(subComponentSelectElmId);
+    function fillSubComponentList(componentSelectElmId, subComponentSelectElmId) {
+        let subComponentSelectElm = getElm(subComponentSelectElmId)
         if (subComponentSelectElm) {
-            subComponentSelectElm.options.length = 0;
+            subComponentSelectElm.options.length = 0
 
-            let componentSelectElm = getElm(componentSelectElmId);
+            let componentSelectElm = getElm(componentSelectElmId)
             if (componentSelectElm) {
 
-                let selectedValue = componentSelectElm.value;
-                let idxOfColon = selectedValue.indexOf(":");
-                let selectedDepth = selectedValue.substring(0, idxOfColon);
-                let childDepth = parseInt(selectedDepth) + 1;
+                let selectedValue = componentSelectElm.value
+                let idxOfColon = selectedValue.indexOf(":")
+                let selectedDepth = selectedValue.substring(0, idxOfColon)
+                let childDepth = parseInt(selectedDepth) + 1
 
-                let idxOfSemiColon = selectedValue.indexOf(";");
-                let selectedComponent = selectedValue.substring(idxOfSemiColon + 1);
+                let idxOfSemiColon = selectedValue.indexOf(";")
+                let selectedComponent = selectedValue.substring(idxOfSemiColon + 1)
 
                 if (selectedComponent == "HTMLPLACEHOLDER") {
-                    selectedComponent = selectedValue.substring(0, idxOfSemiColon);
-                    let idxOfColonSelected = selectedComponent.indexOf(":");
-                    selectedDepth = selectedComponent.substring(0, idxOfColon);
-                    childDepth = parseInt(selectedDepth);
-                    selectedComponent = selectedComponent.substring(idxOfColonSelected + 1);
+                    selectedComponent = selectedValue.substring(0, idxOfSemiColon)
+                    let idxOfColonSelected = selectedComponent.indexOf(":")
+                    selectedDepth = selectedComponent.substring(0, idxOfColon)
+                    childDepth = parseInt(selectedDepth)
+                    selectedComponent = selectedComponent.substring(idxOfColonSelected + 1)
                 }
 
                 for (let i = 0; i < componentSelectElm.options.length; i++) {
-                    let selectVal = componentSelectElm.options[i].value;
+                    let selectVal = componentSelectElm.options[i].value
 
-                    if ((selectVal.startsWith((childDepth - 1)) == true) && (selectVal.endsWith(selectedComponent) == true))
-                    {
-                        componentSelectElm.value = selectVal;
+                    if ((selectVal.startsWith((childDepth - 1)) == true) && (selectVal.endsWith(selectedComponent) == true)) {
+                        componentSelectElm.value = selectVal
                     }
                     if (selectVal.startsWith(childDepth + ":" + selectedComponent) == true) {
 
-                        let selectText = componentSelectElm.options[i].text;
-                        let selectValue = componentSelectElm.options[i].value;
+                        let selectText = componentSelectElm.options[i].text
+                        let selectValue = componentSelectElm.options[i].value
 
-                        subComponentSelectElm.options[subComponentSelectElm.options.length] = new Option(selectText, selectValue);
+                        subComponentSelectElm.options[subComponentSelectElm.options.length] = new Option(selectText, selectValue)
                     }
                 }
             }
@@ -184,149 +175,138 @@
 
     function getViewComponentCategoryList(progressElmId, responseElmId, newComponentAppSiteVal, selectElmId, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseContainerElmId = responseElmId + "Container";
-        let responseElm = getElm(responseElmId);
-        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild);
+        let id = window.ajaxid++
+        let responseContainerElmId = responseElmId + "Container"
+        let responseElm = getElm(responseElmId)
+        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild)
         let responseContainerElm = getElm(responseContainerElmId)
-        hideElm(responseContainerElmId);
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (valid === true) {
 
-            let url = '/AppApi/VueApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetViewComponentCategoryList',
-                "params": {
-                    "componentAppSite": newComponentAppSiteVal,
-                    "skipValue": "",
-                    "selectEmptyText": "No Component Category Found",
-                    "selectedKey": "Intro",
-                    "appendOptionText": "",
-                    "appendOptionValue": ""
-                },
-                "id": id
-            };
-
-            let selectElm = getElm(selectElmId);
+            let selectElm = getElm(selectElmId)
             if (selectElm) {
-                selectElm.options.length = 0;
+                selectElm.options.length = 0
             }
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
-                            let rootNode = getElm(selectElmId);
-                            rootNode.innerHTML = result.html;
+            let isRealtime = false
+            let realtimeDomain = ""
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
+            let apiUrl = "/AppApi/VueApi"
+            let apiMethod = "GetViewComponentCategoryList"
+
+            let apiParams = {
+                "componentAppSite": newComponentAppSiteVal,
+                "skipValue": "",
+                "selectEmptyText": "No Component Category Found",
+                "selectedKey": "Intro",
+                "appendOptionText": "",
+                "appendOptionValue": ""
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+                    let rootNode = getElm(selectElmId)
+                    rootNode.innerHTML = result.html
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error) {
-                            if (error.hasOwnProperty('Message') === true) {
-                                showText(responseElm, error.Message, 'red');
-                            }
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     function getViewComponentList(progressElmId, responseElmId, newComponentAppSiteVal, newComponentCategoryVal, selectElmId, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseContainerElmId = responseElmId + "Container";
-        let responseElm = getElm(responseElmId);
-        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild);
+        let id = window.ajaxid++
+        let responseContainerElmId = responseElmId + "Container"
+        let responseElm = getElm(responseElmId)
+        while (responseElm.firstChild) responseElm.removeChild(responseElm.firstChild)
         let responseContainerElm = getElm(responseContainerElmId)
-        hideElm(responseContainerElmId);
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (valid === true) {
 
-            let url = '/AppApi/VueApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetViewComponentList',
-                "params": {
-                    "componentAppSite": newComponentAppSiteVal,
-                    "componentCategory": newComponentCategoryVal
-                },
-                "id": id
-            };
-
-            let selectElm = getElm(selectElmId);
+            let selectElm = getElm(selectElmId)
             if (selectElm) {
-                selectElm.options.length = 0;
+                selectElm.options.length = 0
             }
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
-                        let result = data.Result;
+            let isRealtime = false
+            let realtimeDomain = ""
 
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            //showText(responseElm, result.message, 'green');
+            let apiUrl = "/AppApi/VueApi"
+            let apiMethod = "GetViewComponentList"
 
-                            if (result.hasOwnProperty('json') === true) {
-                                let json = result.json;
+            let apiParams = {
+                "componentAppSite": newComponentAppSiteVal,
+                "componentCategory": newComponentCategoryVal
+            }
 
-                                let selectElm = getElm(selectElmId);
-                                if (selectElm) {
-                                    selectElm.options.length = 0;
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                                    for (let i = 0; i < json.length; i++) {
-                                        let jsonSource = json[i];
+                let responseElm = getElm(responseElmId)
 
-                                        let selectText = "";
-                                        let selectValue = "";
-                                        for (let key in jsonSource) {
-                                            selectText = jsonSource[key];
-                                            selectValue = key;
-                                        }
-                                        selectElm.options[selectElm.options.length] = new Option(selectText, selectValue);
-                                    }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    //showText(responseElm, result.message, 'green');
+
+                    if (result.hasOwnProperty('json') === true) {
+                        let json = result.json
+
+                        let selectElm = getElm(selectElmId)
+                        if (selectElm) {
+                            selectElm.options.length = 0
+
+                            for (let i = 0; i < json.length; i++) {
+                                let jsonSource = json[i]
+
+                                let selectText = ""
+                                let selectValue = ""
+                                for (let key in jsonSource) {
+                                    selectText = jsonSource[key]
+                                    selectValue = key
                                 }
-                                selectElm.selectedIndex = 0;
-
-                                if (typeof successCallback === "function") {
-                                    successCallback();
-                                }
+                                selectElm.options[selectElm.options.length] = new Option(selectText, selectValue)
                             }
                         }
-                    }
-                    if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error) {
-                            if (error.hasOwnProperty('Message') === true) {
-                                showText(responseElm, error.Message, 'red');
-                            }
+                        selectElm.selectedIndex = 0
+
+                        if (typeof successCallback === "function") {
+                            successCallback()
                         }
                     }
-                });
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
 </script>
@@ -405,17 +385,7 @@
                 <label style="width:100%;">Component App Site</label>
                 <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
                     <select style="width:100%;border:none;" id="selectNewComponentAppSite" onchange="getViewComponentCategoryList('copyComponentListProgress', 'copyResponse', getElm('selectNewComponentAppSite').value, 'selectNewComponentCategory');">
-                        {{
-                            VIEW_AppSiteSelect(
-                            "AppSiteList",
-                            "AppSite":"{$AppSite}",
-                            "SkipValue" : "",
-                            "FilterValue": "",
-                            "SelectedKey":"Index",
-                            "SelectEmptyText":"No App Site Found",
-                            "AppendOption" : "",
-                            "AppendOptionValue" : "")
-                        }}
+                        {{AppSiteSelect}}
                     </select>
                 </div>
                 <button class="ar-border-right" style="width:40px;height:40px;" id="refreshComponentCategoryListBtn" onclick="getViewComponentCategoryList('copyComponentListProgress', 'copyResponse', getElm('selectNewComponentAppSite').value, 'selectNewComponentCategory');">
@@ -428,16 +398,7 @@
                 <label style="width:100%;">Component Category</label>
                 <div class="ar-flex-item-stretch ar-border-left" style="height:40px;">
                     <select style="width:100%;border:none;" id="selectNewComponentCategory" onchange="getViewComponentList('copyComponentCategoryListProgress', 'copyResponse', getElm('selectNewComponentAppSite').value, getElm('selectNewComponentCategory').value, 'selectNewComponent');">
-                        {{
-                            VIEW_ComponentCategorySelect(
-                            "ComponentCategoryList",
-                            "SkipValue" : "",
-                            "FilterValue": "Index",
-                            "SelectedKey":"Intro",
-                            "SelectEmptyText":"No Component Category Found",
-                            "AppendOption" : "",
-                            "AppendOptionValue" : "")
-                        }}
+                        {{ComponentCategorySelect}}
                     </select>
                 </div>
                 <button class="ar-border-right" style="width:40px;height:40px;" id="refreshComponentListBtn" onclick="getViewComponentList('copyComponentCategoryListProgress', 'copyResponse', getElm('selectNewComponentAppSite').value, getElm('selectNewComponentCategory').value, 'selectNewComponent');">

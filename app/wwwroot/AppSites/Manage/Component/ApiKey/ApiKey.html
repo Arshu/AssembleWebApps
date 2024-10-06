@@ -28,34 +28,34 @@
 
 </div>
 
-<script>
+<script type="text/javascript">
 
     function retrieveTimeInfo(progressElmId, responseElmId, appAPITokenElmId, successCallback, failureCallback) {
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (valid === true) {
 
-            let isRealtime = false;
-            let realtimeDomain = "";
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let apiUrl = '/AppApi/ServerApi';
-            let apiMethod = 'RetrieveTimeInfo';
+            let apiUrl = "/AppApi/ServerApi"
+            let apiMethod = "RetrieveTimeInfo"
 
             let apiParams = {
-            };
+            }
 
             let processReturn = function (result, responseElmId, successCallback) {
 
-                let responseElm = getElm(responseElmId);
+                let responseElm = getElm(responseElmId)
 
                 if (result.hasOwnProperty('error') === true) {
-                    showText(responseElm, result.error, 'red');
+                    showText(responseElm, result.error, 'red')
 
                 }
                 //else if (result.hasOwnProperty('message') === true) {
@@ -68,19 +68,24 @@
                 else {
 
                     if (result.hasOwnProperty('TimeIDInHour') === true) {
-                        getElm(appAPITokenElmId).TimeID = result.TimeIDInHour;
+                        getElm(appAPITokenElmId).TimeID = result.TimeIDInHour
                     }
                 }
-            };
+            }
 
-            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "");
+            // let processReturn = function (result, responseElmId, successCallback) {
+            //     let responseElm = getElm(responseElmId)
+            // }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     ready(() => {
-        triggerEvent('retrieveTimeInfoBtn', 'click');
-    });
+        triggerEvent('retrieveTimeInfoBtn', 'click')
+    })
 
 </script>

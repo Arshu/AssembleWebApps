@@ -1,329 +1,324 @@
 <script type="text/javascript">
 
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
-    let gManageRoleResponseElmId = "roleListResponse";
-    let gManageRoleTargetElmId = "roleList";
-    let gManageRoleDefaultItemsPerPage = '{{$ItemsPerPageManageRole}}';
+    let gManageRoleResponseElmId = "roleListResponse"
+    let gManageRoleTargetElmId = "roleList"
+    let gManageRoleDefaultItemsPerPage = '{{$ItemsPerPageManageRole}}'
 
-    function fillRoleList(progressElmId, responseElmId, targetElmId, pageNo, successCallback) {
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
+    function fillRoleList(progressElmId, responseElmId, targetElmId, pageNo, successCallback, failureCallback) {
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
         //responseElm.textContent = '';
         //hideElm(responseContainerElmId);
 
-        let valid = true;
+        let valid = true
 
-        let htmlTableEmpty = "RoleListEmpty";
-        let htmlTable = "RoleListTable";
-        let htmlTableBody = "RoleListTableBody";
-        let htmlTableRow = "RoleListTableRow";
-        let htmlTableHeader = "RoleListTableHeader";
-        let htmlTableFooter = "RoleListTableFooter";
+        let htmlTableEmpty = "RoleListEmpty"
+        let htmlTable = "RoleListTable"
+        let htmlTableBody = "RoleListTableBody"
+        let htmlTableRow = "RoleListTableRow"
+        let htmlTableHeader = "RoleListTableHeader"
+        let htmlTableFooter = "RoleListTableFooter"
 
-        let itemsPerPage = gManageRoleDefaultItemsPerPage;
+        let itemsPerPage = gManageRoleDefaultItemsPerPage
         if (getElm("roleListItemsPerPage") != null) {
-            itemsPerPage = getElm("roleListItemsPerPage").value;
+            itemsPerPage = getElm("roleListItemsPerPage").value
         }
 
         if (targetElmId.trim().length === 0) {
-            showText(responseElm, 'Enter Target Element Id', 'red');
-            valid = false;
+            showText(responseElm, 'Enter Target Element Id', 'red')
+            valid = false
         }
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/WebApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetRoleListView', "params": {
-                    "appSite": '{{$AppSite}}',
-                    "appView": "{{$AppView}}",
-                    "htmlTableEmpty": htmlTableEmpty,
-                    "htmlTable": htmlTable,
-                    "htmlTableBody": htmlTableBody,
-                    "htmlTableRow": htmlTableRow,
-                    "htmlTableHeader": htmlTableHeader,
-                    "htmlTableFooter": htmlTableFooter,
-                    "pageNo": pageNo,
-                    "itemsPerPage": itemsPerPage,
-                    "filterKey": "",
-                    "filterValue": ""
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "GetRoleListView"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
-                            let rootNode = getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            showElm(targetElmId);
+            let apiParams = {
+                "appSite": '{{$AppSite}}',
+                "appView": "{{$AppView}}",
+                "htmlTableEmpty": htmlTableEmpty,
+                "htmlTable": htmlTable,
+                "htmlTableBody": htmlTableBody,
+                "htmlTableRow": htmlTableRow,
+                "htmlTableHeader": htmlTableHeader,
+                "htmlTableFooter": htmlTableFooter,
+                "pageNo": pageNo,
+                "itemsPerPage": itemsPerPage,
+                "filterKey": "",
+                "filterValue": ""
+            }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    showElm(targetElmId)
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
 
-        return false;
+        return false
     }
 
     function refreshRoleList(progressElmId, currentPageNo) {
 
-        let valid = true;
-        if (progressElmId) { valid = true; } else { valid = false; }
-        if (currentPageNo) { valid = true; } else { valid = false; }
+        let valid = true
+        if (progressElmId) { valid = true } else { valid = false }
+        if (currentPageNo) { valid = true } else { valid = false }
 
         if (valid === true) {
             //let filterVal = getElm('filter').value;
-            fillRoleList(progressElmId, gManageRoleResponseElmId, gManageRoleTargetElmId, currentPageNo, function() {
-                showAddRoleBtn();
-            });
+            fillRoleList(progressElmId, gManageRoleResponseElmId, gManageRoleTargetElmId, currentPageNo, function () {
+                showAddRoleBtn()
+            })
         }
     }
 
     function setRole(roleNameVal) {
         if (getElm("roleListEditMode").checked == true) {
-            getElm('roleName').value = roleNameVal;
+            getElm('roleName').value = roleNameVal
         }
     }
 
     function showAddRole() {
-        toggleElm('addRoleDiv');
+        toggleElm('addRoleDiv')
 
     }
 
-    function addRole(progressElmId, responseElmId, roleNameVal, successCallback) {
+    function addRole(progressElmId, responseElmId, roleNameVal, successCallback, failureCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (valid == true) {
             if (roleNameVal.trim().length === 0) {
-                showText(responseElm, 'Enter Role Name', 'red');
-                valid = false;
-            }
-        }
-
-        let jsonInput = {
-            "request type": "Role",
-            "sub type": "Add",
-            "data": {
-                "roleName": roleNameVal,
-            },
-            "filter": {
-                "roleName": roleNameVal,
+                showText(responseElm, 'Enter Role Name', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/WebApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'AddRole', "params": {
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "AddRole"
+
+            let jsonInput = {
+                "request type": "Role",
+                "sub type": "Add",
+                "data": {
                     "roleName": roleNameVal,
-                    "jsonInput": jsonInput
-                }, "id": id
-            };
+                },
+                "filter": {
+                    "roleName": roleNameVal,
+                }
+            }
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('message') === true) {
+            let apiParams = {
+                "roleName": roleNameVal,
+                "jsonInput": jsonInput
+            }
 
-                            showText(responseElm, result.message, 'green');
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('message') === true) {
+
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
 
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
 
-        return false;
+        return false
     }
 
-    function deleteRole(progressElmId, responseElmId, roleNameVal, successCallback) {
+    function deleteRole(progressElmId, responseElmId, roleNameVal, successCallback, failureCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (valid == true) {
             if (roleNameVal.trim().length === 0) {
-                responseElm.textContent = 'Enter Role Name';
-                responseElm.style.color = "red";
-                showElm(responseContainerElmId);
-                valid = false;
+                responseElm.textContent = 'Enter Role Name'
+                responseElm.style.color = "red"
+                showElm(responseContainerElmId)
+                valid = false
             }
         }
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/WebApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'RemoveRole', "params": {
-                    "roleName": roleNameVal
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "RemoveRole"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('message') === true) {
+            let apiParams = {
+                "roleName": roleNameVal
+            }
 
-                            showText(responseElm, result.message, 'green');
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('message') === true) {
+
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     function showAddRoleBtn() {
         if (isHiddenElm('addRoleDiv') == true) {
-            showElm('roleIconPlus');
+            showElm('roleIconPlus')
             hideElm('roleIconMinus')
         } else {
-            showElm('roleIconMinus');
+            showElm('roleIconMinus')
             hideElm('roleIconPlus')
         }
     }
 
     function clearRoleInput() {
-        getElm('roleName').value = "";
+        getElm('roleName').value = ""
 
         //getElm("roleListResponse").textContent = "";
         //hideElm("roleListResponseContainer");
 
-        getElm('roleName').focus();
-        showAddRoleBtn();
+        getElm('roleName').focus()
+        showAddRoleBtn()
     }
 
-    function initAppViewsAsRole(progressElmId, responseElmId, successCallback) {
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+    function initAppViewsAsRole(progressElmId, responseElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
-        const selectedAppSites = [];
-        let appSiteCheckboxList = document.getElementsByName("appSiteList");
+        const selectedAppSites = []
+        let appSiteCheckboxList = document.getElementsByName("appSiteList")
         for (let y = 0; y < appSiteCheckboxList.length; y++) {
             if (appSiteCheckboxList[y].checked == true) {
-                selectedAppSites.push(appSiteCheckboxList[y].defaultValue);
+                selectedAppSites.push(appSiteCheckboxList[y].defaultValue)
             }
         }
 
         if (selectedAppSites.length == 0) {
 
-            showText(responseElm, 'Select AppSite', 'red');
-            valid = false;
+            showText(responseElm, 'Select AppSite', 'red')
+            valid = false
         }
 
         if (valid === true) {
-            let url = '/AppApi/WebApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'InitAppViewsAsRole', "params": {
-                    "appSites": selectedAppSites
-                }, "id": id
-            };
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result)) {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message, 'green');
+            let isRealtime = false
+            let realtimeDomain = ""
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "InitAppViewsAsRole"
+
+            let apiParams = {
+                "appSites": selectedAppSites
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     ready(() => {
-        let roleNameElm = getElm("roleName");
-        roleNameElm.removeEventListener("keypress", null);
+        let roleNameElm = getElm("roleName")
+        roleNameElm.removeEventListener("keypress", null)
         roleNameElm.addEventListener("keypress", function (event) {
             if (event.which == 13) {
-                let addRoleConfirmBtn = getElm('addRoleConfirm');
-                addRoleConfirmBtn.dispatchEvent(new Event('click'));
-                event.preventDefault();
+                let addRoleConfirmBtn = getElm('addRoleConfirm')
+                addRoleConfirmBtn.dispatchEvent(new Event('click'))
+                event.preventDefault()
             }
-        });
-        clearRoleInput();
-    });
+        })
+        clearRoleInput()
+    })
 
 </script>
 
@@ -356,23 +351,7 @@
         <div class="ar-flex-content-wrap border" style="margin: 5px 0px;">
             <label style="width:100%;">App Sites</label>
             <div>
-                {{
-                    VIEW_AppSiteSelect(
-                    "appSiteList",
-                    "AppSite":"{$AppSite}",
-                    "AppSiteType": "All",
-                    "SelectedOption" : "AppSiteCheckedOption",
-                    "SelectOption" : "AppSiteOption",
-                    "EmptyText" : "No App Site Found",
-                    "SkipValue": "",
-                    "FilterValue": "",
-                    "SelectedKey":"",
-                    "DefaultChecked": "True",
-                    "AppendOptionText": "",
-                    "AppendOptionValue": "",
-                    "DisableOptionValue": "Index",
-                    "DisableOptionChecked": "false")
-                }}
+                {{AppSiteSelect}}
             </div>
         </div>
 
@@ -421,19 +400,7 @@
         </div>
 
         <div id="roleList">
-            {{
-                VIEW_RoleList("RoleList",
-                    "htmlTableEmpty":"RoleListEmpty",
-                    "htmlTable":"RoleListTable",
-                    "htmlTableBody":"RoleListTableBody",
-                    "htmlTableRow":"RoleListTableRow",
-                    "htmlTableHeader":"RoleListTableHeader",
-                    "htmlTableFooter":"RoleListTableFooter",
-                    "filterKey" :"",
-                    "filterValue":"",
-                    "pageNo": "1",
-                    "itemsPerPage":"{$ItemsPerPageManageRole}")
-            }}
+            {{RoleList}}
         </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-{  
+{
   "AppSiteList": {
     "IViewType": "AppSiteList",
     "IViewParamFile": "DynamicView.AppSiteList"
@@ -6,5 +6,9 @@
   "AppViewList": {
     "IViewType": "AppViewList",
     "IViewParamFile": "DynamicView.AppViewList"
+  },
+  "ComponentCategorySelect": {
+    "IViewType": "ComponentCategorySelect",
+    "IViewParamFile": "DynamicView.ComponentCategorySelect"
   }
 }

@@ -2,9 +2,6 @@
   "SiteTitle": "Manage",
   "SiteDescription": "Server Management",
   "NavBarBackgroundStyle": "background-color:#207dee;",
-  "ItemsPerPage": 99,
-  "ItemsPerPageManageRole": 10,
-  "ItemsPerPageManageUser": 10,
   "ShowCurlTool$": false,
   "ShowAppManage$": true
 }

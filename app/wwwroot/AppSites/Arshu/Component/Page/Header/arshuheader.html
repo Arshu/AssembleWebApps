@@ -46,26 +46,74 @@
 
     let is_DEVICE_Runtime = true /* isIOSRuntime | isANDROIDRuntime | isWINRuntime | isWEBRuntime*/
 
+    function getMainAppSite() {
+        return '{{$AppSite}}'
+    }
+    function getMainAppView() {
+        return '{{$AppView}}'
+    }
+
 </script>
 
-<style>
-    .is_DEVICE_Hide { /* isIOSHide | isANDROIDHide | isWINHide | isWEBHide*/
-        display: none;
-    }
+<script src="/Resource/Arshu/app/js/arshuconnectajax.min.js"></script>
+<script src="/Resource/Arshu/app/js/arshuframeworkapi.min.js"></script>
+<script src="/Resource/Arshu/app/js/arshuframeworkeditor.min.js"></script>
 
-    .is_DEVICE_Show { /* isIOSShow | isANDRODShow | isWINShow | isWEBShow*/
-        display: inline-block;
-    }
-</style>
-
-<script src="/Resource/Arshu/app/js/arshu.min.js"></script>
-<script src="/Resource/Arshu/app/js/arshuapi.min.js"></script>
-<script src="/Resource/Arshu/app/js/arshueditor.min.js"></script>
 <script src="/Resource/Arshu/app/js/arshuutility.min.js"></script>
+
+{{@OnlyRootGET}}
+<script>
+
+    function refreshComponentViews(progressElmId, responseElmId, redirectUrl) {
+        let defaultAppSite = "{{$DefaultAppSite}}"
+        let defaultAppView = "{{$DefaultAppView}}"
+        let defaultRefreshComponent = "{{$DefaultRefreshComponent}}"
+        let defaultRealtime = false
+        if ("{{$DefaultRealtime}}" == "true") {
+            defaultRealtime = true
+        }
+        let defaultRealtimeDomain = ""
+        if ("{{$DefaultRealtimeDomain}}" == true) {
+            defaultRealtimeDomain = "/" + defaultAppSite + "/" + defaultAppView
+        }
+
+        if (redirectUrl.trim().startsWith("/") == true) {
+            redirectUrl = redirectUrl.trim().substring(1)
+        }
+        var redirectParts = redirectUrl.split("/")
+        if (redirectUrl.length >= 2) {
+            defaultAppSite = redirectParts[0]
+            defaultAppView = redirectParts[1]
+        }
+        refreshViewHtml(progressElmId, responseElmId, defaultAppSite, defaultAppView, defaultRefreshComponent, {}, defaultRealtime, defaultRealtimeDomain, null, null)
+    }
+
+    function isOnlyRootGET() {
+        return true
+    }
+    function getDefaultAppSite() {
+        return "{{$DefaultAppSite}}"
+    }
+    function getDefaultAppView() {
+        return "{{$DefaultAppView}}"
+    }
+    function getDefaultRealtime() {
+        return "{{$DefaultRealtime}}"
+    }
+    function getDefaultRealtimeDomain() {
+        return "{{$DefaultRealtimeDomain}}"
+    }
+    function getDefaultRefreshComponent() {
+        return "{{$DefaultRefreshComponent}}"
+    }
+</script>
+{{/OnlyRootGET}}
 
 <script>
 
+
     ready(() => {
+
         const urlParams = (new URL(document.location)).searchParams
         const region = urlParams.get('region')
         const instance = urlParams.get('instance')
@@ -77,8 +125,9 @@
         ) {
             document.querySelectorAll('a').forEach(function (el) {
                 let href = el.getAttribute('href')
-                if ((href.startsWith("#") == false)
-                    && (href.startsWith("/") == true)) {
+
+                if ((href.trim().startsWith("#") == false)
+                    && (href.trim().startsWith("/") == true)) {
 
                     if ((region) && (region.length > 0)) {
                         var regionUrl = new URL(href, document.baseURI)
@@ -121,8 +170,16 @@
 {{WebLogOffJs}}
 {{/IsLoggedIn}}
 
+<style>
+    .is_DEVICE_Hide { /* isIOSHide | isANDROIDHide | isWINHide | isWEBHide*/
+        display: none;
+    }
+
+    .is_DEVICE_Show { /* isIOSShow | isANDRODShow | isWINShow | isWEBShow*/
+        display: inline-block;
+    }
+</style>
 
 <link rel="stylesheet" href="/Resource/Arshu/app/css/arshu.min.css">
 <link rel="stylesheet" href="/Resource/Arshu/app/css/arshulayout.min.css">
 <link rel="stylesheet" href="/Resource/Arshu/animation/animate.min.css">
-

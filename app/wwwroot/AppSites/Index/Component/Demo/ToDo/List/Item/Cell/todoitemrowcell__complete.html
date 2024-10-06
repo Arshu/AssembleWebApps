@@ -1,5 +1,5 @@
 {{VIEWPLACEHOLDER}}
-<input checked="checked" type="checkbox" title="UnCheck to Pending" {{@Filter}}disabled{{/Filter}}
+<input checked="checked" id="{{$Guid}}" type="checkbox" title="UnCheck to Pending" {{@Filter}}disabled{{/Filter}}
        data-action="editJsonInJsonArray"
        data-progress="{{$ViewID}}Progress"
        data-response="noresponse"
@@ -16,7 +16,7 @@
        data-filter="todoFilterViewGetFilter"
        data-isrealtime="todoGetRealtime" ,
        data-realtimedomain="todoGetRealtimeDomain">
-<div style="display:inline" title="ViewName={{$ViewName}},ViewID={{$ViewID}},ParentViewID={{$ParentViewID}},KeyPath={{$KeyPath}}">
+<div style="display:inline" title="ViewName={{$ViewName}},ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
     <s>{{$TaskName}}</s>
     <div id="{{$ViewID}}Progress"></div>
 </div>

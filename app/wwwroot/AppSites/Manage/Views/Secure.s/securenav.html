@@ -1,0 +1,35 @@
+<ul class="ar-menu" id="navMenu" style="{{$NavBarBackgroundStyle}}">
+    <li class="ar-menulogo">
+        <a href="/" title="{{$ViewParentID}}">
+            {{$SiteTitle}}
+        </a>
+    </li>
+    {{@NAVList}}
+
+    {{@HaveSubMenu}}
+    <li class="ar-menuitem ar-has-submenu">
+        <a tabindex="0">{{$NavTitle}}</a>
+        <ul class="ar-submenu">
+            {{@SubNAVList}}
+            <li class="ar-submenuitem">
+                <a class="{{$SubNavActive}}" href="{{$SubNavUrl}}" >
+                    {{$SubNavTitle}}
+                </a>
+            </li>
+            {{/SubNAVList}}
+        </ul>
+    </li>
+    {{/HaveSubMenu}}
+    {{^HaveSubMenu}}
+    <li class="ar-menuitem">
+        <a class="{{$NavActive}}" href="{{$NavUrl}}">
+            {{$NavTitle}}
+        </a>
+    </li>
+    {{/HaveSubMenu}}
+
+    {{/NAVList}}
+    <li class="ar-menutoggle" data-target="navMenu">
+        <svg style="width:32px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </li>
+</ul>

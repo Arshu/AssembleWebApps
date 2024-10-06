@@ -1,121 +1,117 @@
 <script type="text/javascript">
 
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
     ready(() => {
-        const urlParams = new URLSearchParams(window.location.search);
+        const urlParams = new URLSearchParams(window.location.search)
         if (urlParams.has("Id") == true) {
-            getElm('resetInfo').value = urlParams.get('Id');
+            getElm('resetInfo').value = urlParams.get('Id')
         } else {
-            const urlPath = window.location.pathname;
-            const lastSlashIdx = urlPath.lastIndexOf("/");
+            const urlPath = window.location.pathname
+            const lastSlashIdx = urlPath.lastIndexOf("/")
             if (lastSlashIdx > -1) {
-                const idInfo = urlPath.substring(lastSlashIdx + 1);
-                getElm('resetInfo').value = idInfo.replace("Id=", "");
+                const idInfo = urlPath.substring(lastSlashIdx + 1)
+                getElm('resetInfo').value = idInfo.replace("Id=", "")
             }
         }
-    });
+    })
 
-
-    function resetPassword(progressElmId, responseElmId, resetInfo, enterLoginId, loginNewPassword, confirmNewPassword, redirectUrl) {
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+    function resetPassword(progressElmId, responseElmId, resetInfo, enterLoginId, loginNewPassword, confirmNewPassword, redirectUrl, successCallback, failureCallback) {
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
         if (resetInfo.trim().length === 0) {
-            showText(responseElm, 'Reset Info Not Found', 'red');
-            valid = false;
+            showText(responseElm, 'Reset Info Not Found', 'red')
+            valid = false
         }
 
         if (enterLoginId.trim().length === 0) {
-            showText(responseElm, 'Enter Login Id', 'red');
-            valid = false;
+            showText(responseElm, 'Enter Login Id', 'red')
+            valid = false
         }
 
         if (valid === true) {
             if (loginNewPassword.trim().length === 0) {
-                showText(responseElm, 'Enter Login New Password', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Login New Password', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
             if (confirmNewPassword.trim().length === 0) {
-                showText(responseElm, 'Enter Login Confirm New Password', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Login Confirm New Password', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
             if (loginNewPassword !== confirmNewPassword) {
-                showText(responseElm, 'Login Password and Confirm Password does not match', 'red');
-                valid = false;
+                showText(responseElm, 'Login Password and Confirm Password does not match', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/WebApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'DoWebResetForgotPassword', "params": {
-                    "resetInfo": resetInfo,
-                    "userId": enterLoginId,
-                    "newPassword": confirmNewPassword
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "DoWebResetForgotPassword"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result))  {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message, 'green');
-                        }
+            let apiParams = {
+                "resetInfo": resetInfo,
+                "userId": enterLoginId,
+                "newPassword": confirmNewPassword
+            }
 
-                        if (result.hasOwnProperty('data') === true) {
-                            redirectUrl = result.data;
-                        }
-                        if (result.hasOwnProperty('status') === true) {
-                            if (result.status == true) {
-                                if (redirectUrl) {
-                                    setTimeout(function () { window.location.replace(redirectUrl); }, 1000);
-                                } else {
-                                    setTimeout(function () { window.location.reload(true); }, 1000);
-                                }
-                            }
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green')
+                }
+
+                if (result.hasOwnProperty('data') === true) {
+                    redirectUrl = result.data
+                }
+                if (result.hasOwnProperty('status') === true) {
+                    if (result.status == true) {
+                        if (redirectUrl) {
+                            setTimeout(function () { window.location.replace(redirectUrl) }, 1000)
+                        } else {
+                            setTimeout(function () { window.location.reload(true) }, 1000)
                         }
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     function clearResetPasswordInput() {
-        getElm('resetLoginId').value = '';
-        getElm('resetNewPwd').value = '';
-        getElm('resetConfirmNewPwd').value = '';
+        getElm('resetLoginId').value = ''
+        getElm('resetNewPwd').value = ''
+        getElm('resetConfirmNewPwd').value = ''
 
-        getElm('resetPasswordResponse').textContent = "";
-        hideElm("resetPasswordResponseContainer");
+        getElm('resetPasswordResponse').textContent = ""
+        hideElm("resetPasswordResponseContainer")
 
-        getElm('resetLoginId').focus();        
+        getElm('resetLoginId').focus()
     }
-    
+
 </script>
 
 <div class="ar-flex-content-center" style="min-height:calc(100vh - 110px);">
@@ -125,11 +121,11 @@
         <label>Reset Your Password</label>
 
         <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
-            <input class="ar-flex-item-stretch ar-border" type="text" id="resetInfo" value="" disabled="disabled" placeholder="Your Reset Info" style="background-color:gray"/>
+            <input class="ar-flex-item-stretch ar-border" type="text" id="resetInfo" value="" disabled="disabled" placeholder="Your Reset Info" style="background-color:gray" />
         </div>
 
         <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
-            <input class="ar-flex-item-stretch ar-border" type="text" id="resetLoginId" value="" placeholder="Your Login Id" tabindex="1"/>
+            <input class="ar-flex-item-stretch ar-border" type="text" id="resetLoginId" value="" placeholder="Your Login Id" tabindex="1" />
         </div>
 
         <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
@@ -159,6 +155,6 @@
         </div>
 
     </div>
-    </div>
+</div>
 
 

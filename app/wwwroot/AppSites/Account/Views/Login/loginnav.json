@@ -1,8 +1,8 @@
 {
-  "NAVList": [   
+  "NAVList": [
     {
       "NavTitle": "Home",
-      "NavUrl": "/",
+      "NavUrl": "/Index/Main",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []

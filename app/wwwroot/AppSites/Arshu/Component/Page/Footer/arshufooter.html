@@ -104,9 +104,13 @@
     {{AppMetrics}}
 {{/EnableMetricsView}}
 
-{{@EnableRealtime}}
-    {{WSRealtimeJs}}
-{{/EnableRealtime}}
+{{@EnableWebSocket}}
+    {{WebSocketJs}}
+{{/EnableWebSocket}}
+
+{{@EnableWebRTC}}
+    {{WebRTCJs}}
+{{/EnableWebRTC}}
 
 <script type="text/javascript">
 
@@ -221,8 +225,8 @@
 
         if (valid === true) {
 
-            let isRealtime = false;
-            let realtimeDomain = "";
+            let isRealtime = true;
+            let realtimeDomain = window.location.host;
 
             let apiUrl = '/AppApi/MetricsApi';
             let apiMethod = 'GetServerInfo';

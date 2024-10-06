@@ -33,14 +33,7 @@
             <div class="ar-flex-item-stretch ar-border-top-bottom" style="background-color:#efefef;">
                 <select class="ar-select" id="{{$ViewID}}EditorJsonSource" style="text-align:center; border:none;"
                         onchange="refreshEditorJson('{{$ViewID}}', '{{$ViewID}}JsonEditorProgress', 'JsonObjectJsonArray', 1, 1, 1)">
-                    {{
-                            VIEW_FileSelect("SampleJson",
-                            "DirRelativePath":"{$JsonFolder}",
-                            "DirSearchPattern": "*.json",
-                            "SelectValue":"{$JsonSource}",
-                            "DisplayMode" :"FileNameWithoutExtension",
-                            "ExcludePattern":".editor")
-                    }}
+                    {{FileSelect}}
                 </select>
             </div>
 
@@ -63,13 +56,7 @@
         <div id="{{$ViewID}}JsonEditorSection">
 
             <div id="{{$ViewID}}">
-                {{
-                    VIEW_JsonEditor("JsonEditor",
-                        "AppSite":"{$AppSite}",
-                        "JsonSource":"{$JsonSource}",
-                        "JsonEditorConfig":"{{$ViewID}}"
-                    )
-                }}
+                {{JsonEditorView}}
             </div>
             <div>{{VIEWPLACEHOLDER$}}</div>
 

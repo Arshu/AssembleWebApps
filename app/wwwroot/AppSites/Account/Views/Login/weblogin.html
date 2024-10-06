@@ -1,239 +1,257 @@
 
 <script type="text/javascript">
 
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
     ready(() => {
 
-        let scanInputElm = getElm('scanInput');
-        let scanInputValElm = getElm('scanInputVal');
-        let loginIdElm = getElm('loginId');
-        let loginPwdElm = getElm('loginPwd');
-        let loginSubmitElm = getElm('loginSubmit');
+        let scanInputElm = getElm('scanInput')
+        let scanInputValElm = getElm('scanInputVal')
+        let loginIdElm = getElm('loginId')
+        let loginPwdElm = getElm('loginPwd')
+        let loginSubmitElm = getElm('loginSubmit')
 
         scanInputElm.addEventListener('keypress', function (event) {
-            let key = event.which || event.keyCode;
+            let key = event.which || event.keyCode
             if (key === 13) { // 13 is enter
                 if (scanInputVal.value.length == 0) {
-                    loginIdElm.value = scanInputElm.value;
-                    scanInputVal.value = scanInputElm.value;
-                    scanInputElm.value = "";
-                    scanInputElm.focus();
+                    loginIdElm.value = scanInputElm.value
+                    scanInputVal.value = scanInputElm.value
+                    scanInputElm.value = ""
+                    scanInputElm.focus()
                 } else {
-                    loginPwdElm.value = scanInputElm.value;
-                    scanInputElm.value = "";
-                    scanInputVal.value = "";
+                    loginPwdElm.value = scanInputElm.value
+                    scanInputElm.value = ""
+                    scanInputVal.value = ""
                     loginSubmitElm.click()
                 }
             }
-        });
+        })
 
         loginIdElm.addEventListener('keypress', function (event) {
-            let key = event.which || event.keyCode;
+            let key = event.which || event.keyCode
             if (key === 13) { // 13 is enter
-                loginPwdElm.focus();
+                loginPwdElm.focus()
             }
-        });
+        })
 
         loginPwdElm.addEventListener('keypress', function (event) {
-            let key = event.which || event.keyCode;
+            let key = event.which || event.keyCode
             if (key === 13) { // 13 is enter
                 loginSubmitElm.click()
             }
-        });
+        })
 
-        haveLoginUser('loginProgress', 'loginResponse', 'haveUserInfo', function () {           
-            checkAllowedLoginType('loginProgress', 'loginResponse', 'autoLoginBtn', 'linkLoginBtn', function () {
-                setFocus(getElm('loginId'), 1000);
-            });
+        haveLoginUser('loginProgress', 'loginResponse', 'haveUserInfo', function () {
+            setFocus(getElm('loginId'), 1000)
         }, function () {
-            setFocus(getElm('loginId'), 1000);
-        });
+            setFocus(getElm('loginId'), 1000)
+        })
     })
 
     function haveLoginUser(progressElmId, responseElmId, targetElmId, successCallback, failureCallback) {
-        let id = window.ajaxid++;
+        let id = window.ajaxid++
 
-        let responseContainerElmId = responseElmId + "Container";
+        let responseContainerElmId = responseElmId + "Container"
         let responseElm = getElm(responseElmId)
         let responseContainerElm = getElm(responseContainerElmId)
-        responseElm.innerHTML = "";
-        hideElm(responseContainerElmId);
+        responseElm.innerHTML = ""
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (valid === true) {
 
-            let url = '/AppApi/WebApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'HaveLoginUser', "params": {},
-                "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "HaveLoginUser"
 
-                        if (result.hasOwnProperty('message') === true) {
-                            //showText(responseElm, result.message, 'green');
+            let apiParams = {
+            }
 
-                            if (result.hasOwnProperty('status') === true) {
-                                if (result.status == false) {
-                                    let targetElm = getElm(targetElmId);
-                                    if (targetElm) {
-                                        targetElm.style.display = "block";
-                                    }
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                                    if (typeof (failureCallback) === "function") {
-                                        failureCallback();
-                                    }
+                let responseElm = getElm(responseElmId)
 
-                                } else {
-                                    if (typeof (successCallback) === "function") {
-                                        successCallback();
-                                    }
-                                }
+                if (result.hasOwnProperty('message') === true) {
+                    //showText(responseElm, result.message, 'green');
 
+                    if (result.hasOwnProperty('status') === true) {
+                        if (result.status == false) {
+                            let targetElm = getElm(targetElmId)
+                            if (targetElm) {
+                                targetElm.style.display = "block"
+                            }
+
+                            if (typeof (failureCallback) === "function") {
+                                failureCallback()
+                            }
+
+                        } else {
+                            if (typeof (successCallback) === "function") {
+                                successCallback()
                             }
                         }
+
                     }
-                });
+                }
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
-        return false;
+        return false
     }
 
-    function webLoginUser(progressElmId, responseElmId, loginIdVal, loginPasswordVal, loginRememberVal, redirectUrl) {
-        let id = window.ajaxid++;
-        let responseContainerElmId = responseElmId + "Container";
+    function webLoginUser(progressElmId, responseElmId, loginIdVal, loginPasswordVal, loginRememberVal, redirectUrl, successCallback, failureCallback) {
+        let id = window.ajaxid++
+        let responseContainerElmId = responseElmId + "Container"
         let responseElm = getElm(responseElmId)
         let responseContainerElm = getElm(responseContainerElmId)
-        responseElm.innerHTML = "";
-        hideElm(responseContainerElmId);
+        responseElm.innerHTML = ""
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (loginIdVal.trim().length === 0) {
-            showText(responseElm, 'Enter Login Id', 'red');
-            valid = false;
+            showText(responseElm, 'Enter Login Id', 'red')
+            valid = false
         }
 
         if (valid === true) {
             if (loginPasswordVal.trim().length === 0) {
-                showText(responseElm, 'Enter Login Password', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Login Password', 'red')
+                valid = false
             }
         }
 
-        let rememberMe = false;
-        if (loginRememberVal === "on") rememberMe = true;
-        if (loginRememberVal == - true) rememberMe = true;
-
-        let jsonInput = {
-            "request type": "User",
-            "sub type": "Login",
-            "data": {
-                "UserPwd": loginPasswordVal,
-            },
-            "filter": { "UserId": loginIdVal }
-        }
+        let rememberMe = false
+        if (loginRememberVal === "on") rememberMe = true
+        if (loginRememberVal == - true) rememberMe = true
 
         if (valid === true) {
 
-            let url = '/AppApi/WebApi' + window.location.search;
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'DoWebValidateUser',
-                "params": {
-                    "userId": loginIdVal,
-                    "userPassword": loginPasswordVal,
-                    "rememberMe": rememberMe,
-                    "jsonInput": jsonInput
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/WebApi" + window.location.search
+            let apiMethod = "DoWebValidateUser"
 
-                        if (result.hasOwnProperty('data') === true) {
-                            redirectUrl = result.data;
-                        }
-                        if (result.hasOwnProperty('status') === true) {
-                            if (result.status == true) {
-                                if (redirectUrl) {
-                                    setTimeout(function () { window.location.replace(redirectUrl); }, 1000);
-                                } else {
-                                    setTimeout(function () { window.location.reload(true); }, 1000);
-                                }
+            let jsonInput = {
+                "request type": "User",
+                "sub type": "Login",
+                "data": {
+                    "UserPwd": loginPasswordVal,
+                },
+                "filter": { "UserId": loginIdVal }
+            }
+
+            let apiParams = {
+                "userId": loginIdVal,
+                "userPassword": loginPasswordVal,
+                "rememberMe": rememberMe,
+                "jsonInput": jsonInput
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('data') === true) {
+                    redirectUrl = result.data
+                }
+                                
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green')
+                }
+
+                if (result.hasOwnProperty('status') === true) {
+                    if (result.status == true) {
+
+                        if (typeof isOnlyRootGET === "function") {
+                            setTimeout(function () {
+                                refreshComponentViews(progressElmId, responseElmId, redirectUrl)
+                            }, 1000)
+                        } else {
+                            if (redirectUrl) {
+                                setTimeout(function () {
+                                    window.location.replace(redirectUrl)
+                                }, 1000)
+                            } else {
+                                setTimeout(function () {
+                                    window.location.reload(true)
+                                }, 1000)
                             }
                         }
-
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message, 'green');
-                        }
                     }
+                }
 
-                });
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
-        return false;
+        return false
     }
 
-    function webForgotPassword(progressElmId, responseElmId, loginIdVal) {
-        let id = window.ajaxid++;
-        let responseContainerElmId = responseElmId + "Container";
+    function webForgotPassword(progressElmId, responseElmId, loginIdVal, successCallback, failureCallback) {
+        let id = window.ajaxid++
+        let responseContainerElmId = responseElmId + "Container"
         let responseElm = getElm(responseElmId)
         let responseContainerElm = getElm(responseContainerElmId)
-        responseElm.innerHTML = "";
-        hideElm(responseContainerElmId);
+        responseElm.innerHTML = ""
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (loginIdVal.trim().length === 0) {
-            showText(responseElm, 'Enter Login Id', 'red');
-            valid = false;
-        }
-
-        let jsonInput = {
-            "request type": "User",
-            "sub type": "ForgotPassword",
-            "data": {
-            },
-            "filter": { "UserId": loginIdVal }
+            showText(responseElm, 'Enter Login Id', 'red')
+            valid = false
         }
 
         if (valid === true) {
 
-            let url = '/AppApi/WebApi' + window.location.search;
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'DoWebForgotPassword',
-                "params": {
-                    "userId": loginIdVal,
-                    "jsonInput": jsonInput
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/WebApi" + window.location.search
+            let apiMethod = "DoWebForgotPassword"
 
-                        if (result.hasOwnProperty('data') === true) {
-                            redirectUrl = result.data;
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        else if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message, 'green');
-                        }
-                    }
-                });
+            let jsonInput = {
+                "request type": "User",
+                "sub type": "ForgotPassword",
+                "data": {
+                },
+                "filter": { "UserId": loginIdVal }
+            }
+
+            let apiParams = {
+                "userId": loginIdVal,
+                "jsonInput": jsonInput
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('data') === true) {
+                    redirectUrl = result.data
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                else if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green')
+                }
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
-        return false;
+        return false
     }
 
 </script>
@@ -242,6 +260,7 @@
     .avatar {
         padding-bottom: 10px;
     }
+
         .avatar img {
             padding: 0px;
             background: #fff;
@@ -257,13 +276,8 @@
     <div class="ar-flex-card ar-card-border" style="text-align:center;width:80%;">
 
         <figure class="avatar" style="text-align:center;margin: 0 auto;">
-            <img src="/Content/logos/logo_login.png" style="max-width:100%;" />
+            <img src="/Resource/account/logo_login.png" style="max-width:100%;" />
         </figure>
-
-        <div style="text-align:center;display:none;" id="autoLoginBtnDiv">
-            <div id="autoLoginProgress"></div>
-            <button class="ar-button" id="autoLoginBtn" disabled="disabled" onclick="return autoLogin('autoLoginProgress', 'loginResponse', '/');" class="button border" style="background-color:#209cee;">Auto Login</button>
-        </div>
 
         <div class="ar-flex-item-stretch" id="haveUserInfo" style="text-align:center;display:none;">
             No login user found, the first user will become the admin user
@@ -283,28 +297,6 @@
             <button class="ar-border-right ar-button" disabled="disabled" style="width:25px;background-color:gray;" id="linkLoginBtn" onclick="toggleElm('linkLoginBtnDiv'); ">
                 &nbsp;
             </button>
-        </div>
-
-        <div class="ar-border" style="display:none;padding:10px 5px;" id="linkLoginBtnDiv">
-
-            <div style="text-align:center;">
-                <div id="sendLinkLoginProgress"></div>
-                <button class="ar-button ar-border" onclick="return sendLinkLogin('sendLinkLoginProgress', 'loginResponse', getElm('loginId').value, 'linkLoginUserBtn');" style="background-color:#209cee;">Send Link Info</button>
-            </div>
-
-            <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
-                <label style="width:100%;">Link Code</label>
-                <div class="ar-border-left" style="width:25px;background-color:gray;" onclick="let elm = getElm('linkCode'); elm.value = ''; elm.focus();">
-                    <div>&nbsp;</div>
-                </div>
-                <input class="ar-input ar-flex-item-stretch ar-border-right" id="linkCode" autocomplete="off" type="password" placeholder="Your Link Code">
-            </div>
-
-            <div style="text-align:center;">
-                <div id="linkLoginProgress"></div>
-                <button class="ar-button ar-border" id="linkLoginUserBtn" disabled="disabled" onclick="return linkLoginUser('linkLoginProgress', 'loginResponse', getElm('loginId').value, getElm('linkCode').value, '/');" style="background-color:#209cee;">Link Login</button>
-            </div>
-
         </div>
 
         <div class="ar-flex-input-wrap" style="margin: 5px 0px;">

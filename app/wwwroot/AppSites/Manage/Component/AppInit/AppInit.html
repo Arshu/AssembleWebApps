@@ -6,11 +6,6 @@
 
     {{ApiKey}}
 
-    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
-        <label style="width:100%;margin: 5px 0px;cursor: pointer;">App Owner Email</label>
-        <input id="appOwnerID" class="ar-input ar-flex-item-stretch ar-border" autocomplete="off" type="email" placeholder="Your App Owner Email" value="{{$OwnerEmail}}" />
-    </div>
-
     <div class="ar-notification" id="appInitResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
         <button class="ar-delete" onclick="hideElm('appInitResponseContainer')"></button>
         <div id="appInitResponse"></div>
@@ -41,38 +36,52 @@
         </select>
     </div>
 
-    <div id="appSecurity" class="ar-border" style="margin: 5px 0px;padding: 5px;display:none;">
-        <div style="text-align:center">Initial Admin Credentials <div id="loginProgress"></div></div>
-
-        <div class="ar-flex-input-wrap" style="margin: 10px 0px 5px 0px;">
-            <label style="width:100%;margin: 5px 0px;">Admin Email</label>
-            <input class="ar-input ar-flex-item-stretch ar-border" id="intializeAdminUserEmail" autocomplete="off" type="email" placeholder="Your User Id" autofocus="" tabindex="1" value="{{$AdminUserEmail}}">
+    {{@HaveInitUser}}
+    <div class="ar-border" style="margin: 5px 0px;padding: 5px;">
+        <div style="text-align:center">
+            Initial Admin Credentials Already Initialized
         </div>
-
-        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
-            <label style="width:100%;margin: 5px 0px;">Password</label>
-            <input class="ar-input ar-flex-item-stretch ar-border" id="intializeAdminUserPwd" autocomplete="off" type="password" placeholder="Your Password" tabindex="2" value="{{$AdminUserPwd}}">
-        </div>
-
-        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
-            <label style="width:100%;margin: 5px 0px;">Confirm Password</label>
-            <input class="ar-input ar-flex-item-stretch ar-border" id="intializeAdminUserConfirmPwd" autocomplete="off" type="password" placeholder="Your Password" tabindex="3" value="{{$AdminUserPwd}}">
-        </div>
-
-        {{@IsLocalHost}}
-
-        <div class="ar-flex-content-wrap" style="margin: 0px;">
-            <button class="ar-button ar-border" id="doInitAppUserBtn" style="margin: 5px; background-color: #209cee;" disabled="disabled"
-                    onclick="initAppUser('doAppInitProgress', 'doAppInitResponse', getElm('initServerFolders').value, getElm('appOwnerID').value, getElm('intializeAdminUserEmail').value, getElm('intializeAdminUserPwd').value, getElm('intializeAdminUserConfirmPwd').value, 'doInitAppUserBtn', 'doInitUploadAppBtn', 'doInitBackupUpdateAppBtn', 'doInitUploadBackupUpdateAppBtn', function () {resetSecurityDiv(getElm('initServerFolders').value, 'appSecurity');})">
-                Init Admin User <div id="doAppInitProgress"></div>
-            </button>
-        </div>
-
-        <div style="text-align:center;font-size:xx-small;color:orangered;">Init App User will not persist the Initial Admin User and will get reset on reboot if running on scale to zero machines without persistence</div>
-
-        {{/IsLocalHost}}
-
     </div>
+    {{/HaveInitUser}}
+    {{^HaveInitUser}}
+    <div id="appSecurity" style="display:none;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+            <label style="width:100%;margin: 5px 0px;cursor: pointer;">App Owner Email</label>
+            <input id="appOwnerID" class="ar-input ar-flex-item-stretch ar-border" autocomplete="off" type="email" placeholder="Your App Owner Email" value="{{$OwnerEmail}}" />
+        </div>
+        <div id="appSecurity" class="ar-border" style="margin: 5px 0px;padding: 5px;">
+            <div style="text-align:center">Initial Admin Credentials <div id="loginProgress"></div></div>
+
+            <div class="ar-flex-input-wrap" style="margin: 10px 0px 5px 0px;">
+                <label style="width:100%;margin: 5px 0px;">Admin Email</label>
+                <input class="ar-input ar-flex-item-stretch ar-border" id="intializeAdminUserEmail" autocomplete="off" type="email" placeholder="Your User Id" autofocus="" tabindex="1" value="{{$AdminUserEmail}}">
+            </div>
+
+            <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+                <label style="width:100%;margin: 5px 0px;">Password</label>
+                <input class="ar-input ar-flex-item-stretch ar-border" id="intializeAdminUserPwd" autocomplete="off" type="password" placeholder="Your Password" tabindex="2" value="{{$AdminUserPwd}}">
+            </div>
+
+            <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+                <label style="width:100%;margin: 5px 0px;">Confirm Password</label>
+                <input class="ar-input ar-flex-item-stretch ar-border" id="intializeAdminUserConfirmPwd" autocomplete="off" type="password" placeholder="Your Password" tabindex="3" value="{{$AdminUserPwd}}">
+            </div>
+
+            {{@IsLocalHost}}
+
+            <div class="ar-flex-content-wrap" style="margin: 0px;">
+                <button class="ar-button ar-border" id="doInitAppUserBtn" style="margin: 5px; background-color: #209cee;" disabled="disabled"
+                        onclick="initAppUser('doAppInitProgress', 'doAppInitResponse', getElm('initServerFolders').value, getElm('appOwnerID').value, getElm('intializeAdminUserEmail').value, getElm('intializeAdminUserPwd').value, getElm('intializeAdminUserConfirmPwd').value, 'doInitAppUserBtn', 'doInitUploadAppBtn', 'doInitBackupUpdateAppBtn', 'doInitUploadBackupUpdateAppBtn', function () {resetSecurityDiv(getElm('initServerFolders').value, 'appSecurity');})">
+                    Init Admin User <div id="doAppInitProgress"></div>
+                </button>
+            </div>
+
+            {{/IsLocalHost}}
+
+        </div>
+    </div>
+
+    {{/HaveInitUser}}
 
     <div class="ar-notification" id="doAppInitResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
         <button class="ar-delete" onclick="hideElm('doAppInitResponseContainer')"></button>
@@ -124,6 +133,9 @@
 
             </div>
         </div>
+
+        {{@IsLocalHost}}
+
         <div class="ar-flex-content-wrap" style="margin: 0px;">
 
             <button class="ar-button ar-border" id="doInitUploadAppBtn" style="margin: 5px; background-color: #209cee;" disabled="disabled"
@@ -133,7 +145,7 @@
 
         </div>
 
-        <div style="text-align:center;font-size:xx-small;color:orangered;">Upload App will not persist any changes if no volume attached</div>
+        {{/IsLocalHost}}
 
     </div>
 
@@ -198,20 +210,20 @@
 
         </div>
 
-        <div style="text-align:center;font-size:xx-small;color:orangered;">Backup and Update App will persist any changes to docker image and update the current machine instance if not skipped</div>
+        <div style="text-align:center;font-size:xx-small;color:orangered;">Backup and Update App will persist any changes to oci image and update the current machine instance if not skipped</div>
 
         <div class="ar-flex-content-wrap" style="margin: 0px;">
 
             <button class="ar-button ar-border" id="doInitUploadBackupUpdateAppBtn" style="margin: 5px; background-color: #209cee;" disabled="disabled"
                     onclick="initUploadBackupUpdateApp('doAppInitUploadBackupUpdateProgress', 'doAppInitBackupUpdateResponse', getElm('initServerFolders').value, getElm('appOwnerID').value, getElm('intializeAdminUserEmail').value, getElm('intializeAdminUserPwd').value, getElm('intializeAdminUserConfirmPwd').value, 'appSecurity', 'addZipFile', getElm('initOverwriteAppData').checked, getElm('initClearDownloadLayer').checked, getElm('initBackupAppData').checked, getElm('uploadBackupUpdateSkipZipUpload').checked, getElm('backupUpdateSkipMachineUpdate').checked, getElm('backupUpdateHttpStatusCheck').checked, 'doInitAppUserBtn', 'doInitUploadAppBtn', 'doInitBackupUpdateAppBtn', 'doInitUploadBackupUpdateAppBtn', 'backupUpdateDetailResponse', function () {resetSecurityDiv(getElm('initServerFolders').value, 'appSecurity');} )">
-                 Init, Upload, Backup and Update App <div id="doAppInitUploadBackupUpdateProgress"></div>
+                Init, Upload, Backup and Update App <div id="doAppInitUploadBackupUpdateProgress"></div>
             </button>
 
         </div>
-        <div style="text-align:center;font-size:xx-small;color:orangered;">Upload, Backup and Update App will upload and persist any changes to docker image and update the current machine instance if not skipped</div>
+        <div style="text-align:center;font-size:xx-small;color:orangered;">Upload, Backup and Update App will upload and persist any changes to oci image and update the current machine instance if not skipped</div>
     </div>
 
- 
+
     {{AppInitJs}}
 
 </div>

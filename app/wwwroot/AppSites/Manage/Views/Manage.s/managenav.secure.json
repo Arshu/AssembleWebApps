@@ -1,0 +1,23 @@
+{
+  "NAVList": [
+    {
+      "NavTitle": "LogOff ({{$LoginUserID}})",
+      "NavUrl": "#/",
+      "NavActive": "logoff",
+      "HaveSubMenu": false,
+      "SubNAVList": []
+    }
+  ],
+  "NAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "/Index/Main",
+    "NavActive": "",
+    "HaveSubMenu": false,
+    "SubNAVList": []
+  },
+  "SubNAVListSchema": {
+    "NavTitle": "Index",
+    "NavUrl": "/Index/Main",
+    "NavActive": ""
+  }
+}

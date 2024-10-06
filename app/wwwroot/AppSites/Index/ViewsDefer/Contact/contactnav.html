@@ -1,6 +1,6 @@
 <ul class="ar-menu" id="navMenu" style="{{$NavBarBackgroundStyle}};">
     <li class="ar-menulogo">
-        <a href="#" data-action="refreshViewHtml" data-progress="progress" data-response="response" data-appsite="{{$DefaultAppSite}}" data-appview="{{$DefaultAppView}}" data-component="mainNav, mainContent">
+        <a href="/">
             {{$SiteTitle}}
         </a>
     </li>
@@ -12,7 +12,7 @@
         <ul class="ar-submenu">
             {{@SubNAVList}}
             <li class="ar-submenuitem">
-                <a class="{{$SubNavActive}}" href="{{$SubNavUrl}}" data-action="refreshViewHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
+                <a class="{{$SubNavActive}}" href="{{$SubNavUrl}}">
                     {{$SubNavTitle}}
                 </a>
             </li>
@@ -22,7 +22,7 @@
     {{/HaveSubMenu}}
     {{^HaveSubMenu}}
     <li class="ar-menuitem">
-        <a class="{{$NavActive}}" href="{{$NavUrl}}" data-action="refreshViewHtml" data-progress="progress" data-response="response" data-appsite="{{$NavAppSite}}" data-appview="{{$NavAppView}}" data-component="{{$NavAppViewIDs}}">
+        <a class="{{$NavActive}}" href="{{$NavUrl}}">
             {{$NavTitle}}
         </a>
     </li>

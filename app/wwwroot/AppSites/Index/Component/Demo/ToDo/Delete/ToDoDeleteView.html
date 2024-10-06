@@ -1,21 +1,21 @@
 
-<div class="ar-flex-input-wrap bg-alt" id="toDoDeleteViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ParentViewID={{$ParentViewID}},KeyPath={{$KeyPath}}">
+<div class="ar-flex-input-wrap bg-alt" id="toDoDeleteViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
     <div id="toDoEditConfig">
-        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="PageNo" id="{{$ParentViewID}}DeletePageNo" />
-        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="ItemsPerPage" id="{{$ParentViewID}}DeleteItemsPerPage" />
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="PageNo" id="{{$ViewParentID}}DeletePageNo" />
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="ItemsPerPage" id="{{$ViewParentID}}DeleteItemsPerPage" />
     </div>
     <div id="toDoDeleteKey">
-        <input type="hidden" class="ar-border" style="width:100%;" data-key="" id="{{$ParentViewID}}DeleteGuid" />
+        <input type="hidden" class="ar-border" style="width:100%;" data-key="" id="{{$ViewParentID}}DeleteGuid" />
     </div>
 
     <div class="ar-flex-input-wrap" id="toDoDeleteInput">
-        <input type="hidden" class="ar-border" style="width:100%;" id="{{$ParentViewID}}DeleteKey" value="" />
+        <input type="hidden" class="ar-border" style="width:100%;" id="{{$ViewParentID}}DeleteKey" value="" />
 
         <div>Task Name</div>
-        <input type="text" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ParentViewID}}DeleteTaskName" disabled />
+        <input type="text" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ViewParentID}}DeleteTaskName" disabled />
 
         <div>Task Status</div>
-        <select class="ar-select ar-border" data-key="" style="width:100%;padding:0 0 0 10px;" id="{{$ParentViewID}}DeleteTaskStatus" disabled>
+        <select class="ar-select ar-border" data-key="" style="width:100%;padding:0 0 0 10px;" id="{{$ViewParentID}}DeleteTaskStatus" disabled>
             <option>Pending</option>
             <option>InProgress</option>
             <option>Complete</option>
@@ -26,11 +26,11 @@
         <button class="ar-button ar-border" style="margin:5px;background-color:green;width:75px;" onclick="hideElm('toDoDeleteViewDiv')">Close</button>
 
         <button class="ar-button ar-border" style="margin:5px;background-color:lightblue;width:75px;"
-                data-action="deleteJsonInJsonArray" data-progress="{{$ParentViewID}}Progress" data-response="{{$ParentViewID}}Response"
+                data-action="deleteJsonInJsonArray" data-progress="{{$ViewParentID}}Progress" data-response="{{$ViewParentID}}Response"
                 data-appsite="{{$AppSite}}" data-appview="{{$AppView}}"
-                data-appcomponent="{{$ParentViewID}}"
+                data-appcomponent="{{$ViewParentID}}"
                 data-keyinfo="todoDeleteViewGetKeyInfo"
-                data-component="{{$ParentViewID}}"
+                data-component="{{$ViewParentID}}"
                 data-filter="todoFilterViewGetFilter"
                 data-config="{ 'PageNo': '{{$PageNo}}', 'ItemsPerPage': '{{$ItemsPerPage}}' }"
                 data-isrealtime="todoGetRealtime" ,
@@ -43,11 +43,11 @@
 <script>
 
 function todoDeleteViewGetKeyInfo() {
-    return getFlatJson('toDoDeleteKey', '{{$ParentViewID}}');
+    return getFlatJson('toDoDeleteKey', '{{$ViewParentID}}');
     }
 
     function todoDeleteViewGetConfigInfo() {
-        return { "PageNo": getElm('{{$ParentViewID}}DeletePageNo').value, "ItemsPerPage": getElm('{{$ParentViewID}}DeleteItemsPerPage').value }
+        return { "PageNo": getElm('{{$ViewParentID}}DeletePageNo').value, "ItemsPerPage": getElm('{{$ViewParentID}}DeleteItemsPerPage').value }
         //return getFlatJson('toDoDeleteConfig', '');
     }
 

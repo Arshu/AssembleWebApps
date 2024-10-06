@@ -4,9 +4,6 @@
     {
       "NavTitle": "SignIn",
       "NavUrl": "/Account/Login",
-      "NavAppSite": "",
-      "NavAppView": "",
-      "NavAppViewIDs": "",
       "NavActive": "",
       "HaveSubMenu": false,
       "SubNAVList": []
@@ -15,9 +12,6 @@
   "NAVListSchema": {
     "NavTitle": "Index",
     "NavUrl": "/Index/Main",
-    "NavAppSite": "Index",
-    "NavAppView": "Main",
-    "NavAppViewIDs": "mainContent",
     "NavActive": "",
     "HaveSubMenu": false,
     "SubNAVList": []
@@ -25,9 +19,6 @@
   "SubNAVListSchema": {
     "NavTitle": "Index",
     "NavUrl": "/Index/Main",
-    "NavAppSite": "Index",
-    "NavAppView": "Main",
-    "NavAppViewIDs": "mainContent",
     "NavActive": ""
   }
 }

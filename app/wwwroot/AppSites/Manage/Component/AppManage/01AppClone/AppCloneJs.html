@@ -21,7 +21,7 @@
         }
     }
 
-    function retrieveAppCloneInfo(progressElmId, responseElmId, cloneAppName, appOrganisationSelectElmId, appNameElmId, dockerImagePathSelectElmId, dockerImageTagNameElmId, cloneRegionTemplateElmId, cloneRegionTargetElmId, cloneMaxRegionsPerAppElmId, cloneMaxMachinesPerAppElmId, cloneMaxMachinesPerRegionElmId, cloneEnvInitialTimeoutElmId, cloneEnvIdleTimeoutElmId, cloneEnvLoadAppDataElmId, cloneEnvAutoDestroyAfterXMinElmId, doCloneBtnElmId, successCallback, failureCallback) {
+    function retrieveAppCloneInfo(progressElmId, responseElmId, cloneAppName, appOrganisationSelectElmId, appNameElmId, machineConfigListSelectElmId, ociImagePathSelectElmId, ociImageTagNameElmId, cloneRegionTemplateElmId, cloneRegionTargetElmId, cloneMaxRegionsPerAppElmId, cloneMaxMachinesPerAppElmId, cloneMaxMachinesPerRegionElmId, cloneEnvInitialTimeoutElmId, cloneEnvIdleTimeoutElmId, cloneEnvLoadAppDataElmId, cloneEnvAutoDestroyAfterXMinElmId, doCloneBtnElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -79,45 +79,71 @@
                         getElm(appNameElmId).value = result.AppName;
                     }
 
-                    if (result.hasOwnProperty("DockerImageList") === true) {
-                        let dockerImageList = result.DockerImageList;
+                    if (result.hasOwnProperty("MachineConfigList") === true) {
+                        let machineConfigList = result.MachineConfigList;
 
-                        let selectElm = getElm(dockerImagePathSelectElmId);
+                        let selectElm = getElm(machineConfigListSelectElmId);
                         if (selectElm) {
                             selectElm.options.length = 0;
 
-                            for (var i = 0; i < dockerImageList.length; i++) {
-                                let dockerImageInfo = dockerImageList[i];
+                            for (var i = 0; i < machineConfigList.length; i++) {
+                                let machineConfig = machineConfigList[i];
+                                let configName = "";
+                                if (machineConfig.hasOwnProperty('ConfigName') === true) {
+                                    configName = machineConfig.ConfigName
+                                }
+                                let configSelect = false;
+                                if (machineConfig.hasOwnProperty('ConfigSelect') === true) {
+                                    configSelect = machineConfig.ConfigSelect
+                                }
+                                if (configSelect == true) {
+                                    selectElm.options[selectElm.options.length] = new Option(configName, configName, true, true);
+                                } else {
+                                    selectElm.options[selectElm.options.length] = new Option(configName, configName, false, false);
+                                }
+                            }
+                        }
+                    }
 
-                                let dockerImageName = "";
-                                if (dockerImageInfo.hasOwnProperty('DockerImageName') === true) {
-                                    dockerImageName = dockerImageInfo.DockerImageName
+                    if (result.hasOwnProperty("OCIImageList") === true) {
+                        let ociImageList = result.OCIImageList;
+
+                        let selectElm = getElm(ociImagePathSelectElmId);
+                        if (selectElm) {
+                            selectElm.options.length = 0;
+
+                            for (var i = 0; i < ociImageList.length; i++) {
+                                let ociImageInfo = ociImageList[i];
+
+                                let ociImageName = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImageName') === true) {
+                                    ociImageName = ociImageInfo.OCIImageName
                                 }
-                                let dockerImageTag = "";
-                                if (dockerImageInfo.hasOwnProperty('DockerImageTag') === true) {
-                                    dockerImageTag = dockerImageInfo.DockerImageTag
+                                let ociImageTag = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImageTag') === true) {
+                                    ociImageTag = ociImageInfo.OCIImageTag
                                 }
-                                let dockerImagePath = "";
-                                if (dockerImageInfo.hasOwnProperty('DockerImagePath') === true) {
-                                    dockerImagePath = dockerImageInfo.DockerImagePath
+                                let ociImagePath = "";
+                                if (ociImageInfo.hasOwnProperty('OCIImagePath') === true) {
+                                    ociImagePath = ociImageInfo.OCIImagePath
                                 }
                                 let isAppImage = false;
-                                if (dockerImageInfo.hasOwnProperty('IsAppImage') === true) {
-                                    isAppImage = dockerImageInfo.IsAppImage
+                                if (ociImageInfo.hasOwnProperty('IsAppImage') === true) {
+                                    isAppImage = ociImageInfo.IsAppImage
                                 }
 
-                                if ((i == 0) && (dockerImageTag.trim().length == 0)) {
-                                    getElm(dockerImageTagNameElmId).value = dockerImageTag;
-                                    getElm(dockerImageTagNameElmId).original = dockerImageTag;
+                                if ((i == 0) && (ociImageTag.trim().length != 0)) {
+                                    getElm(ociImageTagNameElmId).value = ociImageTag;
+                                    getElm(ociImageTagNameElmId).original = ociImageTag;
                                 } else {
-                                    getElm(dockerImageTagNameElmId).value = dockerImageTag;
-                                    getElm(dockerImageTagNameElmId).original = 'latest';
+                                    getElm(ociImageTagNameElmId).value = 'latest';
+                                    getElm(ociImageTagNameElmId).original = 'latest';
                                 }
 
                                 if (isAppImage == true) {
-                                    selectElm.options[selectElm.options.length] = new Option(dockerImageName, dockerImagePath, true, true);
+                                    selectElm.options[selectElm.options.length] = new Option(ociImageName, ociImagePath, true, true);
                                 } else {
-                                    selectElm.options[selectElm.options.length] = new Option(dockerImageName, dockerImagePath, false, false);
+                                    selectElm.options[selectElm.options.length] = new Option(ociImageName, ociImagePath, false, false);
                                 }
                             }
                         }
@@ -130,9 +156,6 @@
                     if (result.hasOwnProperty('EnvIdleShutdownTimeInSec') === true) {
                         getElm(cloneEnvIdleTimeoutElmId).value = result.EnvIdleShutdownTimeInSec;
                     }
-                    //if (result.hasOwnProperty('EnvLoadAppData') === true) {
-                    //    getElm(cloneEnvLoadAppDataElmId).checked = result.EnvLoadAppData;
-                    //}
                     if (result.hasOwnProperty('EnvAutoDestroyAfterXMin') === true) {
                         getElm(cloneEnvAutoDestroyAfterXMinElmId).value = result.EnvAutoDestroyAfterXMin;
                     }
@@ -323,7 +346,7 @@
         return false;
     }
 
-    function cloneApp(progressElmId, responseElmId, newAppNameVal, newAppOrganizationVal, newAppNetworkVal, existingAppNameVal, dockerImagePathVal, dockerImageTagNameVal, cloneRegionTargetElmName, envInitialTimeoutVal, envIdleTimeoutVal, envLoadAppDataVal, envAutoDestroyAfterXMinVal, appOwnerIDVal, doCloneBtnElmId, detailResponseElmId, successCallback, failureCallback) {
+    function cloneApp(progressElmId, responseElmId, newAppNameVal, newAppOrganizationVal, newAppNetworkVal, existingAppNameVal, machineConfigNameVal, ociImagePathVal, ociImageTagNameVal, cloneRegionTargetElmName, envInitialTimeoutVal, envIdleTimeoutVal, envAutoDestroyAfterXMinVal, appOwnerIDVal, attachVolumeSizeVal, attachVolumePathVal, doCloneBtnElmId, detailResponseElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -355,15 +378,22 @@
         }
 
         if (valid == true) {
-            if (dockerImagePathVal.length == 0) {
-                showText(responseElm, 'Clone App Docker Image Path Cannot be Empty', 'red');
+            if (machineConfigNameVal.length == 0) {
+                showText(responseElm, 'Clone Machine Config Cannot be Empty', 'red');
                 valid = false;
             }
         }
 
         if (valid == true) {
-            if (dockerImageTagNameVal.length == 0) {
-                showText(responseElm, 'Clone App Docker Image Tag Name Cannot be Empty', 'red');
+            if (ociImagePathVal.length == 0) {
+                showText(responseElm, 'Clone App OCI Image Path Cannot be Empty', 'red');
+                valid = false;
+            }
+        }
+
+        if (valid == true) {
+            if (ociImageTagNameVal.length == 0) {
+                showText(responseElm, 'Clone App OCI Image Tag Name Cannot be Empty', 'red');
                 valid = false;
             }
         }
@@ -398,6 +428,16 @@
             }
         }
 
+        let attachVolumeSize = parseInt(attachVolumeSizeVal, 0);
+        if (valid == true) {
+            if (attachVolumeSize > 0) {
+                if (attachVolumePathVal.length == 0) {
+                    showText(responseElm, 'Set the Attach Volume Path if Attach Volume Size is greater than zero', 'red');
+                    valid = false;
+                }
+            }
+        }
+
         let apiToken = "";
         if (haveElm('appAPIToken') == true) {
             apiToken = getElm('appAPIToken').value;
@@ -423,14 +463,16 @@
                 "newAppOrganization": newAppOrganizationVal,
                 "newAppNetwork": newAppNetworkVal,
                 "appName": existingAppNameVal,
-                "dockerImagePath": dockerImagePathVal,
-                "dockerImageTagName": dockerImageTagNameVal,
+                "machineConfigName": machineConfigNameVal,
+                "ociImagePath": ociImagePathVal,
+                "ociImageTagName": ociImageTagNameVal,
                 "cloneRegions": cloneRegionList,
                 "envInitialTimeout": envInitialTimeoutVal,
                 "envIdleTimeout": envIdleTimeoutVal,
-                "envLoadAppData": envLoadAppDataVal,
                 "envAutoDestroyAfterXMin": envAutoDestroyAfterXMinVal,
-                "appOwnerID": appOwnerIDVal
+                "appOwnerID": appOwnerIDVal,
+                "attachVolumeSize" : attachVolumeSize, 
+                "attachVolumePath": attachVolumePathVal
             };
 
             let processReturn = function (result, responseElmId, successCallback, failureCallback) {
@@ -439,7 +481,7 @@
 
                 if (result.hasOwnProperty('error') === true) {
                     showText(responseElm, result.error, 'red');
-                    getElm(doDeployBtnElmId).removeAttribute("disabled");
+                    getElm(doCloneBtnElmId).removeAttribute("disabled");
 
                     let detailMessageHtml = "";
                     let messageNo = 0;

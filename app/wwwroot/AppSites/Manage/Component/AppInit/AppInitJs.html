@@ -45,10 +45,12 @@
 
                 if (result.hasOwnProperty('InitialUserNotFound') === true) {
                     let initialUserNotFound = result.InitialUserNotFound;
-                    if (initialUserNotFound == true) {
-                        showElm(appSecurityElmId);
-                    } else {
-                        hideElm(appSecurityElmId);
+                    if (haveElm(appSecurityElmId) == true) {
+                        if (initialUserNotFound == true) {
+                            showElm(appSecurityElmId);
+                        } else {
+                            hideElm(appSecurityElmId);
+                        }
                     }
                 }
 
@@ -148,10 +150,12 @@
 
                     if (result.hasOwnProperty('InitialUserNotFound') === true) {
                         let initialUserNotFound = result.InitialUserNotFound;
-                        if (initialUserNotFound == true) {
-                            showElm(appSecurityElmId);
-                        } else {
-                            hideElm(appSecurityElmId);
+                        if (haveElm(appSecurityElmId) == true) {
+                            if (initialUserNotFound == true) {
+                                showElm(appSecurityElmId);
+                            } else {
+                                hideElm(appSecurityElmId);
+                            }
                         }
                     }
 
@@ -415,17 +419,20 @@
             let apiUrl = '/AppApi/ServerApi';
             let apiMethod = 'InitUploadApp';
 
-            data.append('ProcessFormData', apiMethod);
+            let apiParams = {
+                "apiToken": apiToken,
+                "appOwnerID": appOwnerIDVal,
+                "initializeFolder": initFolderSelectVal,
+                "initialAdminUserEmail": initialUserEmailVal,
+                "initialAdminUserPwd": initialUserPwdVal,
+                "overwriteAppData": initOverwriteAppDataVal
+            }
 
-            data.append("apiToken", apiToken);
-            data.append('initializeFolder', initFolderSelectVal);
-            data.append("appOwnerID", appOwnerIDVal);
-
-            data.append('initialAdminUserEmail', initialUserEmailVal);
-            data.append('initialAdminUserPwd', initialUserPwdVal);
-
-            data.append('overwriteAppData', initOverwriteAppDataVal);
-
+            data.append('FormDataMethod', apiMethod);
+            for (const key in apiParams) {
+                data.append(key, apiParams[key])
+            }
+            
             dopostform(progressElmId, responseElmId, apiUrl, data,
                 function (jsonData) {
                     if (jsonData.hasOwnProperty('Result') === true) {
@@ -841,23 +848,24 @@
             let apiUrl = '/AppApi/ServerApi';
             let apiMethod = 'InitUploadBackupUpdateApp';
 
-            data.append('ProcessFormData', apiMethod);
+            let apiParams = {
+                "apiToken": apiToken,
+                "appOwnerID": appOwnerIDVal,
+                "initializeFolder": initFolderSelectVal,
+                "initialAdminUserEmail": initialUserEmailVal,
+                "initialAdminUserPwd": initialUserPwdVal,
+                "overwriteAppData": initOverwriteAppDataVal,
+                "clearDownloadLayer": initClearBackupLayerVal,
+                "backupAppData": initBackupAppDataVal,
+                "skipMachineUpdate": skipMachineUpdateVal,
+                "httpStatusCheck": httpStatusCheckVal
+            }
 
-            data.append("apiToken", apiToken);
-            data.append("appOwnerID", appOwnerIDVal);
-            data.append('initializeFolder', initFolderSelectVal);
-
-            data.append('initialAdminUserEmail', initialUserEmailVal);
-            data.append('initialAdminUserPwd', initialUserPwdVal);
-
-            data.append('overwriteAppData', initOverwriteAppDataVal);
-
-            data.append('clearDownloadLayer', initClearBackupLayerVal);
-            data.append('backupAppData', initBackupAppDataVal);
-
-            data.append('skipMachineUpdate', skipMachineUpdateVal);
-            data.append('httpStatusCheck', httpStatusCheckVal);
-
+            data.append('FormDataMethod', apiMethod);
+            for (const key in apiParams) {
+                data.append(key, apiParams[key])
+            }
+            
             dopostform(progressElmId, responseElmId, apiUrl, data,
                 function (jsonData) {
                     if (jsonData.hasOwnProperty('Result') === true) {

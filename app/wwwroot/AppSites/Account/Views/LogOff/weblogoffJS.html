@@ -1,98 +1,92 @@
-
+﻿
 <script type="text/javascript">
 
-    window.ajaxid = 0;
-    
-    ready(() => {
-
-        let logoffElms = document.querySelectorAll('.logoff');
-        if (logoffElms) {
-            logoffElms.forEach(function (item) {
-                item.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    logOff('progress', 'response', null, null, "/");
-                    return false;
-                })
-            });
-        }
-    });
-
-    function logOff(progressElmId, responseElmId, successCallback, failureCallback, logOffUrl) {
-
-        let id = window.ajaxid++;
-        let responseContainerElmId = responseElmId + "Container";
+    function logOff(progressElmId, responseElmId, redirectUrl, successCallback, failureCallback) {
+        let id = window.ajaxid++
+        let responseContainerElmId = responseElmId + "Container"
         let responseElm = getElm(responseElmId)
         let responseContainerElm = getElm(responseContainerElmId)
-        responseElm.innerHTML = "";
-        hideElm(responseContainerElmId);
+        responseElm.innerHTML = ""
+        hideElm(responseContainerElmId)
 
-        let valid = true;
+        let valid = true
 
         if (valid === true) {
 
-            let url = '/AppApi/WebApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'WebLogOff',
-                "params": {},
-                "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/WebApi"
+            let apiMethod = "WebLogOff"
 
-                        if (result.hasOwnProperty('status') === true) {
-                            if (result.status === true) {
+            let apiParams = {
 
-                                if (typeof successCallback === "function") {
-                                    successCallback();
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('status') === true) {
+                    if (result.status === true) {
+
+                        if (typeof isOnlyRootGET === "function") {
+                            refreshComponentViews(progressElmId, responseElmId, redirectUrl);
+                        } else {
+                            if (typeof successCallback === "function") {
+                                successCallback()
+                            } else {
+                                if (redirectUrl) {
+                                    window.location.href = redirectUrl
                                 } else {
-                                    if (logOffUrl) {
-                                        window.location.href = logOffUrl;
-                                    } else {
-                                        window.location.href = "/"
-                                    }
+                                    window.location.href = "/"
                                 }
+                            }
+                        } 
+                    }
+                    else {
+                        if (typeof isOnlyRootGET === "function") {
+                            refreshComponentViews(progressElmId, responseElmId, redirectUrl)
+                        } else { 
+                            if (typeof failureCallback === "function") {
+                                failureCallback()
                             }
                             else {
-                                if (typeof failureCallback === "function") {
-                                    failureCallback();
-                                }
-                                else {
-                                    if (logOffUrl) {
-                                        window.location.href = logOffUrl;
-                                    } else {
-                                        window.location.href = "/"
-                                    }
+                                if (redirectUrl) {
+                                    window.location.href = redirectUrl
+                                } else {
+                                    window.location.href = "/"
                                 }
                             }
                         }
+                    }
+                }
 
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
-                    }
-                    if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error) {
-                            if (error.hasOwnProperty('Message') === true) {
-                                if (haveElm(responseElmId) == true) {
-                                    alert(error.message);
-                                }
-                            }
-                        }
-                    }
-                });
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
 
-        return false;
+        return false
     }
 
+    ready(() => {
+        let logoffElms = document.querySelectorAll('.logoff')
+            if (logoffElms) {
+                logoffElms.forEach(function (item) {
+                    item.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        logOff('progress', 'response', "/", null, null);
+                        return false
+                    })
+                })
+            }
+        });
 
 </script>
-

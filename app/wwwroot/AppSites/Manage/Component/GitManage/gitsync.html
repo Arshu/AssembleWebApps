@@ -1,597 +1,577 @@
 ﻿<script>
-    window.ajaxid = 0;
+    window.ajaxid = 0
 
     function hideGitViewer() {
 
-        let modal = document.querySelector('#viewGit');
-        modal.classList.remove('ar-modal-active');
-        setTimeout(function () { window.location.reload(true); }, 1000);
+        let modal = document.querySelector('#viewGit')
+        modal.classList.remove('ar-modal-active')
+        setTimeout(function () { window.location.reload(true) }, 1000)
     }
 
     function showGitViewer(progressElmId) {
-        let modal = document.querySelector('#viewGit');
-        modal.classList.add('ar-modal-active');
+        let modal = document.querySelector('#viewGit')
+        modal.classList.add('ar-modal-active')
     }
 
     function gitRefreshGitRepositoryList(progressElmId, responseElmId, targetElmId, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
         //responseElm.textContent = '';
         //let responseContainerElmId = responseElmId + "Container";
         //hideElm(responseContainerElmId);
-        let valid = true;
+        let valid = true
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/GitApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetGitRepositorySelectView', "params": {
-                    "appSite": "",
-                    "selectedKey": "",
-                    "emptyText": "No Git Repository Found"
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/GitApi"
+            let apiMethod = "GetGitRepositorySelectView"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (data.hasOwnProperty('Result') === true) {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
-                            let rootNode = getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            showElm(targetElmId);
+            let apiParams = {
+                "appSite": "",
+                "selectedKey": "",
+                "emptyText": "No Git Repository Found"
+            }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    showElm(targetElmId)
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if (data.hasOwnProperty('Error') === true) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
 
-        return false;
+        return false
     }
 
     function gitRefreshGitRemoteBranchList(progressElmId, responseElmId, gitUrlVal, targetElmId, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        responseElm.textContent = '';
-        let responseContainerElmId = responseElmId + "Container";
-        hideElm(responseContainerElmId);
-        let valid = true;
-        let selectIndex = 0;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        responseElm.textContent = ''
+        let responseContainerElmId = responseElmId + "Container"
+        hideElm(responseContainerElmId)
+        let valid = true
+        let selectIndex = 0
 
         if (valid === true) {
 
-            let url = '/AppApi/GitApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetGitRemoteBranchList', "params": {
-                    "gitUrl": gitUrlVal
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (data.hasOwnProperty('Result') === true) {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('json') === true) {
+            let apiUrl = "/AppApi/GitApi"
+            let apiMethod = "GetGitRemoteBranchList"
 
-                            let selectElm = getElm(targetElmId);
-                            if (selectElm) {
-                                let retData = result.json;
-                                selectElm.options.length = 0;
-                                for (let i = 0; i < retData.length; i++) {
-                                    let key = retData[i].Key;
-                                    let jsonData = retData[i].Value;
-                                    if (jsonData.hasOwnProperty("OptionText") && jsonData.hasOwnProperty("OptionValue")) {
-                                        let optionText = jsonData.OptionText;
-                                        let optionValue = jsonData.OptionValue;
-                                        selectElm.options[selectElm.options.length] = new Option(optionText, optionValue);
-                                    }
-                                    else {
-                                        selectElm.options[selectElm.options.length] = new Option(key, key);
-                                    }
-                                }
-                                if (selectIndex === 999) {
-                                    selectElm.selectedIndex = selectElm.options.length - 1;
-                                }
-                                else {
-                                    selectElm.selectedIndex = selectIndex;
-                                }
+            let apiParams = {
+                "gitUrl": gitUrlVal
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('json') === true) {
+
+                    let selectElm = getElm(targetElmId)
+                    if (selectElm) {
+                        let retData = result.json
+                        selectElm.options.length = 0
+                        for (let i = 0; i < retData.length; i++) {
+                            let key = retData[i].Key
+                            let jsonData = retData[i].Value
+                            if (jsonData.hasOwnProperty("OptionText") && jsonData.hasOwnProperty("OptionValue")) {
+                                let optionText = jsonData.OptionText
+                                let optionValue = jsonData.OptionValue
+                                selectElm.options[selectElm.options.length] = new Option(optionText, optionValue)
                             }
-
-                            if (typeof (successCallback) === "function") {
-                                successCallback();
+                            else {
+                                selectElm.options[selectElm.options.length] = new Option(key, key)
                             }
                         }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
+                        if (selectIndex === 999) {
+                            selectElm.selectedIndex = selectElm.options.length - 1
                         }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
-                    }
-                    else if (data.hasOwnProperty('Error') === true) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
+                        else {
+                            selectElm.selectedIndex = selectIndex
                         }
                     }
-                });
+
+                    if (typeof (successCallback) === "function") {
+                        successCallback()
+                    }
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     function gitRefreshGitFolderList(progressElmId, responseElmId, gitUrlVal, targetElmId, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        responseElm.textContent = '';
-        let responseContainerElmId = responseElmId + "Container";
-        hideElm(responseContainerElmId);
-        let valid = true;
-        let selectIndex = 0;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        responseElm.textContent = ''
+        let responseContainerElmId = responseElmId + "Container"
+        hideElm(responseContainerElmId)
+        let valid = true
+        let selectIndex = 0
 
         if (valid === true) {
 
-            let url = '/AppApi/GitApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetGitFolderSelectList', "params": {
-                    "gitUrl": gitUrlVal
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (data.hasOwnProperty('Result') === true) {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('json') === true) {
+            let apiUrl = "/AppApi/GitApi"
+            let apiMethod = "GetGitFolderSelectList"
 
-                            let selectElm = getElm(targetElmId);
-                            if (selectElm) {
-                                let retData = result.json;
-                                selectElm.options.length = 0;
-                                for (let i = 0; i < retData.length; i++) {
-                                    let key = retData[i].Key;
-                                    let jsonData = retData[i].Value;
-                                    if (jsonData.hasOwnProperty("OptionText") && jsonData.hasOwnProperty("OptionValue")) {
-                                        let optionText = jsonData.OptionText;
-                                        let optionValue = jsonData.OptionValue;
-                                        selectElm.options[selectElm.options.length] = new Option(optionText, optionValue);
-                                    }
-                                    else {
-                                        selectElm.options[selectElm.options.length] = new Option(key, key);
-                                    }
-                                }
-                                if (selectIndex === 999) {
-                                    selectElm.selectedIndex = selectElm.options.length - 1;
-                                }
-                                else {
-                                    selectElm.selectedIndex = selectIndex;
-                                }
+            let apiParams = {
+                "gitUrl": gitUrlVal
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('json') === true) {
+
+                    let selectElm = getElm(targetElmId)
+                    if (selectElm) {
+                        let retData = result.json
+                        selectElm.options.length = 0
+                        for (let i = 0; i < retData.length; i++) {
+                            let key = retData[i].Key
+                            let jsonData = retData[i].Value
+                            if (jsonData.hasOwnProperty("OptionText") && jsonData.hasOwnProperty("OptionValue")) {
+                                let optionText = jsonData.OptionText
+                                let optionValue = jsonData.OptionValue
+                                selectElm.options[selectElm.options.length] = new Option(optionText, optionValue)
                             }
-
-                            if (typeof (successCallback) === "function") {
-                                successCallback();
+                            else {
+                                selectElm.options[selectElm.options.length] = new Option(key, key)
                             }
                         }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
+                        if (selectIndex === 999) {
+                            selectElm.selectedIndex = selectElm.options.length - 1
                         }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
-                    }
-                    else if (data.hasOwnProperty('Error') === true) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
+                        else {
+                            selectElm.selectedIndex = selectIndex
                         }
                     }
-                });
+
+                    if (typeof (successCallback) === "function") {
+                        successCallback()
+                    }
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
     function gitRefreshWebFolderList(progressElmId, responseElmId, targetElmId, selectedKeyVal, successCallback) {
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
         if (valid === true) {
 
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            let url = '/AppApi/GitApi';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'GetGitWebFolderSelectView', "params": {
-                    "appSite": '{{$AppSite}}',
-                    "selectEmptyText": "No Web Folders Found",
-                    "selectedKey": selectedKeyVal,
-                    "dirSearchPattern": "*",
-                    "dirSearchOptionAll": true,
-                    "displayMode": "RelativePath"
-                }, "id": id
-            };
+            let apiUrl = "/AppApi/GitApi"
+            let apiMethod = "GetGitWebFolderSelectView"
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if ((data.hasOwnProperty('Result') === true) && (data.Result)) {
-                        let result = data.Result;
-                        if (result.hasOwnProperty('html') === true) {
-                            let rootNode = getElm(targetElmId);
-                            rootNode.innerHTML = result.html;
-                            showElm(targetElmId);
+            let apiParams = {
+                "appSite": '{{$AppSite}}',
+                "selectEmptyText": "No Web Folders Found",
+                "selectedKey": selectedKeyVal,
+                "dirSearchPattern": "*",
+                "dirSearchOptionAll": true,
+                "displayMode": "RelativePath"
+            }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
-                        //else if (result.hasOwnProperty('message') === true) {
-                        //    showText(responseElm, result.message, 'green');
-                        //}
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('html') === true) {
+                    let rootNode = getElm(targetElmId)
+                    rootNode.innerHTML = result.html
+                    showElm(targetElmId)
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if ((data.hasOwnProperty('Error') === true) && (data.Error)) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+                //}
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
 
-        return false;
+        return false
     }
 
 
 
     function gitClonePullRepository(progressElmId, responseElmId, gitUrlVal, gitUserNameVal, gitUserEmailVal, gitAccessTokenVal, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
         if (valid == true) {
             if ((gitUrlVal.trim().length === 0) || (gitUrlVal == "0")) {
-                showText(responseElm, 'Select Valid Git Url', 'red');
-                valid = false;
+                showText(responseElm, 'Select Valid Git Url', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
 
-            let url = '/AppApi/GitApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'ClonePullWebRepository', "params": {
-                    "gitUrl": gitUrlVal,
-                    "gitUserName": gitUserNameVal,
-                    "gitUserEmail": gitUserEmailVal,
-                    "gitAccessToken": gitAccessTokenVal
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (data.hasOwnProperty('Result') === true) {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/GitApi"
+            let apiMethod = "ClonePullWebRepository"
 
-                        if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message, 'green');
+            let apiParams = {
+                "gitUrl": gitUrlVal,
+                "gitUserName": gitUserNameVal,
+                "gitUserEmail": gitUserEmailVal,
+                "gitAccessToken": gitAccessTokenVal
+            }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
+            let processReturn = function (result, responseElmId, successCallback) {
 
-                        }
-                        else if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if (data.hasOwnProperty('Error') === true) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+
+                }
+                else if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
     }
 
     function gitDeleteRepository(progressElmId, responseElmId, gitUrlVal, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
         if (valid == true) {
             if ((gitUrlVal.trim().length === 0) || (gitUrlVal == "0")) {
-                showText(responseElm, 'Select Valid Git Url', 'red');
-                valid = false;
+                showText(responseElm, 'Select Valid Git Url', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
 
-            let url = '/AppApi/GitApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'DeleteWebRepository', "params": {
-                    "gitUrl": gitUrlVal,
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (data.hasOwnProperty('Result') === true) {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/GitApi"
+            let apiMethod = "DeleteWebRepository"
 
-                        if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message, 'green');
+            let apiParams = {
+                "gitUrl": gitUrlVal,
+            }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        else if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if (data.hasOwnProperty('Error') === true) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                else if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
     }
 
     function gitPushRepository(progressElmId, responseElmId, gitUrlVal, gitCommitBranchVal, gitCommitMessageVal, includeWebSiteVal, clearWebSiteVal, gitUserNameVal, gitUserEmailVal, gitAccessTokenVal, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
         if (valid == true) {
             if ((gitUrlVal.trim().length === 0) || (gitUrlVal == "0")) {
-                showText(responseElm, 'Select Valid Git Url', 'red');
-                valid = false;
+                showText(responseElm, 'Select Valid Git Url', 'red')
+                valid = false
             }
         }
 
         if (valid == true) {
             if (gitCommitBranchVal.trim().length === 0) {
-                showText(responseElm, 'Select Git Remote Branch', 'red');
-                valid = false;
+                showText(responseElm, 'Select Git Remote Branch', 'red')
+                valid = false
             }
         }
 
         if (valid == true) {
             if (gitCommitMessageVal.trim().length === 0) {
-                showText(responseElm, 'Enter Git Commit Message', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Git Commit Message', 'red')
+                valid = false
             }
         }
 
         if (valid == true) {
             if (gitUserNameVal.trim().length === 0) {
-                showText(responseElm, 'Enter Valid Git User Name', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Valid Git User Name', 'red')
+                valid = false
             }
         }
 
         if (valid == true) {
             if (gitUserEmailVal.trim().length === 0) {
-                showText(responseElm, 'Enter Valid Git User Email', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Valid Git User Email', 'red')
+                valid = false
             }
         }
 
         if (valid == true) {
             if (gitAccessTokenVal.trim().length === 0) {
-                showText(responseElm, 'Enter Valid Git Access Token', 'red');
-                valid = false;
+                showText(responseElm, 'Enter Valid Git Access Token', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
 
-            let url = '/AppApi/GitApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'PushWebRepository', "params": {
-                    "gitUrl": gitUrlVal,
-                    "gitCommitBranch": gitCommitBranchVal,
-                    "gitCommitMessage": gitCommitMessageVal,
-                    "includeWebSite": includeWebSiteVal,
-                    "clearWebSite": clearWebSiteVal,
-                    "gitUserName": gitUserNameVal,
-                    "gitUserEmail": gitUserEmailVal,
-                    "gitAccessToken": gitAccessTokenVal
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (data.hasOwnProperty('Result') === true) {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/GitApi"
+            let apiMethod = "PushWebRepository"
 
-                        if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message, 'green');
+            let apiParams = {
+                "gitUrl": gitUrlVal,
+                "gitCommitBranch": gitCommitBranchVal,
+                "gitCommitMessage": gitCommitMessageVal,
+                "includeWebSite": includeWebSiteVal,
+                "clearWebSite": clearWebSiteVal,
+                "gitUserName": gitUserNameVal,
+                "gitUserEmail": gitUserEmailVal,
+                "gitAccessToken": gitAccessTokenVal
+            }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        else if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if (data.hasOwnProperty('Error') === true) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                else if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
         }
     }
 
     function gitCopyWebRepository(progressElmId, responseElmId, gitUrlVal, sourceFolder, targetFolder, overwriteWebSiteVal, clearWebSiteVal, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
         if (valid == true) {
             if ((gitUrlVal.trim().length === 0) || (gitUrlVal == "0")) {
-                showText(responseElm, 'Select Valid Git Url', 'red');
-                valid = false;
+                showText(responseElm, 'Select Valid Git Url', 'red')
+                valid = false
             }
         }
 
         if (valid == true) {
             if (sourceFolder.trim().length === 0) {
-                showText(responseElm, 'Select Source Folder', 'red');
-                valid = false;
+                showText(responseElm, 'Select Source Folder', 'red')
+                valid = false
             }
         }
 
         if (valid == true) {
             if (targetFolder.trim().length === 0) {
-                showText(responseElm, 'Select Target Folder', 'red');
-                valid = false;
+                showText(responseElm, 'Select Target Folder', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
 
-            let url = '/AppApi/GitApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'CopyGitWebRepository', "params": {
-                    "gitUrl": gitUrlVal,
-                    "gitSourceFolder": sourceFolder,
-                    "gitTargetFolder": targetFolder,
-                    "overwriteWebSite": overwriteWebSiteVal,
-                    "clearWebSite": clearWebSiteVal
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (data.hasOwnProperty('Result') === true) {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/GitApi"
+            let apiMethod = "CopyGitWebRepository"
 
-                        if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message, 'green');
+            let apiParams = {
+                "gitUrl": gitUrlVal,
+                "gitSourceFolder": sourceFolder,
+                "gitTargetFolder": targetFolder,
+                "overwriteWebSite": overwriteWebSiteVal,
+                "clearWebSite": clearWebSiteVal
+            }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        else if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if (data.hasOwnProperty('Error') === true) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                else if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
     }
 
     function gitClearWebRepository(progressElmId, responseElmId, targetFolder, clearWebSiteVal, successCallback) {
 
-        let id = window.ajaxid++;
-        let responseElm = getElm(responseElmId);
-        let responseContainerElmId = responseElmId + "Container";
-        responseElm.textContent = '';
-        hideElm(responseContainerElmId);
-        let valid = true;
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+        let valid = true
 
         if (valid == true) {
             if (targetFolder.trim().length === 0) {
-                showText(responseElm, 'Select Target Folder', 'red');
-                valid = false;
+                showText(responseElm, 'Select Target Folder', 'red')
+                valid = false
             }
         }
 
         if (valid === true) {
 
-            let url = '/AppApi/GitApi';
-            let urlMethod = 'POST';
-            let urlContent = {
-                "jsonrpc": '2.0', "method": 'ClearGitWebRepository', "params": {
-                    "gitTargetFolder": targetFolder,
-                    "clearWebSite": clearWebSiteVal
-                }, "id": id
-            };
+            let isRealtime = false
+            let realtimeDomain = ""
 
-            dopost(progressElmId, responseElmId, url, urlContent,
-                function (data) {
-                    if (data.hasOwnProperty('Result') === true) {
-                        let result = data.Result;
+            let apiUrl = "/AppApi/GitApi"
+            let apiMethod = "ClearGitWebRepository"
 
-                        if (result.hasOwnProperty('message') === true) {
-                            showText(responseElm, result.message, 'green');
+            let apiParams = {
+                "gitTargetFolder": targetFolder,
+                "clearWebSite": clearWebSiteVal
+            }
 
-                            if (typeof successCallback === "function") {
-                                successCallback();
-                            }
-                        }
-                        else if (result.hasOwnProperty('error') === true) {
-                            showText(responseElm, result.error, 'red');
-                        }
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('message') === true) {
+                    showText(responseElm, result.message, 'green')
+
+                    if (typeof successCallback === "function") {
+                        successCallback()
                     }
-                    else if (data.hasOwnProperty('Error') === true) {
-                        let error = data.Error;
-                        if (error.hasOwnProperty('Message') === true) {
-                            showText(responseElm, error.Message, 'red');
-                        }
-                    }
-                });
+                }
+                else if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+                }
+
+            }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
         }
     }
 
@@ -740,12 +720,7 @@
                 </button>
                 <div class="ar-flex-item-stretch ar-border-top-bottom" style="height: 40px;">
                     <select id="gitRepository" style="width:100%;border:none;">
-                        {{
-                            VIEW_GitRepositorySelect(
-                            "GitRepositorySelect",
-                            "SelectedKey":"Tailwind",
-                            "EmptyText":"No Git Repository Found")
-                        }}
+                        {{GitRepositorySelect}}
                     </select>
                 </div>
                 <button class="ar-border-right" style="width:40px;height:40px;background-color:lightgray;" onclick="toggleElm('authenticationInfo')">
@@ -794,12 +769,7 @@
                 </button>
                 <div class="ar-flex-item-stretch ar-border-right" style="height: 40px;">
                     <select id="clearWebFolders" style="width:100%;border:none;">
-                        {{
-                            VIEW_GitWebFolderSelect("FolderSelect",
-                            "DirSearchPattern": "*",
-                            "DirSearchOptionAll": true,
-                            "DisplayMode" :"RelativePath")
-                        }}
+                        {{GitWebFolderSelect}}
                     </select>
                 </div>
             </div>
@@ -853,12 +823,7 @@
                 </button>
                 <div class="ar-flex-item-stretch ar-border-right" style="height: 40px;">
                     <select id="webFolders" style="width:100%;border:none;">
-                        {{
-                            VIEW_GitWebFolderSelect("FolderSelect",
-                            "DirSearchPattern": "*",
-                            "DirSearchOptionAll": true,
-                            "DisplayMode" :"RelativePath")
-                        }}
+                        {{GitWebFolderSelect}}
                     </select>
                 </div>
             </div>

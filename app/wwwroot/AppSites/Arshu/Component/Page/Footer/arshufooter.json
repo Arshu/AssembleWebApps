@@ -5,7 +5,7 @@
   "EnableWebSocket$": true,
   "EnableWebRTC$": false,
   "ShowRecordMetrics$": true,
-  "DefaultRecordMetrics$": false,
+  "DefaultRecordMetrics$": true,
   "ShowServerInfo$": true,
   "ShowRefreshServerInfo$": true,
   "DefaultRefreshServerInfo$": false,

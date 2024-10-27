@@ -19,9 +19,17 @@
     "ShowDocumentLink": true
   },
 
-  "MetricPort": 9091,
+  "ProxyEnable": true,
+  "ProxyLocalPrefix": "Index, Account, Editor, Manage, Test, AppApi, Content, Resource",
+  "ProxyRemotePrefix": "",
   "InitialTimeInSec": 0,
   "IdleTimeInSec": 0,
+
+  "MachineConfig": "Basic_1vCPU-256MB",
+  "SuspendMachine": false,
+  "OnlyRootGET": false,
+  "AllowedGET": ".js,.css, .png,.jpg,.jpeg,.svg,.ico,.webp,.webmanifest",
+  "MetricPort": 0,
 
   "MMFLoadUrls": true,
   "MMFLoadSecureUrls": true,
@@ -68,7 +76,7 @@
       "RegisterTypeName": "Arshu.AppServer.App.Register.ServerRegister",
       "RegisterDll": "Arshu.AppServer.dll",
       "IsEnabled": true
-    }    
+    }
   ],
 
   "AppProviders": [

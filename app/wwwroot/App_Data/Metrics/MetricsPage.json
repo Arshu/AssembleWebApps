@@ -1,0 +1,158 @@
+{
+  "I9PC_fe80::5c44:712b:1d08:3a1e_10" : {
+    "/" : {
+      "ConcurrentCount" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 1
+        }
+      ],
+      "HtmlInfoDomCount" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 388
+        }
+      ],
+      "LoadingTime" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 64
+        }
+      ],
+      "LoginCount" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 0
+        }
+      ],
+      "NetworkInfoDns" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 0.1
+        }
+      ],
+      "NetworkInfoLatency" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 12094
+        }
+      ],
+      "NetworkInfoNetwork" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 71
+        }
+      ],
+      "NetworkInfoPage" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 12172
+        }
+      ],
+      "PerfCLS" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : -1
+        }
+      ],
+      "PerfFCP" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 12196.6
+        }
+      ],
+      "PerfFID" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 2
+        }
+      ],
+      "PerfLCP" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : -1
+        }
+      ],
+      "PerfMetricsRender" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 68
+        }
+      ],
+      "PerfMetricsResponse" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 2.9
+        }
+      ],
+      "PerfMetricsTls" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 0
+        }
+      ],
+      "PerfTTFB" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 12098.6
+        }
+      ],
+      "ResourceInfoCount" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 5
+        }
+      ],
+      "ResourceInfoSize" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 0
+        }
+      ],
+      "WebSocketCount" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1730012300341,
+          "Value" : 1
+        }
+      ]
+    }
+  }
+}

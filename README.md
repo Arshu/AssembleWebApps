@@ -10,7 +10,7 @@
 
 #### 2. Platform/Framework Independent Abstraction defined in Html/Json Files and Folder/File Names and Organization
 
-# Open Source Assembler (MIT) / Closed Source Tool/Runtime (1$ per Month per endpoint (subdomain)) 
+# Open Source Assembler (MIT) / Closed Source Tool/Runtime 
 
 Currently the tool consists of Assembler which implements the abstraction and also a tool/runtime for facilitating hot reloading, deployment to multiple fly.io regions/machiens, git integration, performance testing from multiple regions, client side load balancing*, proxy for multiple apps deployed in same fly.io machines etc
 
@@ -71,7 +71,7 @@ If the source of the Html + Json is required, set the appconfig.json parameter U
 ## Running from Docker
 
 Run the Docker Image **arshucs/arshuweb** as below
-#### docker run --publish 8080:8080 arshucs/arshuweb:latest
+#### docker run --publish 8080:8080 arshucs/appweb:latest
 
 ## Deploying to fly.io Serverless Machines
 
@@ -102,7 +102,7 @@ Change directory to the linux64_musl Directory
 flyctl deploy . --build-only --remote-only --push --image-label latest -a [appname]
 
 Initial Step 5 : Deploy the Machine to Fly
-flyctl machine run registry.fly.io/webimages:arshuweb --name arshuweb-sin-1 --port 443:8080/tcp:tls --port 80:8080/tcp:http --env INITIAL_TIME_IN_SEC="30" --env IDLE_TIME_IN_SEC="30" --config fly.toml --app [appname]
+flyctl machine run registry.fly.io/webimages:appweb --name appweb-sin-1 --port 443:8080/tcp:tls --port 80:8080/tcp:http --env INITIAL_TIME_IN_SEC="30" --env IDLE_TIME_IN_SEC="30" --config fly.toml --app [appname]
 
 Update Step 6
 After Deploy after every change in the deploy folder deploy the docker image to Fly Docker Registry
@@ -116,17 +116,7 @@ flyctl machine update [machineID] --image registry.fly.io/[appname]:latest --por
 
 # Advanced Configuration (WIP)
 
-To Reset the Login Details delete the contents of the App_Data Directory and disable the loading of the AppWeb.Web.dll assets as below in appconfig.json file before starting the server.
-
-<pre>
-
-    {
-      "AssetTypeName": "AppWeb.Web.AssetRegister",
-      "AssetDll": "AppWeb.Web.dll",
-      "IsEnabled": false
-    }
-
-</pre>
+To Reset the Login Details delete the contents of the App_Data Directory 
 
 Run the Server and it will prompt for the Initial Users ID which can be used to login and explore the other features of the application.
 
@@ -160,7 +150,7 @@ Index.html
 
 #### Abstraction for Composing where the Parent Component is composed with Child Components based on Context
 
-    When Context is https://appweb.com/Index/Main vs https://arshuweb.com/Index/About
+    When Context is https://arshuweb.com/Index/Main vs https://arshuweb.com/Index/About
 
     MetaData of the Pages are    
     https://arshuweb.com/Index/Main/Meta    

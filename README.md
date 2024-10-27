@@ -23,13 +23,13 @@ The tool and the application using the MIT Licensed assembler/abstraction will b
 Some intersting links to showcase the abstraction. View the hidden Inspect Toolbar at the top to know other features
 
 Main Page explaining the abstraction
-#### Main : https://appweb.fly.dev
+#### Main : https://arshuweb.fly.dev
 
 Just add Meta to the end of the page to view the Metadata Json
-#### Meta : https://appweb.fly.dev/meta
+#### Meta : https://arshuweb.fly.dev/meta
 
 Test Page to show case the different abstractions for assembling Html + Json 
-#### Test : https://appweb.fly.dev/Test/Main
+#### Test : https://arshuweb.fly.dev/Test/Main
 
 # Major Features
 
@@ -62,7 +62,7 @@ Can edit the Data Source Hierarchy of the Page after login
 # Getting Started
 
 ## Running Locally
-Clone the repo and run the appropriate **appweb.web** asp.net core application for the respective platform
+Clone the repo and run the appropriate **Arshu.AppBaseWeb** asp.net core application for the respective platform
 
 On first run the application will run the asp.net core kestrel server
 
@@ -70,8 +70,8 @@ If the source of the Html + Json is required, set the appconfig.json parameter U
 
 ## Running from Docker
 
-Run the Docker Image **arshucs/appweb** as below
-#### docker run --publish 8080:8080 arshucs/appweb:latest
+Run the Docker Image **arshucs/arshuweb** as below
+#### docker run --publish 8080:8080 arshucs/arshuweb:latest
 
 ## Deploying to fly.io Serverless Machines
 
@@ -102,7 +102,7 @@ Change directory to the linux64_musl Directory
 flyctl deploy . --build-only --remote-only --push --image-label latest -a [appname]
 
 Initial Step 5 : Deploy the Machine to Fly
-flyctl machine run registry.fly.io/webimages:appweb --name appweb-sin-1 --port 443:8080/tcp:tls --port 80:8080/tcp:http --env INITIAL_TIME_IN_SEC="30" --env IDLE_TIME_IN_SEC="30" --config fly.toml --app [appname]
+flyctl machine run registry.fly.io/webimages:arshuweb --name arshuweb-sin-1 --port 443:8080/tcp:tls --port 80:8080/tcp:http --env INITIAL_TIME_IN_SEC="30" --env IDLE_TIME_IN_SEC="30" --config fly.toml --app [appname]
 
 Update Step 6
 After Deploy after every change in the deploy folder deploy the docker image to Fly Docker Registry
@@ -160,11 +160,11 @@ Index.html
 
 #### Abstraction for Composing where the Parent Component is composed with Child Components based on Context
 
-    When Context is https://appweb.com/Index/Main vs https://appweb.com/Index/About
+    When Context is https://appweb.com/Index/Main vs https://arshuweb.com/Index/About
 
     MetaData of the Pages are    
-    https://appweb.com/Index/Main/Meta    
-    https://appweb.com/Index/About/Meta
+    https://arshuweb.com/Index/Main/Meta    
+    https://arshuweb.com/Index/About/Meta
 
     The Main Prefix of a Mustache is replaced with the AppView Context (About) to render a different page retaining the same index.html page.
 

@@ -16,7 +16,7 @@
         <input style="position:absolute;margin-top:8px;left:65px;" id="machineListAutoRefresh" {{@DefaultAutoRefresh}} checked=checked {{/DefaultAutoRefresh}} type="checkbox" name="machineListAutoRefresh" title="Auto Refresh Machine List using Web Socket">
         <button id="retrieveLaunchInfoBtn" class="ar-button ar-border-right" style="background-color: #209cee; width:60px;"
                 onclick="retrieveMachineList('{{$ViewID}}Progress', '{{$ViewID}}Response', getElm('machineAppName').value, getElm('machineListAutoRefresh').checked, '{{$ViewID}}');">
-            Refresh <div id="{{$ViewID}}Progress"></div>
+            Refresh <span id="{{$ViewID}}Progress"></span>
         </button>
     </div>
 

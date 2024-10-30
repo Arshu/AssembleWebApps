@@ -2,7 +2,7 @@
 
 <div style="margin: 5px 0px; " class="ar-flex-input-wrap">
     <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (isHiddenElm('appBackup') == true) { retrieveAppBackupInfo('appBackupProgress', 'appBackupResponse', '', 'backupAppName', 'backupOCIImagePath', 'backupOCIImageTagName', 'backupFolders', 'doBackupApp', function () { showElm('appBackup'); }); } else { hideElm('appBackup'); }">
-        Backup App <div id="appBackupProgress"></div>
+        Backup App <span id="appBackupProgress"></span>
     </button>
 </div>
 
@@ -71,7 +71,7 @@
         <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
             <button class="ar-button ar-border" id="doBackupApp" style="background-color:#209cee;" tabindex="4" disabled="disabled"
                     onclick="backupAppFolder('doAppBackupProgress', 'doAppBackupResponse', getElm('backupAppName').value, getElm('backupOCIImagePath').value, getElm('backupOCIImageTagName').value, getElm('backupFolders').value, getElm('clearDownloadLayer').checked, getElm('backupAppData').checked, 'doBackupApp')">
-                Backup AppFolder <div id="doAppBackupProgress"></div>
+                Backup AppFolder <span id="doAppBackupProgress"></span>
             </button>
         </div>
 

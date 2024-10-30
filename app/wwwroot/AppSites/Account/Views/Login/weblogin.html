@@ -317,7 +317,7 @@
         <div style="text-align:right;margin-right:10px;">
             <button class="ar-button ar-border" style="background-color:lightgray" tabindex="5"
                     onclick="return webForgotPassword('forgotPasswordProgress', 'loginResponse', getElm('loginId').value);">
-                Forgot Password? <div id="forgotPasswordProgress"></div>
+                Forgot Password? <span id="forgotPasswordProgress"></span>
             </button>
         </div>
 
@@ -329,7 +329,7 @@
         <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
             <button class="ar-button ar-border" id="loginSubmit" style="background-color:#209cee; color:black; width:100px;" tabindex="4"
                     onclick="return webLoginUser('loginProgress', 'loginResponse', getElm('loginId').value, getElm('loginPwd').value, getElm('loginRemember').checked, '');">
-                Login <div id="loginProgress"></div>
+                Login <span id="loginProgress"></span>
             </button>
         </div>
 

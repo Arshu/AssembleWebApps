@@ -580,7 +580,7 @@
 {{VIEWPLACEHOLDER}}
 
 <div style="position:relative;text-align:center;height:0px;">
-    <div id="gitViewProgress"></div>
+    <span id="gitViewProgress"></span>
 </div>
 
 <div class="ar-notification is-marginless" id="gitViewResponseContainer" style="display:none;">
@@ -609,10 +609,10 @@
                 </div>
                 <div class="ar-flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
                     <button class="ar-border" style="min-width:100px;height:40px;background-color:lightgray;" onclick="gitClonePullRepository('gitProgress', 'gitResponse', getElm('gitUrl').value, getElm('gitUserName').value, getElm('gitUserEmail').value, getElm('gitAccessToken').value, function () { triggerEvent('gitRepositoryRefreshBtn', 'click'); })">
-                        Clone/Pull <div id="gitProgress"></div>
+                        Clone/Pull <span id="gitProgress"></span>
                     </button>
                     <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:lightgray;" onclick="gitRefreshGitRemoteBranchList('gitPushProgress', 'gitResponse', getElm('gitSampleRepository').value, 'gitRemoteBranches', function () { showElm('authenticationInfo'); showElm('pushInfo'); hideElm('copyInfo'); })">
-                        Push <div id="gitPushProgress"></div>
+                        Push <span id="gitPushProgress"></span>
                     </button>
                 </div>
             </div>
@@ -663,7 +663,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <div id="gitBranchRefreshProgress"></div>
+                    <span id="gitBranchRefreshProgress"></span>
                 </button>
                 <div class="ar-flex-item-stretch ar-border-right" style="height: 40px;">
                     <select id="gitRemoteBranches" style="width:100%;border:none;">
@@ -693,7 +693,7 @@
                     Close
                 </button>
                 <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:lightgray;" onclick="gitPushRepository('gitPushConfirmProgress', 'gitResponse', getElm('gitRepository').value, getElm('gitRemoteBranches').value, getElm('gitCommitMessage').value, getElm('pushIncludeWebSite').checked, getElm('pushClearWebSite').checked, getElm('gitUserName').value, getElm('gitUserEmail').value, getElm('gitAccessToken').value, null)">
-                    Push Confirm<div id="gitPushConfirmProgress"></div>
+                    Push Confirm<span id="gitPushConfirmProgress"></span>
                 </button>
             </div>
 
@@ -716,7 +716,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <div id="gitRepositoryRefreshProgress"></div>
+                    <span id="gitRepositoryRefreshProgress"></span>
                 </button>
                 <div class="ar-flex-item-stretch ar-border-top-bottom" style="height: 40px;">
                     <select id="gitRepository" style="width:100%;border:none;">
@@ -733,13 +733,13 @@
 
             <div class="ar-flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
                 <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:orangered;" onclick="gitDeleteRepository('gitDeleteProgress', 'gitActionResponse', getElm('gitRepository').value, function () { triggerEvent('gitRepositoryRefreshBtn', 'click'); hideElm('pushInfo'); hideElm('copyInfo'); showElm('gitPullClone');  })">
-                    Delete <div id="gitDeleteProgress"></div>
+                    Delete <span id="gitDeleteProgress"></span>
                 </button>
                 <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:lightgray;" onclick="gitRefreshGitFolderList('gitCopyProgress', 'gitActionResponse', getElm('gitRepository').value, 'gitFolders', function () { triggerEvent('gitFolderRefreshBtn', 'click'); hideElm('pushInfo'); showElm('copyInfo'); hideElm('clearInfo');hideElm('gitPullClone'); hideElm('gitAction'); })">
-                    Copy <div id="gitCopyProgress"></div>
+                    Copy <span id="gitCopyProgress"></span>
                 </button>
                 <button class="border " style="margin: 0 5px; min-width: 100px; height: 40px; background-color: orangered;" onclick="gitRefreshGitFolderList('gitCopyProgress', 'gitActionResponse', getElm('gitRepository').value, 'gitFolders', function () { triggerEvent('clearWebFolderRefreshBtn', 'click'); hideElm('pushInfo'); showElm('clearInfo'); hideElm('copyInfo');hideElm('gitPullClone'); hideElm('gitAction'); })">
-                    Clear <div id="gitClearProgress"></div>
+                    Clear <span id="gitClearProgress"></span>
                 </button>
             </div>
 
@@ -765,7 +765,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <div id="clearWebFolderRefreshProgress"></div>
+                    <span id="clearWebFolderRefreshProgress"></span>
                 </button>
                 <div class="ar-flex-item-stretch ar-border-right" style="height: 40px;">
                     <select id="clearWebFolders" style="width:100%;border:none;">
@@ -783,7 +783,7 @@
 
             <div class="ar-flex-content-wrap" style="width:100%;text-align: center;margin: 10px 10px;">
                 <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:orangered;" onclick="gitClearWebRepository('gitClearConfirmProgress', 'gitActionResponse', getElm('webFolders').value, getElm('clearWebSite').checked, null)">
-                    Clear<div id="gitClearConfirmProgress"></div>
+                    Clear<span id="gitClearConfirmProgress"></span>
                 </button>
                 <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:lightgray;" onclick="hideElm('pushInfo'); hideElm('copyInfo'); hideElm('clearInfo'); showElm('gitPullClone'); showElm('gitAction');">
                     Close
@@ -805,7 +805,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <div id="gitFolderRefreshProgress"></div>
+                    <span id="gitFolderRefreshProgress"></span>
                 </button>
                 <div class="ar-flex-item-stretch ar-border-right" style="height: 40px;">
                     <select id="gitFolders" style="width:100%;border:none;">
@@ -819,7 +819,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <div id="webFolderRefreshProgress"></div>
+                    <span id="webFolderRefreshProgress"></span>
                 </button>
                 <div class="ar-flex-item-stretch ar-border-right" style="height: 40px;">
                     <select id="webFolders" style="width:100%;border:none;">
@@ -844,7 +844,7 @@
                     Close
                 </button>
                 <button class="border " style="margin: 0 5px;min-width:100px;height:40px;background-color:lightgray;" onclick="gitCopyWebRepository('gitCopyConfirmProgress', 'gitActionResponse', getElm('gitRepository').value, getElm('gitFolders').value, getElm('webFolders').value, getElm('copyOverwriteWebSite').checked, getElm('copyClearWebSite').checked, null)">
-                    Copy<div id="gitCopyConfirmProgress"></div>
+                    Copy<span id="gitCopyConfirmProgress"></span>
                 </button>
             </div>
 

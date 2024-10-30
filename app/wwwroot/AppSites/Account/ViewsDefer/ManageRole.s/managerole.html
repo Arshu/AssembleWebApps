@@ -359,7 +359,7 @@
 
             <button class="ar-button ar-border" style="background-color:#209cee;"
                     onclick="initAppViewsAsRole('initAppViewsAsRoleProgress', 'initAppViewsAsRoleResponse',  function () { refreshRoleList('initAppViewsAsRoleProgress', 1); })">
-                Init AppViews As Roles <div id="initAppViewsAsRoleProgress"></div>
+                Init AppViews As Roles <span id="initAppViewsAsRoleProgress"></span>
             </button>
 
         </div>
@@ -381,7 +381,7 @@
 
             <button class="ar-button ar-border" id="addRoleConfirm" style="background-color:#209cee;color:black; margin-right:5px;"
                     onclick="addRole('addRoleProgress', 'roleListResponse', getElm('roleName').value, function () { refreshRoleList('addRoleProgress', 1); clearRoleInput(); })">
-                Add <div id="addRoleProgress"></div>
+                Add <span id="addRoleProgress"></span>
             </button>
 
             <button class="ar-button ar-border" style="color:black;" onclick="clearRoleInput();">

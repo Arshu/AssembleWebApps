@@ -2,7 +2,7 @@
 
 <div style="margin: 5px 0px; " class="ar-flex-input-wrap">
     <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (haveElm('appDeploy') == true) { hideElm('appDeploy'); }; if (haveElm('appClone') == true) { hideElm('appClone'); }; clearAppUpdateMessage('appUpdateResponse'); clearAppUpdateMessage('doAppUpdateResponse'); clearAppUpdateDetailsMessage('updateDetailResponse'); if (isHiddenElm('appUpdate') == true) { retrieveAppUpdateInfo('appUpdateProgress', 'appUpdateResponse', '', 'updateAppName', 'updateOCIImagePath', 'updateOCIImageTagName', 'updateRegionsTemplate', 'updateRegionsDiv', 'updateEnvInitialTimeout', 'updateEnvIdleTimeout', 'updateEnvLoadAppData', 'updateAutoDestroyAfterXMin', 'doUpdateApp', function () { showElm('appUpdate'); }); } else { hideElm('appUpdate');}">
-        Update App <div id="appUpdateProgress"></div>
+        Update App <span id="appUpdateProgress"></span>
     </button>
 </div>
 
@@ -107,7 +107,7 @@
     <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
         <button id="doUpdateApp" class="ar-button ar-border" style="background-color:#209cee;" disabled="disabled"
                 onclick="updateApp('doAppUpdateProgress', 'doAppUpdateResponse', getElm('updateAppName').value, getElm('updateOCIImagePath').value, getElm('updateOCIImageTagName').value, 'updateRegion', getElm('updateEnvInitialTimeout').value, getElm('updateEnvIdleTimeout').value, getElm('updateHttpStatusCheck').checked, 'doUpdateApp', 'updateDetailResponse')">
-            Update Machine(s) in Selected Regions <div id="doAppUpdateProgress"></div>
+            Update Machine(s) in Selected Regions <span id="doAppUpdateProgress"></span>
         </button>
     </div>
 

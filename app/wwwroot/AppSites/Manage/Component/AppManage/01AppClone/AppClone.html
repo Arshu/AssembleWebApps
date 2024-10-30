@@ -2,7 +2,7 @@
 
 <div style="margin: 5px 0px; " class="ar-flex-input-wrap">
     <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (haveElm('appDeploy') == true) { hideElm('appDeploy'); }; if (haveElm('appSync') == true) { hideElm('appSync'); }; if (haveElm('appUpdate') == true) { hideElm('appUpdate'); }; clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); if (isHiddenElm('appClone') == true) { retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneNewAppName').value, 'cloneAppOrganization', 'cloneExistingAppName', 'cloneMachineConfig', 'cloneOCIImagePathName', 'cloneOCIImageTagName', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvLoadAppData', 'cloneEnvAutoDestroyAfterXMin', 'doCloneApp', function () { showElm('appClone'); getElm('deleteCloneApp').removeAttribute('disabled'); }); } else { hideElm('appClone'); }">
-        Clone App <div id="appCloneProgress"></div>
+        Clone App <span id="appCloneProgress"></span>
     </button>
 </div>
 
@@ -152,7 +152,7 @@
         <label style="width:100%;margin: 5px 0px;cursor: pointer;" onclick="openFlyUrl('cloneNewAppName')">New App Name</label>
         <input id="cloneNewAppName" class="ar-input ar-flex-item-stretch ar-border-left" autocomplete="off" type="text" placeholder="Your Clone App Name" value="" />
         <button id="deleteCloneApp" class="ar-button ar-border-right" style="background-color: #209cee; width: 110px;" onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); deleteCloneApp('doAppDeleteProgress', 'doAppCloneResponse', getElm('cloneNewAppName').value, getElm('appOwnerID').value, 'deleteCloneApp');">
-            Delete <div id="doAppDeleteProgress"></div>
+            Delete <span id="doAppDeleteProgress"></span>
         </button>
     </div>
 
@@ -174,7 +174,7 @@
     <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
         <button id="doCloneApp" class="ar-button ar-border" style="background-color: #209cee; width: 110px; height: 40px;" tabindex="4" disabled="disabled"
                 onclick="cloneApp('doAppCloneProgress', 'doAppCloneResponse', getElm('cloneNewAppName').value, getElm('cloneAppOrganization').value, getElm('cloneAppNetwork').value, getElm('cloneExistingAppName').value, getElm('cloneMachineConfig').value, getElm('cloneOCIImagePathName').value, getElm('cloneOCIImageTagName').value, 'cloneRegion', getElm('cloneEnvInitialTimeout').value, getElm('cloneEnvIdleTimeout').value, getElm('cloneEnvAutoDestroyAfterXMin').value, getElm('appOwnerID').value, getElm('cloneMachineVolumeSize').value, getElm('cloneMachineVolumePath').value, 'doCloneApp', 'cloneDetailResponse')">
-            Clone App <div id="doAppCloneProgress"></div>
+            Clone App <span id="doAppCloneProgress"></span>
         </button>
 
     </div>

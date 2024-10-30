@@ -2,7 +2,7 @@
 
 <div style="margin: 5px 0px; " class="ar-flex-input-wrap">
     <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (isHiddenElm('appRestore') == true) { retrieveAppRestoreInfo('appRestoreProgress', 'appRestoreResponse', '', 'restoreAppName', 'restoreOCIImagePath', 'restoreOCIImageTagName', 'restoreFolders', 'doRestoreApp', function () { showElm('appRestore'); }); } else { hideElm('appRestore'); }">
-        Restore App <div id="appRestoreProgress"></div>
+        Restore App <span id="appRestoreProgress"></span>
     </button>
 </div>
 
@@ -76,7 +76,7 @@
         <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
             <button class="ar-button ar-border" id="doRestoreApp" style="background-color:#209cee;" tabindex="4" disabled="disabled"
                     onclick="restoreAppFolder('doAppRestoreProgress', 'doAppRestoreResponse', getElm('restoreAppName').value, getElm('restoreOCIImagePath').value, getElm('restoreOCIImageTagName').value, getElm('restoreFolders').value, getElm('clearRestoreFolder').checked, getElm('overwriteRestoreAppData').checked, getElm('restoreAppData').checked, 'doRestoreApp')">
-                Restore AppFolder <div id="doAppRestoreProgress"></div>
+                Restore AppFolder <span id="doAppRestoreProgress"></span>
             </button>
         </div>
 

@@ -2,7 +2,7 @@
 
 <div style="margin: 5px 0px; " class="ar-flex-input-wrap">
     <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (isHiddenElm('appCert') == true) { clearAppCertInfo(); retrieveAppCertInfo('appCertProgress', 'appCertResponse', '', 'updateCertAppName', 'certDNSDomain', 'certDNSProviderName', 'doGetDNSChallenge', function () { showElm('appCert'); }); } else { hideElm('appCert'); }">
-        Update Certificate <div id="appCertProgress"></div>
+        Update Certificate <span id="appCertProgress"></span>
     </button>
 </div>
 
@@ -64,7 +64,7 @@
     <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
         <button class="ar-button ar-border" id="doGetDNSChallenge" style="background-color:#209cee;" tabindex="4" disabled="disabled"
                 onclick="clearAppChallenge(); getDNSChallenge('doGetDNSChallengeProgress', 'doGetDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certContactEmail').value, getElm('certDNSDomain').value, getElm('getWildcardCert').checked, 'updateCertOrderLocation', 'updateCertChallengeUrl1', 'updateCertChallengeUrl2', 'updateCertChallengeDNSTxt1', 'updateCertChallengeDNSTxtValue1', 'updateCertChallengeDNSTxt2', 'updateCertChallengeDNSTxtValue2', 'doGetDNSChallenge', 'doUpdateDNSChallenge', 'doUpdateCustomDNSChallenge', 'doVerifyChallenges')">
-            Get Cert Challenge <div id="doGetDNSChallengeProgress"></div>
+            Get Cert Challenge <span id="doGetDNSChallengeProgress"></span>
         </button>
     </div>
 
@@ -133,11 +133,11 @@
     <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
         <button class="ar-button ar-border" id="doUpdateDNSChallenge" style="background-color:#209cee;" tabindex="4" disabled="disabled"
                 onclick="updateDNSChallenge('doUpdateDNSChallengeProgress', 'doUpdateDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certDNSDomain').value, getElm('getWildcardCert').checked, getElm('updateCertChallengeDNSTxt1').value, getElm('updateCertChallengeDNSTxtValue1').value, getElm('updateCertChallengeDNSTxt2').value, getElm('updateCertChallengeDNSTxtValue2').value, 'doUpdateDNSChallenge', 'doVerifyChallenges')">
-            Update DNS Challenge <div id="doUpdateDNSChallengeProgress"></div>
+            Update DNS Challenge <span id="doUpdateDNSChallengeProgress"></span>
         </button>
         <button class="ar-button ar-border" id="doUpdateCustomDNSChallenge" style="background-color:#209cee;display:none" tabindex="4" disabled="disabled"
                 onclick="updateCustomDNSChallenge('doUpdateDNSChallengeProgress', 'doUpdateDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certDNSProviderName').value, getElm('certDNSProviderKey').value, getElm('certDNSProviderSecret').value, getElm('certCustomDNSDomain').value, getElm('getWildcardCert').checked, getElm('updateCertChallengeDNSTxt1').value, getElm('updateCertChallengeDNSTxtValue1').value, getElm('updateCertChallengeDNSTxt2').value, getElm('updateCertChallengeDNSTxtValue2').value, 'doUpdateDNSChallenge', 'doVerifyChallenges')">
-            Update Custom DNS Challenge <div id="doUpdateDNSChallengeProgress"></div>
+            Update Custom DNS Challenge <span id="doUpdateDNSChallengeProgress"></span>
         </button>
     </div>
 
@@ -150,14 +150,14 @@
 
         <button class="ar-button ar-border" id="doVerifyChallenges" style="background-color:#209cee;" tabindex="4"
                 onclick="verifyDNSChallenges('doVerifyChallengeProgress', 'doUpdateDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certContactEmail').value, getElm('certDNSDomain').value, getElm('getWildcardCert').checked, getElm('updateCertChallengeDNSTxtValue1').value, getElm('updateCertChallengeUrl1').value, getElm('updateCertChallengeDNSTxtValue2').value, getElm('updateCertChallengeUrl2').value, 'doVerifyChallenges', 'doDownloadCert')">
-            Verify DNS Challenge <div id="doVerifyChallengeProgress"></div>
+            Verify DNS Challenge <span id="doVerifyChallengeProgress"></span>
         </button>
     </div>
 
     <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
         <button class="ar-button ar-border" id="doDownloadCert" style="background-color:#209cee;" tabindex="4"
                 onclick="downloadDNSCertificate('doDownloadCertificateProgress', 'doUpdateDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certContactEmail').value, getElm('certDNSDomain').value, getElm('getWildcardCert').checked, getElm('updateCertOrderLocation').value, 'doDownloadCert')">
-            Download DNS Certificate<div id="doDownloadCertificateProgress"></div>
+            Download DNS Certificate<span id="doDownloadCertificateProgress"></span>
         </button>
 
     </div>
@@ -165,7 +165,7 @@
     <div class="ar-flex-content-wrap" style="margin: 15px 0px;display:none;">
         <button class="ar-button ar-border" id="doVerifyDownloadCert" style="background-color:#209cee;" tabindex="4"
                 onclick="updateVerifyDNSChallengeDownloadCertificate('doVerifyDownloadProgress', 'doUpdateDNSChallengeResponse', getElm('updateCertAppName').value, getElm('certContactEmail').value, getElm('certDNSDomain').value, getElm('getWildcardCert').checked, 'doVerifyDownloadCert')">
-            Update Verify DNS and Download Certificate<div id="doVerifyDownloadProgress"></div>
+            Update Verify DNS and Download Certificate<span id="doVerifyDownloadProgress"></span>
         </button>
     </div>
 

@@ -10,7 +10,7 @@
 
 <div class="ar-border" style="margin: 5px 0px;">
 
-    <div id="curlMetricsProgress"></div>
+    <span id="curlMetricsProgress"></span>
 
     <div class="ar-notification" id="curlMetricsResponseContainer" style="margin:5px; padding:10px;display:none;">
         <button class="ar-delete" onclick="hideElm('curlMetricsResponseContainer')"></button>
@@ -20,7 +20,7 @@
     <div id="curlMetrics" style="margin: 0 auto;position:relative; overflow:auto;display:none;">
 
         <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
-            <div id="refereshMetrics" class="ar-border-left" style="text-align:center; font-size: small; width: 60px; background-color: black; color: white; padding-left: 5px;" onclick="showCurlMetrics('curlMetricsResponse', getElm('curlUrl').value);">
+            <div id="refereshMetrics" class="ar-border-left" style="text-align:center; font-size: small; width: 60px; background-color: black; color: white; padding-left: 5px;" onclick="showCurlMetrics('curlMetricServerProgress', 'curlMetricsResponse', getElm('curlUrl').value);">
                 Server
                 <div style="height: 18px; text-align: center; ">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" style="height:100%;" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,14 +78,14 @@
 
         <div class="ar-flex-content-wrap" style="padding:3px 0px;">
             <button class="ar-border ar-flex-item-stretch" style="margin: 2px 5px 0px 0px; height: 25px; background-color: lightgray;" onclick="clearCurlUrlMetrics('clearCurlMetricProgress', 'curlMetricsResponse', getElm('curlMetricsPath').value)">
-                Clear Curl Metrics <div id="clearCurlMetricProgress"></div>
+                Clear Curl Metrics <span id="clearCurlMetricProgress"></span>
             </button>
         </div>
 
 
         <div class="ar-flex-content-wrap" style="padding:3px 0px;background-color:#fff;display:none;" id="mergeCurlAction">
             <button class="border ar-flex-item-stretch" style="margin: 2px 5px 0px 5px; height: 25px; background-color: lightgray;" onclick="mergeCurlMetrics('mergeCurlProgress', 'mergeCurlResponse', (getElm('mergeCurlStatus').checked))">
-                Merge Remote Curl Metrics <div id="mergeCurlProgress"></div>
+                Merge Remote Curl Metrics <span id="mergeCurlProgress"></span>
             </button>
             <input type="checkbox" style="margin: 2px 5px 0px 0px;" id="mergeCurlStatus" title="Reset the Merge Status" />
         </div>

@@ -2,7 +2,7 @@
 
 <div style="margin: 5px 0px; " class="ar-flex-input-wrap">
     <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (haveElm('appDeploy') == true) { hideElm('appDeploy'); }; if (haveElm('appClone') == true) { hideElm('appClone'); }; clearAppSyncMessage('appSyncResponse'); clearAppSyncMessage('doAppSyncResponse'); clearAppSyncDetailsMessage('syncDetailResponse'); if (isHiddenElm('appSync') == true) { retrieveAppSyncInfo('appSyncProgress', 'appSyncResponse', '', 'syncAppName', 'syncOCIImagePath', 'syncOCIImageTagName', 'syncReferenceRegionsTemplate', 'syncReferenceRegionsDiv', 'syncRegionsTemplate', 'syncRegionsDiv', 'syncEnvInitialTimeout', 'syncEnvIdleTimeout', 'syncEnvLoadAppData', 'syncAutoDestroyAfterXMin', 'doSyncApp', function () { showElm('appSync'); }); } else { hideElm('appSync');}">
-        Sync App <div id="appSyncProgress"></div>
+        Sync App <span id="appSyncProgress"></span>
     </button>
 </div>
 
@@ -123,7 +123,7 @@
     <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
         <button id="doSyncApp" class="ar-button ar-border" style="background-color:#209cee;" disabled="disabled"
                 onclick="syncApp('doAppSyncProgress', 'doAppSyncResponse', getElm('syncAppName').value, getElm('syncOCIImagePath').value, getElm('syncOCIImageTagName').value, 'syncReferenceRegion', 'syncRegion', getElm('syncEnvInitialTimeout').value, getElm('syncEnvIdleTimeout').value, getElm('syncConfigRestartOnSync').checked, 'doSyncApp', 'syncDetailResponse')">
-            Sync Machine(s) in Selected Regions <div id="doAppSyncProgress"></div>
+            Sync Machine(s) in Selected Regions <span id="doAppSyncProgress"></span>
         </button>
     </div>
 

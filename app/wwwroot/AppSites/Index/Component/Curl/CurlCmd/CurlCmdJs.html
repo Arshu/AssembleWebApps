@@ -87,7 +87,7 @@
         return false;
     }
 
-    function doCurlTest(progressElmId, responseElmId, curlUrl, regionTargetElmName, requestCount, requestInterval, idleTime, successCallback, failureCallback) {
+    function doCurlTest(progressElmId, responseElmId, curlUrl, regionTargetElmName, requestCount, delayBetweenRequest, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -119,12 +119,10 @@
             let apiMethod = 'CurlExecute';
 
             let apiParams = {
-                "clientTime": Math.floor(new Date().getTime()),
                 "curlUrl": curlUrl,
                 "regionList": regionList,
                 "requestCount": requestCount,
-                "idleTimeInSec": idleTime,
-                "requestIntervalInSec": requestInterval
+                "delayBetweenRequestInMs": delayBetweenRequest
             };
 
             let processReturn = function (result, responseElmId, successCallback) {

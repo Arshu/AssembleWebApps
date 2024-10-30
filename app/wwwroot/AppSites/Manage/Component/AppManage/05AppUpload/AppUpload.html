@@ -2,7 +2,7 @@
 
 <div style="margin: 5px 0px; " class="ar-flex-input-wrap">
     <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (isHiddenElm('appUpload') == true) { retrieveAppUploadInfo('appUploadProgress', 'appUploadResponse', 'uploadAppName', 'uploadFolders', 'doUploadAppBtn', 'doUploadClearBtn', function () { showElm('appUpload'); }); } else { hideElm('appUpload'); }">
-        Upload App <div id="appUploadProgress"></div>
+        Upload App <span id="appUploadProgress"></span>
     </button>
 </div>
 
@@ -49,7 +49,7 @@
                 <option>wwwroot</option>
             </select>
             <button id="doUploadClearBtn" class="ar-button ar-border-right" style="background-color: #209cee; width:100px; "onclick="clearAppFolder('doAppClearProgress', 'doAppUploadResponse', getElm('uploadAppName').value, getElm('uploadFolders').value, getElm('uploadOverwriteAppData').checked, 'doUploadAppBtn', 'doUploadClearBtn')" disabled="disabled">
-                Clear <div id="doAppClearProgress"></div>
+                Clear <span id="doAppClearProgress"></span>
             </button>
         </div>
 
@@ -68,7 +68,7 @@
         <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
             <button class="ar-button ar-border" id="doUploadAppBtn" style="background-color:#209cee;" tabindex="4" disabled="disabled"
                     onclick="uploadAppFolder('doAppUploadProgress', 'doAppUploadResponse', getElm('uploadAppName').value, 'addZipFile', getElm('uploadFolders').value, getElm('uploadOverwriteAppData').checked, 'doUploadAppBtn', 'doUploadClearBtn')">
-                Upload App Folder as Zip File <div id="doAppUploadProgress"></div>
+                Upload App Folder as Zip File <span id="doAppUploadProgress"></span>
             </button>
         </div>
 

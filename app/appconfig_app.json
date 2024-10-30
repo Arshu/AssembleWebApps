@@ -1,0 +1,153 @@
+{
+  "WebRootName": "wwwroot",
+  "ConfigType": "Base",
+  "ConfigLogLevel": "Error,Warn",
+
+  "CreateResourceConfig": false,
+  "ReadApiConfigPatternList": "*",
+  "CreateApiConfigPatternList": "Server,Metrics",
+  "AllowApiConfigUpdate": true,
+
+  "AllowReload": true,
+  "PersistMetricLog": true,
+  "SaveJsCssResource": false,
+
+  "ContextJson": {
+    "PageTitle": "Arshu AppWeb Viewer",
+    "ShowIntroTip": true,
+    "ShowManageLink": true,
+    "ShowDocumentLink": true,
+
+    "ShowDebug": true,
+    "DefaultDebug": true
+  },
+
+  "ProxyEnable": true,
+  "ProxyLocalPrefix": "Index, Account, Editor, Manage, Test, AppApi, Content, Resource",
+  "ProxyRemotePrefix": "",
+  "InitialTimeInSec": 0,
+  "IdleTimeInSec": 0,
+
+  "MachineConfig": "Basic_1vCPU-256MB",
+  "SuspendMachine": false,
+  "OnlyRootGET": false,
+  "AllowedGET": ".js,.css, .png,.jpg,.jpeg,.svg,.ico,.webp,.webmanifest",
+  "MetricPort": 0,
+
+  "MMFLoadUrls": true,
+  "MMFLoadSecureUrls": true,
+  "MMFWriteUrls": false,
+  "MMFUrlPatterns": "*",
+
+  "RealtimeAppSites": "",
+  "StaticAppSites": "Index, Account, Editor, Manage, Test",
+  "SearchAppSites": "Account, Editor, Index",
+
+  "LoadAppConfig": true,
+  "LoadAppData": true,
+  "LoadAppFolders": true,
+  "LoadPapFiles": false,
+  "LoadFileChanges": false,
+  "UnPackAppSites": false,
+
+  "AppAssets": [
+
+    {
+      "AssetTypeName": "Arshu.AppCore.AssetRegister",
+      "AssetDll": "Arshu.AppCore.dll",
+      "IsEnabled": true
+    },
+    {
+      "AssetTypeName": "Arshu.AppBaseWeb.AssetRegister",
+      "AssetDll": "Arshu.AppBaseWeb.dll",
+      "IsEnabled": true
+    }
+  ],
+
+  "AppServices": [
+    {
+      "RegisterTypeName": "Arshu.AppCore.App.Register.VueRegister",
+      "RegisterDll": "Arshu.AppCore.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.AppCore.App.Register.WebRegister",
+      "RegisterDll": "Arshu.AppCore.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.AppServer.App.Register.MetricsRegister",
+      "RegisterDll": "Arshu.AppServer.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.AppServer.App.Register.ServerRegister",
+      "RegisterDll": "Arshu.AppServer.dll",
+      "IsEnabled": true
+    },
+    {
+      "RegisterTypeName": "Arshu.AppRegistry.App.Register.RegistryRegister",
+      "RegisterDll": "Arshu.AppRegistry.dll",
+      "IsEnabled": true
+    }
+  ],
+
+  "AppProviders": [
+
+    {
+      "RegisterTypeName": "Arshu.Data.Register.DataRegister",
+      "RegisterDll": "Arshu.Data.dll",
+      "IsEnabled": false,
+      "ProviderTypeName": "Microsoft.Data.Sqlite.SqliteFactory",
+      "ProviderDll": "Microsoft.Data.Sqlite.dll"
+    }
+  ],
+
+  "PackWebRootName": "wwwsys",
+  "SkipSystemDirectories": "_Meta, .git, Log, bin, obj, node_modules, _bin_deployableAssemblies, Metrics, Bak, Backup, Repository, Cache, Inbox, InboxLocal, InboxRemote",
+  "SystemDirectories": "App_Config, App_Data, Db, Backup, Output, UndoRedo, Cache",
+  "AllowDirectories": "",
+  "SkipAppDirectories": "Arshu, Templates, Resource, Content, App_Config, App_Data, AppApi, Backup, Output, UndoRedo, Cache",
+  "SkipResourceDirectories": "Arshu, Component, AppSites, Templates, App_Config, App_Data, Backup, Output, UndoRedo, AppApi, Dynamic, Meta, Upload, Cache",
+  "SkipDataDirectories": "Arshu, AppSites, Component, Templates, Resource, Content, Backup, Output, UndoRedo, Cache",
+
+  "PackAppDirectories": "AppSites, AppApi",
+  "PackResourcesDirectories": "Resource,Content",
+  "PackConfigDirectories": "App_Config, AppApi",
+  "PackDataDirectories": "App_Data, Db",
+
+  "PackApp": false,
+  "PackResource": false,
+  "PackConfig": true,
+  "PackData": true,
+  "PackAppSites": "Index",
+  "PackAppConfigs": "App_Config, AppApi",
+  "PackAppDatas": "Cert, SSL, Roles, Members",
+
+  "PackName": "Arshu.AppBaseWeb.1.0.pap",
+  "PackDescription": "Arshu.AppBaseWeb for Managing AppWebs",
+  "PackResourceName": "Arshu.AppBaseWeb.1.0.pap",
+  "PackResourceDescription": "Resource of Arshu,AppBaseWeb for Managing AppWebs",
+  "PackConfigName": "Arshu.AppBaseWeb.1.0.pap",
+  "PackConfigDescription": "Config of Arshu.AppBaseWeb for Managing AppWebs",
+  "PackDataName": "Arshu.AppBaseWeb.1.0.pap",
+  "PackDataDescription": "Data of Arshu.AppBaseWeb for Managing AppWebs",
+
+  "PackAppSubFolderPath": "A0",
+  "PackResourceSubFolderPath": "A0",
+  "PackConfigSubFolderPath": "A0",
+  "PackDataSubFolderPath": "A0",
+
+  "SkippedFileExtension": "dll, config, exe, pap, so, map, txt",
+  "AllowedAppFileExtension": "Html, Json",
+  "AllowedResourceFileExtension": "Bmp, Png, Jpg, Jpeg, Gif, Ico, woff, woff2, otf, eot, svg, ttf, Js, Mjs, Css, json, webmanifest",
+  "AllowedConfigFileExtension": "json, xml, pfx, xlsx",
+  "AllowedDataFileExtension": "dat, json, xml, pfx, xlsx, db, sdf",
+
+  "ResourceOptimizeMergeJs": true,
+  "ResourceOptimizeMergeJsPattern": "arshu; highlight, chart, main",
+  "ResourceOptimizeMergeJsSkipPattern": "",
+  "ResourceOptimizeMergeCss": true,
+  "ResourceOptimizeMergeCssPattern": "normalize, arshu, animate, highlight, chart, main; ",
+  "ResourceOptimizeMergeCssSkipPattern": ""
+}

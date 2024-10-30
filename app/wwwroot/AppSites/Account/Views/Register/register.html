@@ -118,7 +118,7 @@
         </figure>
 
         <div style="text-align:center;display:none;" id="autoLoginBtnDiv">
-            <div id="autoLoginProgress"></div>
+            <span id="autoLoginProgress"></span>
             <button class="ar-button ar-border" style="background-color:#209cee;" id="autoLoginBtn" disabled="disabled" onclick="return autoLogin('autoLoginProgress', 'registerResponse', '/');">Auto Login</button>
         </div>
 
@@ -158,7 +158,7 @@
         <div class="ar-flex-content-wrap" style="margin: 5px 0px;">
             <button class="ar-button ar-border" id="registerSubmit" style="background-color:#209cee;" tabindex="4"
                     onclick="return registerUser('registerProgress', 'registerResponse',  getElm('registerId').value, getElm('registerAlias').value, getElm('registerPwd').value, getElm('registerConfirmPwd').value, '/Account/Login');">
-                Register <div id="registerProgress"></div>
+                Register <span id="registerProgress"></span>
             </button>
         </div>
 

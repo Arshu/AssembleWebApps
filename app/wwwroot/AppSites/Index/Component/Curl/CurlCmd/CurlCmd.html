@@ -6,11 +6,18 @@
         <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
             <input id="appName" type="hidden" value="https://appweb.fly.dev" />
             <label style="width:100%;margin: 5px 0px;text-align:center;" onclick="let urlElm = getElm('curlUrl'); if (urlElm.value == '') { urlElm.value = getElm('appName').value; } else { urlElm.value = ''; } ">Performance Test Url</label>
-            <input class="ar-flex-item-stretch ar-border-left ar-input" id="curlUrl" style="padding-left:10px;" autocomplete="off" type="text" placeholder="Your Url to Test" autofocus="" value="" />
-            <button class="ar-button ar-border-right" id="regionRefresh" style="width: 40px; text-align: center; position: relative;" onclick="fillServerRegions('curlRefreshProgress', 'curlRefreshResponse', 'serverRegionsTemplate', 'serverRegions', 'curlTest')">
+            <button class="ar-button ar-border-left" id="regionRefresh" style="width: 40px; text-align: center; position: relative;" onclick="fillServerRegions('curlRefreshProgress', 'curlRefreshResponse', 'serverRegionsTemplate', 'serverRegions', 'curlTest')">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg> <div id="curlRefreshProgress"></div>
+                </svg>
+            </button>
+            <span id="curlRefreshProgress"></span>
+            <input class="ar-flex-item-stretch ar-border-top-bottom ar-input" id="curlUrl" style="padding-left:10px;" autocomplete="off" type="text" placeholder="Your Url to Test" autofocus="" value="" />
+            <span id="curlResultProgress"></span>
+            <button class="ar-button ar-border-right" id="resultRefresh" style="width: 40px; text-align: center; position: relative;" onclick="showCurlMetrics('curlResultProgress', 'curlMetricsResponse', getElm('curlUrl').value);">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
             </button>
         </div>
 
@@ -31,7 +38,7 @@
             <label style="width: 100%; margin: 5px 0px; text-align: center;">
                 Test From Region(s)
             </label>
-            <label style="width: 50%; margin: 5px 0px; text-align: right">
+            <label style="width: 100%; margin: 5px 0px; text-align: right">
                 All
                 <input type="checkbox" title="All Regions" id="selectAll" onclick="selectAll('curlUrlRegion', getElm('selectAll').checked)">
             </label>
@@ -41,29 +48,24 @@
 
         <div class="ar-flex-input-wrap" style="margin: 5px 0 0 0;">
             <label class="ar-flex-item-stretch"> Request Count</label>
-            <label class="ar-flex-item-stretch"> Request Interval</label>
-            <label class="ar-flex-item-stretch"> Idle Time</label>
+            <label class="ar-flex-item-stretch"> Delay Between Request</label>
         </div>
 
         <div class="ar-flex-input-wrap" style="margin: 0px;">
             <select class="ar-flex-item-stretch ar-border" style="height: 30px; margin: 0 5px 0 0px; padding-left:5px; background-color: white;" id="curlRequestCount">
-                <option selected="selected" value="1">1</option>
-                <option>5</option>
+                <option value="1">1</option>
+                <option selected="selected">5</option>
                 <option>10</option>
                 <option>25</option>
             </select>
-            <select class="ar-flex-item-stretch ar-border" style="height: 30px; margin: 0 0 0 5px; padding-left: 5px; background-color: white;" id="curlRequestInterval">
-                <option selected="selected" value="1000">1 sec</option>
+            <select class="ar-flex-item-stretch ar-border" style="height: 30px; margin: 0 0 0 5px; padding-left: 5px; background-color: white;" id="curlDelayBetweenRequest">
+                <option selected="selected" value="250">250 msec</option>
+                <option value="500">500 msec</option>
+                <option value="1000">1 sec</option>
                 <option value="5000">5 sec</option>
                 <option value="10000">10 sec</option>
                 <option value="30000">30 sec</option>
-            </select>
-            <select class="ar-flex-item-stretch ar-border" style="height: 30px; margin: 0 0 0 5px; padding-left: 5px; background-color: white;" id="serverIdleTime">
-                <option selected="selected" value="5000">5 sec</option>
-                <option value="10000">10 sec</option>
-                <option value="30000">30 sec</option>
-                <option value="60000">60 sec</option>
-            </select>
+            </select>          
         </div>
 
         <div class="ar-notification" id="curlActionResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
@@ -73,8 +75,8 @@
 
         <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
             <button class="ar-button ar-border" id="curlTest" style="background-color:#209cee;" tabindex="4" disabled="disabled"
-                    onclick="return doCurlTest('curlActionProgress', 'curlActionResponse', getElm('curlUrl').value, 'curlUrlRegion', getElm('curlRequestCount').value, getElm('curlRequestInterval').value, getElm('serverIdleTime').value, function () { triggerEvent('refereshMetrics', 'click') })">
-                Do Curl Performance Test <div id="curlActionProgress"></div>
+                    onclick="return doCurlTest('curlActionProgress', 'curlActionResponse', getElm('curlUrl').value, 'curlUrlRegion', getElm('curlRequestCount').value, getElm('curlDelayBetweenRequest').value, function () { triggerEvent('refereshMetrics', 'click') })">
+                Do Multi Region Performance Test <span id="curlActionProgress"></span>
             </button>
         </div>
 

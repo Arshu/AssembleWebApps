@@ -22,7 +22,7 @@
         <input id="initAppName" class="ar-input ar-flex-item-stretch ar-border-top-bottom" style="background-color: gray;" autocomplete="off" type="text" placeholder="Init App Name" readonly />
         <button id="retrieveInitInfoBtn" class="ar-button ar-border-right" style="background-color: #209cee; width:100px; "
                 onclick="retrieveAppInitInfo('appInitProgress', 'appInitResponse', 'initServerFolders', 'initAppName',  'appSecurity',  'doInitUploadAppBtn', 'doInitUploadBackupUpdateAppBtn')">
-            Refresh <div id="appInitProgress"></div>
+            Refresh <span id="appInitProgress"></span>
         </button>
     </div>
 
@@ -52,7 +52,7 @@
         </div>
 
         <div class="ar-border" style="margin: 5px 0px;padding: 5px;">
-            <div style="text-align:center">Initial Admin Credentials <div id="loginProgress"></div></div>
+            <div style="text-align:center">Initial Admin Credentials <span id="loginProgress"></span></div>
 
             <div class="ar-flex-input-wrap" style="margin: 10px 0px 5px 0px;">
                 <label style="width:100%;margin: 5px 0px;">Admin Email</label>
@@ -122,7 +122,7 @@
         <div class="ar-flex-content-wrap" style="margin: 0px;">
             <button class="ar-button ar-border" id="doInitUploadAppBtn" style="margin: 5px; background-color: #209cee;" disabled="disabled"
                     onclick="initUploadApp('doAppInitUploadProgress', 'doAppInitUploadResponse', getElm('initServerFolders').value, getElm('appOwnerID').value, getElm('intializeAdminUserEmail').value, getElm('intializeAdminUserPwd').value, getElm('intializeAdminUserConfirmPwd').value, 'appSecurity', 'addZipFile', getElm('initOverwriteAppData').checked, 'doInitUploadAppBtn', 'doInitUploadBackupUpdateAppBtn', 'uploadDetailResponse', function () {resetSecurityDiv(getElm('initServerFolders').value, 'appSecurity');})">
-                Init and Upload App <div id="doAppInitUploadProgress"></div>
+                Init and Upload App <span id="doAppInitUploadProgress"></span>
             </button>
         </div>
 
@@ -177,7 +177,7 @@
         <div class="ar-flex-content-wrap" style="margin: 0px;">
             <button class="ar-button ar-border" id="doInitUploadBackupUpdateAppBtn" style="margin: 5px; background-color: #209cee;" disabled="disabled"
                     onclick="initUploadBackupUpdateApp('doAppInitUploadBackupUpdateProgress', 'doAppInitBackupUpdateResponse', getElm('initServerFolders').value, getElm('appOwnerID').value, getElm('intializeAdminUserEmail').value, getElm('intializeAdminUserPwd').value, getElm('intializeAdminUserConfirmPwd').value, 'appSecurity', 'addZipFile', getElm('initOverwriteAppData').checked, getElm('initClearDownloadLayer').checked, getElm('initBackupAppData').checked, getElm('uploadBackupUpdateSkipZipUpload').checked, getElm('backupUpdateSkipMachineUpdate').checked, getElm('backupUpdateHttpStatusCheck').checked, 'doInitUploadAppBtn', 'doInitUploadBackupUpdateAppBtn', 'backupUpdateDetailResponse', function () {resetSecurityDiv(getElm('initServerFolders').value, 'appSecurity');} )">
-                Init, Upload, Backup and Update App <div id="doAppInitUploadBackupUpdateProgress"></div>
+                Init, Upload, Backup and Update App <span id="doAppInitUploadBackupUpdateProgress"></span>
             </button>
         </div>
         <div style="text-align:center;font-size:xx-small;color:orangered;">Upload, Backup and Update App will upload and persist any changes to oci image and update the current machine instance if not skipped</div>

@@ -462,7 +462,7 @@
 
             <button class="ar-button ar-border" style="background-color:#209cee;color:black;margin-right:5px;" id="addUserConfirm"
                     onclick="addUser('addUserProgress', 'userListResponse', getElm('userId').value, getElm('userAlias').value, getElm('userEmail').value, getElm('userPassword').value, getElm('changePasswordOnFirstLogon').checked, function () { refreshUserList('addUserProgress', 1); clearUserInput(); })">
-                Add <div id="addUserProgress"></div>
+                Add <span id="addUserProgress"></span>
             </button>
 
             <button class="ar-button ar-border" style="color:black;" onclick="clearUserInput()">

@@ -22,7 +22,7 @@
         <input id="launchExecutingAppName" class="ar-input ar-flex-item-stretch ar-border-left" style="background-color: gray;" autocomplete="off" type="text" placeholder="Launch App Name" readonly />
         <button id="retrieveLaunchInfoBtn" class="ar-button ar-border-right" style="background-color: #209cee; width:60px;"
                 onclick="clearAppLaunchMessage('appLaunchResponse'); clearAppLaunchMessage('doAppLaunchResponse'); clearAppLaunchDetailsMessage('launchDetailResponse'); retrieveAppLaunchInfo('appLaunchProgress', 'appLaunchResponse', getElm('launchExecutingAppName').value, 'launchAppOrganization', 'launchExecutingAppName', 'launchOCIImagePathName', 'launchOCIImageTagName', 'launchRegionsTemplate', 'launchRegions', 'launchMaxRegionsPerApp', 'launchMaxMachinesPerApp', 'launchMaxMachinesPerRegion', 'launchEnvInitialTimeout', 'launchEnvIdleTimeout', 'launchEnvAutoDestroyAfterXMin', 'underDomainName', 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn');">
-            Refresh <div id="appLaunchProgress"></div>
+            Refresh <span id="appLaunchProgress"></span>
         </button>
     </div>
 
@@ -178,17 +178,17 @@
 
         <button id="deleteLaunchAppBtn" class="ar-button ar-border" style="margin: 5px;background-color: #209cee; width: 110px; height: 40px; "
                 onclick="deleteLaunchApp('doAppDeleteProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('underDomainName').value, getElm('appOwnerID').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); });">
-            Delete <div id="doAppDeleteProgress"></div>
+            Delete <span id="doAppDeleteProgress"></span>
         </button>
 
         <button id="doLaunchAppBtn" class="ar-button ar-border" style="margin:5px; background-color: #209cee; width: 110px; height: 40px;" tabindex="4" disabled="disabled"
                 onclick="launchApp('doAppLaunchProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('launchAppOrganization').value, getElm('launchAppNetwork').value, getElm('launchOCIImagePathName').value, getElm('launchOCIImageTagName').value, 'launchRegion', getElm('appOwnerID').value, getElm('launchEnvInitialTimeout').value, getElm('launchEnvIdleTimeout').value, getElm('launchEnvAutoDestroyAfterXMin').value, getElm('underDomainName').value, getElm('launchAttachVolumeSize').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); })">
-            Launch App <div id="doAppLaunchProgress"></div>
+            Launch App <span id="doAppLaunchProgress"></span>
         </button>
 
         <button id="doLaunchSimpleAppBtn" class="ar-button ar-border" style="margin: 5px; background-color: #209cee; width: 110px; height: 40px;" tabindex="4"
                 onclick="launchSimpleApp('doAppLaunchSimpleProgress', 'doAppLaunchResponse', getElm('launchNewAppName').value, getElm('launchOCIImagePathName').value, 'launchRegion', getElm('appOwnerID').value, getElm('launchEnvInitialTimeout').value, getElm('launchEnvIdleTimeout').value, getElm('launchEnvAutoDestroyAfterXMin').value, getElm('underDomainName').value, getElm('launchAttachVolumeSize').value, 'doLaunchAppBtn', 'deleteLaunchAppBtn', 'doLaunchSimpleAppBtn', 'launchDetailResponse', function () { triggerEvent('refreshLaunchStatusBtn', 'click'); })">
-            Launch Simple App <div id="doAppLaunchSimpleProgress"></div>
+            Launch Simple App <span id="doAppLaunchSimpleProgress"></span>
         </button>
 
     </div>

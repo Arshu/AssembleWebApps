@@ -2,7 +2,7 @@
 
 <div style="margin: 5px 0px; " class="ar-flex-input-wrap">
     <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (isHiddenElm('registrySync') == true) { showElm('registrySync'); } else { hideElm('registrySync'); }">
-        Registry Sync <div id="registrySyncProgress"></div>
+        Registry Sync <span id="registrySyncProgress"></span>
     </button>
 </div>
 
@@ -71,12 +71,12 @@
         <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
             <button class="ar-button ar-border" id="pullRegistrySyncBtn" style="background-color:#209cee;"
                     onclick="pullRegistrySync('doRegistrySyncPullProgress', 'doRegistrySyncResponse', getElm('syncRepositoryName').value, getElm('syncRepositoryTag').value, getElm('sourceRegistryUrl').value, getElm('sourceRegistryUserID').value, getElm('sourceRegistryUserPwd').value, getElm('targetRegistryUrl').value, getElm('targetRegistryUserID').value, getElm('targetRegistryUserPwd').value, 'pullRegistrySyncBtn')">
-                Pull Sync <div id="doRegistrySyncPullProgress"></div>
+                Pull Sync <span id="doRegistrySyncPullProgress"></span>
             </button>
 
             <button class="ar-button ar-border" id="pushRegistrySyncBtn" style="margin-left:5px; background-color:#209cee;"
                     onclick="pushRegistrySync('doRegistrySyncPushProgress', 'doRegistrySyncResponse', getElm('syncRepositoryName').value, getElm('syncRepositoryTag').value, getElm('sourceRegistryUrl').value, getElm('sourceRegistryUserID').value, getElm('sourceRegistryUserPwd').value, getElm('targetRegistryUrl').value, getElm('targetRegistryUserID').value, getElm('targetRegistryUserPwd').value, 'pushRegistrySyncBtn')">
-                Pull Sync <div id="doRegistrySyncPushProgress"></div>
+                Pull Sync <span id="doRegistrySyncPushProgress"></span>
             </button>
         </div>
 

@@ -39,7 +39,7 @@
             <button class="ar-button ar-border-right" style="width:40px;" id="refreshJsonListBtn"
                     onclick="refreshJsonList('refreshJsonListProgress', '{{$ViewID}}JsonEditorResponse', getElm('selectJsonAppSite').value, 'JsonArray', 0, 0, '{{$ViewID}}EditorJsonSource', '{{$ViewID}}EditorJsonItemsPerPage', '{{$ViewID}}PreviousEditJsonBtn', '{{$ViewID}}NextEditorJsonBtn');">
                 <svg style="width: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                <div id="refreshJsonListProgress"></div>
+                <span id="refreshJsonListProgress"></span>
             </button>
         </div>
 
@@ -70,7 +70,7 @@
             <button id="{{$ViewID}}RefreshEditorJsonBtn" class="ar-button ar-border-right" style="width: 40px;text-align:center;background-color:#efefef;"
                     onclick="refreshEditorJson('{{$ViewID}}', '{{$ViewID}}JsonEditorProgress', 'JsonArray', 1, 1, 1)">
                 <svg style="width: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                <div id="{{$ViewID}}JsonEditorProgress"></div>
+                <span id="{{$ViewID}}JsonEditorProgress"></span>
             </button>
         </div>
 
@@ -96,7 +96,7 @@
                                 showText(getElm('{{$ViewID}}JsonEditorResponse'), message, 'green');
                             }
                         )">
-                    Save Json <div id="{{$ViewID}}SaveJsonProgress"></div>
+                    Save Json <span id="{{$ViewID}}SaveJsonProgress"></span>
                 </button>
             </div>
         </div>

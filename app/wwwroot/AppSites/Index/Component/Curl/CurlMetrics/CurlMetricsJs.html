@@ -3,7 +3,7 @@
 
     window.ajaxid = 0;
 
-    function showCurlMetrics(responseElmId, curlUrl) {
+    function showCurlMetrics(progressElmId, responseElmId, curlUrl) {
 
         let responseElm = getElm(responseElmId)
         let responseContainerElmId = responseElmId + "Container"
@@ -19,13 +19,13 @@
 
         if (valid === true) {
 
-            fillCurlMetricsInstance('curlMetricsProgress', 'curlMetricsResponse', 'curlMetricsInstance', 'curlMetricsCached', 'mergeCurlAction', 'mergeCurlStatus', function () {
+            fillCurlMetricsInstance(progressElmId, responseElmId, curlUrl, 'curlMetricsInstance', 'curlMetricsCached', 'mergeCurlAction', 'mergeCurlStatus', function () {
 
-                fillCurlMetricsPath('curlMetricsProgress', 'curlMetricsResponse', 'curlMetricsPath', function () {
+                fillCurlMetricsPath(progressElmId, responseElmId, curlUrl, 'curlMetricsPath', function () {
 
-                    fillCurlMetricsType('curlMetricsProgress', 'curlMetricsResponse', 'curlMetricsType', function () {
+                    fillCurlMetricsType(progressElmId, responseElmId, 'curlMetricsType', function () {
 
-                        refreshCurlMetricsChart('curlMetricsProgress', 1, function () {
+                        refreshCurlMetricsChart(progressElmId, 1, function () {
 
                             showElm('curlMetrics')
                         })
@@ -130,7 +130,7 @@
         return false;
     }
 
-    function fillCurlMetricsInstance(progressElmId, responseElmId, selectElmId, cacheFlagElmId, mergeShowElmId, mergeStatusElmId, successCallback, failureCallback) {
+    function fillCurlMetricsInstance(progressElmId, responseElmId, urlPath, selectElmId, cacheFlagElmId, mergeShowElmId, mergeStatusElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -150,7 +150,8 @@
             let apiMethod = 'GetCurlMetricsInstance';
 
             let apiParams = {
-                "instanceID": ""
+                "instanceID": "",
+                "urlPath": urlPath
             };
 
             let processReturn = function (result, responseElmId, successCallback) {
@@ -213,7 +214,7 @@
         return false;
     }
 
-    function fillCurlMetricsPath(progressElmId, responseElmId, selectElmId, successCallback, failureCallback) {
+    function fillCurlMetricsPath(progressElmId, responseElmId, urlPath, selectElmId, successCallback, failureCallback) {
         let id = window.ajaxid++;
         let responseElm = getElm(responseElmId);
         let responseContainerElmId = responseElmId + "Container";
@@ -239,7 +240,8 @@
             let apiMethod = 'GetCurlMetricsPath';
 
             let apiParams = {
-                "instanceID": curlInstance
+                "instanceID": curlInstance,
+                "urlPath": urlPath
             };
 
             let processReturn = function (result, responseElmId, successCallback) {

@@ -2,7 +2,7 @@
 
 <div style="margin: 5px 0px; " class="ar-flex-input-wrap">
     <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="if (isHiddenElm('appDNS') == true) { retrieveAppDNSInfo('appDNSProgress', 'appDNSResponse', '', 'updateDNSAppName', 'updateIPv4Address', 'updateIPv6Address', 'publicIPv4Address', 'publicIPv6Address', 'dnsDomainName', 'dnsProviderName', 'doUpdateAppDNS', function () { showElm('appDNS'); }); } else { hideElm('appDNS'); }">
-        Update DNS <div id="appDNSProgress"></div>
+        Update DNS <span id="appDNSProgress"></span>
     </button>
 </div>
 
@@ -63,7 +63,7 @@
             <option selected="selected">arshucs.com</option>
         </select>
         <button class="ar-button ar-border-right" id="doVerifyAppDNSDomain" style="background-color: #209cee; width:100px;" onclick="verifyDNSDomain('doVerifyDNSDomainProgress', 'appDNSResponse', getElm('updateDNSAppName').value, getElm('dnsDomainName').value, 'dnsRootIPv4Address', 'dnsRootIPv6Address', 'dnsSubIPv4Address', 'dnsSubIPv6Address', 'dnsIPInfoDiv', 'doUpdateCustomAppDNS')">
-            Verify <div id="doVerifyDNSDomainProgress"></div>
+            Verify <span id="doVerifyDNSDomainProgress"></span>
         </button>
     </div>
 
@@ -101,7 +101,7 @@
         </button>
         <input class="ar-input ar-flex-item-stretch ar-border-top-bottom" id="dnsCustomDomainName" autocomplete="off" type="text" placeholder="Your Domain Name" value="{{$DNSHostName}}" />
         <button class="ar-button ar-border-right" id="doVerifyAppDNSCustomDomain" style="background-color: #209cee; width:100px;" onclick="verifyDNSProvider('doVerifyDNSCustomDomainProgress', 'appDNSResponse', getElm('updateDNSAppName').value, getElm('dnsProviderName').value, getElm('dnsProviderKey').value, getElm('dnsProviderSecret').value,  getElm('dnsCustomDomainName').value, 'dnsRootIPv4Address', 'dnsRootIPv6Address', 'dnsSubIPv4Address', 'dnsSubIPv6Address', 'dnsIPInfoDiv', 'doUpdateCustomAppDNS')">
-            Verify <div id="doVerifyDNSCustomDomainProgress"></div>
+            Verify <span id="doVerifyDNSCustomDomainProgress"></span>
         </button>
     </div>
 
@@ -147,11 +147,11 @@
     <div class="ar-flex-content-wrap" style="margin: 15px 0px;">
         <button class="ar-button ar-border" id="doUpdateAppDNS" style="background-color:#209cee;" tabindex="4" disabled="disabled"
                 onclick="hideElm('dnsIPInfoDiv');updateAppDNS('doUpdateAppDNSProgress', 'doUpdateAppDNSResponse', getElm('updateDNSAppName').value, getElm('dnsDomainName').value, getElm('updateRootDNS').checked, getElm('usePublicIP').checked, 'doUpdateAppDNS')">
-            Update DNS <div id="doUpdateAppDNSProgress"></div>
+            Update DNS <span id="doUpdateAppDNSProgress"></span>
         </button>
         <button class="ar-button ar-border" id="doUpdateCustomAppDNS" style="display:none;background-color:#209cee;" tabindex="4" disabled="disabled"
                 onclick="hideElm('dnsIPInfoDiv');updateCustomAppDNS('doUpdateCustomDNSProgress', 'doUpdateAppDNSResponse', getElm('updateDNSAppName').value, getElm('dnsProviderName').value, getElm('dnsProviderKey').value, getElm('dnsProviderSecret').value, getElm('dnsCustomDomainName').value, getElm('updateRootDNS').checked, getElm('usePublicIP').checked, 'doUpdateAppDNS')">
-            Update Custom DNS <div id="doUpdateCustomDNSProgress"></div>
+            Update Custom DNS <span id="doUpdateCustomDNSProgress"></span>
         </button>
 
     </div>

@@ -1,0 +1,16 @@
+{
+  "DebugMode" : false,
+  "DirName" : "wwwmark",
+  "LinkFileCssName" : "TemplateStyleMatcha.css",
+  "LinkFileHtmlName" : "TemplateMarkdown.html",
+  "LinkFileHtmlTemplate" : "TemplateLink.html",
+  "LinkFileMarkdownName" : "Readme.md",
+  "LinkFolderName" : "Markdown",
+  "LinkHtmlSiteAuthor" : "Sridharan Srinivasan",
+  "LinkHtmlSiteDescription" : "Application Shell for Scale To Zero Serverless Multi Region Hosting of Static Web App",
+  "LinkHtmlSiteTitle" : "Arshu Framework Readme",
+  "ReloadCssAlways" : false,
+  "ReloadFileAlways" : false,
+  "ReloadHtmlAlways" : false,
+  "ReloadMarkdownAlways" : false
+}

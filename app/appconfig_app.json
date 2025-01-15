@@ -5,50 +5,33 @@
 
   "CreateResourceConfig": false,
   "ReadApiConfigPatternList": "*",
-  "CreateApiConfigPatternList": "Server,Metrics",
+  "CreateApiConfigPatternList": "Server,Metrics,Cmd",
   "AllowApiConfigUpdate": true,
 
-  "AllowReload": true,
-  "PersistMetricLog": true,
-  "SaveJsCssResource": false,
+  "LoadArshuFramework": true,
+  "LoadAppData": true,
+  "LoadAppConfig": true,
+  "LoadAppEmbed": true,
+  "LoadAppFolder": true,
+  "LoadAppPapFiles": false,
+  "LoadFileChanges": false,
+  "UnPackAppSites": false,
+
+  "RealtimeAppSites": "",
+  "StaticAppSites": "Index, Account, Test, Editor, Manage",
+  "SearchAppSites": "Account, Editor, Index",
 
   "ContextJson": {
     "PageTitle": "Arshu AppWeb Viewer",
     "ShowIntroTip": true,
     "ShowManageLink": true,
     "ShowDocumentLink": true,
+    "ShowFrameworkView": true,
+    "ShowFrameworkAPI": true,
 
     "ShowDebug": true,
     "DefaultDebug": true
   },
-
-  "ProxyEnable": true,
-  "ProxyLocalPrefix": "Index, Account, Editor, Manage, Test, AppApi, Content, Resource",
-  "ProxyRemotePrefix": "",
-  "InitialTimeInSec": 0,
-  "IdleTimeInSec": 0,
-
-  "MachineConfig": "Basic_1vCPU-256MB",
-  "SuspendMachine": false,
-  "OnlyRootGET": false,
-  "AllowedGET": ".js,.css, .png,.jpg,.jpeg,.svg,.ico,.webp,.webmanifest",
-  "MetricPort": 0,
-
-  "MMFLoadUrls": true,
-  "MMFLoadSecureUrls": true,
-  "MMFWriteUrls": false,
-  "MMFUrlPatterns": "*",
-
-  "RealtimeAppSites": "",
-  "StaticAppSites": "Index, Account, Editor, Manage, Test",
-  "SearchAppSites": "Account, Editor, Index",
-
-  "LoadAppConfig": true,
-  "LoadAppData": true,
-  "LoadAppFolders": true,
-  "LoadPapFiles": false,
-  "LoadFileChanges": false,
-  "UnPackAppSites": false,
 
   "AppAssets": [
 
@@ -86,11 +69,29 @@
       "IsEnabled": true
     },
     {
-      "RegisterTypeName": "Arshu.AppRegistry.App.Register.RegistryRegister",
-      "RegisterDll": "Arshu.AppRegistry.dll",
+      "RegisterTypeName": "Arshu.AppHub.App.Register.HubRegister",
+      "RegisterDll": "Arshu.AppHub.dll",
       "IsEnabled": true
     }
   ],
+
+  "AllowReload": true,
+  "PublishMetaData": true,
+  "PersistMetricLog": true,
+  "SaveJsCssResource": false,
+  "SaveJsCssResourceGroup": false,
+
+  "WriteMetaDataToFile": false,
+  "WriteMetaDataToFileOnGET": false,
+  "WriteMetaDataToFileWithTime": false,
+
+  "MachineConfig": "Basic_1vCPU-256MB",
+  "SuspendMachine": false,
+  "EchoHandler": false,
+  "ReplayHeader": false,
+  "OnlyRootGET": false,
+  "AllowedGET": ".js,.css, .png,.jpg,.jpeg,.svg,.ico,.webp,.webmanifest",
+  "MetricPort": 0,
 
   "AppProviders": [
 

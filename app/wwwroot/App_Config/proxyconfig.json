@@ -1,7 +1,0 @@
-{
-  "DefaultAddress" : "http://localhost",
-  "DefaultPrefix" : "Local",
-  "EnableProxy" : false,
-  "ProxyRemoteAddress" : "",
-  "ProxyRemotePrefix" : ""
-}

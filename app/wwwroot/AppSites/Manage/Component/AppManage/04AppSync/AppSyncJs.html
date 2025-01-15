@@ -183,27 +183,33 @@
                         let syncRegionTemplate = "";
 
                         for (var i = 0; i < syncRegionList.length; i++) {
-                            let regionInfo = syncRegionList[i];
-                            let regionName = "";
-                            if (regionInfo.hasOwnProperty('Region') === true) {
-                                regionName = regionInfo.Region
+                            let regionJson = syncRegionList[i];
+
+                            let regionCode = "";
+                            if (regionJson.hasOwnProperty('RegionCode') === true) {
+                                regionCode = regionJson.Region
                             }
                             let syncRegion = false;
-                            if (regionInfo.hasOwnProperty('Status') === true) {
-                                syncRegion = regionInfo.Status
+                            if (regionJson.hasOwnProperty('Status') === true) {
+                                syncRegion = regionJson.Status
                             }
-                            let regionText = regionName;
-                            if (regionInfo.hasOwnProperty('MachineCount') === true) {
-                                regionText = regionText + "[" + regionInfo.MachineCount + "]";
+                            let regionText = regionCode;
+                            if (regionJson.hasOwnProperty('MachineCount') === true) {
+                                regionText = regionText + "[" + regionJson.MachineCount + "]";
+                            }
+                            let regionName = ""
+                            if (regionJson.hasOwnProperty('RegionName') === true) {
+                                regionName = regionJson.RegionName
                             }
 
                             let syncRegionTemplateItem = syncRegionTemplateHtml;
                             if (syncRegion == false) {
                                 syncRegionTemplateItem = syncRegionTemplateItem.replace(/checked="checked"/g, "")
                             }
-                            syncRegionTemplateItem = syncRegionTemplateItem.replace(/{RegionName}/g, 'syncRegion')
-                            syncRegionTemplateItem = syncRegionTemplateItem.replace(/{Region}/g, regionName)
+                            syncRegionTemplateItem = syncRegionTemplateItem.replace(/{RegionTagName}/g, 'syncRegion')
+                            syncRegionTemplateItem = syncRegionTemplateItem.replace(/{RegionCode}/g, regionCode)
                             syncRegionTemplateItem = syncRegionTemplateItem.replace(/{RegionText}/g, regionText)
+                            syncRegionTemplateItem = syncRegionTemplateItem.replace(/{RegionName}/g, regionName)
 
                             syncRegionTemplate = syncRegionTemplate + syncRegionTemplateItem;
                         }

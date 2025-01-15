@@ -140,27 +140,33 @@
                         let updateRegionTemplate = "";
 
                         for (var i = 0; i < updateRegionList.length; i++) {
-                            let regionInfo = updateRegionList[i];
-                            let regionName = "";
-                            if (regionInfo.hasOwnProperty('Region') === true) {
-                                regionName = regionInfo.Region
+                            let regionJson = updateRegionList[i];
+
+                            let regionCode = "";
+                            if (regionJson.hasOwnProperty('RegionCode') === true) {
+                                regionCode = regionJson.RegionCode
                             }
                             let updateRegion = false;
-                            if (regionInfo.hasOwnProperty('Status') === true) {
-                                updateRegion = regionInfo.Status
+                            if (regionJson.hasOwnProperty('Status') === true) {
+                                updateRegion = regionJson.Status
                             }
-                            let regionText = regionName;
-                            if (regionInfo.hasOwnProperty('MachineCount') === true) {
-                                regionText = regionText + "[" + regionInfo.MachineCount + "]";
+                            let regionText = regionCode;
+                            if (regionJson.hasOwnProperty('MachineCount') === true) {
+                                regionText = regionText + "[" + regionJson.MachineCount + "]";
+                            }
+                            let regionName = ""
+                            if (regionJson.hasOwnProperty('RegionName') === true) {
+                                regionName = regionJson.RegionName
                             }
 
                             let updateRegionTemplateItem = updateRegionTemplateHtml;
                             if (updateRegion == false) {
                                 updateRegionTemplateItem = updateRegionTemplateItem.replace(/checked="checked"/g, "")
                             }
-                            updateRegionTemplateItem = updateRegionTemplateItem.replace(/{RegionName}/g, 'updateRegion')
-                            updateRegionTemplateItem = updateRegionTemplateItem.replace(/{Region}/g, regionName)
+                            updateRegionTemplateItem = updateRegionTemplateItem.replace(/{RegionTagName}/g, 'updateRegion')
+                            updateRegionTemplateItem = updateRegionTemplateItem.replace(/{RegionCode}/g, regionCode)
                             updateRegionTemplateItem = updateRegionTemplateItem.replace(/{RegionText}/g, regionText)
+                            updateRegionTemplateItem = updateRegionTemplateItem.replace(/{RegionName}/g, regionName)
 
                             updateRegionTemplate = updateRegionTemplate + updateRegionTemplateItem;
                         }

@@ -6,22 +6,27 @@
         height: 300px;
     }
 </style>
-<div style="margin: 0 auto;position:relative; overflow:auto">
-    <div class="ar-flex-input-wrap border" style="margin: 5px 0px;">
-        <select class="ar-select ar-flex-item-stretch ar-border-left" style="background-color: white;" id="wsMetricsInstance" onchange="fillWSMetricsServiceMethod('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsServiceMethod', function () { fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 'metricsResponse', 1); }); })">
+
+<div style="margin: 0 auto; position: relative; overflow: hidden; background-color: white; ">
+
+    <div class="ar-flex-input-wrap ar-border" style="margin: 5px 0px;">
+        <select class="ar-select ar-flex-item-stretch ar-border-left" id="wsMetricsInstance" onchange="fillWSMetricsServiceMethod('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsServiceMethod', function () { fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 'metricsResponse', 1); }); })">
         </select>
-        <span id="wsMetricsCached" class="ar-border-right" style="background-color: white; padding-top: 5px; padding-right: 10px;">✓</span>
+        <span id="wsMetricsCached" class="ar-border-right" style="padding-top: 5px; padding-right: 10px;">✓</span>
     </div>
-    <div class="ar-flex-content-wrap" style="padding:3px 0px;background-color:#fff;display:none;" id="mergeWSAction">
-        <button class="border ar-flex-item-stretch" style="margin: 2px 5px 0px 5px; height: 25px; background-color: lightgray;" onclick="mergeWSMetrics('mergeWSProgress', 'mergeWSResponse', (getElm('mergeWSStatus').checked))">
+
+    <div class="ar-flex-content-wrap" style="padding:3px 0px;display:none;" id="mergeWSAction">
+        <button class="ar-button ar-border ar-flex-item-stretch" style="background-color: lightgray;" onclick="mergeWSMetrics('mergeWSProgress', 'mergeWSResponse', (getElm('mergeWSStatus').checked))">
             Merge Remote WebSocket Metrics <span id="mergeWSProgress"></span>
         </button>
-        <input type="checkbox" style="margin: 2px 10px 0px 10px;" id="mergeWSStatus" title="Reset the Merge Status"/>
+        <input type="checkbox" style="margin: 2px 10px 0px 10px;" id="mergeWSStatus" title="Reset the Merge Status" />
     </div>
+
     <div class="ar-notification" id="mergeWSResponseContainer" style="margin:5px; padding:10px;display:none;">
         <button class="ar-delete" onclick="hideElm('mergeWSResponseContainer')"></button>
         <div id="mergeWSResponse"></div>
     </div>
+
     <div class="ar-flex-content-spaced" style="margin: 5px 0px;">
         <div class="ar-border-left" style="text-align: center; font-size: small; width: 60px; background-color: black; color: white; padding-left: 5px;" onclick="fillWSMetricsServiceMethod('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsServiceMethod', function () { fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 'metricsResponse', 1); }); })">
             Method
@@ -30,7 +35,7 @@
             </div>
             <span id="wsMetricUrlProgress"></span>
         </div>
-        <select class="ar-select ar-border-right ar-flex-item-stretch" style="background-color: white;" id="wsMetricsServiceMethod" onchange="fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 'metricsResponse', 1);  })">
+        <select class="ar-select ar-border-right ar-flex-item-stretch" id="wsMetricsServiceMethod" onchange="fillWSMetricsType('wsMetricUrlProgress', 'metricsResponse', 'wsMetricsType', function () { refreshWSMetricsChart('previousPageMetricProgress', 'metricsResponse', 1);  })">
         </select>
     </div>
 
@@ -41,9 +46,9 @@
                 <svg fill="none" stroke="currentColor" style="height:100%;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
             </div>
         </div>
-        <select class="ar-select ar-flex-item-stretch ar-border-top-bottom" style="background-color: white;" id="wsMetricsType" onchange="refreshWSMetricsChart('previousWSMetricProgress', 'metricsResponse', 1)">
+        <select class="ar-select ar-flex-item-stretch ar-border-top-bottom" id="wsMetricsType" onchange="refreshWSMetricsChart('previousWSMetricProgress', 'metricsResponse', 1)">
         </select>
-        <select class="ar-select ar-border-right" style="background-color: white;" id="wsMetricsCount" onchange="refreshWSMetricsChart('nextWSMetricProgress', 'metricsResponse', 1)">
+        <select class="ar-select ar-border-right" id="wsMetricsCount" onchange="refreshWSMetricsChart('nextWSMetricProgress', 'metricsResponse', 1)">
             <option selected="selected">5</option>
             <option>10</option>
             <option>25</option>
@@ -60,8 +65,10 @@
         </button>
     </div>
 
-    <div class="metricsWSChartWrapper" style="padding:3px 10px;background-color:#fff;">
+    <div class="metricsWSChartWrapper" style="overflow:scroll;">
         <canvas id="wsMetricChart"></canvas>
     </div>
 
 </div>
+
+{{WSMetricsJs}}

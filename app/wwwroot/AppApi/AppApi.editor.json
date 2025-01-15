@@ -1,0 +1,14 @@
+{
+   "AllowAppShutdown": "Radio, true|false",
+   "AppDomainPrefix": "Text, 100",
+   "AssetOutputFolderName": "Text, 100",
+   "ConnectData": "Password, 100",
+   "ConnectKey": "Password, 100",
+   "Encrypted": "Radio, true|false",
+   "IndexHtmlFileName": "Text, 100",
+   "MaskConfigValue": "Radio, true|false",
+   "ApiCreateOverwritable": "Radio, true|false",
+   "ApiCreate": "Radio, true|false",
+   "RemoteUrl": "Text, 100",
+   "ViewPathConfig": "Text, 100"
+}

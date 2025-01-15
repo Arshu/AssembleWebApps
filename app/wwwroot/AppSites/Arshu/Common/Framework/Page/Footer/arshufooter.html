@@ -1,0 +1,502 @@
+﻿
+<div id="performanceInfoDiv" title="Performance Info" style="position:fixed; border:solid 1px rgba(0,0,0,0.05); min-width:40px;min-height:40px;left:0px;bottom:0px;z-index:10000;"
+     onmouseover="setElmHilightStyle('performanceInfoDiv', true, '1px solid lightgray')"
+     onmouseout="setElmHilightStyle('performanceInfoDiv', true, 'transparent')"
+     onclick="if (document.getElementById('performanceFooterinfo').style.display === 'none') {
+        event.stopPropagation();
+        document.getElementById('performanceFooterinfo').style.display = 'block'
+        localStorage.setItem('SHOW_PERFORMANCE_INFO', true);
+    }">
+
+    <div id="performanceFooterinfo" style="font-family: Courier New, Courier, monospace; font-size: 8px; z-index: 10000; display: none; color: white; background-color: black; position: fixed; padding-bottom: 5px; width: 220px; min-height: 20px; left: 0px; bottom: 0px; text-align: left; padding-left: 5px;">
+
+        <div class="ar-notification" id="showAppMetricsResponseContainer" style="margin:5px; padding:10px;display:none;">
+            <button class="ar-delete" onclick="hideElm('showAppMetricsResponseContainer')"></button>
+            <div id="showAppMetricsResponse"></div>
+        </div>
+
+        <div title="{{$AppSite}}-{{$AppView}}-{{$AppFile}}" style="margin-bottom:3px;position:relative;">
+            <input type="checkbox" {{^ShowRecordMetrics}} style="display:none;" {{/ShowRecordMetrics}} {{@DefaultRecordMetrics}} checked="checked" {{/DefaultRecordMetrics}} id="recordAppMetrics" title="Record App Metrics" onchange="localStorage.setItem('RECORD_APP_METRICS', getElm('recordAppMetrics').checked);" />
+            Version(<span style='color:red;cursor:pointer' title="Show Performance Metrics" onclick="event.stopPropagation(); if (typeof showAppMetricsViewer === 'function') { showAppMetricsViewer('showAppMetricsProgress', 'showAppMetricsResponse', function () { document.getElementById('performanceFooterinfo').style.display = 'none'; }); }">{{$Version}}</span>)
+            <span id="showAppMetricsProgress"></span>
+        </div>
+
+        <div style="" onclick="if (document.getElementById('performanceFooterinfo').style.display === 'block') { event.stopPropagation(); document.getElementById('performanceFooterinfo').style.display = 'none'; localStorage.setItem('SHOW_PERFORMANCE_INFO', false); }">
+            ~~~~~
+            <div style="color:white;" title="Network Perf Metrics (Page/Latency/Network/Dns)[ms]" id="networkInfo"></div>
+            <div>
+                <span title="Page Perf Metrics (Response/Render/Tls)[ms]" id="perfMetrics"></span>
+            </div>
+            <div>
+                <span title="Page Loading Time in ms" id="loadingTime"></span>
+                <span title="Html Info (DOM Count)" id="htmlInfo"></span>
+            </div>
+            <div>
+                <span title="Page Resource Size" id="resourceInfo"></span>
+            </div>
+            <div>
+                <span title="Time to First Bytes Metrics" id="perfTTFB"></span>
+                <span title="First Contentful Paint Metrics" id="perfFCP"></span>
+            </div>
+            <div>
+                <span title="First Input Delay Metrics" id="perfFID"></span>
+                <span title="Largest Contentful Paint Metrics" id="perfLCP"></span>
+                <span title="Cumulative Layout Shift Metrics" id="perfCLS"></span>
+            </div>
+        </div>
+
+        <div title="Last 10 Ajax [Client|Server] Time in millsec" style="cursor:pointer;" id="ajaxTime" onclick="clearAjaxTiming(); clear_resource_timings();"></div>
+        <div title="Last 10 WS [Client|Server] Time in millsec" style="cursor:pointer;" id="wsTime" onclick="clearWSTiming(); clear_resource_timings();"></div>
+
+        <div style="margin-top: 5px; color: white">
+            <a href="https://www.arshucs.com" style="display: inline-block; color: gray; text-decoration: none; ">
+                &copy;2024 Arshu
+            </a>
+            <a href="/" style="display: inline-block; color: gray">
+                <span class="isANDROIDShow isIOSHide isWINHide isWEBHide">Android</span>
+                <span class="isIOSShow isANDROIDHide isWINHide isWEBHide">IOS</span>
+                <span class="isIOSHide isANDROIDHide isWINHide isWEBShow">Web</span>
+                <span class="isIOSHide isANDROIDHide isWINShow isWEBHide">Win</span>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<div id="serverInfoDiv" title="Server Info" style="{{^ShowServerInfo}}display:none;{{/ShowServerInfo}}position:fixed; margin:0px;padding:0px; min-width:40px;min-height:40px;bottom:0px;right:0px;z-index: 10000; border:solid 1px rgba(0,0,0,0.05);"
+     onmouseover="setElmHilightStyle('serverInfoDiv', true, '1px solid lightgray')"
+     onmouseout="setElmHilightStyle('serverInfoDiv', true, 'transparent')"
+     onclick="showServerInfo()">
+
+    <span id="serverInfoProgress"></span>
+
+    <div id="serverFooterInfo" style="position: fixed; margin: 0px; padding: 0px; min-width: 40px; min-height: 40px; bottom: 0px; right: 0px; z-index: 10000; font-family: Courier New, Courier, monospace; font-size: 8px; display: none; color: white; background-color: black; text-align: left; "
+         onmouseover="setElmHilightStyle('serverInfoDiv', true, 'transparent')">
+
+        <div style="position:absolute;left:5px;top:0px;"
+             onclick="if (document.getElementById('serverFooterInfo').style.display === 'block') {
+                 event.stopPropagation();
+                 document.getElementById('serverFooterInfo').style.display = 'none';
+                 localStorage.setItem('SHOW_SERVER_INFO', false);
+             }">
+            Server Info
+        </div>
+        <div style="padding: 12px 3px 5px 3px;">
+            <div id="serverinfo"></div>
+        </div>
+
+    </div>
+
+</div>
+
+{{@EnableFrameworkToolbar}}
+    {{ArshuViewComponents("RootComponentID":"Index")}}
+{{/EnableFrameworkToolbar}}
+
+{{@EnableFrameworkView}}
+<link rel="stylesheet" href="/Resource/Arshu/highlight/highlight.min.css" defer>
+<script src="/Resource/Arshu/highlight/highlight.pack.min.js" defer></script>
+<script src="/Resource/Arshu/stackedit/stackedit.min.js" defer></script>
+{{/EnableFrameworkView}}
+
+{{@EnableMetricsView}}
+{{AppMetrics}}
+{{/EnableMetricsView}}
+
+{{@EnableWebSocket}}
+{{WebSocketJs}}
+{{/EnableWebSocket}}
+
+{{@EnableWebRTC}}
+{{WebRTCJs}}
+{{/EnableWebRTC}}
+
+<script type="text/javascript">
+
+    let check = "✓"; //"&#10003;";
+    let uncheck = "✗"; //"&#65794;";
+
+    function isElmDisplayNone(elmId) {
+        let elm = getElm(elmId);
+        if (elm !== null) {
+            let style = window.getComputedStyle(elm);
+            isHidden = (style.display === 'none');
+            return isHidden;
+        }
+        return true;
+    }
+
+    function showServerInfo() {
+
+        let serverInfoHidden = isElmDisplayNone('serverInfoDiv');
+        let serverFooterInfoHidden = isElmDisplayNone('serverFooterInfo');
+
+        if ((serverInfoHidden == false) && (serverFooterInfoHidden == true)) {
+            refreshServerInfo('serverInfoProgress', 'noresponse', 'serverinfo', 'serverFooterInfo', function () {
+                document.getElementById('serverFooterInfo').style.display = 'block'
+                localStorage.setItem('SHOW_SERVER_INFO', true)
+            }, null, null)
+        }
+    }
+
+    function serverStopped() {
+        if (haveElm('currentServerId')) {
+            getElm('currentServerId').style.color = 'white';
+        }
+        if (haveElm('currentServerStateId')) {
+            getElm('currentServerStateId').textContent = "[" + uncheck + "]";
+        }
+    };
+
+    function serverStarted() {
+        if (haveElm('currentServerId')) {
+            getElm('currentServerId').style.color = 'springgreen';
+        }
+        if (haveElm('currentServerStateId')) {
+            getElm('currentServerStateId').textContent = "[" + check + "]";
+        }
+    }
+
+    function refreshServerInfo(progressElmId, responseElmId, serverInfoElmId, serverDataElmId, successCallback, failureCallback, autoRefreshCallback) {
+        let id = window.ajaxid++;
+        let valid = true;
+
+        if (responseElmId.trim().length === 0) {
+            valid = false;
+        }
+
+        if (valid === true) {
+
+            let isRealtime = true;
+            let realtimeDomain = window.location.host;
+
+            let apiUrl = '/AppApi/MetricsApi';
+            let apiMethod = 'GetServerInfo';
+            let apiParams = {
+                "appSite": "{{$AppSite}}",
+                "appView": "{{$AppView}}",
+                "appComponent": "serverinfo",
+                "isRealtime": isRealtime,
+                "realtimeDomain": realtimeDomain,
+                "appName": "",
+                "appRegion": "",
+                "autoRefresh":true
+            }
+
+            let processReturn = function (result, responseElmId, successCallback, failureCallback) {
+
+                let responseElm = getElm(responseElmId);
+
+                if (result.hasOwnProperty('json') === true) {
+                    let jsonTagList = result.json
+                    refreshHtmlJson(jsonTagList, "{{$AppSite}}", "{{$AppView}}")
+                    highlightHtmlJson(jsonTagList, "{{$AppSite}}", "{{$AppView}}")
+                }
+
+                if (typeof successCallback === "function") {
+                    successCallback()
+                }
+            };
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "ServerInfo");
+        }
+        return false;
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    let eCD = new Date();
+    let eT = eCD.getTime();
+    let tT = (eT - sT);
+    let loadingTimeElm = document.getElementById("loadingTime");
+    if (loadingTimeElm) {
+        loadingTimeElm.innerHTML = "Loading (<span style='color:red;' id='loadingTimeValue'>" + tT + "</span>)";
+        window.onload = function () {
+
+            let showPerfTip = localStorage.getItem('SHOW_PERFORMANCE_INFO');
+            if (showPerfTip == "true") {
+                document.getElementById('performanceFooterinfo').style.display = 'block';
+            }
+            
+            document.getElementById('recordAppMetrics').checked = false;
+            if (!localStorage.getItem('RECORD_APP_METRICS')) {
+                //if DefaultRecordMetrics in json is true
+                if ('{{$DefaultRecordMetrics}}' === "true") {
+                    document.getElementById('recordAppMetrics').checked = true;
+                }
+            }
+            let checkRecordAppMetrics = localStorage.getItem('RECORD_APP_METRICS');
+            if (checkRecordAppMetrics == "true") {
+                document.getElementById('recordAppMetrics').checked = true;
+            }
+            triggerEvent('recordAppMetrics', 'click')
+
+            let lEcd = new Date();
+            let lEt = lEcd.getTime();
+            let lTt = (lEt - sT);
+            loadingTimeElm.innerHTML = "Loading (<span style='color:red;' id='loadingTimeValue'>" + lTt + "</span>)";
+
+            let htmlInfoElm = document.getElementById('htmlInfo');
+            if (htmlInfoElm) {
+                let totalNoOfResources = 0;
+                let totalTransferSize = 0;
+                if (window.performance !== undefined) {
+                    let resourcelist = window.performance.getEntriesByType("resource");
+                    totalNoOfResources = resourcelist.length;
+                    totalTransferSize = 0;
+                    for (let i = 0; i < resourcelist.length; i++) {
+                        if ("transferSize" in resourcelist[i]) {
+                            totalTransferSize = totalTransferSize + resourcelist[i].transferSize;
+                        }
+                    }
+                }
+                let totalTransferSize2Decimals = (totalTransferSize / 1000).toFixed(2);
+                htmlInfoElm.innerHTML = "Dom Count (<span style='color:red;' id='htmlInfoDomCountValue'>" + document.getElementsByTagName('*').length + "</span>)";
+                let resourceInfoElm = document.getElementById('resourceInfo');
+                if (resourceInfoElm) {
+                    resourceInfoElm.innerHTML = "Resource Count(<span style='color:red;' id='resourceInfoCountValue'>" + totalNoOfResources + "</span>) Size(<span style='color:red;' id='resourceInfoSizeValue'>" + totalTransferSize2Decimals + "kB</span>)";
+                }
+            }
+
+            //Network latency (): responseEnd-fetchStart
+            //The time taken for page load once the page is received from the server: loadEventEnd-responseEnd
+            //The whole process of navigation and page load: loadEventEnd-navigationStart.
+            setTimeout(function () {                
+                setPerformanceMetrics(function () {
+                    if (document.getElementById('recordAppMetrics').checked == true) {
+                        let pageMetricsCheckTimeInterval = setInterval(function () {
+                            if (typeof sendPageMetrics === "function") {
+                                sendPageMetrics(pageMetricsCheckTimeInterval, false);
+                            }                           
+                        }, 100);
+                    }
+                });
+            }, 100);
+
+            setTimeout(function () {
+                let showServTip = localStorage.getItem('SHOW_SERVER_INFO')
+                if (showServTip == "true") {
+                    showServerInfo()
+                }
+            }, 500)
+        };
+    }
+
+    let ajaxTimeElm = document.getElementById('ajaxTime');
+    if (ajaxTimeElm) {
+        let storedAjaxTime = localStorage.getItem('ajaxTime');
+        if (storedAjaxTime !== null) {
+            if (storedAjaxTime.length > 0) {
+                ajaxTimeElm.innerHTML = "Ajax[" + storedAjaxTime + "]";
+            }
+        }
+    }
+
+    let wsTimeElm = document.getElementById('wsTime');
+    if (wsTimeElm) {
+        let storedWsTime = localStorage.getItem('wsTime');
+        if (storedWsTime !== null) {
+            if (storedWsTime.length > 0) {
+                wsTimeElm.innerHTML = "WS[" + storedWsTime + "]";
+            }
+        }
+    }
+
+    function setPerformanceMetrics(successCallback) {
+        let per = performance;
+        if (per) {
+            per.setResourceTimingBufferSize(100);
+            let perfTime = per.timing;
+            if (perfTime) {
+
+                const [pageNav] = performance.getEntriesByType('navigation');
+                const totalDnsLookupTime = pageNav.domainLookupEnd - pageNav.domainLookupStart;
+                let totalDnsLookupTime2Decimals = totalDnsLookupTime.toFixed(2);
+
+                // Quantifying total connection time
+                const connectionTime = pageNav.connectEnd - pageNav.connectStart;
+                let tlsTime = 0; // <-- Assume 0 to start with
+
+                // Was there TLS negotiation?
+                if (pageNav.secureConnectionStart > 0) {
+                    // Awesome! Calculate it!
+                    tlsTime = pageNav.connectEnd - pageNav.secureConnectionStart;
+                }
+                let tlsTime2Decimals = tlsTime.toFixed(2)
+
+                // Request time only (excluding redirects, DNS, and connection/TLS time)
+                const requestTime = pageNav.responseStart - pageNav.requestStart;
+
+                // Response time only (download)
+                const responseTime = pageNav.responseEnd - pageNav.responseStart;
+                let responseTime2Decimals = responseTime.toFixed(2)
+
+                // Request + response time
+                const requestResponseTime = pageNav.responseEnd - pageNav.requestStart;
+
+                let networkInfoElm = document.getElementById("networkInfo");
+                if (networkInfoElm) {
+                    networkInfoElm.innerHTML = "Page[<span style='color:springgreen;' id='networkInfoPageValue'>" + (perfTime.loadEventEnd - perfTime.navigationStart) + "</span>]Lat[<span style='color:springgreen'; id='networkInfoLatencyValue'>" + (perfTime.responseEnd - perfTime.fetchStart) + "</span>]Net[<span style='color:greenyellow;' id='networkInfoNetworkValue'>" + (perfTime.loadEventEnd - perfTime.responseEnd) + "</span>]Dns[<span style='color:greenyellow;' id='networkInfoDnsValue'>" + totalDnsLookupTime2Decimals + "</span>]";
+                }
+                let perfMetricsElm = document.getElementById("perfMetrics");
+                if (perfMetricsElm) {
+                    perfMetricsElm.innerHTML = "Response[<span style='color:red;' id='perfMetricsResponseValue'>" + responseTime2Decimals + "</span>]Render[<span style='color:red;' id='perfMetricsRenderValue'>" + (perfTime.domComplete - perfTime.domLoading) + "</span>]Tls[<span style='color:red;' id='perfMetricsTlsValue'>" + tlsTime2Decimals + "</span>]"
+                }
+                display_size_data();
+
+                if (typeof successCallback === "function") {
+                    successCallback();
+                }
+            }
+        }
+    }
+
+    // log to either console of <output> element
+    let useConsoleLog = true;
+
+    function log(s) {
+        if (useConsoleLog) {
+            //console.log(s);
+        } else {
+            //let o = document.getElementsByTagName("output")[0];
+            //o.innerHTML += s + " <br>";
+        }
+    }
+
+    function display_size_data() {
+        // Check for support of the PerformanceEntry.*size properties and print their values
+        // if supported.
+        if (performance === undefined) {
+            log("= Display Size Data: peformance NOT supported");
+            return;
+        }
+
+        let list = performance.getEntriesByType("resource");
+        if (list === undefined) {
+            log("= Display Size Data: peformance.getEntriesByType() is  NOT supported");
+            return;
+        }
+
+        // For each "resource", display its *Size propery values
+        for (let i = 0; i < list.length; i++) {
+            log("Resource[" + i + "] - " + list[i].name);
+            if ("decodedBodySize" in list[i])
+                log("... decodedBodySize[" + i + "] = " + list[i].decodedBodySize);
+            else
+                log("... decodedBodySize[" + i + "] = NOT supported");
+
+            if ("encodedBodySize" in list[i])
+                log("... encodedBodySize[" + i + "] = " + list[i].encodedBodySize);
+            else
+                log("... encodedBodySize[" + i + "] = NOT supported");
+
+            if ("transferSize" in list[i])
+                log("... transferSize[" + i + "] = " + list[i].transferSize);
+            else
+                log("... transferSize[" + i + "] = NOT supported");
+        }
+    }
+
+    function clear_resource_timings() {
+        if (performance === undefined) {
+            log("= performance.clearResourceTimings(): peformance NOT supported");
+            return;
+        }
+        // Check if Performance.clearResourceTiming() is supported
+        let supported = typeof performance.clearResourceTimings == "function";
+        if (supported) {
+            log("... Performance.clearResourceTimings() = supported");
+            performance.clearResourceTimings();
+        } else {
+            log("... Performance.clearResourceTiming() = NOT supported");
+            return;
+        }
+        // getEntries should now return zero
+        let p = performance.getEntriesByType("resource");
+        if (p.length == 0)
+            log("... Performance data buffer cleared");
+        else
+            log("... Performance data buffer NOT cleared (still have `" + p.length + "` items");
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    function updateFCPMetric(metric) {
+        let metricElm = document.getElementById('perfFCP')
+        if (metricElm) {
+            metricElm.innerHTML = ''
+            if (metric !== null) {
+                metricElm.innerHTML = metric.name + "[<span style='color:red;' id='perfFCPValue'>" + parseFloat(metric.value).toFixed(2) + "</span>]"
+            }
+        }
+    }
+
+    function updateFIDMetric(metric) {
+        let metricElm = document.getElementById('perfFID')
+        if (metricElm) {
+            metricElm.innerHTML = ''
+            if (metric !== null) {
+                metricElm.innerHTML = metric.name + "[<span style='color:red;' id='perfFIDValue'>" + parseFloat(metric.value).toFixed(2) + "</span>]"
+            }
+        }
+    }
+
+    function updateLCPMetric(metric) {
+        let metricElm = document.getElementById('perfLCP')
+        if (metricElm) {
+            metricElm.innerHTML = ''
+            if (metric !== null) {
+                metricElm.innerHTML = metric.name + "[<span style='color:red;' id='perfLCPValue'>" + parseFloat(metric.value).toFixed(2) + "</span>]"
+            }
+        }
+    }
+
+    function updateCLSMetric(metric) {
+        let metricElm = document.getElementById('perfCLS')
+        if (metricElm) {
+            metricElm.innerHTML = ''
+            if (metric !== null) {
+                metricElm.innerHTML = metric.name + "[<span style='color:red;' id='perfCLSValue'>" + parseFloat(metric.value).toFixed(4) + "</span>]"
+            }
+        }
+    }
+
+    function updateTTFBMetric(metric) {
+        let metricElm = document.getElementById('perfTTFB')
+        if (metricElm) {
+            metricElm.innerHTML = ''
+            if (metric !== null) {
+                metricElm.innerHTML = metric.name + "[<span style='color:red;' id='perfTTFBValue'>" + parseFloat(metric.value).toFixed(2) + "</span>]"
+            }
+        }
+    }
+
+    function updateCLSFIDLCPMetric() {
+        webVitals.getFID(updateFIDMetric)
+        webVitals.getLCP(updateLCPMetric)
+        webVitals.getCLS(updateCLSMetric)
+
+        webVitals.getFCP(updateFCPMetric)
+        webVitals.getTTFB(updateTTFBMetric)
+    }
+
+    /*(function () {
+        let script = document.createElement('script');
+        script.src = '/_web-vitals/web-vitals.base.iife.js';
+        script.onload = function () {
+            updateCLSFIDLCPMetric();
+        }
+        document.head.appendChild(script);
+    }())*/
+
+</script>
+
+
+<script id="web-vitals" onload="updateCLSFIDLCPMetric();" src="/Resource/Arshu/web-vitals/web-vitals.base.iife.min.js" async></script>
+
+
+

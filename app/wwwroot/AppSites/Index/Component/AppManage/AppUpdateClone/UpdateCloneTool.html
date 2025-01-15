@@ -1,0 +1,238 @@
+﻿{{ApiAccessKey}}
+
+<div style="margin: 5px 0px;display:none;" class="ar-flex-input-wrap">
+    <button class="ar-flex-item-stretch ar-border" style="height:40px;" onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneNewAppName').value, 'cloneAppOrganization', 'cloneExistingAppName', 'cloneMachineConfig', 'cloneOCIImagePathName', 'cloneOCIImageTagName', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvLoadAppData', 'cloneEnvAutoArchiveAfterXMin', 'doCloneApp', function () { showElm('appClone'); getElm('deleteCloneApp').removeAttribute('disabled'); });">
+        Update / Clone App
+    </button>
+</div>
+
+<div class="ar-notification" id="appCloneResponseContainer" style="display: none; text-align: center; margin: 5px 10px;">
+    <button class="ar-delete" onclick="hideElm('appCloneResponseContainer')"></button>
+    <div id="appCloneResponse"></div>
+</div>
+
+<span id="appCloneProgress"></span>
+
+<fieldset id="appClone" class="ar-border" style="margin: 5px 0px; padding: 5px; position: relative;">
+
+    <div id="cloneRegionsTemplate" style="display:none;">
+        <div style="min-width:50px; margin: 5px 5px;" title="{RegionName}">
+            <label style="{RegionStyle}">
+                <input name="{RegionTagName}" value="{RegionCode}" title="{RegionPrice}" type="checkbox" checked="checked"> {RegionCode}
+            </label>
+        </div>
+    </div>
+
+    <div class="ar-flex-content-wrap">
+        <div class="ar-sbutton ar-border" id="cloneRegionRefresh" style="height:25px;width:25px; text-align: center;" onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneExistingAppName').value, 'cloneAppOrganization', 'cloneExistingAppName', 'cloneMachineConfig', 'cloneOCIImagePathName', 'cloneOCIImageTagName', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvLoadAppData', 'cloneEnvAutoArchiveAfterXMin', 'cloneEnvAutoArchiveAfterXGB', 'doCloneApp', function () { getElm('deleteCloneApp').removeAttribute('disabled'); } );">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+        </div>
+        <div class="ar-flex-item-stretch" style="color:blue;font-size:xx-small"></div>
+        <label for="selectAllCloneRegion" style="text-align: right;">
+            All
+            <input id="selectAllCloneRegion" type="checkbox" title="All Regions" onclick="appCloneSelectAll('cloneRegion', getElm('selectAllCloneRegion').checked)">
+        </label>
+        <div id="cloneRegions" class="ar-border" style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; ">
+
+        </div>
+    </div>
+
+    <span class="ar-flex-item-stretch" style="color:blue;font-size:xx-small">Select 1 region for new app cloning or multiple region for existing app update</span>
+
+    <div>
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label for="cloneMachineConfig" class="ar-flex-item-stretch">Machine Config</label>
+        </div>
+        <div class="ar-flex-content-spaced" style="margin: 0px; padding: 0px;">
+            <select id="cloneMachineConfig" class="ar-select ar-flex-item-stretch ar-border" style="padding-left:5px;" title="Machine Config List">
+            </select>
+        </div>
+    </div>
+
+    <fieldset id="ownerDiv" class="ar-border" style="padding: 5px;">
+        <legend>Owner Info</legend>
+
+        <div class="ar-flex-content-spaced">
+            <label for="appOwnerID" class="ar-flex-item-stretch">Email</label>
+            <label for="appOwnerPassword" class="ar-flex-item-stretch">Password</label>
+        </div>
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;position:relative;">
+            <input id="appOwnerID" class="ar-input ar-border ar-flex-item-stretch " style="max-width: 47%; padding-left: 5px;" autocomplete="off" type="email" placeholder="Owner Email" value="{{$OwnerEmail}}" />
+            <div class="ar-flex-item-stretch" style="max-width:5px;"></div>
+            <input id="appOwnerPassword" class="ar-input ar-border ar-flex-item-stretch " style="max-width: 47%; padding-left: 5px;" autocomplete="off" type="password" placeholder="Owner Password" value="{{$OwnerPassword}}" />
+        </div>
+    </fieldset>
+
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px;position:relative;">
+        <label for="showCloneAdvancedOptions" style="position:absolute;left:0px;top:8px; text-align: right;">
+            <input id="showCloneAdvancedOptions" type="checkbox" title="Show Advanced Options" onclick="toggleElm('cloneAppDiv'); toggleElm('cloneImageDiv'); toggleElm('cloneEnvironmentalVariableDiv'); toggleElm('orgNetworkDiv'); toggleElm('cloneVolumeDiv'); toggleElm('cloneRestrictionsDiv');">
+        </label>
+        <label for="cloneNewAppName" style="width:100%;margin: 5px 0px;cursor: pointer;" onclick="openFlyUrl('cloneNewAppName')">New App Name</label>
+        <input id="cloneNewAppName" class="ar-input ar-flex-item-stretch ar-border-left" style="padding-left:5px;" autocomplete="off" type="text" placeholder="New App Name" value="{{$TestAppName}}" />
+        <button id="deleteCloneApp" class="ar-button ar-border-right" style="background-color: #209cee; width: 80px;" onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); deleteCloneApp('doAppDeleteProgress', 'doAppCloneResponse', getElm('cloneNewAppName').value, getElm('appOwnerID').value, 'deleteCloneApp');">
+            Delete <span id="doAppDeleteProgress"></span>
+        </button>
+    </div>
+
+    <div id="cloneAppDiv" class="ar-flex-input-wrap" style="margin: 0px 0 5px 0px;display:none;">
+        <label for="cloneExistingAppName" style="width: 100%; margin: 5px 0px; cursor: pointer;">Clone App Name</label>
+        <button style="width: 40px; text-align:center;" class="ar-button ar-border-left" onclick="openFlyUrl('cloneExistingAppName')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+        </button>
+        <input id="cloneExistingAppName" class="ar-input ar-border-top-bottom ar-flex-item-stretch" style="padding-left:5px; background-color: gray;" autocomplete="off" type="text" placeholder="Current App Name" readonly />
+        <button id="cloneRefreshInfo" class="ar-button ar-border-right" style="background-color: #209cee; width:80px;" onclick="clearAppCloneMessage('appCloneResponse'); clearAppCloneMessage('doAppCloneResponse'); clearAppCloneDetailsMessage('cloneDetailResponse'); retrieveAppCloneInfo('appCloneProgress', 'appCloneResponse', getElm('cloneExistingAppName').value, 'cloneAppOrganization', 'cloneExistingAppName', 'cloneMachineConfig', 'cloneOCIImagePathName', 'cloneOCIImageTagName', 'cloneRegionsTemplate', 'cloneRegions', 'cloneMaxRegionsPerApp', 'cloneMaxMachinesPerApp', 'cloneMaxMachinesPerRegion', 'cloneEnvInitialTimeout', 'cloneEnvIdleTimeout', 'cloneEnvLoadAppData', 'cloneEnvAutoArchiveAfterXMin', 'cloneEnvAutoArchiveAfterXGB', 'doCloneApp', function () { getElm('deleteCloneApp').removeAttribute('disabled'); } );">
+            Refresh
+        </button>
+        <label style="width: 100%; padding-left: 5px; font-size: xx-small; color: orangered;">(If empty set FLY_APP_NAME environment variable and restart)</label>
+    </div>
+
+    <fieldset id="cloneImageDiv" class="ar-border" style="display: none; padding: 5px; ">
+        <legend>Clone Image</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label for="cloneOCIImagePathName" class="ar-flex-item-stretch">Image(s) Name</label>
+            <label for="cloneOCIImageTagName" class="ar-flex-item-stretch">Tag Name</label>
+        </div>
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;position:relative;">
+            <select id="cloneOCIImagePathName" class="ar-select ar-border ar-flex-item-stretch" style="max-width:48%;padding-left:5px;" title="Clone OCI Image"
+                    onchange="let imagepath = getElm('cloneOCIImagePathName').value; getElm('cloneOCIImageTagName').value = imagepath.substr(imagepath.indexOf(':') + 1);">
+            </select>
+            <div class="ar-flex-item-stretch" style="max-width:5px;"></div>
+            <input id="cloneOCIImageTagName" class="ar-input ar-border ar-flex-item-stretch" style="max-width: 48%; padding-left: 5px;" type="text" placeholder="Your Tag Name" value="latest" />
+        </div>
+
+    </fieldset>
+
+    <fieldset id="cloneVolumeDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Volume Info</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label for="cloneMachineVolumeSize" class="ar-flex-item-stretch">Volume Size</label>
+            <label for="cloneMachineVolumePath" class="ar-flex-item-stretch">Volume Path</label>
+        </div>
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;position:relative;">
+            <select id="cloneMachineVolumeSize" class="ar-select ar-flex-item-stretch ar-border" style="max-width: 48%; padding-left: 5px;" title="Machine Config List">
+                <option selected="selected" value="0">No Volume</option>
+                <option value="1">1 GB Volume</option>
+            </select>
+            <div class="ar-flex-item-stretch" style="max-width:5px;"></div>
+            <select id="cloneMachineVolumePath" class="ar-select ar-flex-item-stretch ar-border" style="max-width: 48%; padding-left: 5px;" title="Machine Config List">
+                <option selected="selected" value="app/wwwroot">wwwroot</option>
+                <option value="app/wwwroot/App_Data">App_Data</option>
+            </select>
+        </div>
+    </fieldset>
+
+    <fieldset id="cloneEnvironmentalVariableDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>Environmental Variables</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label for="cloneEnvInitialTimeout" class="ar-flex-item-stretch">Initial Timeout (sec)</label>
+            <label for="cloneEnvIdleTimeout" class="ar-flex-item-stretch">Idle Timeout (sec)</label>
+        </div>
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;position:relative;">
+            <input id="cloneEnvInitialTimeout" class="ar-input ar-border ar-flex-item-stretch" style="max-width: 48%;" type="number" placeholder="Your Initial Timeout" value="30" />
+            <div class="ar-flex-item-stretch" style="max-width:5px;"></div>
+            <input id="cloneEnvIdleTimeout" class="ar-input ar-border ar-flex-item-stretch" style="max-width:48%;" type="number" placeholder="Your Idle Timeout" value="30" />
+        </div>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label for="cloneEnvAutoArchiveAfterXMin" class="ar-flex-item-stretch">Archive After x Mins</label>
+            <label for="cloneEnvAutoArchiveAfterXGB" class="ar-flex-item-stretch">Archive After x GB</label>
+        </div>
+
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;position:relative;">
+            <input id="cloneEnvAutoArchiveAfterXMin" class="ar-input ar-border ar-flex-item-stretch" style="max-width: 48%;" type="number" placeholder="Auto Archive after x Mins" value="0" />
+            <div class="ar-flex-item-stretch" style="max-width:5px;"></div>
+            <input id="cloneEnvAutoArchiveAfterXGB" class="ar-input ar-border ar-flex-item-stretch" style="max-width:48%;" type="number" placeholder="Auto Archive after x GB" value="0" />
+        </div>
+
+    </fieldset>
+
+    <fieldset id="orgNetworkDiv" class="ar-border" style="display: none; padding: 5px;">
+        <legend>App Info</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label for="cloneAppOrganization" class="ar-flex-item-stretch">Organisation</label>
+            <label for="cloneAppNetwork" class="ar-flex-item-stretch">App Network</label>
+        </div>
+
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;position:relative;">
+            <select id="cloneAppOrganization" class="ar-select ar-flex-item-stretch ar-border" style="max-width: 48%; padding-left: 5px;" title="User Org Slug Name">
+            </select>
+            <div class="ar-flex-item-stretch" style="max-width:5px;"></div>
+            <input id="cloneAppNetwork" class="ar-button ar-border ar-flex-item-stretch" style="max-width: 48%;" type="number" placeholder="App Network" value="" />
+        </div>
+
+    </fieldset>
+
+    <fieldset id="cloneRestrictionsDiv" class="ar-border" style="flex:auto; display: none; padding: 5px;">
+        <legend>Deploy Restrictions</legend>
+
+        <div class="ar-flex-content-spaced" style="margin: 0px;">
+            <label for="cloneMaxRegionsPerApp" class="ar-flex-item-stretch" style="text-align: center;">Max Regions&nbsp; Per App</label>
+            <label for="cloneMaxMachinesPerApp" class="ar-flex-item-stretch" style="text-align: center;">Max Machines Per App</label>
+            <label for="cloneMaxMachinesPerRegion" class="ar-flex-item-stretch" style="text-align: center;">Max Machine&nbsp; Per Region</label>
+        </div>
+
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px;position:relative;">
+            <input id="cloneMaxRegionsPerApp" class="ar-input ar-border" style="max-width:75px; margin: 0 0 0 5px; background-color: gray; " type="number" placeholder="Max Regions per App" value="1" readonly />
+            <input id="cloneMaxMachinesPerApp" class="ar-input ar-border" style="max-width: 75px; margin: 0 0 0 5px; background-color: gray;" type="number" placeholder="Max Machine Count per App" value="1" readonly />
+            <input id="cloneMaxMachinesPerRegion" class="ar-input ar-border" style="max-width: 75px; margin: 0 0 0 5px; background-color: gray;" type="number" placeholder="Max Machine Count per Region" value="1" readonly />
+        </div>
+
+    </fieldset>
+
+    <div id="doAppCloneResponseContainer" class="ar-notification" style="text-align:center;display:none;">
+        <svg fill="currentColor" width="16px" height="16px" viewBox="0 0 32 32" xml:space="preserve"
+             style="position:absolute;left:0px;top:0px;"
+             onclick="toggleElm('cloneDetailResponse')">
+        <g>
+        <path d="M17.962,24.725l1.806,0.096v2.531h-7.534v-2.406l1.045-0.094c0.568-0.063,0.916-0.254,0.916-1.014v-8.801
+                 c0-0.699-0.188-0.92-0.791-0.92l-1.106-0.062v-2.626h5.666L17.962,24.725L17.962,24.725z M15.747,4.648
+                 c1.394,0,2.405,1.047,2.405,2.374c0,1.331-1.014,2.313-2.438,2.313c-1.454,0-2.404-0.982-2.404-2.313
+                 C13.31,5.695,14.26,4.648,15.747,4.648z M16,32C7.178,32,0,24.822,0,16S7.178,0,16,0c8.82,0,16,7.178,16,16S24.82,32,16,32z M16,3
+                 C8.832,3,3,8.832,3,16s5.832,13,13,13s13-5.832,13-13S23.168,3,16,3z" />
+             </g>
+         </svg>
+        <button class="ar-delete" onclick="hideElm('doAppCloneResponseContainer');hideElm('cloneDetailResponse');hideElm('cloneLinkDiv')"></button>
+        <div id="doAppCloneResponse"></div>
+        <div id="doAppCloneResponseWarn"></div>
+    </div>
+
+    <div id="cloneDetailResponse" style="font-size:x-small;text-align:center;display:none;">
+    </div>
+
+    <div id="cloneLinkDiv" class="ar-flex-content-spaced" style="display:none;text-align:center;">
+        <div class="ar-border" style="margin: 10px auto;">
+            <a id="cloneLink" style="text-decoration: none;margin:10px 5px" href="#" target="_blank"></a>
+        </div>
+    </div>
+
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+        <button id="doCloneApp" class="ar-button ar-border" style="background-color: #209cee; width: 200px; height: 40px;" tabindex="4" disabled="disabled"
+                onclick="cloneApp('doAppCloneProgress', 'doAppCloneResponse', getElm('cloneNewAppName').value, getElm('cloneAppOrganization').value, getElm('cloneAppNetwork').value, getElm('cloneMachineConfig').value, getElm('cloneOCIImagePathName').value, getElm('cloneOCIImageTagName').value, 'cloneRegion', getElm('cloneEnvInitialTimeout').value, getElm('cloneEnvIdleTimeout').value, getElm('appOwnerID').value, getElm('appOwnerPassword').value, getElm('cloneMachineVolumeSize').value, getElm('cloneMachineVolumePath').value, 'doCloneApp', 'cloneDetailResponse')">
+            Update/Clone App <span id="doAppCloneProgress"></span>
+        </button>
+    </div>
+
+    <div style="display: flex; flex-flow: row wrap; justify-content: space-around; width: 100%; color:orangered; font-size:x-small ">
+        <div>
+            Clone Per Team : <span id="clonePerTeam">0</span> (Max : <span id="maxClonePerTeam">0</span>)
+        </div>
+        <div>
+            Clone per Day : <span id="clonePerDay">0</span> (Max :<span id="maxClonePerDay">0</span>)
+        </div>
+        <div>
+            Clone per Hour : <span id="clonePerHour">0</span> (Max: <span id="maxClonePerHour">0</span>)
+        </div>
+    </div>
+
+</fieldset>
+
+{{UpdateCloneToolJs}}

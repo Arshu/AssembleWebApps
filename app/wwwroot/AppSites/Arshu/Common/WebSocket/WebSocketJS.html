@@ -87,6 +87,10 @@
         websocket.onmessage = function (event) {
             let returnMessage = JSON.parse(event.data)
             if (returnMessage) {
+                let resId = ""
+                if (returnMessage.hasOwnProperty('clientRequestId')) {
+                    resId = returnMessage.clientRequestId
+                }
                 let method = ""
                 if (returnMessage.hasOwnProperty('method')) {
                     method = returnMessage.method
@@ -107,7 +111,26 @@
                     onWSPageChanged(returnJson, connectionInfo)
                 }
                 else if (method == "WSViewChanged") {
-                    onWSViewChanged(returnJson, connectionInfo)
+                    filterShowWSTime(returnJson)
+                    onWSViewChanged(resId, returnJson, connectionInfo)
+                }
+                else if (method == "WSReturnCallApi") {
+                    if (wsProcessReturnList.hasOwnProperty(resId)) {
+                        filterShowWSTime(returnJson)
+                        let wsProcessReturn = wsProcessReturnList[resId]
+                        if (wsProcessReturn != null) {
+                            wsProcessReturn(resId, returnJson)
+                        } else {
+                            let reqProcessReturn = reqProcessReturnList[resId]
+                            if (reqProcessReturn != null) {
+                                reqProcessReturn(resId, returnJson)
+                            }
+                        }
+                    }
+                    else
+                    {
+                        console.log(" WS [" + resId + "] does not have Process Return for [" + method + "]")
+                    }
                 }
                 else {
                     //alert(method + "," + arg1 + "," + arg2);
@@ -156,41 +179,25 @@
         }
     }
 
-    function callWSApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, successCallback, failureCallback, clientRequestStartTimestamp, refreshAppDomain) {
+    let wsProcessReturnList = new Object();
+    function callWSApi(reqId, progressElmId, responseElmId, apiUrl, apiMethod, apiParams, successCallback, failureCallback, clientRequestStartTimestamp, refreshAppDomain) {
         console.log('callWSApi: Connection Info [' + wsConnectionInfo + "][" + apiUrl + "][" + apiMethod + "]" + globalWebSocketActive)
 
         if ((globalWebSocketActive == true) && (globalWebSocketConnection) && (globalWebSocketConnection.readyState == 1)) {
             ajaxStart(progressElmId)
-
-            let isSecure = true
-            if (location.protocol !== 'https:') {
-                isSecure = false
-            }
-            let requestTicket = ""
-            let requestTicketElm = document.querySelector("[name=ticket]")
-            if (requestTicketElm) requestTicket = requestTicketElm.value
-
+            wsProcessReturnList[reqId] = successCallback
+           
             if (!clientRequestStartTimestamp) {
                 clientRequestStartTimestamp = Math.floor(new Date().getTime())
             }
-
-            let appDomain = window.location.hostname
-            let rootPort = window.location.port
-
-            if (rootPort.trim() == "") {
-                if (isSecure == true) { rootPort = "443" } else { rootPort = "80" }
-            }
-
+            
             let messageJson = {
-                "method": "CallWSApi",
-                "arg1": isSecure,
-                "arg2": requestTicket,
-                "arg3": appDomain,
-                "arg4": parseInt(rootPort),
-                "arg5": apiUrl,
-                "arg6": apiMethod,
-                "arg7": apiParams,
-                "arg8": clientRequestStartTimestamp
+                "reqId": reqId,
+                "method": "CallWSApi",                
+                "arg1": apiUrl,
+                "arg2": apiMethod,
+                "arg3": apiParams,
+                "arg4": clientRequestStartTimestamp
             }
 
             let webSocketTimeout = 10000
@@ -201,40 +208,11 @@
             let messageText = JSON.stringify(messageJson)
             globalWebSocketConnection.send(messageText)
 
-            var returnCallWSApiHandler = function (event) {
-
-                let returnMessage = JSON.parse(event.data)
-                let method = ""
-                if (returnMessage) {
-                    let method = ""
-                    if (returnMessage.hasOwnProperty('method')) {
-                        method = returnMessage.method
-                    }
-                    let returnJson = ""
-                    if (returnMessage.hasOwnProperty('arg1')) {
-                        returnJson = returnMessage.arg1
-                    }
-                    let connectionInfo = ""
-                    if (returnMessage.hasOwnProperty('arg2')) {
-                        connectionInfo = returnMessage.arg2
-                    }
-                    if (method == "WSReturnCallApi") {
-
-                        globalWebSocketConnection.removeEventListener("message", returnCallWSApiHandler)
-
-                        ajaxStop(progressElmId)
-
-                        filterShowWSTime(returnJson)
-                        if (typeof successCallback === "function") {
-                            successCallback(returnJson)
-                        }
-
-                        console.log("WSReturnCallApi [" + connectionInfo + "] after CallWSApi [" + apiUrl + "][" + apiMethod + "]")
-                    }
-                }
-            }
-
-            globalWebSocketConnection.addEventListener("message", returnCallWSApiHandler)
+            return true
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -256,8 +234,7 @@
         }
     }
 
-    function onWSViewChanged(returnJson, connectionInfo) {
-        filterShowWSTime(returnJson)
+    function onWSViewChanged(reqId, returnJson, connectionInfo) {
 
         let changedAppSite = ""
         if (returnJson.hasOwnProperty('ChangedAppSite') === true) {
@@ -298,7 +275,7 @@
     function filterShowWSTime(serverResponseJson) {
         if ((serverResponseJson) && (serverResponseJson.ServiceInfo)) {
             if ((serverResponseJson.ServiceInfo.toUpperCase().indexOf("MetricsApi".toUpperCase()) === -1)
-                //&& (serverResponseJson.ServiceInfo.toUpperCase().indexOf("CurlApi".toUpperCase()) === -1)
+                && (serverResponseJson.ServiceInfo.toUpperCase().indexOf("CurlApi".toUpperCase()) === -1)
             ) {
                 recordWSTiming(serverResponseJson, false)
             }
@@ -439,59 +416,6 @@
             }
         }
         sessionStorage.setItem("wsTime", "")
-    }
-
-    /*
-        let blob = jsonToBlob([{foo:[1,2,3], a:1, bar:["a", 2, {$hi:[1,2,3, {a:3}]}]}, 4, new Date(),, (()=>{})]);
-        console.log(JSON.parse(await blob.text()));
-
-        let json = {};
-        for(let i = 0; i < 600000; i++) {
-          json[Math.random()] = Math.random().toString().repeat(100);
-        }
-        let blob = jsonToBlob(json);
-        console.log(blob); // ~1 GB
-    */
-    function jsonToBlob(json) {
-        const textEncoder = new TextEncoder()
-        const seen = new WeakSet()
-
-        function processValue(value) {
-            if (seen.has(value)) {
-                throw new TypeError("Converting circular structure to JSON")
-            }
-
-            if (value && typeof value.toJSON === "function") {
-                value = value.toJSON()
-            }
-
-            if (typeof value === 'object' && value !== null) {
-                seen.add(value)
-
-                const blobParts = []
-                const entries = Array.isArray(value) ? value : Object.entries(value)
-                for (let i = 0; i < entries.length; i++) {
-                    if (Array.isArray(value)) {
-                        blobParts.push(processValue(entries[i]))
-                    } else {
-                        const [key, val] = entries[i]
-                        blobParts.push(textEncoder.encode(JSON.stringify(key) + ':'), processValue(val))
-                    }
-                    if (i !== entries.length - 1) blobParts.push(textEncoder.encode(','))
-                }
-
-                const startBracket = Array.isArray(value) ? '[' : '{'
-                const endBracket = Array.isArray(value) ? ']' : '}'
-                return new Blob([textEncoder.encode(startBracket), ...blobParts, textEncoder.encode(endBracket)])
-            } else if (typeof value === 'function' || typeof value === 'undefined') {
-                return textEncoder.encode("null")
-            } else {
-                // For primitives we just convert it to string and encode
-                return textEncoder.encode(JSON.stringify(value))
-            }
-        }
-
-        return processValue(json)
     }
 
 </script>

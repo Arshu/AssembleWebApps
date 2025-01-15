@@ -3,7 +3,7 @@
   "short_name": "",
   "icons": [
     {
-      "src": "/Resource/Arshu/logos/android-chrome-192x192.png",
+      "src": "/Content/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     }   

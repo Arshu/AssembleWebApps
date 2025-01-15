@@ -4,7 +4,6 @@
         background-color: black;
         color: white;
     }
-
 </style>
 <script src="/Resource/Arshu/chart/chart.umd.min.js"></script>
 
@@ -12,13 +11,13 @@
 
     function hideAppMetricsViewer() {
 
-        let modal = getElm('viewAppMetrics');
-        modal.classList.remove('ar-modal-active');
+        let modal = getElm('viewAppMetrics')
+        modal.classList.remove('ar-modal-active')
     }
 
     function showAppMetricsViewer(progressElmId, responseElmId, successCallback) {
 
-        let viewAppMetricsModal = getElm('viewAppMetrics');
+        let viewAppMetricsModal = getElm('viewAppMetrics')
 
         fillPageMetricsInstance(progressElmId, responseElmId, 'pageMetricsInstance', 'pageMetricsCached', 'mergePageAction', 'mergePageStatus', function () {
 
@@ -28,26 +27,29 @@
 
                     refreshPageMetricsChart(progressElmId, responseElmId, 1, function () {
 
-                        viewAppMetricsModal.classList.add('ar-modal-active');
+                        viewAppMetricsModal.classList.add('ar-modal-active')
 
-                        getElm("pageMetricsTab").classList.add("metricTabActive");
-                        getElm("ajaxMetricsTab").classList.remove("metricTabActive");
-                        getElm("wsMetricsTab").classList.remove("metricTabActive");
+                        getElm("pageMetricsTab").classList.add("metricTabActive")
+                        getElm("ajaxMetricsTab").classList.remove("metricTabActive")
+                        getElm("wsMetricsTab").classList.remove("metricTabActive")
+                        getElm("serverMetricsTab").classList.remove("metricTabActive")
 
-                        showElm('pageMetrics');
-                        hideElm('ajaxMetrics');
-                        hideElm('wsMetrics');
+                        showElm('pageMetrics')
+                        hideElm('ajaxMetrics')
+                        hideElm('wsMetrics')
+                        hideElm('serverMetrics')
 
                         if (typeof successCallback === "function") {
-                            successCallback();
+                            successCallback()
                         }
-                    });
+                    })
 
-                });
+                })
 
             })
 
-        });
+        })
+
     }
 
     function showPageMetrics(progressElmId, responseElmId) {
@@ -60,20 +62,22 @@
 
                     refreshPageMetricsChart(progressElmId, responseElmId, 1, function () {
 
-                        getElm("pageMetricsTab").classList.add("metricTabActive");
-                        getElm("ajaxMetricsTab").classList.remove("metricTabActive");
-                        getElm("wsMetricsTab").classList.remove("metricTabActive");
+                        getElm("pageMetricsTab").classList.add("metricTabActive")
+                        getElm("ajaxMetricsTab").classList.remove("metricTabActive")
+                        getElm("wsMetricsTab").classList.remove("metricTabActive")
+                        getElm("serverMetricsTab").classList.remove("metricTabActive")
 
-                        showElm('pageMetrics');
-                        hideElm('ajaxMetrics');
-                        hideElm('wsMetrics');
-                    });
+                        showElm('pageMetrics')
+                        hideElm('ajaxMetrics')
+                        hideElm('wsMetrics')
+                        hideElm('serverMetrics')
+                    })
 
-                });
+                })
 
-            });
+            })
 
-        });
+        })
     }
 
     function showAjaxMetrics(progressElmId, responseElmId) {
@@ -86,21 +90,22 @@
 
                     refreshAjaxMetricsChart(progressElmId, responseElmId, 1, function () {
 
-                        getElm("pageMetricsTab").classList.remove("metricTabActive");
-                        getElm("ajaxMetricsTab").classList.add("metricTabActive");
-                        getElm("wsMetricsTab").classList.remove("metricTabActive");
+                        getElm("pageMetricsTab").classList.remove("metricTabActive")
+                        getElm("ajaxMetricsTab").classList.add("metricTabActive")
+                        getElm("wsMetricsTab").classList.remove("metricTabActive")
+                        getElm("serverMetricsTab").classList.remove("metricTabActive")
 
-                        hideElm('pageMetrics');
-                        showElm('ajaxMetrics');
-                        hideElm('wsMetrics');
+                        hideElm('pageMetrics')
+                        showElm('ajaxMetrics')
+                        hideElm('wsMetrics')
+                        hideElm('serverMetrics')
+                    })
 
-                    });
+                })
 
-                });
+            })
 
-            });
-
-        });
+        })
     }
 
     function showWSMetrics(progressElmId, responseElmId) {
@@ -113,23 +118,52 @@
 
                     refreshWSMetricsChart(progressElmId, responseElmId, 1, function () {
 
-                        getElm("pageMetricsTab").classList.remove("metricTabActive");
-                        getElm("ajaxMetricsTab").classList.remove("metricTabActive");
-                        getElm("wsMetricsTab").classList.add("metricTabActive");
+                        getElm("pageMetricsTab").classList.remove("metricTabActive")
+                        getElm("ajaxMetricsTab").classList.remove("metricTabActive")
+                        getElm("wsMetricsTab").classList.add("metricTabActive")
+                        getElm("serverMetricsTab").classList.remove("metricTabActive")
 
-                        hideElm('pageMetrics');
-                        hideElm('ajaxMetrics');
-                        showElm('wsMetrics');
+                        hideElm('pageMetrics')
+                        hideElm('ajaxMetrics')
+                        showElm('wsMetrics')
+                        hideElm('serverMetrics')
+                    })
 
-                    });
+                })
 
-                });
+            })
 
-            });
-
-        });
+        })
     }
 
+    function showServerMetrics(progressElmId, responseElmId) {
+
+        fillServerMetricsInstance(progressElmId, responseElmId, 'serverMetricsInstance', 'serverMetricsCached', 'mergeServerAction', 'mergeServerStatus', function () {
+
+            fillServerMetricsPath(progressElmId, responseElmId, 'serverMetricsPath', function () {
+
+                fillServerMetricsType(progressElmId, responseElmId, 'serverMetricsType', function () {
+
+                    refreshServerMetricsChart(progressElmId, responseElmId, 1, function () {
+
+                        getElm("pageMetricsTab").classList.remove("metricTabActive")
+                        getElm("ajaxMetricsTab").classList.remove("metricTabActive")
+                        getElm("wsMetricsTab").classList.remove("metricTabActive")
+                        getElm("serverMetricsTab").classList.add("metricTabActive")
+
+                        hideElm('pageMetrics')
+                        hideElm('ajaxMetrics')
+                        hideElm('wsMetrics')
+                        showElm('serverMetrics')
+                    })
+
+                })
+
+            })
+
+        })
+    }
+    
 </script>
 
 <div class="ar-modal" id="viewAppMetrics" style="color: gray;">
@@ -152,32 +186,37 @@
             <div id="metricsResponse"></div>
         </div>
 
-        <div class="ar-flex-input-wrap" style="margin: 5px 0px 0px 0px; width: 100%; color: gray;">
+        <div class="ar-flex-input-wrap" style="margin: 5px 0px 0px 0px; width: 100%; color: gray;" id="metricsTab">
             <button class="ar-flex-item-stretch" id="pageMetricsTab" style="font-size: small; height: 38px; text-align: center;" onclick="showPageMetrics('metricsProgress', 'metricsResponse')">
-                Page Metrics
+                Page
             </button>
             <button class="ar-flex-item-stretch" id="ajaxMetricsTab" style="font-size: small; height: 38px; text-align: center; " onclick="showAjaxMetrics('metricsProgress', 'metricsResponse')">
-                AJAX Metrics
+                AJAX
             </button>
             <button class="ar-flex-item-stretch" id="wsMetricsTab" style="font-size: small; height: 38px; text-align: center;" onclick="showWSMetrics('metricsProgress', 'metricsResponse')">
-                Websocket Metrics
+                Websocket
+            </button>
+            <button class="ar-flex-item-stretch" id="serverMetricsTab" style="font-size: small; height: 38px; text-align: center;" onclick="showServerMetrics('metricsProgress', 'metricsResponse')">
+                Server
             </button>
         </div>
 
         <div id="pageMetrics" style="min-height: 300px;">
             {{PageMetrics}}
-            {{PageMetricsJs}}
         </div>
 
         <div id="ajaxMetrics" style="display:none;min-height:300px;">
             {{AjaxMetrics}}
-            {{AjaxMetricsJs}}
         </div>
 
         <div id="wsMetrics" style="display: none; min-height: 300px;">
             {{WSMetrics}}
-            {{WSMetricsJs}}
         </div>
+
+        <div id="serverMetrics" style="display: none; min-height: 300px;">
+            {{ServerMetrics}}
+        </div>
+        
     </div>
 </div>
 

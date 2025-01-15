@@ -219,6 +219,7 @@
     .ar-menuitem a {
         color: black;
         text-decoration: none;
+        cursor:pointer;
     }
 
 .ar-active .ar-menuitem {

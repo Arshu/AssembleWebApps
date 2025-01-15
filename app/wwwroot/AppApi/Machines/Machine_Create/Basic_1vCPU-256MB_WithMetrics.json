@@ -1,0 +1,63 @@
+{
+  "name": "{{$MachineName}}",
+  "region": "{{$Region}}",
+  "config": {
+    "image": "{{$AppImage}}",
+    "metadata": {
+      "fly_platform_version": "v2"
+    },
+    "env": {
+    },
+    "restart": {
+      "policy": "no",
+      "max_retries": 0
+    },
+    "guest": {
+      "cpu_kind": "shared",
+      "cpus": 1,
+      "memory_mb": 256
+    },
+    "services": [
+      {
+        "concurrency": {
+          "hard_limit": 25,
+          "soft_limit": 20,
+          "type": "connections"
+        },
+        "ports": [
+          {
+            "port": 443,
+            "handlers": [
+              "tls",
+              "http"
+            ]
+          },
+          {
+            "port": 80,
+            "handlers": [
+              "http"
+            ],
+            "force_https": false
+          }
+        ],
+        "protocol": "tcp",
+        "internal_port": 8080
+      }
+    ],
+    "metrics": {
+      "port": 9091,
+      "path": "/metrics"
+    },
+    "checks": {     
+      "http-get": {
+        "type": "http",
+        "port": 9091,
+        "protocol": "http",
+        "method": "GET",
+        "path": "/metrics",
+        "interval": "15s",
+        "timeout": "10s"
+      }
+    }
+  }
+}

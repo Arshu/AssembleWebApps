@@ -1,0 +1,92 @@
+﻿
+
+<div style="margin: 5px 0px;display:none;" class="ar-flex-input-wrap">
+    <button class="ar-flex-item-stretch ar-border" onclick="toggleElm('appKey'); if (haveElm('appManage') == true) { hideElm('appManage'); }; if (haveElm('appUpdate') == true) { hideElm('appUpdate'); };  if (haveElm('appCreate') == true) { hideElm('appCreate'); }">
+        App Key
+    </button>
+</div>
+
+<div id="appKey" class="ar-border" style="margin: 5px 0px;padding: 5px; ">
+
+    <div class="ar-notification" id="appKeyResponseContainer" style="text-align:center;display:none;margin:5px 10px;">
+        <button class="ar-delete" onclick="hideElm('appKeyResponseContainer')"></button>
+        <div id="appKeyResponse"></div>
+    </div>
+
+    <div style="font-size:xx-small;">
+        <a href="https://fly.io/app/sign-up" target="_blank" style="color:orangered;"> Sign up </a>&nbsp; or &nbsp;<a href="https://fly.io/app/sign-in" target="_blank" style="color:orangered;"> Sign in </a> &nbsp; to fly.io and create a new auth token in the &nbsp;<a href="https://fly.io/user/personal_access_tokens" style="color:orangered;">personal access token </a>&nbsp; section of the fly.io dashboard.
+    </div>
+
+    <div class="ar-flex-input-wrap" style="margin: 5px 0px;">
+        <label for="appAPIToken" style="width:100%;margin: 5px 5px;">
+            API Token
+        </label>
+        <input class="ar-input ar-flex-item-stretch ar-border-left" id="appAPIToken" name="appAPIToken" autocomplete="off" type="password" placeholder="Your API Token" value="{{$APIToken}}" />
+        <button id="retrieveTimeInfoBtn" class="ar-button ar-border-right" style="min-width:40px;" onclick="retrieveTimeInfo('appKeyProgress', 'appKeyResponse', 'appAPIToken')">
+            <span id="appKeyProgress"></span>
+        </button>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    function retrieveTimeInfo(progressElmId, responseElmId, appAPITokenElmId, successCallback, failureCallback) {
+        let id = window.ajaxid++
+        let responseElm = getElm(responseElmId)
+        let responseContainerElmId = responseElmId + "Container"
+        responseElm.textContent = ''
+        hideElm(responseContainerElmId)
+
+        let valid = true
+
+        if (valid === true) {
+
+            let isRealtime = false
+            let realtimeDomain = ""
+
+            let apiUrl = "/AppApi/ServerApi"
+            let apiMethod = "RetrieveTimeInfo"
+
+            let apiParams = {
+            }
+
+            let processReturn = function (result, responseElmId, successCallback) {
+
+                let responseElm = getElm(responseElmId)
+
+                if (result.hasOwnProperty('error') === true) {
+                    showText(responseElm, result.error, 'red')
+
+                }
+                //else if (result.hasOwnProperty('message') === true) {
+                //    showText(responseElm, result.message, 'green');
+
+                //    if (typeof successCallback === "function") {
+                //        successCallback();
+                //    }
+                //}
+                else {
+
+                    if (result.hasOwnProperty('TimeIDInHour') === true) {
+                        getElm(appAPITokenElmId).TimeID = result.TimeIDInHour
+                    }
+                }
+            }
+
+            // let processReturn = function (result, responseElmId, successCallback) {
+            //     let responseElm = getElm(responseElmId)
+            // }
+
+            callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, 0, "{{$AppSite}}", "{{$AppView}}", "{{$ViewName}}", "")
+
+        }
+
+        return false
+    }
+
+    ready(() => {
+        triggerEvent('retrieveTimeInfoBtn', 'click')
+    })
+
+</script>

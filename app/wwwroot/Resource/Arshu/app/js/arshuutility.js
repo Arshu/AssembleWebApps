@@ -18,6 +18,17 @@ function openFlyRegionUrl(appName, appRegion) {
 
 /******************************************************************************************************************/
 
+//let options = [{day: 'numeric'}, {month: 'short'}, {year: 'numeric'}];
+//let formatedDate = formatDate(new Date, options, '-') //1-Dec-2024
+function formatDate(date, options, separator) {
+    function format(option) {
+        let formatter = new Intl.DateTimeFormat('en', option)
+        return formatter.format(date)
+    }
+    return options.map(format).join(separator)
+}
+
+
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2 - lat1);  // deg2rad below
@@ -559,7 +570,11 @@ function initNavBarBurger() {
 
         // Add a click event on each of them
         $navbarBurgers.forEach(el => {
-            addListener(el, 'click', () => { navBarClickEvent(el); }, false)
+            addListener(el, 'click', (event) => {
+                event.stopPropagation()
+                //event.preventDefault();
+                navBarClickEvent(el)
+            }, false)
         });
     }
 }
@@ -715,3 +730,4 @@ function base64toBlob(b64Data, contentType) {
     return blob;
 }
 
+/******************************************************************************************************************/

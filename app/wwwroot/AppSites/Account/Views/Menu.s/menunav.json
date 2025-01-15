@@ -3,7 +3,7 @@
 
     {
       "NavTitle": "AppSites",
-      "NavUrl": "/Arshu/AppSites",
+      "NavUrl": "/Account/AppSites",
       "NavActive": "",
       "HaveSubMenu": "False",
       "SubNAVList": [
@@ -12,7 +12,7 @@
     },
     {
       "NavTitle": "AppViews",
-      "NavUrl": "/Arshu/AppViews",
+      "NavUrl": "/Account/AppViews",
       "NavActive": "",
       "HaveSubMenu": "False",
       "SubNAVList": [

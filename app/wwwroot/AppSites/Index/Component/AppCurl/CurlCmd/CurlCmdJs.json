@@ -1,0 +1,12 @@
+{
+  "MaxTestRegions$": 1,
+  "TestUrl": "https://arshuweb.fly.dev",
+  "TestUrls": [
+    "https://arshuweb.fly.dev",
+    "https://arshudata.fly.dev",
+    "https://arshubase.fly.dev",
+    "https://yuehwa.com.sg",
+    "https://nmatrixcs.com",
+    "https://navisionapps.com"
+  ]
+}

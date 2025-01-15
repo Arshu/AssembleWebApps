@@ -1,0 +1,19 @@
+{
+  "Encrypted" : false,
+  "MaxEmailLength" : 50,
+  "MaxMessageLength" : 1000,
+  "ApiCreateOverwritable" : true,
+  "ApiCreate" : false,
+  "RemoteUrl" : "",
+  "RemoteUserId" : "",
+  "RemoteUserPwd" : "",
+  "SendBody" : " Message \r\n\r\n{2}\r\n\r\n dated {0} from {1}",
+  "SendEmailDateFormat" : "yyyy\/MMM\/dd hh:mm:ss",
+  "SendEmailRoles" : "Guest",
+  "SendErrorMessage" : "Error in Sending Message",
+  "SendFromAddress" : "",
+  "SendFromDisplayName" : "",
+  "SendSubject" : "Message dated {0} from {1}",
+  "SendSuccessMessage" : "Successfully Sent Message",
+  "SendToAddressess" : ""
+}

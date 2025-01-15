@@ -141,19 +141,23 @@
                         let deployReferenceRegionTemplate = "";
 
                         for (var i = 0; i < deployReferenceRegionList.length; i++) {
-                            let regionInfo = deployReferenceRegionList[i];
+                            let regionJson = deployReferenceRegionList[i];
 
-                            let regionName = "";
-                            if (regionInfo.hasOwnProperty('Region') === true) {
-                                regionName = regionInfo.Region
+                            let regionCode = "";
+                            if (regionJson.hasOwnProperty('RegionCode') === true) {
+                                regionCode = regionJson.RegionCode
                             }
                             let deployRegion = false;
-                            if (regionInfo.hasOwnProperty('Status') === true) {
-                                deployRegion = regionInfo.Status
+                            if (regionJson.hasOwnProperty('Status') === true) {
+                                deployRegion = regionJson.Status
                             }
-                            let regionText = regionName;
-                            if (regionInfo.hasOwnProperty('MachineCount') === true) {
-                                regionText = regionText + "[" + regionInfo.MachineCount + "]";
+                            let regionText = regionCode;
+                            if (regionJson.hasOwnProperty('MachineCount') === true) {
+                                regionText = regionText + "[" + regionJson.MachineCount + "]";
+                            }
+                            let regionName = ""
+                            if (regionJson.hasOwnProperty('RegionName') === true) {
+                                regionName = regionJson.RegionName
                             }
 
                             let deployReferenceRegionTemplateItem = deployReferenceRegionTemplateHtml;
@@ -163,9 +167,10 @@
                             if (result.hasOwnProperty('AppName') === true) {
                                 deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/{AppName}/g, result.AppName)
                             }
-                            deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/{RegionName}/g, 'deployReferenceRegion')
-                            deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/{Region}/g, regionName)
+                            deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/{RegionTagName}/g, 'deployReferenceRegion')
+                            deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/{RegionCode}/g, regionCode)
                             deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/{RegionText}/g, regionText)
+                            deployReferenceRegionTemplateItem = deployReferenceRegionTemplateItem.replace(/{RegionName}/g, regionName)
 
                             deployReferenceRegionTemplate = deployReferenceRegionTemplate + deployReferenceRegionTemplateItem;
                         }

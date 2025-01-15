@@ -151,24 +151,31 @@
                         let launchRegionTemplate = "";
 
                         for (var i = 0; i < launchRegionList.length; i++) {
-                            let regionInfo = launchRegionList[i];
-                            let regionName = "";
-                            if (regionInfo.hasOwnProperty('Region') === true) {
-                                regionName = regionInfo.Region
+                            let regionJson = launchRegionList[i];
+
+                            let regionCode = "";
+                            if (regionJson.hasOwnProperty('RegionCode') === true) {
+                                regionCode = regionJson.RegionCode
                             }
                             let launchRegion = false;
                             if (regionInfo.hasOwnProperty('Status') === true) {
                                 launchRegion = regionInfo.Status
                             }
-                            let regionText = regionName;
+                            let regionText = regionCode;
+
+                            let regionName = ""
+                            if (regionJson.hasOwnProperty('RegionName') === true) {
+                                regionName = regionJson.RegionName
+                            }
 
                             let launchRegionTemplateItem = launchRegionTemplateHtml;
                             if (launchRegion == false) {
                                 launchRegionTemplateItem = launchRegionTemplateItem.replace(/checked="checked"/g, "")
                             }
-                            launchRegionTemplateItem = launchRegionTemplateItem.replace(/{RegionName}/g, 'launchRegion')
-                            launchRegionTemplateItem = launchRegionTemplateItem.replace(/{Region}/g, regionName)
+                            launchRegionTemplateItem = launchRegionTemplateItem.replace(/{RegionTagName}/g, 'launchRegion')
+                            launchRegionTemplateItem = launchRegionTemplateItem.replace(/{RegionCode}/g, regionCode)
                             launchRegionTemplateItem = launchRegionTemplateItem.replace(/{RegionText}/g, regionText)
+                            launchRegionTemplateItem = launchRegionTemplateItem.replace(/{RegionName}/g, regionName)
 
                             launchRegionTemplate = launchRegionTemplate + launchRegionTemplateItem;
                         }

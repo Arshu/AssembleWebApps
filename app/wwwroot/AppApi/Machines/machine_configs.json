@@ -1,0 +1,726 @@
+{
+   "apphost": [
+   ],
+   "arshubase": [
+      {
+         "config": {
+            "env": {
+               "AUTO_UPDATE": "false",
+               "IDLE_TIME_IN_SEC": "10",
+               "INITIAL_TIME_IN_SEC": "10",
+               "METRIC_REMOTE_URL": "https:\/\/arshudata.fly.dev"
+            },
+            "guest": {
+               "cpu_kind": "shared",
+               "cpus": 1,
+               "memory_mb": 256
+            },
+            "image": "registry.fly.io\/arshubase:latest",
+            "init": {
+            },
+            "metadata": {
+               "fly_platform_version": "v2"
+            },
+            "restart": {
+               "policy": "no"
+            },
+            "services": [
+               {
+                  "concurrency": {
+                     "hard_limit": 25,
+                     "soft_limit": 20,
+                     "type": "connections"
+                  },
+                  "force_instance_key": "",
+                  "internal_port": 8080,
+                  "ports": [
+                     {
+                        "handlers": [
+                           "tls",
+                           "http"
+                        ],
+                        "port": 443
+                     },
+                     {
+                        "handlers": [
+                           "http"
+                        ],
+                        "port": 80
+                     }
+                  ],
+                  "protocol": "tcp"
+               }
+            ]
+         },
+         "created_at": "2024-11-02T13:46:43Z",
+         "events": [
+            {
+               "id": "01JHN9NXRTMMP6XT05N270P8MM",
+               "request": {
+                  "exit_event": {
+                     "error": "",
+                     "exit_code": 0,
+                     "exited_at": "2025-01-15T15:35:25.058Z",
+                     "guest_error": "",
+                     "guest_exit_code": 0,
+                     "guest_signal": -1,
+                     "oom_killed": false,
+                     "requested_stop": false,
+                     "restarting": false,
+                     "signal": -1
+                  },
+                  "restart_count": 0
+               },
+               "source": "flyd",
+               "status": "stopped",
+               "timestamp": 1736955328282,
+               "type": "exit"
+            },
+            {
+               "id": "01JHN9N9WANWF74JW5W2EJP784",
+               "request": {
+                  "gpu_spot_price": 0
+               },
+               "source": "flyd",
+               "status": "started",
+               "timestamp": 1736955307914,
+               "type": "start"
+            },
+            {
+               "id": "01JHN9N8T3Z9R0002DQPW6G1PS",
+               "source": "user",
+               "status": "starting",
+               "timestamp": 1736955306819,
+               "type": "start"
+            },
+            {
+               "id": "01JHN67T77KR3AGVGT0T4W9BB4",
+               "request": {
+                  "exit_event": {
+                     "error": "",
+                     "exit_code": 0,
+                     "exited_at": "2025-01-15T14:35:17.115Z",
+                     "guest_error": "",
+                     "guest_exit_code": 0,
+                     "guest_signal": -1,
+                     "oom_killed": false,
+                     "requested_stop": false,
+                     "restarting": false,
+                     "signal": -1
+                  },
+                  "restart_count": 0
+               },
+               "source": "flyd",
+               "status": "stopped",
+               "timestamp": 1736951720167,
+               "type": "exit"
+            },
+            {
+               "id": "01JHN67BCYB9E42V49YNNDFMDS",
+               "request": {
+                  "gpu_spot_price": 0
+               },
+               "source": "flyd",
+               "status": "started",
+               "timestamp": 1736951704990,
+               "type": "start"
+            }
+         ],
+         "host_status": "ok",
+         "id": "080e449c147478",
+         "image_ref": {
+            "digest": "sha256:633a1edc6f3fa95a9bd602bcd9fc98dda8e9c83e7408e0cacb75407ab5209261",
+            "labels": {
+               "Author": "Sridharan Srinivasan",
+               "io.buildah.version": "1.38.0"
+            },
+            "registry": "registry.fly.io",
+            "repository": "arshubase",
+            "tag": "latest"
+         },
+         "incomplete_config": "",
+         "instance_id": "01JHMQXP476VMWP10SQZZRF46K",
+         "name": "arshubase_bom_1",
+         "private_ip": "fdaa:0:3bc9:a7b:176:4f59:5d4e:2",
+         "region": "bom",
+         "state": "stopped",
+         "updated_at": "2025-01-15T15:35:28Z"
+      },
+      {
+         "config": {
+            "env": {
+               "AUTO_UPDATE": "false",
+               "IDLE_TIME_IN_SEC": "10",
+               "INITIAL_TIME_IN_SEC": "10",
+               "METRIC_REMOTE_URL": "https:\/\/arshudata.fly.dev"
+            },
+            "guest": {
+               "cpu_kind": "shared",
+               "cpus": 1,
+               "memory_mb": 256
+            },
+            "image": "registry.fly.io\/arshubase:latest",
+            "init": {
+            },
+            "metadata": {
+               "fly_platform_version": "v2"
+            },
+            "restart": {
+               "policy": "no"
+            },
+            "services": [
+               {
+                  "concurrency": {
+                     "hard_limit": 25,
+                     "soft_limit": 20,
+                     "type": "connections"
+                  },
+                  "force_instance_key": "",
+                  "internal_port": 8080,
+                  "ports": [
+                     {
+                        "handlers": [
+                           "tls",
+                           "http"
+                        ],
+                        "port": 443
+                     },
+                     {
+                        "handlers": [
+                           "http"
+                        ],
+                        "port": 80
+                     }
+                  ],
+                  "protocol": "tcp"
+               }
+            ]
+         },
+         "created_at": "2024-11-02T15:06:47Z",
+         "events": [
+            {
+               "id": "01JHNA65NB11H1EG5S9T4GQB41",
+               "request": {
+                  "exit_event": {
+                     "error": "",
+                     "exit_code": 0,
+                     "exited_at": "2025-01-15T15:44:18.648Z",
+                     "guest_error": "",
+                     "guest_exit_code": 0,
+                     "guest_signal": -1,
+                     "oom_killed": false,
+                     "requested_stop": false,
+                     "restarting": false,
+                     "signal": -1
+                  },
+                  "restart_count": 0
+               },
+               "source": "flyd",
+               "status": "stopped",
+               "timestamp": 1736955860651,
+               "type": "exit"
+            },
+            {
+               "id": "01JHNA5QWWFCGD251ZJ7RY210W",
+               "request": {
+                  "gpu_spot_price": 0
+               },
+               "source": "flyd",
+               "status": "started",
+               "timestamp": 1736955846556,
+               "type": "start"
+            },
+            {
+               "id": "01JHNA5P4BQKMG956RBDSW0CSD",
+               "source": "user",
+               "status": "starting",
+               "timestamp": 1736955844747,
+               "type": "start"
+            },
+            {
+               "id": "01JHMVSSES1H9T5MP4H85151WN",
+               "request": {
+                  "exit_event": {
+                     "error": "",
+                     "exit_code": 0,
+                     "exited_at": "2025-01-15T11:32:52.970Z",
+                     "guest_error": "",
+                     "guest_exit_code": 0,
+                     "guest_signal": -1,
+                     "oom_killed": false,
+                     "requested_stop": false,
+                     "restarting": false,
+                     "signal": -1
+                  },
+                  "restart_count": 0
+               },
+               "source": "flyd",
+               "status": "stopped",
+               "timestamp": 1736940774873,
+               "type": "exit"
+            },
+            {
+               "id": "01JHMVSBRQVNDMETQAZ79R41DB",
+               "request": {
+                  "gpu_spot_price": 0
+               },
+               "source": "flyd",
+               "status": "started",
+               "timestamp": 1736940760855,
+               "type": "start"
+            }
+         ],
+         "host_status": "ok",
+         "id": "5683904a110098",
+         "image_ref": {
+            "digest": "sha256:633a1edc6f3fa95a9bd602bcd9fc98dda8e9c83e7408e0cacb75407ab5209261",
+            "labels": {
+               "Author": "Sridharan Srinivasan",
+               "io.buildah.version": "1.38.0"
+            },
+            "registry": "registry.fly.io",
+            "repository": "arshubase",
+            "tag": "latest"
+         },
+         "incomplete_config": "",
+         "instance_id": "01JHMQX4P2DEF73883WQ696F22",
+         "name": "arshubase_iad_1",
+         "private_ip": "fdaa:0:3bc9:a7b:9d35:d097:b7d7:2",
+         "region": "iad",
+         "state": "stopped",
+         "updated_at": "2025-01-15T15:44:20Z"
+      },
+      {
+         "config": {
+            "env": {
+               "AUTO_UPDATE": "false",
+               "IDLE_TIME_IN_SEC": "10",
+               "INITIAL_TIME_IN_SEC": "10",
+               "METRIC_REMOTE_URL": "https:\/\/arshudata.fly.dev"
+            },
+            "guest": {
+               "cpu_kind": "shared",
+               "cpus": 1,
+               "memory_mb": 256
+            },
+            "image": "registry.fly.io\/arshubase:latest",
+            "init": {
+            },
+            "metadata": {
+               "fly_platform_version": "v2"
+            },
+            "restart": {
+               "policy": "no"
+            },
+            "services": [
+               {
+                  "concurrency": {
+                     "hard_limit": 25,
+                     "soft_limit": 20,
+                     "type": "connections"
+                  },
+                  "force_instance_key": "",
+                  "internal_port": 8080,
+                  "ports": [
+                     {
+                        "handlers": [
+                           "tls",
+                           "http"
+                        ],
+                        "port": 443
+                     },
+                     {
+                        "handlers": [
+                           "http"
+                        ],
+                        "port": 80
+                     }
+                  ],
+                  "protocol": "tcp"
+               }
+            ]
+         },
+         "created_at": "2025-01-07T14:20:34Z",
+         "events": [
+            {
+               "id": "01JHNA663SFY9N7PCREEFK7DQ0",
+               "request": {
+                  "exit_event": {
+                     "error": "",
+                     "exit_code": 0,
+                     "exited_at": "2025-01-15T15:44:17.711Z",
+                     "guest_error": "",
+                     "guest_exit_code": 0,
+                     "guest_signal": -1,
+                     "oom_killed": false,
+                     "requested_stop": false,
+                     "restarting": false,
+                     "signal": -1
+                  },
+                  "restart_count": 0
+               },
+               "source": "flyd",
+               "status": "stopped",
+               "timestamp": 1736955861113,
+               "type": "exit"
+            },
+            {
+               "id": "01JHNA5PWZF4PBQZ31F6ZGM7FR",
+               "request": {
+                  "gpu_spot_price": 0
+               },
+               "source": "flyd",
+               "status": "started",
+               "timestamp": 1736955845535,
+               "type": "start"
+            },
+            {
+               "id": "01JHNA5H688REZFFNQSSCJRJ27",
+               "source": "user",
+               "status": "starting",
+               "timestamp": 1736955839688,
+               "type": "start"
+            },
+            {
+               "id": "01JHN9YNWMM2P2XBQXC545221D",
+               "request": {
+                  "exit_event": {
+                     "error": "",
+                     "exit_code": 0,
+                     "exited_at": "2025-01-15T15:40:11.370Z",
+                     "guest_error": "",
+                     "guest_exit_code": 0,
+                     "guest_signal": -1,
+                     "oom_killed": false,
+                     "requested_stop": false,
+                     "restarting": false,
+                     "signal": -1
+                  },
+                  "restart_count": 0
+               },
+               "source": "flyd",
+               "status": "stopped",
+               "timestamp": 1736955615124,
+               "type": "exit"
+            },
+            {
+               "id": "01JHN9Y6ADB4RA2B2P58WPYQPV",
+               "request": {
+                  "gpu_spot_price": 0
+               },
+               "source": "flyd",
+               "status": "started",
+               "timestamp": 1736955599181,
+               "type": "start"
+            }
+         ],
+         "host_status": "ok",
+         "id": "784250dfe495e8",
+         "image_ref": {
+            "digest": "sha256:633a1edc6f3fa95a9bd602bcd9fc98dda8e9c83e7408e0cacb75407ab5209261",
+            "labels": {
+               "Author": "Sridharan Srinivasan",
+               "io.buildah.version": "1.38.0"
+            },
+            "registry": "registry.fly.io",
+            "repository": "arshubase",
+            "tag": "latest"
+         },
+         "incomplete_config": "",
+         "instance_id": "01JHMQX931FYMZJPT4QP3JG5D6",
+         "name": "arshubase_ewr_1",
+         "private_ip": "fdaa:0:3bc9:a7b:b:5a73:b305:2",
+         "region": "ewr",
+         "state": "stopped",
+         "updated_at": "2025-01-15T15:44:21Z"
+      },
+      {
+         "config": {
+            "env": {
+               "AUTO_UPDATE": "false",
+               "IDLE_TIME_IN_SEC": "10",
+               "INITIAL_TIME_IN_SEC": "10",
+               "METRIC_REMOTE_URL": "https:\/\/arshudata.fly.dev"
+            },
+            "guest": {
+               "cpu_kind": "shared",
+               "cpus": 1,
+               "memory_mb": 256
+            },
+            "image": "registry.fly.io\/arshubase:latest",
+            "init": {
+            },
+            "metadata": {
+               "fly_platform_version": "v2"
+            },
+            "restart": {
+               "policy": "no"
+            },
+            "services": [
+               {
+                  "concurrency": {
+                     "hard_limit": 25,
+                     "soft_limit": 20,
+                     "type": "connections"
+                  },
+                  "force_instance_key": "",
+                  "internal_port": 8080,
+                  "ports": [
+                     {
+                        "handlers": [
+                           "tls",
+                           "http"
+                        ],
+                        "port": 443
+                     },
+                     {
+                        "handlers": [
+                           "http"
+                        ],
+                        "port": 80
+                     }
+                  ],
+                  "protocol": "tcp"
+               }
+            ]
+         },
+         "created_at": "2024-11-02T15:06:51Z",
+         "events": [
+            {
+               "id": "01JHN9NVGZ0K7RRFMXPTJNWZ39",
+               "request": {
+                  "exit_event": {
+                     "error": "",
+                     "exit_code": 0,
+                     "exited_at": "2025-01-15T15:35:22.546Z",
+                     "guest_error": "",
+                     "guest_exit_code": 0,
+                     "guest_signal": -1,
+                     "oom_killed": false,
+                     "requested_stop": false,
+                     "restarting": false,
+                     "signal": -1
+                  },
+                  "restart_count": 0
+               },
+               "source": "flyd",
+               "status": "stopped",
+               "timestamp": 1736955325983,
+               "type": "exit"
+            },
+            {
+               "id": "01JHN9NCA57GJ9582ZVHYY7B7F",
+               "request": {
+                  "gpu_spot_price": 0
+               },
+               "source": "flyd",
+               "status": "started",
+               "timestamp": 1736955310405,
+               "type": "start"
+            },
+            {
+               "id": "01JHN9NB12JZXYNP5DG2HHR06H",
+               "source": "user",
+               "status": "starting",
+               "timestamp": 1736955309090,
+               "type": "start"
+            },
+            {
+               "id": "01JHN96ZNB55YMRAMEVB6SCYMR",
+               "request": {
+                  "exit_event": {
+                     "error": "",
+                     "exit_code": 0,
+                     "exited_at": "2025-01-15T15:27:11.014Z",
+                     "guest_error": "",
+                     "guest_exit_code": 0,
+                     "guest_signal": -1,
+                     "oom_killed": false,
+                     "requested_stop": false,
+                     "restarting": false,
+                     "signal": -1
+                  },
+                  "restart_count": 0
+               },
+               "source": "flyd",
+               "status": "stopped",
+               "timestamp": 1736954838699,
+               "type": "exit"
+            },
+            {
+               "id": "01JHN96CBEMWE6Q4KEB1VVASZB",
+               "request": {
+                  "gpu_spot_price": 0
+               },
+               "source": "flyd",
+               "status": "started",
+               "timestamp": 1736954818926,
+               "type": "start"
+            }
+         ],
+         "host_status": "ok",
+         "id": "6e82933ceee238",
+         "image_ref": {
+            "digest": "sha256:633a1edc6f3fa95a9bd602bcd9fc98dda8e9c83e7408e0cacb75407ab5209261",
+            "labels": {
+               "Author": "Sridharan Srinivasan",
+               "io.buildah.version": "1.38.0"
+            },
+            "registry": "registry.fly.io",
+            "repository": "arshubase",
+            "tag": "latest"
+         },
+         "incomplete_config": "",
+         "instance_id": "01JHMQX7MFN80EG12RZ45ZMHFY",
+         "name": "arshubase_ams_1",
+         "private_ip": "fdaa:0:3bc9:a7b:c6ef:de8f:8694:2",
+         "region": "ams",
+         "state": "stopped",
+         "updated_at": "2025-01-15T15:35:25Z"
+      },
+      {
+         "config": {
+            "env": {
+               "AUTO_UPDATE": "false",
+               "IDLE_TIME_IN_SEC": "10",
+               "INITIAL_TIME_IN_SEC": "10",
+               "METRIC_REMOTE_URL": "https:\/\/arshudata.fly.dev"
+            },
+            "guest": {
+               "cpu_kind": "shared",
+               "cpus": 1,
+               "memory_mb": 256
+            },
+            "image": "registry.fly.io\/arshubase:latest",
+            "init": {
+            },
+            "metadata": {
+               "fly_platform_version": "v2"
+            },
+            "restart": {
+               "policy": "no"
+            },
+            "services": [
+               {
+                  "concurrency": {
+                     "hard_limit": 25,
+                     "soft_limit": 20,
+                     "type": "connections"
+                  },
+                  "force_instance_key": "",
+                  "internal_port": 8080,
+                  "ports": [
+                     {
+                        "handlers": [
+                           "tls",
+                           "http"
+                        ],
+                        "port": 443
+                     },
+                     {
+                        "handlers": [
+                           "http"
+                        ],
+                        "port": 80
+                     }
+                  ],
+                  "protocol": "tcp"
+               }
+            ]
+         },
+         "created_at": "2025-01-07T14:20:38Z",
+         "events": [
+            {
+               "id": "01JHN9607PVC8QX2QJNTT992Y2",
+               "request": {
+                  "exit_event": {
+                     "error": "",
+                     "exit_code": 0,
+                     "exited_at": "2025-01-15T15:26:44.476Z",
+                     "guest_error": "",
+                     "guest_exit_code": 0,
+                     "guest_signal": -1,
+                     "oom_killed": false,
+                     "requested_stop": false,
+                     "restarting": false,
+                     "signal": -1
+                  },
+                  "restart_count": 0
+               },
+               "source": "flyd",
+               "status": "stopped",
+               "timestamp": 1736954806518,
+               "type": "exit"
+            },
+            {
+               "id": "01JHN95J555EXH8AAXDKCH729J",
+               "request": {
+                  "gpu_spot_price": 0
+               },
+               "source": "flyd",
+               "status": "started",
+               "timestamp": 1736954792101,
+               "type": "start"
+            },
+            {
+               "id": "01JHN95H7RA9GZR1ZWHGP26NP9",
+               "source": "user",
+               "status": "starting",
+               "timestamp": 1736954791160,
+               "type": "start"
+            },
+            {
+               "id": "01JHN94QZ5JHYSB9175XE21XHV",
+               "request": {
+                  "exit_event": {
+                     "error": "",
+                     "exit_code": 0,
+                     "exited_at": "2025-01-15T15:26:03.696Z",
+                     "guest_error": "",
+                     "guest_exit_code": 0,
+                     "guest_signal": -1,
+                     "oom_killed": false,
+                     "requested_stop": false,
+                     "restarting": false,
+                     "signal": -1
+                  },
+                  "restart_count": 0
+               },
+               "source": "flyd",
+               "status": "stopped",
+               "timestamp": 1736954765285,
+               "type": "exit"
+            },
+            {
+               "id": "01JHN94AK2J3F18B260MKX86ME",
+               "request": {
+                  "gpu_spot_price": 0
+               },
+               "source": "flyd",
+               "status": "started",
+               "timestamp": 1736954751586,
+               "type": "start"
+            }
+         ],
+         "host_status": "ok",
+         "id": "48e2320bd06218",
+         "image_ref": {
+            "digest": "sha256:633a1edc6f3fa95a9bd602bcd9fc98dda8e9c83e7408e0cacb75407ab5209261",
+            "labels": {
+               "Author": "Sridharan Srinivasan",
+               "io.buildah.version": "1.38.0"
+            },
+            "registry": "registry.fly.io",
+            "repository": "arshubase",
+            "tag": "latest"
+         },
+         "incomplete_config": "",
+         "instance_id": "01JHMQXAW83CEED8WTAEGB1MW4",
+         "name": "arshubase_arn_1",
+         "private_ip": "fdaa:0:3bc9:a7b:321:a126:7a3f:2",
+         "region": "arn",
+         "state": "stopped",
+         "updated_at": "2025-01-15T15:26:46Z"
+      }
+   ]
+}

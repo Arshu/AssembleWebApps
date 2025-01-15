@@ -194,7 +194,7 @@ window.addEventListener('popstate', function (event) {
 
             let state = JSON.stringify(event.state)
             if (!state) {
-                refreshViewHtml('progress', 'response', newAppSite, newAppView, '')
+                refreshViewHtml('progress', 'response', newAppSite, newAppView, '', '')
             } else {
                 if ((state.hasOwnProperty("componentName") == true) && (state.hasOwnProperty("configJson") == true)) {
                     newComponentName = state.componentName
@@ -213,7 +213,7 @@ window.addEventListener('popstate', function (event) {
                     }
                     refreshComponentHtml('progress', 'response', newAppSite, newAppView, newComponentName, newConfigJson, newRealtimeRefresh, newRefreshAppDomain, newRemoteKey)
                 } else {
-                    refreshViewHtml('progress', 'response', newAppSite, newAppView, '')
+                    refreshViewHtml('progress', 'response', newAppSite, newAppView, '', '')
                 }
             }
 
@@ -520,28 +520,11 @@ function refreshHtmlJson(jsonTagList, appSite, appView) {
                 if (haveElm(key, null, true) == true) {
                     let tagNode = getElm(key, null, true)
                     if (tagNode) {
-                        if (jsonTag[key].length > 0) {
-                            if (key.toLocaleLowerCase().indexOf('main') == -1) {
+                        if (isNode(tagNode) == true) {
+                            if (jsonTag[key].length > 0) {
+                                if (key.toLocaleLowerCase().indexOf('main') == -1) {
 
-                                if (!document.createDocumentTransition) {
-
-                                    //Append the New Html Element
-                                    tagNode.insertAdjacentHTML('beforeBegin', jsonTag[key])
-                                    var new_elem = tagNode.previousSibling
-                                    tagNode.parentElement.removeChild(tagNode)
-
-                                    if ((new_elem.innerHTML) && (new_elem.innerHTML.trim().length > 0)) {
-                                        executeScriptElements(new_elem)
-
-                                        if (typeof bindArshuAction === "function") {
-                                            bindArshuAction(new_elem)
-                                        }
-                                    }
-                                    //console.log("Update Dom without Transition")
-                                }
-                                else {
-                                    const transition = document.createDocumentTransition()
-                                    transition.start(() => {
+                                    if (!document.createDocumentTransition) {
 
                                         //Append the New Html Element
                                         tagNode.insertAdjacentHTML('beforeBegin', jsonTag[key])
@@ -555,28 +538,31 @@ function refreshHtmlJson(jsonTagList, appSite, appView) {
                                                 bindArshuAction(new_elem)
                                             }
                                         }
-                                        //console.log("Update Dom with Transition")
-                                    })
-                                }
-
-                            } else {
-
-                                if (!document.createDocumentTransition) {
-                                    //Append the New Html Element
-                                    tagNode.innerHTML = jsonTag[key]
-
-                                    if ((tagNode.innerHTML) && (tagNode.innerHTML.trim().length > 0)) {
-                                        executeScriptElements(tagNode)
-
-                                        if (typeof bindArshuAction === "function") {
-                                            bindArshuAction(tagNode)
-                                        }
+                                        //console.log("Update Dom without Transition")
                                     }
-                                    //console.log("Update Dom without Transition")
-                                }
-                                else {
-                                    const transition = document.createDocumentTransition()
-                                    transition.start(() => {
+                                    else {
+                                        const transition = document.createDocumentTransition()
+                                        transition.start(() => {
+
+                                            //Append the New Html Element
+                                            tagNode.insertAdjacentHTML('beforeBegin', jsonTag[key])
+                                            var new_elem = tagNode.previousSibling
+                                            tagNode.parentElement.removeChild(tagNode)
+
+                                            if ((new_elem.innerHTML) && (new_elem.innerHTML.trim().length > 0)) {
+                                                executeScriptElements(new_elem)
+
+                                                if (typeof bindArshuAction === "function") {
+                                                    bindArshuAction(new_elem)
+                                                }
+                                            }
+                                            //console.log("Update Dom with Transition")
+                                        })
+                                    }
+
+                                } else {
+
+                                    if (!document.createDocumentTransition) {
                                         //Append the New Html Element
                                         tagNode.innerHTML = jsonTag[key]
 
@@ -587,10 +573,29 @@ function refreshHtmlJson(jsonTagList, appSite, appView) {
                                                 bindArshuAction(tagNode)
                                             }
                                         }
-                                        //console.log("Update Dom with Transition")
-                                    })
+                                        //console.log("Update Dom without Transition")
+                                    }
+                                    else {
+                                        const transition = document.createDocumentTransition()
+                                        transition.start(() => {
+                                            //Append the New Html Element
+                                            tagNode.innerHTML = jsonTag[key]
+
+                                            if ((tagNode.innerHTML) && (tagNode.innerHTML.trim().length > 0)) {
+                                                executeScriptElements(tagNode)
+
+                                                if (typeof bindArshuAction === "function") {
+                                                    bindArshuAction(tagNode)
+                                                }
+                                            }
+                                            //console.log("Update Dom with Transition")
+                                        })
+                                    }
                                 }
                             }
+                        }
+                        else {
+                            console.log("[" + key + "] is not a Node")
                         }
                     }
                 }
@@ -607,27 +612,32 @@ function refreshHtmlJson(jsonTagList, appSite, appView) {
 
 function highlightHtmlJson(jsonTagList, appSite, appView) {
 
-    for (let i = 0; i < jsonTagList.length; i++) {
-        let jsonTag = jsonTagList[i]
-        for (let key in jsonTag) {
-            if (jsonTag.hasOwnProperty(key)) {
-                if (haveElm(key) == true) {
-                    let tagNode = getElm(key)
-                    if (tagNode) {
-                        if (haveElm('debugMode') == true) {
-                            let debugModeElm = getElm('debugMode')
-                            if (debugModeElm.checked == true) {
-                                tagNode.classList.add('ar_highlight')
-                                let clearTimeout = 500
-                                if (debugModeElm.hasAttribute('clearTimeout') == true) {
-                                    let clearTimeoutAttributeVal = debugModeElm.getAttribute('clearTimeout')
-                                    if (clearTimeoutAttributeVal) {
-                                        clearTimeout = parseInt(clearTimeoutAttributeVal)
+    if (haveElm('debugMode') == true) {
+        let debugModeElm = getElm('debugMode')
+        if (debugModeElm.checked == true) {
+            for (let i = 0; i < jsonTagList.length; i++) {
+                let jsonTag = jsonTagList[i]
+                for (let key in jsonTag) {
+                    if (jsonTag.hasOwnProperty(key)) {
+                        if (haveElm(key) == true) {
+                            let tagNode = getElm(key)
+                            if (tagNode) {
+                                if (isNode(tagNode) == true) {
+                                    tagNode.classList.add('ar_highlight')
+                                    let clearTimeout = 500
+                                    if (debugModeElm.hasAttribute('clearTimeout') == true) {
+                                        let clearTimeoutAttributeVal = debugModeElm.getAttribute('clearTimeout')
+                                        if (clearTimeoutAttributeVal) {
+                                            clearTimeout = parseInt(clearTimeoutAttributeVal)
+                                        }
                                     }
+                                    setTimeout(function () {
+                                        tagNode.classList.remove('ar_highlight')
+                                    }, clearTimeout)
                                 }
-                                setTimeout(function () {
-                                    tagNode.classList.remove('ar_highlight')
-                                }, clearTimeout)
+                                else {
+                                    console.log("[" + key + "] is not a Node")
+                                }
                             }
                         }
                     }
@@ -656,11 +666,22 @@ function clearResponse(responseElmId) {
     return responseElm
 }
 
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+        .replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0,
+                v = c == 'x' ? r : (r & 0x3 | 0x8)
+            return v.toString(16)
+        })
+}
+
+let reqProcessReturnList = new Object()
 function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams, isRealtime, realtimeDomain, processReturn, successCallback, failureCallback, clientRequestTimestamp, componentAppSite, componentAppView, componentName, actionComponentName) {
     let responseElm = clearResponse(responseElmId)
     let apiMessage = ""
+    let reqId = apiUrl +"-"+ apiMethod + "_" + uuidv4()
+    reqProcessReturnList[reqId] = processReturn
 
-   
     if (!isRealtime) isRealtime = false
     if ((isRealtime == false) || (isRealtime == "false") || (typeof callWSApi !== "function")) {
 
@@ -672,16 +693,30 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
 
         let restApiUrl = apiUrl + '/' + apiMethod
         let restApiParam = JSON.stringify(apiParams)
-        dopost(progressElmId, responseElmId, restApiUrl, restApiParam,
+        dopost(reqId, progressElmId, responseElmId, restApiUrl, restApiParam,
             function (data) {
-                if (((data.hasOwnProperty('Result') === true) && (data.Result))) {
+                if ((data.hasOwnProperty('Result') === true) && (data.Result)) {
                     let result = data.Result
-                    processReturn(result, responseElmId, successCallback, failureCallback)
-                    setApiMetrics(result)
+                    if ((data.hasOwnProperty('ClientRequestId') === true) && (data.ClientRequestId)) {
+                        let resId = data.ClientRequestId
+                        if (reqProcessReturnList.hasOwnProperty(resId)) {
+                            let reqProcessReturn = reqProcessReturnList[resId]
+                            if (reqProcessReturn != null) {
+                                delete reqProcessReturnList[resId]
+                                reqProcessReturn(result, responseElmId, successCallback)
+                                setApiMetrics(result)
+                            } else {
+                                console.log("Direct Ajax [" + resId + "] does not have Process Return")
+                            }
+                        } else {
+                            console.log("Direct Ajax [" + resId + "] does not have Process Return")
+                        }
+                    }
                 }
                 if (data.hasOwnProperty('ErrorMessage') === true) {
                     let errorMessage = data.ErrorMessage
                     if ((errorMessage.length > 0) && (haveElm(responseElmId) == true)) {
+                        let responseElm = getElm(responseElmId)
                         showText(responseElm, errorMessage, 'red')
                     }
                 }
@@ -690,6 +725,7 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
                     if (error) {
                         if (error.hasOwnProperty('Message') === true) {
                             if (haveElm(responseElmId) == true) {
+                                let responseElm = getElm(responseElmId)
                                 showText(responseElm, error.Message, 'red')
                             }
                         }
@@ -710,16 +746,30 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
                 console.log(apiMessage)
             }
 
-            callWSApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams,
-                function (data) {
+            callWSApi(reqId, progressElmId, responseElmId, apiUrl, apiMethod, apiParams,
+                function (resId, data) {
                     if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
                         let result = data.Result
-                        processReturn(result, responseElmId, successCallback)
-                        setApiMetrics(result)
+                        if (reqProcessReturnList.hasOwnProperty(resId)) {
+                            let reqProcessReturn = reqProcessReturnList[resId]
+                            if (reqProcessReturn != null) {
+                                if (result.hasOwnProperty('refresh') == false) {
+                                    delete reqProcessReturnList[resId]
+                                    ajaxStop(progressElmId)
+                                }
+                                reqProcessReturn(result, responseElmId, successCallback)
+                                setApiMetrics(result)
+                            } else {
+                                console.log("Direct WS [" + resId + "] does not have Process Return")
+                            }
+                        } else {
+                            console.log("Direct WS [" + resId + "] does not have Process Return")
+                        }
                     }
                     if (data.hasOwnProperty('ErrorMessage') === true) {
                         let errorMessage = data.ErrorMessage
                         if ((errorMessage.length > 0) && (haveElm(responseElmId) == true)) {
+                            let responseElm = getElm(responseElmId)
                             showText(responseElm, errorMessage, 'red')
                         }
                     }
@@ -728,6 +778,7 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
                         if (error) {
                             if (error.hasOwnProperty('Message') === true) {
                                 if (haveElm(responseElmId) == true) {
+                                    let responseElm = getElm(responseElmId)
                                     showText(responseElm, error.Message, 'red')
                                 }
                             }
@@ -746,12 +797,12 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
                         'Content-Type': 'application/json',
                     }
                 })
-                .then(data => {
-                    console.log("Called '/EchoInfo' to start the Server")
-                    if (typeof restartWebSocketConnection === "function") {
-                        restartWebSocketConnection()
-                    }
-                })
+                    .then(data => {
+                        console.log("Called '/EchoInfo' to start the Server")
+                        if (typeof restartWebSocketConnection === "function") {
+                            restartWebSocketConnection()
+                        }
+                    })
                 delayInterval = defaultDelayInterval
             }
 
@@ -766,16 +817,30 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
 
                     let restApiUrl = apiUrl + '/' + apiMethod
                     let restApiParam = JSON.stringify(apiParams)
-                    dopost(progressElmId, responseElmId, restApiUrl, restApiParam,
+                    dopost(reqId, progressElmId, responseElmId, restApiUrl, restApiParam,
                         function (data) {
                             if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
                                 let result = data.Result
-                                processReturn(result, responseElmId, successCallback)
-                                setApiMetrics(result)
+                                if ((data.hasOwnProperty('ClientRequestId') === true) && (data.ClientRequestId)) {
+                                    let resId = data.ClientRequestId
+                                    if (reqProcessReturnList.hasOwnProperty(resId)) {
+                                        let reqProcessReturn = reqProcessReturnList[resId]
+                                        if (reqProcessReturn != null) {
+                                            delete reqProcessReturnList[resId]
+                                            reqProcessReturn(result, responseElmId, successCallback)
+                                            setApiMetrics(result)
+                                        } else {
+                                            console.log("Delayed Ajax [" + resId + "] does not have Process Return")
+                                        }
+                                    } else {
+                                        console.log("Delayed Ajax [" + resId + "] does not have Process Return")
+                                    }
+                                }
                             }
                             if (data.hasOwnProperty('ErrorMessage') === true) {
                                 let errorMessage = data.ErrorMessage
                                 if ((errorMessage.length > 0) && (haveElm(responseElmId) == true)) {
+                                    let responseElm = getElm(responseElmId)
                                     showText(responseElm, errorMessage, 'red')
                                 }
                             }
@@ -784,6 +849,7 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
                                 if (error) {
                                     if (error.hasOwnProperty('Message') === true) {
                                         if (haveElm(responseElmId) == true) {
+                                            let responseElm = getElm(responseElmId)
                                             showText(responseElm, error.Message, 'red')
                                         }
                                     }
@@ -801,16 +867,30 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
                             console.log(apiMessage)
                         }
 
-                        callWSApi(progressElmId, responseElmId, apiUrl, apiMethod, apiParams,
-                            function (data) {
+                        callWSApi(reqId, progressElmId, responseElmId, apiUrl, apiMethod, apiParams,
+                            function (resId, data) {
                                 if (((data.hasOwnProperty('Result') === true) && (data.Result)) && (data.Result)) {
                                     let result = data.Result
-                                    processReturn(result, responseElmId, successCallback)
-                                    setApiMetrics(result)
+                                    if (reqProcessReturnList.hasOwnProperty(resId)) {
+                                        let reqProcessReturn = reqProcessReturnList[resId]
+                                        if (reqProcessReturn != null) {
+                                            if (result.hasOwnProperty('refresh') == false) {
+                                                delete reqProcessReturnList[resId]
+                                                ajaxStop(progressElmId)
+                                            }
+                                            reqProcessReturn(result, responseElmId, successCallback)
+                                            setApiMetrics(result)
+                                        } else {
+                                            console.log("Delayed WS [" + resId + "] does not have Process Return")
+                                        }
+                                    } else {
+                                        console.log("Delayed WS[" + resId + "] does not have Process Return")
+                                    }
                                 }
                                 if (data.hasOwnProperty('ErrorMessage') === true) {
                                     let errorMessage = data.ErrorMessage
                                     if ((errorMessage.length > 0) && (haveElm(responseElmId) == true)) {
+                                        let responseElm = getElm(responseElmId)
                                         showText(responseElm, errorMessage, 'red')
                                     }
                                 }
@@ -819,6 +899,7 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
                                     if (error) {
                                         if (error.hasOwnProperty('Message') === true) {
                                             if (haveElm(responseElmId) == true) {
+                                                let responseElm = getElm(responseElmId)
                                                 showText(responseElm, error.Message, 'red')
                                             }
                                         }
@@ -833,7 +914,7 @@ function callAssemblerApi(progressElmId, responseElmId, apiUrl, apiMethod, apiPa
     }
 }
 
-function refreshViewHtml(progressElmId, responseElmId, appSite, appView, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
+function refreshViewHtml(progressElmId, responseElmId, appSite, appView, appFiles, componentName, configJson, isRealtime, realtimeDomain, successCallback, failureCallback) {
     let clientRequestTimestamp = Math.floor(new Date().getTime())
     let responseElm = clearResponse(responseElmId)
 
@@ -849,6 +930,7 @@ function refreshViewHtml(progressElmId, responseElmId, appSite, appView, compone
         let viewInfo = {
             "appSite": appSite,
             "appView": appView,
+            "appFiles": appFiles,
         }
 
         let refreshInfo = {
@@ -979,7 +1061,7 @@ function loadComponentHtml(progressElmId, responseElmId, appSite, appView, compo
     if (haveElm(componentName) == true) {
 
         let clientRequestTimestamp = Math.floor(new Date().getTime())
-        if (!delayInterval) delayInterval = 0;
+        if (!delayInterval) delayInterval = 0
 
         if ((haveElm('dynamicAppSite') == true) && (appSite == "")) {
             appSite = getElm('dynamicAppSite').value
@@ -1546,6 +1628,12 @@ function getAppView(el) {
     return dataAppView
 }
 
+function getAppFiles(el) {
+
+    let dataAppFiles = getTextValue(el, getAttributeValue(el, 'data-appfiles'), "")
+    return dataAppFiles
+}
+
 function getIntValue(el, getDataText, defaultText = 0) {
 
     let dataInt = parseInt(defaultText)
@@ -1810,15 +1898,18 @@ function bindRefreshViewHtml(event) {
     let dataResponse = getResponse(el)
     let dataAppSite = getAppSite(el)
     let dataAppView = getAppView(el)
+    let dataAppFiles = getAppFiles(el)
 
     let dataComponent = getTextValue(el, getAttributeValue(el, 'data-component'), "")
     if (dataComponent == "") dataComponent = getTextValue(el, getAttributeValue(el, 'data-view'), "")
     let dataConfigJson = getJsonValue(el, getAttributeValue(el, 'data-config'))
     let isRealtime = getBoolValue(el, getAttributeValue(el, 'data-isrealtime'), false)
-    let href = getAttributeValue(el, 'href')
-    if (href.length == 1) {
-        if (href[0] == "#") {
-            isRealtime = true
+    if (el.hasAttribute("href") == true) {
+        let href = getAttributeValue(el, 'href')
+        if (href.length == 1) {
+            if (href[0] == "#") {
+                isRealtime = true
+            }
         }
     }
     let realtimeDomain = ""
@@ -1839,11 +1930,11 @@ function bindRefreshViewHtml(event) {
         dataConfigJson["Filter"] = dataFilterJson
     }
 
-    if ((dataAppSite != "") && (dataAppView != "") && (dataComponent != "")) {
-        window["refreshViewHtml"](dataProgress, dataResponse, dataAppSite, dataAppView, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback)
+    if ((dataAppSite != "") && (dataAppView != "")) {
+        window["refreshViewHtml"](dataProgress, dataResponse, dataAppSite, dataAppView, dataAppFiles, dataComponent, dataConfigJson, isRealtime, realtimeDomain, dataCallback)
     }
     else {
-        console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] or Data Component [" + dataComponent + "] is Empty for Method RefreshViewHtml")
+        console.error("AppSite [" + dataAppSite + "] or AppView [" + dataAppView + "] is Empty for Method RefreshViewHtml")
     }
 }
 
@@ -2345,6 +2436,10 @@ function bindArshuAction(scopeElement) {
                 else if (dataAction == "showComponentSourceEditor") {
                     el.removeEventListener(clickEvent, bindShowComponentSourceEditor)
                     el.addEventListener(clickEvent, bindShowComponentSourceEditor, false)
+                }
+                else if (dataAction == "refreshViewHtml") {
+                    el.removeEventListener(clickEvent, bindRefreshViewHtml)
+                    el.addEventListener(clickEvent, bindRefreshViewHtml, false)
                 }
                 else if (dataAction == "refreshComponentHtml") {
                     el.removeEventListener(clickEvent, bindRefreshComponentHtml)

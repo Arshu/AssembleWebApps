@@ -83,7 +83,7 @@ function ajaxStop(progressAnchorElmId) {
     }
 }
 
-window.showLastAjaxCount = 7
+/******************************************************************************************************************/
 
 function filterShowAjaxTime(serverResponseJson) {
     if ((serverResponseJson) && (serverResponseJson.ServiceInfo)) {
@@ -95,6 +95,7 @@ function filterShowAjaxTime(serverResponseJson) {
     }
 }
 
+window.showLastAjaxCount = 7
 function recordAjaxTiming(returnAjaxJson, clear) {
     let ajaxTimeElm = document.getElementById('ajaxTime')
     if (ajaxTimeElm) {
@@ -232,7 +233,7 @@ const parseJson = async response => {
     }
 }
 
-function dopost(progressElmId, responseElmId, url, bodyContent, successCallback, failureCallback, clientRequestStartTimestamp) {
+function dopost(reqId, progressElmId, responseElmId, url, bodyContent, successCallback, failureCallback, clientRequestStartTimestamp) {
 
     ajaxStart(progressElmId)
 
@@ -274,6 +275,7 @@ function dopost(progressElmId, responseElmId, url, bodyContent, successCallback,
         credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/json',
+            'X-CLIENT_REQUEST_ID': reqId,
             'X-CLIENT_REQUEST_START_TIMESTAMP': clientRequestStartTimestamp
         },
         body: bodyContent,
@@ -284,6 +286,10 @@ function dopost(progressElmId, responseElmId, url, bodyContent, successCallback,
             if (data) {
                 filterShowAjaxTime(data)
 
+                let resId = "";
+                if ((data.hasOwnProperty('req') === true) && (data.result)) {
+                    data.Result = data.result
+                }
                 if ((data.hasOwnProperty('result') === true) && (data.result)) {
                     data.Result = data.result
                 }
@@ -342,7 +348,7 @@ function dopost(progressElmId, responseElmId, url, bodyContent, successCallback,
 
 }
 
-function dopostform(progressElmId, responseElmId, url, dataContent, successCallback, failureCallback, clientRequestStartTimestamp) {
+function dopostform(reqId, progressElmId, responseElmId, url, dataContent, successCallback, failureCallback, clientRequestStartTimestamp) {
 
     ajaxStart(progressElmId)
 
@@ -384,6 +390,7 @@ function dopostform(progressElmId, responseElmId, url, dataContent, successCallb
         credentials: 'same-origin',
         headers: {
             'Accept': 'application/json',
+            'X-CLIENT_REQUEST_ID': reqId,
             'X-CLIENT_REQUEST_START_TIMESTAMP': clientRequestStartTimestamp
         },
         body: dataContent,
@@ -438,7 +445,7 @@ function dopostform(progressElmId, responseElmId, url, dataContent, successCallb
         })
 }
 
-//function doget(progressElmId, responseElmId, url, successCallback, failureCallback, clientRequestStartTimestamp) {
+//function doget(reqId, progressElmId, responseElmId, url, successCallback, failureCallback, clientRequestStartTimestamp) {
 
 //    ajaxStart(progressElmId)
 
@@ -480,6 +487,7 @@ function dopostform(progressElmId, responseElmId, url, dataContent, successCallb
 //        credentials: 'same-origin',
 //        headers: {
 //            'Content-Type': 'application/json', //application/xml, text/plain, text/html, *.*
+//            'X-CLIENT_REQUEST_ID': reqId,
 //            'X-CLIENT_REQUEST_START_TIMESTAMP': clientRequestStartTimestamp
 //        },
 //    })
@@ -893,6 +901,25 @@ function isHiddenElm(elmId, scopeElmId) {
     return true
 }
 
+function disableElms() {
+    document.querySelectorAll('button').forEach(function (el) {
+        if (el.disabled == false) {
+            el.setAttribute("disabled", true)
+            el.setAttribute('by', true)
+        }
+    })
+}
+
+function enableElms() {
+    document.querySelectorAll('button').forEach(function (el) {
+        let byProgram = el.getAttribute('by')
+        if (byProgram) {
+            el.removeAttribute('disabled')
+            el.removeAttribute('by')
+        }
+    })
+}
+
 /******************************************************************************************************************/
 //Event Utilitiies
 /******************************************************************************************************************/
@@ -971,7 +998,7 @@ function navBarSubMenuClickEvent(targetMenu, subMenuItem) {
         subMenuItem.classList.add("ar-submenu-active")
     } else {
         subMenuItem.classList.add("ar-submenu-active")
-    }
+    }    
 }
 
 function navBarSubMenuCloseClickEvent(clickElm, targetMenu) {
@@ -998,7 +1025,11 @@ function initNavBarToggle() {
 
                 if (targetMenu != null) {
 
-                    addListener(toggleElm, 'click', () => { navBarToggleClickEvent(targetMenu) }, false)
+                    addListener(toggleElm, 'click', (event) => {
+                        event.stopPropagation()
+                        //event.preventDefault();
+                        navBarToggleClickEvent(targetMenu)
+                    }, false)
 
                     if (haveElms(".ar-menuitem", targetElmId) == true) {
                         const items = getElms(".ar-menuitem", targetElmId)
@@ -1006,12 +1037,20 @@ function initNavBarToggle() {
                             for (i = 0; i < items.length; ++i) {
                                 let subMenuItem = items[i]
                                 if (subMenuItem.querySelector(".ar-submenu")) {
-                                    addListener(subMenuItem, 'click', () => { navBarSubMenuClickEvent(targetMenu, subMenuItem) }, false)
+                                    addListener(subMenuItem, 'click', (event) => {
+                                        event.stopPropagation()
+                                        //event.preventDefault();
+                                        navBarSubMenuClickEvent(targetMenu, subMenuItem)
+                                    }, false)
                                 }
                             }
                         }
 
-                        addListener(document, 'click', () => { navBarSubMenuCloseClickEvent(toggleElm, targetMenu) }, false)
+                        addListener(document, 'click', (event) => {
+                            event.stopPropagation();
+                            //event.preventDefault();
+                            navBarSubMenuCloseClickEvent(toggleElm, targetMenu)
+                        }, false)
                     }
                 }
             }

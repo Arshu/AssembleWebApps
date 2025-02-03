@@ -1,0 +1,22 @@
+{
+  "I9PC_fe80::5c44:712b:1d08:3a1e_11" : {
+    "/AppApi/WebApi/HaveLoginUser" : {
+      "ClientProcessTime" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1738591295149,
+          "Value" : 337
+        }
+      ],
+      "ServerProcessTime" : [
+        {
+          "Info" : {
+          },
+          "Time" : 1738591295149,
+          "Value" : 331
+        }
+      ]
+    }
+  }
+}

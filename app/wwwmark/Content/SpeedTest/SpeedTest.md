@@ -1,3 +1,11 @@
+# Arshu Consultancy
+
+Arshu Consultancy is a dormant singapore based company started by myself and my wife in 2005 to implement a 2.5 million dollar Trademark/Company Registration project for the Brunei Government AGC Office.
+
+The project was implemented as a insourcing contractor for I-Magination Solutions Private Limited who was the main contractor. After the project completed the company became dormant and we have started other companies.
+
+Now planning to revive the company for exploring my side projects.
+
 # URL Speed Test App - Remote Command Execution Proxy
 
 I want to pursue subscription freelancing as a side project and leverage my knowledge in using Usage Based Cloud and Arshu Framework for assembling web applications using declarative approach.

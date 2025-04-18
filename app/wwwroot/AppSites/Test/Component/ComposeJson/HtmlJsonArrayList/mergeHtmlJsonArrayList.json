@@ -1,5 +1,0 @@
-{
-  "ComponentCategory": "Declarative",
-  "ComponentTitle": "Merge !{$Html} and !{Json} List Array",
-  "DataArrayList": [ "Array List 1 Data 1", "Array List 1 Data 2", "Array List 1 Data 3", "Array List 1 Data 4", "Array List 1 Data 5" ]
-}

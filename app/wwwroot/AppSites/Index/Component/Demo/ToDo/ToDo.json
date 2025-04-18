@@ -14,7 +14,7 @@
          "Guid": "b0cc525e-7732-4896-9f40-9dd080af2852",
          "TaskName": "TaskName 2",
          "TaskNo": 2,
-         "TaskStatus": "Pending"
+         "TaskStatus": "Complete"
       },
       {
          "Guid": "45183136-1ba8-45eb-ac18-22dc053d7b8d",
@@ -32,7 +32,7 @@
          "Guid": "7cab574a-e794-4e55-a29f-46f1da66e103",
          "TaskName": "TaskName 5",
          "TaskNo": 5,
-         "TaskStatus": "Pending"
+         "TaskStatus": "Complete"
       },
       {
          "Guid": "8549d32d-8b23-4014-89b3-1e2dccaa0d82",
@@ -50,7 +50,7 @@
          "Guid": "464e9f55-a3a5-4235-8f3a-fc8fe997a23c",
          "TaskName": "TaskName 8",
          "TaskNo": 8,
-         "TaskStatus": "InProgress"
+         "TaskStatus": "Pending"
       },
       {
          "Guid": "083e120e-66a9-47de-b2c0-249370aecb7e",
@@ -68,13 +68,13 @@
          "Guid": "f18a973a-fe21-4305-b401-f05457057c13",
          "TaskName": "TaskName 11",
          "TaskNo": 11,
-         "TaskStatus": "Complete"
+         "TaskStatus": "InProgress"
       },
       {
          "Guid": "090abfd3-4ac5-410d-9748-cc7219346525",
          "TaskName": "TaskName 12",
          "TaskNo": 12,
-         "TaskStatus": "InProgress"
+         "TaskStatus": "Complete"
       },
       {
          "Guid": "1ec8bfb4-3f0a-4904-a965-bf51519df368",
@@ -146,7 +146,7 @@
          "Guid": "96df5435-8004-4722-ad7c-6f2699284b94",
          "TaskName": "TaskName 24",
          "TaskNo": 24,
-         "TaskStatus": "InProgress"
+         "TaskStatus": "Complete"
       },
       {
          "Guid": "ccb9c71c-3311-4b0f-9aa8-85ebc4f0e285",
@@ -6002,7 +6002,16 @@
          "Guid": "3c7ca830-b16b-4c0c-97b5-8eb4a9f50a5d",
          "TaskName": "TaskName 1000",
          "TaskNo": 1000,
-         "TaskStatus": "Pending"
+         "TaskStatus": "Complete"
+      },
+      {
+         "Guid": "214832e6-de11-401d-83b7-073cc9b892c4",
+         "TaskEndDate": "",
+         "TaskName": "Task A",
+         "TaskNo": 1001,
+         "TaskProgress": 0,
+         "TaskStartDate": "",
+         "TaskStatus": "Complete"
       }
    ],
    "ToDoListSchema": {

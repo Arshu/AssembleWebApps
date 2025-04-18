@@ -1,8 +1,0 @@
-{
-  "Debug": "Radio, True|False",
-  "Language": "Checkbox, English|Mandarin",
-  "IsMobile": "Radio, Mobile~0|Desktop~1",
-  "UseDynamicJs": "Radio, True|False",
-  "UseDynamicCss": "Radio, True|False",
-  "EnableFrameworkView": "Radio, True|False"
-}

@@ -1,15 +1,15 @@
 <div class="ar-flex-content-spaced" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
     <select class="ar-input ar-border" style="margin: 0px;" id="{{$ViewParentID}}ItemsPerPage"
-            data-action="refreshComponentHtml" 
-            data-progress="toDoItemsPerPageProgress" 
-            data-response="{{$ViewParentID}}Response"
-            data-appsite="{{$AppSite}}" 
-            data-appview="{{$AppView}}"
-            data-component="{{$ViewParentID}}"
-            data-filter="todoFilterViewGetFilter"
-            data-config="todoGetPager",
+            data-ar-action="refreshViewComponentHtml" 
+            data-ar-progress="toDoItemsPerPageProgress" 
+            data-ar-response="{{$ViewParentID}}Response"
+            data-ar-appsite="{{$AppSite}}" 
+            data-ar-appview="{{$AppView}}"
+            data-ar-component="{{$ViewParentID}}"
+            data-ar-filter="todoFilterViewGetFilter"
+            data-ar-config="todoGetPager",
             data-current="{'PageNo': '1', 'ItemsPerPage': '{{$ItemsPerPage}}'}"
-            data-isrealtime="todoGetRealtime">
+            data-ar-refreshmode="todoGetRefreshMode">
         <option value="2" {{@ItemsPerPage2}} selected="selected" {{/ItemsPerPage2}}>2</option>
         <option value="5" {{@ItemsPerPage5}} selected="selected" {{/ItemsPerPage5}}>5</option>
         <option value="10" {{@ItemsPerPage10}} selected="selected" {{/ItemsPerPage10}}>10</option>

@@ -1,5 +1,0 @@
-{
-  "KeepAliveInterval$": 15,
-  "ServerTimeout$": 60,
-  "ApiHub$": "ws"
-}

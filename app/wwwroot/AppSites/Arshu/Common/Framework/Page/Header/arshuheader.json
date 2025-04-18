@@ -1,9 +1,0 @@
-{
-  "EnableLoginCheck$": false,
-  "OptimizeJs$": true,
-  "OptimizeCss$": true,
-  "OnlyRootGET$": false,
-  "DefaultRealtime$": false,
-  "DefaultRealtimeDomain$": false,
-  "DefaultRefreshComponent$": "Nav, Content, Footer"
-}

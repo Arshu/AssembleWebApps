@@ -1,9 +1,12 @@
 <ul class="ar-menu" id="navMenu" style="{{$NavBarBackgroundStyle}}">
-    <li class="ar-menulogo">
-        <a href="/">
+
+    <li class="ar-menulogo" style="position:relative;cursor: pointer;">
+        <a href="/" style="position:absolute;left:5px;top:5px;">
             {{$SiteTitle}}
         </a>
     </li>
+
+
     {{@NAVList}}
 
     {{@HaveSubMenu}}
@@ -29,7 +32,8 @@
     {{/HaveSubMenu}}
 
     {{/NAVList}}
-    <li class="ar-menutoggle" data-target="navMenu">
-        <svg style="width:32px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+
+    <li class="ar-menutoggle" data-target="navMenu" style="position:relative;cursor: pointer;">
+        <svg style="width: 32px; position: absolute; right: 5px; top: 5px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
     </li>
 </ul>

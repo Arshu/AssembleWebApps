@@ -1,5 +1,7 @@
+
+
 <div style="padding:5px 5px;width:250px;position:relative;" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
-   {{VIEWPLACEHOLDER}}
+    {{VIEWPLACEHOLDER}}
 
     <div style="text-align:center;">
         <span id="{{$ViewID}}Progress"></span>
@@ -7,6 +9,13 @@
             <button class="ar-delete" onclick="hideElm('{{$ViewID}}ResponseContainer')"></button>
             <div id="{{$ViewID}}Response"></div>
         </div>
+    </div>
+
+    {{ToDoFilterView}}
+
+    <div class="ar-flex-item-stretch" style="text-align: center; margin-bottom: 5px;" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
+        <button class="ar-button ar-border" style="margin:5px;background-color:lightblue;width:60px;margin: 0 5px 0 0" onclick="toDoShowAddView('{{$ViewParentID}}AddViewDiv')">Add</button>
+        <button class="ar-button ar-border" style="margin: 5px; background-color: lightblue; width: 60px; margin: 0 0 0 5px" onclick="toDoShowFilterView('{{$ViewID}}FilterViewDiv')">Filter</button>
     </div>
 
     {{ToDoTop}}
@@ -19,4 +28,109 @@
     {{/ToDoList}}
 
     {{ToDoBottom}}
+
 </div>
+
+<script type="text/javascript" id="{{$ViewID}}Script">
+
+    function todoCloseView() {
+        hideElm('{{$ViewParentID}}AddViewDiv')
+        hideElm('{{$ViewParentID}}EditViewDiv')
+        hideElm('{{$ViewParentID}}DeleteViewDiv')
+        hideElm('{{$ViewID}}FilterViewDiv')
+    }
+
+    function toDoShowAddView(addViewElmId) {
+        hideElm('{{$ViewParentID}}EditViewDiv')
+        hideElm('{{$ViewParentID}}DeleteViewDiv')
+        hideElm('{{$ViewID}}FilterViewDiv')
+
+        if (haveElm(addViewElmId) == true) {
+            showElm(addViewElmId)
+            clearFlatJson(addViewElmId)
+        }
+    }
+
+    function toDoShowEditView(keyPath, keyPathJsonElmId, viewID, pageNo, itemsPerPage) {
+
+        hideElm('{{$ViewParentID}}AddViewDiv')
+        hideElm('{{$ViewParentID}}DeleteViewDiv')
+        hideElm('{{$ViewID}}FilterViewDiv')
+
+        let keyPathJsonValue = getElm(keyPathJsonElmId).value
+        let keyPathJson = JSON.parse(keyPathJsonValue)
+
+        let elmEditViewID = getElm('{{$ViewParentID}}EditViewID')
+        elmEditViewID.value = viewID
+
+        let elmEditPageNo = getElm('{{$ViewParentID}}EditPageNo')
+        elmEditPageNo.value = pageNo
+
+        let elmEditItemsPerPage = getElm('{{$ViewParentID}}EditItemsPerPage')
+        elmEditItemsPerPage.value = itemsPerPage
+
+        let editKeyElmId = '{{$ViewParentID}}EditKey'
+        if (haveElm(editKeyElmId) == true) {
+
+            let elmEditKey = getElm(editKeyElmId)
+            elmEditKey.value = keyPath
+
+            let editElmPrefix = '{{$ViewParentID}}Edit'
+            for (let key in keyPathJson) {
+                let jsonValue = keyPathJson[key]
+                let idxLastDot = key.lastIndexOf(".")
+                let elmId = key.substring(idxLastDot + 1)
+                let jsonKey = editElmPrefix + elmId
+                let elmEdit = getElm(jsonKey)
+                elmEdit.value = jsonValue
+                elmEdit.setAttribute('data-key', key)
+            }
+
+            let editViewElmId = '{{$ViewParentID}}EditViewDiv'
+            if (haveElm(editViewElmId) == true) {
+                showElm(editViewElmId)
+            }
+        }
+    }
+
+    function toDoShowDeleteView(keyPath, keyPathJsonElmId, pageNo, itemsPerPage) {
+
+        hideElm('{{$ViewParentID}}AddViewDiv')
+        hideElm('{{$ViewParentID}}EditViewDiv')
+        hideElm('{{$ViewID}}FilterViewDiv')
+
+        let keyPathJsonValue = getElm(keyPathJsonElmId).value
+        let keyPathJson = JSON.parse(keyPathJsonValue)
+
+        let elmDeletePageNo = getElm('{{$ViewParentID}}DeletePageNo')
+        elmDeletePageNo.value = pageNo
+
+        let elmDeleteItemsPerPage = getElm('{{$ViewParentID}}DeleteItemsPerPage')
+        elmDeleteItemsPerPage.value = itemsPerPage
+
+        let deleteKeyElmId = '{{$ViewParentID}}DeleteKey'
+        if (haveElm(deleteKeyElmId) == true) {
+
+            let elmDeleteKey = getElm(deleteKeyElmId)
+            elmDeleteKey.value = keyPath
+
+            let deleteElmPrefix = '{{$ViewParentID}}Delete'
+            for (let key in keyPathJson) {
+                let jsonValue = keyPathJson[key]
+                let idxLastDot = key.lastIndexOf(".")
+                let elmId = key.substring(idxLastDot + 1)
+                let jsonKey = deleteElmPrefix + elmId
+                let elmDelete = getElm(jsonKey)
+                elmDelete.value = jsonValue
+                elmDelete.setAttribute('data-key', key)
+            }
+
+            let deleteViewElmId = '{{$ViewParentID}}DeleteViewDiv'
+            if (haveElm(deleteViewElmId) == true) {
+                showElm(deleteViewElmId)
+            }
+        }
+    }
+
+
+</script>

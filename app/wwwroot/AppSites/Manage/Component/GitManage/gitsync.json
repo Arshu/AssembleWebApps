@@ -1,6 +1,0 @@
-{
-  "AllowedRoles": "Guest",
-  "GitDefaultUserName": "*",
-  "GitDefaultUserEmail": "*",
-  "GitDefaultUserToken": "*"
-}

@@ -1,44 +1,49 @@
 
-<div class="ar-flex-input-wrap bg-alt" id="toDoEditViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
-    <div id="toDoEditConfig">
+<div class="ar-flex-input-wrap bg-alt" id="{{$ViewParentID}}EditViewDiv" style="text-align:center;padding:5px 5px;display:none;" title="ViewID={{$ViewID}},ViewParentID={{$ViewParentID}},KeyPath={{$KeyPath}}">
+
+    <div class="ar-flex-input-wrap" id="{{$ViewParentID}}EditConfigDiv">
         <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="PageNo" id="{{$ViewParentID}}EditPageNo" />
         <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="ItemsPerPage" id="{{$ViewParentID}}EditItemsPerPage" />
     </div>
-    <div id="toDoEditKey">
+
+    <div class="ar-flex-input-wrap" id="{{$ViewParentID}}EditKeyDiv">
         <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ViewParentID}}EditGuid" />
         <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ViewParentID}}EditViewID" />
     </div>
-    <div class="ar-flex-input-wrap" id="toDoEditInput">
-        <input type="hidden" class="ar-input ar-border" style="width:100%;" id="{{$ViewParentID}}EditKey" value="" />
+
+    <div class="ar-flex-input-wrap" id="{{$ViewParentID}}EditInputDiv">
+        <input type="hidden" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ViewParentID}}EditKey" value="" />
 
         <div>Task Name</div>
-        <input type="text" class="ar-input ar-border" style="width:100%;" data-key="" id="{{$ViewParentID}}EditTaskName" />
+        <input type="text" class="ar-input ar-border" style="width: 100%; padding: 0 0 0 10px;" data-key="" id="{{$ViewParentID}}EditTaskName" />
 
         <div>Task Status</div>
-        <select class="ar-select ar-border" data-key="" style="width:100%;padding:0 0 0 10px;" id="{{$ViewParentID}}EditTaskStatus">
+        <select class="ar-select ar-border" style="width:100%;padding:0 0 0 10px;" data-key="" id="{{$ViewParentID}}EditTaskStatus">
             <option>Pending</option>
             <option>InProgress</option>
             <option>Complete</option>
         </select>
     </div>
+
     <div>
-        <button class="ar-button ar-border" style="margin:5px;background-color:green;width:75px;" onclick="hideElm('toDoEditViewDiv')">Close</button>
+        <button class="ar-button ar-border" style="margin:5px;background-color:green;width:75px;" onclick="hideElm('{{$ViewParentID}}EditViewDiv')">Close</button>
+
         <button class="ar-button ar-border" style="margin:5px;background-color:lightblue;width:75px;"
-                data-action="editJsonInJsonArray"
-                data-progress="{{$ViewParentID}}Progress"
-                data-response="{{$ViewParentID}}Response"
-                data-appsite="{{$AppSite}}"
-                data-appview="{{$AppView}}"
-                data-appcomponent="{{$ViewParentID}}"
-                data-keyinfo="todoEditViewGetKeyInfo"
-                data-datainfo="todoEditViewGetEditInfo"
-                data-validkeyinfo="{'TaskName':'', 'TaskStatus':''}"
-                data-duplicatekeyinfo="{'TaskName':''}"
-                data-component="todoEditViewGetEditViewID"
-                data-filter="todoFilterViewGetFilter"
-                data-config="todoEditViewGetConfigInfo"
-                data-isrealtime="todoGetRealtime" ,
-                data-realtimedomain="todoGetRealtimeDomain">
+                data-ar-action="editJsonInJsonArray"
+                data-ar-progress="{{$ViewParentID}}Progress"
+                data-ar-response="{{$ViewParentID}}Response"
+                data-ar-appsite="{{$AppSite}}"
+                data-ar-appview="{{$AppView}}"
+                data-ar-appcomponent="{{$ViewParentID}}"
+                data-ar-keyinfo="todoEditViewGetKeyInfo"
+                data-ar-datainfo="todoEditViewGetEditInfo"
+                data-ar-validkeyinfo="{'TaskName':'', 'TaskStatus':''}"
+                data-ar-duplicatekeyinfo="{'TaskName':''}"
+                data-ar-component="todoEditViewGetEditViewID"
+                data-ar-filter="todoFilterViewGetFilter"
+                data-ar-config="todoEditViewGetConfigInfo"
+                data-ar-refreshmode="todoGetRefreshMode" ,
+                data-ar-refreshdomain="todoGetRefreshDomain">
             Change
         </button>
     </div>
@@ -47,16 +52,16 @@
 <script>
 
     function todoEditViewGetKeyInfo() {
-        return getFlatJson('toDoEditKey', '{{$ViewParentID}}');
+        return getFlatJson('{{$ViewParentID}}EditKeyDiv', '{{$ViewParentID}}');
     }
 
     function todoEditViewGetEditInfo() {
-        return getFlatJson('toDoEditInput', '{{$ViewParentID}}');
+        return getFlatJson('{{$ViewParentID}}EditInputDiv', '{{$ViewParentID}}');
     }
 
     function todoEditViewGetConfigInfo() {
         //return { "PageNo": getElm('{{$ViewParentID}}EditPageNo').value, "ItemsPerPage": getElm('{{$ViewParentID}}EditItemsPerPage').value }
-        return getFlatJson('toDoEditConfig', '');
+        return getFlatJson('{{$ViewParentID}}EditConfigDiv', '');
     }
 
     function todoEditViewGetEditViewID() {

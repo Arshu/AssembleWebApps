@@ -26,13 +26,16 @@
     "WebMetricsID": "aeadbc05-9dfe-4ec5-bf95-5a9aa13b2d7a",
     "PageTitle": "Arshu AppWeb Viewer",
     "ShowIntroTip": true,
-    "ShowManageLink": true,
-    "ShowDocumentLink": true,
+    "ShowFrameworkToolbar": true,
     "ShowFrameworkView": true,
     "ShowFrameworkAPI": true,
+    "ShowTestLink": true,
+    "ShowHubLink": true,
+    "ShowHostLink": true,
 
     "ShowDebug": true,
-    "DefaultDebug": true
+    "DefaultDebug": true,
+    "DefaultRecordMetrics": true
   },
 
   "AppAssets": [

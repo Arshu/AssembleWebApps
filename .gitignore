@@ -49,3 +49,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+..bfg-report/2025-04-23/08-00-19/cache-stats.txt
+..bfg-report/2025-04-23/08-00-19/deleted-files.txt
+..bfg-report/2025-04-23/08-00-19/object-id-map.old-new.txt
+/..bfg-report
